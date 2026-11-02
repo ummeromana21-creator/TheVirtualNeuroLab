@@ -1,0 +1,1280 @@
+{
+ "entries": [
+  {
+   "evidence_tests": [
+    "ttx"
+   ],
+   "id": "P1",
+   "literature": "Tetrodotoxin blocks voltage-gated Na+ channels; neurons cannot fire.",
+   "mechanism": "A dose-dependent fraction of neurons gets ttx_frac (cannot spike).",
+   "prediction": "Firing falls toward zero; the fly stops (only residual body drive remains).",
+   "record_drugs": [
+    "ttx"
+   ],
+   "section": "real-fly",
+   "status": "matches",
+   "title": "TTX silences the brain and the body",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "tetanus"
+   ],
+   "id": "P2",
+   "literature": "Tetanus toxin light chain cleaves synaptobrevin and blocks transmitter release; the standard genetic tool for silencing neuronal output in Drosophila (Sweeney et al. 1995, Neuron).",
+   "mechanism": "motor_out goes to 0 (motor neurons fire but nothing reaches the legs).",
+   "prediction": "Firing unchanged, movement falls toward zero. The mirror image of P1.",
+   "record_drugs": [
+    "tetanus_toxin"
+   ],
+   "section": "real-fly",
+   "status": "matches",
+   "title": "Tetanus toxin: brain lit, body frozen",
+   "records": [
+    {
+     "id": "20261029_121821_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-10-29 12:18",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_124058_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-11-02 12:41",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_095232_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-02 09:53",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_112631_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 11:27",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_095521_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 09:56",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_105925_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-10-31 10:59",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_103601_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 10:36",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_095622_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 09:57",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_094747_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-02 09:48",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_135250_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-11-02 13:53",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_192720_tetanus-toxin-vs-control-activity",
+     "date": "2026-10-31 19:28",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_105720_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 10:58",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_124107_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-11-02 12:41",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_095048_tetanus-toxin-vs-control-activity",
+     "date": "2026-10-31 09:51",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261028_220648_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-10-28 22:06",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_111726_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 11:18",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_105914_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-10-31 10:59",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_111025_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 11:11",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_141621_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 14:17",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_095307_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-01 09:53",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_192206_tetanus-toxin-vs-control-activity",
+     "date": "2026-10-31 19:22",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_155032_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-11-01 15:50",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_201937_tetanus-toxin-vs-control-activity",
+     "date": "2026-10-30 20:20",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_100032_tetanus-toxin-vs-control-firing-legs-act",
+     "date": "2026-11-02 10:00",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_135230_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-11-02 13:52",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261028_220639_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-10-28 22:06",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_193236_tetanus-toxin-vs-control-activity",
+     "date": "2026-10-31 19:33",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_142316_tetanus-toxin-vs-control-activity",
+     "date": "2026-10-31 14:24",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_155041_does-tetanus-toxin-stop-the-flies-walkin",
+     "date": "2026-11-01 15:50",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "evidence_tests": [
+    "anaesthesia_reversible"
+   ],
+   "id": "P3",
+   "literature": "Volatile anaesthetics (isoflurane) produce dose-dependent loss of responsiveness in flies that reverses on washout; recovery time grows with dose.",
+   "mechanism": "GABA-A potentiation (g_inh up) and reduced background drive (I_bg down).",
+   "prediction": "Firing and activity fall under the drug and recover as concentration decays; higher dose means longer recovery.",
+   "record_drugs": [
+    "isoflurane"
+   ],
+   "section": "real-fly",
+   "status": "matches",
+   "title": "Anaesthesia is dose-dependent and reversible",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "picrotoxin"
+   ],
+   "id": "P4",
+   "literature": "Picrotoxin (GABA-A antagonist) is a standard convulsant in Drosophila seizure models; the signature is synchronous population bursting.",
+   "mechanism": "g_inh falls toward ~0.1 of baseline at dose 1.0.",
+   "notes": "Diagnosis recorded: the network is drive-dominated, not inhibition-stabilised, so removing inhibition releases almost nothing; seizures also need a slow variable the model lacks. Proposed fix is a two-population model, not attempted.",
+   "prediction": "Firing rises and synchrony spikes sharply; navigation collapses.",
+   "record_drugs": [
+    "picrotoxin"
+   ],
+   "section": "real-fly",
+   "status": "mismatch",
+   "title": "Picrotoxin: removing inhibition causes seizure-like bursting",
+   "records": []
+  },
+  {
+   "evidence_tests": [],
+   "id": "P5",
+   "literature": "Caffeine increases waking activity and reduces sleep in flies (Shaw et al. 2000, Science; Hendricks et al. 2000, Neuron).",
+   "mechanism": "Adenosine-receptor antagonism modelled as background drive (I_bg) up.",
+   "notes": "Weak test by design: nearly follows from the mechanism. Included for the dose-response curve, not as strong evidence. Model has since gained glial tone scaling (numbers shifted, direction kept).",
+   "prediction": "Firing and activity rise, monotonic with dose.",
+   "record_drugs": [
+    "caffeine"
+   ],
+   "section": "real-fly",
+   "status": "preliminary-match",
+   "title": "Caffeine increases locomotor activity",
+   "records": [
+    {
+     "id": "20261101_104958_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:50",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_233921_caffeine-tolerance-fresh-vs-four-prior-d",
+     "date": "2026-11-01 23:42",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_150553_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 15:06",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_135020_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 13:51",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_163658_methylxanthine-trio-at-standard-dose-che",
+     "date": "2026-11-01 16:44",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_201757_caffeine-vs-control-firing-all",
+     "date": "2026-10-31 20:18",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_100734_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:08",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_104806_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:48",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_125846_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 12:59",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_135340_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 13:54",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_193906_caffeine-vs-control-firing-all",
+     "date": "2026-10-31 19:41",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_164206_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 16:42",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_105053_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:51",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_201020_caffeine-vs-control-firing-all",
+     "date": "2026-10-31 20:12",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_220906_methylxanthine-trio-at-standard-dose-che",
+     "date": "2026-11-01 22:16",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_102830_caffeine-vs-control-firing-all",
+     "date": "2026-11-02 10:29",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_160940_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 16:10",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_145757_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 14:58",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_105245_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:53",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "evidence_tests": [],
+   "id": "P6",
+   "literature": "Low ethanol doses increase locomotion, high doses sedate \u2014 a robust biphasic curve in Drosophila (Wolf, Rodan, Tsai & Heberlein 2002; Parr et al. 2001). The low-dose stimulation depends on dopamine and octopamine signalling.",
+   "mechanism": "Deliberately single-class: GABA-A potentiation, depressed excitatory transmission, added membrane noise. No neuromodulatory system.",
+   "notes": "The mismatch is the finding: it supports the literature claim that the stimulant phase needs a second mechanism. Second hypothesis (global excitability gain for octopamine/dopamine tone) to be added only after this result, labelled as new.",
+   "prediction": "Monotonic decrease with dose: sedation reproduces, low-dose hyperactivity does not.",
+   "record_drugs": [
+    "ethanol"
+   ],
+   "section": "real-fly",
+   "status": "mismatch-predicted",
+   "title": "Ethanol: biphasic locomotion (expected to fail)",
+   "records": [
+    {
+     "id": "20261030_180825_ethanol-vs-control-firing-all",
+     "date": "2026-10-30 18:08",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "evidence_tests": [],
+   "id": "P7",
+   "literature": "Gaudry et al. 2013, Nature: ipsilateral ORN release is ~30-40% stronger, giving PNs a bilateral comparison. Real flies navigate odour mainly by wind direction (Alvarez-Salvado et al. 2018).",
+   "mechanism": "Real connectome wiring, ORN to descending neurons; 1.3/0.7 ipsilateral release bias.",
+   "notes": "Signal dies at the first synapse on all three connectome flies under raw weights; median in-degree normalization revived LI to LH/MB (+0.04) but legs show ipsi==contra exactly (fully mixed). Klinotaxis rejected (MB slope uncorrelated with approach; 40-run record CAN'T TELL). Wind direction dies centrally too. Three steering hypotheses rejected; the missing computation is now precisely mapped.",
+   "prediction": "A left/right smell difference should at least reach the lateral horn with measurable bias.",
+   "record_drugs": [],
+   "section": "real-fly",
+   "status": "negative-result",
+   "title": "Does the real wiring steer toward the banana?",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "deet_masks_smell"
+   ],
+   "id": "E-deet",
+   "literature": "DEET makes attractive odours less attractive to real flies (Ditzen et al. 2008).",
+   "mechanism": "Odour-receptor inhibition: smell-driven input to receptor neurons falls.",
+   "prediction": "Receptor firing and banana-finding fall; whole-brain firing nearly unchanged.",
+   "record_drugs": [
+    "deet"
+   ],
+   "section": "real-fly",
+   "status": "recorded",
+   "title": "DEET repels from the nose",
+   "records": [
+    {
+     "id": "20261030_164439_deet-vs-control-bananas",
+     "date": "2026-10-30 16:45",
+     "verdict": "NOT SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_222041_deet-quiets-the-nose-normalized-model",
+     "date": "2026-11-01 22:23",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_191138_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-10-31 19:13",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_191322_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-10-31 19:13",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_225712_deet-quiets-the-nose-and-touches-taste-c",
+     "date": "2026-11-01 22:59",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_231007_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-11-01 23:10",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_191019_deet-vs-control-firing-nose-banana-near-",
+     "date": "2026-10-31 19:10",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_230415_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-11-01 23:04",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_182639_deet-vs-control-bananas",
+     "date": "2026-10-31 18:27",
+     "verdict": "MIXED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_214402_deet-vs-control-bananas",
+     "date": "2026-10-30 21:44",
+     "verdict": "NOT SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_181854_deet-vs-control-bananas",
+     "date": "2026-10-30 18:19",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_100114_deet-vs-control-bananas",
+     "date": "2026-10-31 10:01",
+     "verdict": "MIXED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_190836_deet-vs-control-firing-nose-banana-near",
+     "date": "2026-10-31 19:10",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "evidence_tests": [],
+   "id": "E-citronellal-pmd",
+   "literature": "Citronellal-class repellents (library expectation; aversion itself not modelled).",
+   "mechanism": "Chemicals that excite ORNs regardless of odour (I_sens_bg drive).",
+   "prediction": "Receptor-neuron firing rises while bananas found falls: the banana is drowned out, not hidden.",
+   "record_drugs": [
+    "citronellal",
+    "pmd"
+   ],
+   "section": "real-fly",
+   "status": "proposed",
+   "title": "Citronellal / PMD drown out the banana",
+   "records": []
+  },
+  {
+   "evidence_tests": [],
+   "id": "E-permethrin",
+   "literature": "Pyrethroid knock-down shape (library expectation).",
+   "mechanism": "Sodium-channel action (see library entry).",
+   "prediction": "Firing and activity rise at low dose, silence at high dose (depolarising block).",
+   "record_drugs": [
+    "permethrin"
+   ],
+   "section": "real-fly",
+   "status": "proposed",
+   "title": "Permethrin knock-down shape",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "amphetamine_acts"
+   ],
+   "id": "E-amphetamine-trio",
+   "literature": "Transporter drugs raise dopamine signalling (library expectation).",
+   "mechanism": "Dopamine transporter substrates; dopamine release gain (g_DA) up.",
+   "notes": "Behavioural direction deliberately unpredicted while the P7 steering problem stands; only firing-based measures count.",
+   "prediction": "Firing changes through dopamine neurons, FlyWire brain only.",
+   "record_drugs": [
+    "amphetamine",
+    "cocaine",
+    "bupropion"
+   ],
+   "section": "real-fly",
+   "status": "proposed",
+   "title": "Amphetamine / cocaine / bupropion act via dopamine neurons",
+   "records": [
+    {
+     "id": "20261101_231325_cocaine-on-dat-nulls-does-it-add-anythin",
+     "date": "2026-11-01 23:15",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_234607_bupropion-lifts-dopamine-firing-wired-da",
+     "date": "2026-11-02 07:13",
+     "verdict": "NOT SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_130138_amphetamine-vs-control-firing-dopamine-n",
+     "date": "2026-11-02 13:02",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_130551_amphetamine-vs-control-firing-dopamine-n",
+     "date": "2026-11-02 13:06",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "evidence_tests": [],
+   "id": "E-sugar-salt",
+   "literature": "Taste is not modelled (library rule).",
+   "mechanism": "None: the lab refuses to dose them.",
+   "prediction": "Dosing is refused with an explanation, never faked.",
+   "record_drugs": [],
+   "section": "real-fly",
+   "status": "proposed",
+   "title": "Sugar and salt are refused",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "dopamine_hits_receptors"
+   ],
+   "id": "M-dopr",
+   "mechanism": "Dosed dopamine raises drive into dopamine-receptor neurons (I_bg plus dopr mask from held expression data).",
+   "notes": "Machinery proof, not a real-fly validation: shows the targeted routing works and the random brain stays inert.",
+   "prediction": "Dopamine-receptor firing rises on connectome brains; nothing happens on the random brain.",
+   "section": "machinery",
+   "status": "checks-green",
+   "title": "Receptor-targeted dopamine routing",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "glia_tone_and_caffeine"
+   ],
+   "id": "M-glia",
+   "mechanism": "Per-region glial tone follows firing; methylxanthine boosts scale from half (rested) to full (tired).",
+   "notes": "Machinery proof with a falsifiable shape: caffeine hits harder on tired brains. Absolute tone numbers are assumptions.",
+   "prediction": "Tone tracks activity and resets; clamped-tired caffeine beats clamped-rested with identical noise.",
+   "section": "machinery",
+   "status": "checks-green",
+   "title": "Glial tone scales caffeine",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "theophylline_dual_arm"
+   ],
+   "id": "M-theo-dual",
+   "mechanism": "Adenosine arm low (I_bg, ec50 0.1), PDE arm higher (g_exc, ec50 3.1); 31x ratio from ChEMBL medians (n=108+20). Ordering from mammalian pharmacology, strength/steepness assumed.",
+   "notes": "Machinery proof with a testable join point: the PDE arm passes 10% engagement at dose ~1.8 and never saturates in 0..2.",
+   "prediction": "Low doses are adenosine-only; the PDE arm joins higher and lifts firing further.",
+   "section": "machinery",
+   "status": "checks-green",
+   "title": "Theophylline dual mechanism",
+   "records": []
+  },
+  {
+   "evidence_tests": [
+    "tolerance_by_exposure"
+   ],
+   "id": "M-tolerance",
+   "mechanism": "Declared exposure days speed clearance (x1.2 per day, methylxanthines; assumption).",
+   "notes": "Machinery proof: exact clearance math plus falling day-4 lift. Sensitivity (pharmacodynamic) tolerance not built.",
+   "prediction": "Clearance matches half-life/1.4 at 2 days; day-4 lift sits below day-0.",
+   "section": "machinery",
+   "status": "checks-green",
+   "title": "Tolerance by declared exposure",
+   "records": []
+  },
+  {
+   "id": "E-light",
+   "section": "real-fly",
+   "title": "Light reaches the eye and moves the visual targets",
+   "status": "recorded",
+   "literature": "Fly photoreceptors release histamine, which inhibits the lamina targets (Hardie 1989, and textbooks since). Real flies also steer toward dim light (phototaxis).",
+   "prediction": "Lamp on raises photoreceptor firing on all brains; direct visual targets are suppressed on Maxime (histamine-labelled) and driven on Hagrid (mostly unlabeled, default excitatory) \u2014 a data-quality divergence, flagged. No behaviour predicted: steering is unbuilt (P7).",
+   "mechanism": "Lamp gradient (0..1 per side) times visual-drive gain I_vis 2.0 into photoreceptor channels (R1-6/R7/R8 types). Direct visual targets = non-photoreceptors getting >25% of input current from photoreceptors (BANC 2,244; Male CNS 2,821). Raised background drive 2.2 lifts targets off the firing floor so inhibition is visible.",
+   "notes": "Three layers buried this effect: the firing floor, whole-group averaging (photoreceptors are 1.7% of optic-lobe current on average), and photoreceptor-to-photoreceptor edges. Rule 1 (measure what acts) is what found it. Records: light-vs-dark SUPPORTED on both sexes (photoreceptors); visual-targets card MIXED (Maxime suppressed, Hagrid driven).",
+   "evidence_tests": [
+    "visual_targets_sign"
+   ],
+   "record_measures": [
+    "firing.photoreceptors",
+    "firing.visual targets"
+   ],
+   "record_drugs": [],
+   "records": [
+    {
+     "id": "20261101_164527_ninae-nulls-are-blind-light-response-gon",
+     "date": "2026-11-01 16:47",
+     "verdict": "MIXED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_155852_light-reaches-the-eye",
+     "date": "2026-11-01 16:01",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_160123_light-moves-the-direct-visual-targets",
+     "date": "2026-11-01 16:03",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_160512_light-moves-the-direct-visual-targets-ta",
+     "date": "2026-11-01 16:07",
+     "verdict": "MIXED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-ninaE",
+   "section": "real-fly",
+   "title": "ninaE nulls are blind",
+   "status": "recorded",
+   "literature": "ninaE encodes the R1-R6 rhodopsin; nulls cannot phototransduce (O'Tousa et al. 1985, Cell).",
+   "prediction": "Silencing photoreceptors kills the lit-vs-dark gap on visual targets while sparing the rest of the brain.",
+   "mechanism": "ninaE_ko lesions the photoreceptors group (BANC 1,849; Male CNS 5,160) via the lesion mask; cleared by restore.",
+   "notes": "Cross-check vs Alliance PHENOTYPE (4,709 annotations): top terms rhabdomere/retina/ommatidium/photoreceptor neuron + abnormal visual behavior \u2014 MATCHES (blind). Records: MIXED: photoreceptors to zero both sexes; Hagrid targets fall (predicted), Maxime targets rise (disinhibition \u2014 her photoreceptors are inhibitory). The miss confirms the Vision V1 sign split.",
+   "evidence_tests": [
+    "ninaE_silences_eye",
+    "ninaE_kills_response"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "ninaE_ko"
+   ],
+   "records": [
+    {
+     "id": "20261101_164527_ninae-nulls-are-blind-light-response-gon",
+     "date": "2026-11-01 16:47",
+     "verdict": "MIXED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-Orco",
+   "section": "real-fly",
+   "title": "Orco nulls are anosmic",
+   "status": "recorded",
+   "literature": "Orco is the obligate olfactory coreceptor; nulls lose OR-mediated smell (Larsson et al. 2004, Neuron).",
+   "prediction": "Silencing nose ORNs kills the banana-smell response while sparing the rest.",
+   "mechanism": "Orco_ko lesions the nose group (simulable banana-ORN subset only, stated).",
+   "notes": "Cross-check vs Alliance PHENOTYPE (894 annotations): top term abnormal smell perception (102x) + abnormal chemosensory behavior \u2014 MATCHES (anosmic). Some mammalian inferred terms present (ignored). Records: SUPPORTED both sexes: nose to zero with banana present.",
+   "evidence_tests": [
+    "Orco_silences_nose"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "Orco_ko"
+   ],
+   "records": [
+    {
+     "id": "20261101_164754_orco-nulls-are-anosmic-banana-response-g",
+     "date": "2026-11-01 16:50",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-para",
+   "section": "real-fly",
+   "title": "para nulls cannot spike",
+   "status": "recorded",
+   "literature": "para encodes the voltage-gated sodium channel pore; nulls are embryonic lethal with no evoked activity (Loughney et al. 1989, Cell).",
+   "prediction": "Brain-wide lesion silences all firing, like TTX; the null beside the para_ts hypomorph preset.",
+   "mechanism": "para_ko lesions every neuron; cleared by restore.",
+   "notes": "Cross-check vs Alliance PHENOTYPE (3,949 annotations): paralytic/heat-sensitive (268x), bang sensitive, abnormal neurophysiology, lethal \u2014 MATCHES direction (unexcitable; real flies paralyze where the sim goes silent). Records: SUPPORTED both sexes: null silences 100%, hypomorph quiets ~70% \u2014 allelic series reads cleanly.",
+   "evidence_tests": [
+    "para_silences_brain"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "para_ko",
+    "para_ts"
+   ],
+   "records": [
+    {
+     "id": "20261101_165024_para-allelic-series-hypomorph-vs-null",
+     "date": "2026-11-01 16:55",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-Gr66a",
+   "section": "real-fly",
+   "title": "Gr66a nulls are bitter-blind",
+   "status": "recorded",
+   "literature": "DEET is sensed as bitter by Gr66a gustatory neurons (Lee, Kim & Montell 2010, Curr Biol).",
+   "prediction": "Zeroing the bitter arm removes bitter suppression of taste firing while sweet stays identical.",
+   "mechanism": "Gr66a_ko preset sets bitter_gain 0 (param, not lesion: the sim pools sweet+bitter GRNs).",
+   "notes": "KO4 SUPPORTED both sexes: taste firing +299% Maxime / +166% Hagrid vs bitter WT (unsuppressed). Map names the GNG (+23%/+15%), the gustatory center.",
+   "evidence_tests": [
+    "Gr66a_bitter_blind"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "Gr66a_ko"
+   ],
+   "records": [
+    {
+     "id": "20261101_224740_gr66a-nulls-are-bitter-blind-bitter-supp",
+     "date": "2026-11-01 22:50",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-deet-contact",
+   "section": "real-fly",
+   "title": "DEET contact route moves taste firing (sweet-confounded)",
+   "status": "mismatch",
+   "literature": "Same Gr66a-bitter paper as E-Gr66a; S3 co-locates DEET bitterness with the banana (assumption).",
+   "prediction": "Predicted taste firing lower in the DEET box (bitter suppresses).",
+   "mechanism": "S3: dose DEET pins the bitter drop on the banana at min(1, amount); I_taste 2.0 both boxes.",
+   "notes": "MISMATCH on the card prediction, model vindicated: Hagrid taste firing ROSE +111% (NOT SUPPORTED), Maxime +16% null. Cause: sweet (+1.0) outweighs bitter (-0.5) at shared contact, and DEET-box flies held closer to the banana (7.89 vs 9.57). GNG +11% in Hagrid map confirms the taste system activated. Lesson: contact taste is position-confounded; pure-bitter KO4 remains the clean test.",
+   "evidence_tests": [
+    "deet_bitter_S3"
+   ],
+   "record_measures": [
+    "firing.taste neurons"
+   ],
+   "record_drugs": [
+    "deet"
+   ],
+   "record_mutants": [],
+   "records": [
+    {
+     "id": "20261030_164439_deet-vs-control-bananas",
+     "date": "2026-10-30 16:45",
+     "verdict": "NOT SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_222041_deet-quiets-the-nose-normalized-model",
+     "date": "2026-11-01 22:23",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_191138_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-10-31 19:13",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_191322_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-10-31 19:13",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_225712_deet-quiets-the-nose-and-touches-taste-c",
+     "date": "2026-11-01 22:59",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_231007_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-11-01 23:10",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_224740_gr66a-nulls-are-bitter-blind-bitter-supp",
+     "date": "2026-11-01 22:50",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_191019_deet-vs-control-firing-nose-banana-near-",
+     "date": "2026-10-31 19:10",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_231951_gr5a-nulls-are-sweet-blind-sweet-gone-bi",
+     "date": "2026-11-01 23:22",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_230415_deet-vs-control-firing-nose-banana-dist",
+     "date": "2026-11-01 23:04",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_182639_deet-vs-control-bananas",
+     "date": "2026-10-31 18:27",
+     "verdict": "MIXED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_214402_deet-vs-control-bananas",
+     "date": "2026-10-30 21:44",
+     "verdict": "NOT SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_181854_deet-vs-control-bananas",
+     "date": "2026-10-30 18:19",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_100114_deet-vs-control-bananas",
+     "date": "2026-10-31 10:01",
+     "verdict": "MIXED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_190836_deet-vs-control-firing-nose-banana-near",
+     "date": "2026-10-31 19:10",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_232823_gr5a-nulls-are-sweet-blind-20-runs-sweet",
+     "date": "2026-11-01 23:33",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-Rdl",
+   "section": "real-fly",
+   "title": "Rdl disinhibits the brain (epilepsy proxy)",
+   "status": "recorded",
+   "literature": "Rdl encodes the Drosophila GABA-A receptor; loss leaves the brain disinhibited (lab gene note).",
+   "prediction": "Halving inhibitory gain raises whole-brain firing; seizures themselves not modelled.",
+   "mechanism": "Rdl preset sets g_inh 0.5 (DAT_null precedent for param presets).",
+   "notes": "D1 SUPPORTED both sexes: +18% Maxime / +119% Hagrid whole-brain. Map: LAL/AVLP/slopes up (Maxime), AVLP/LAL/cord up ~200% (Hagrid) \u2014 disinhibition hits motor-adjacent regions hardest.",
+   "evidence_tests": [
+    "disease_V1"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "Rdl"
+   ],
+   "records": [
+    {
+     "id": "20261101_225028_rdl-disinhibits-the-brain-epilepsy-proxy",
+     "date": "2026-11-01 22:53",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-park",
+   "section": "real-fly",
+   "title": "park nulls lose dopamine firing (Parkinson proxy)",
+   "status": "recorded",
+   "literature": "park/Pink1 nulls progressively lose dopaminergic neurons (lab disease note; graded assumption, no expression map).",
+   "prediction": "Lesioning half the dopamine neurons roughly halves dopamine firing; rest of brain intact.",
+   "mechanism": "park entry: ko_groups dopamine neurons + ko_frac 0.5 (deterministic first-half lesion).",
+   "notes": "D2 SUPPORTED both sexes: -58% Maxime / -57% Hagrid, matching the 50% lesion. Hagrid map: mushroom body -57% (heavily dopamine-innervated). No synuclein/mitochondria/tremor modelled.",
+   "evidence_tests": [
+    "disease_V1"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "park"
+   ],
+   "records": [
+    {
+     "id": "20261101_225404_park-nulls-lose-half-their-dopamine-firi",
+     "date": "2026-11-01 22:56",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "M-taste",
+   "section": "machinery",
+   "title": "Taste channel: bitter arm, S3, Gr66a preset",
+   "status": "checks-green",
+   "prediction": "Bitter suppresses taste firing in WT only; DEET doses pin bitterness on the food.",
+   "mechanism": "bitter_gain param (default 1.0) scales the bitter arm; World.deet_bitter/clear_deet_bitter (S3); I_taste pinned 2.0 by calibration (sweet 0.35%->10.63% banc, 0.77%->11.73% malecns).",
+   "notes": "TEST 6 (bitter gap vanishes, sweet bit-identical) + TEST 10 (S3 co-location, cap, release).",
+   "evidence_tests": [
+    "deet_bitter_S3",
+    "Gr66a_bitter_blind"
+   ],
+   "records": []
+  },
+  {
+   "id": "M-disease",
+   "section": "machinery",
+   "title": "Disease V1: Rdl preset + ko_frac partial lesions",
+   "status": "checks-green",
+   "prediction": "Rdl raises firing; park halves DA firing with central alive.",
+   "mechanism": "lesion_for supports ko_frac (sorted first fraction, validated 0..1); Rdl {g_inh: 0.5}.",
+   "notes": "TEST 7: Rdl 1.06%->1.24% banc, 2.00%->4.31% malecns; park exactly 50.0% lesioned, DA 1.32%->0.53% / 14.65%->6.30%.",
+   "evidence_tests": [
+    "disease_V1"
+   ],
+   "records": []
+  },
+  {
+   "id": "E-gxd-dat-cocaine",
+   "section": "real-fly",
+   "title": "Cocaine on DAT nulls (occlusion the sim cannot show)",
+   "status": "mismatch-predicted",
+   "literature": "Cocaine blocks dDAT (Porzgen et al. 2001); without the transporter there is nothing to block (occlusion logic).",
+   "prediction": "Model predicts higher dopamine firing (gains multiply); biology predicts no added effect.",
+   "mechanism": "DAT_null preset (g_DA 1.5x) + cocaine handles (g_DA up to 2.5x); no drug-needs-target logic exists.",
+   "notes": "Record SUPPORTED both sexes (+59%/+43%) = the declared mismatch. Value: proves exactly which logic is missing.",
+   "evidence_tests": [],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "DAT_null"
+   ],
+   "records": [
+    {
+     "id": "20261101_231325_cocaine-on-dat-nulls-does-it-add-anythin",
+     "date": "2026-11-01 23:15",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-Gr5a",
+   "section": "real-fly",
+   "title": "Gr5a nulls are sweet-blind",
+   "status": "recorded",
+   "literature": "Gr5a marks sweet gustatory neurons (labellar/tarsal bristles; lab gene note).",
+   "prediction": "Zeroing the sweet arm removes the sweet lift; bitter intact.",
+   "mechanism": "Gr5a_ko preset sets sweet_gain 0 (param, not lesion: pooled GRNs).",
+   "notes": "KO5 first CAN\u2019T TELL (rare contact = wide spread); KO5b at 20/box SUPPORTED both (-96%/-80%). GNG down on the map.",
+   "evidence_tests": [
+    "Gr5a_sweet_blind"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "Gr5a_ko"
+   ],
+   "records": [
+    {
+     "id": "20261101_231951_gr5a-nulls-are-sweet-blind-sweet-gone-bi",
+     "date": "2026-11-01 23:22",
+     "verdict": "CAN'T TELL YET",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_232823_gr5a-nulls-are-sweet-blind-20-runs-sweet",
+     "date": "2026-11-01 23:33",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-Gr63a",
+   "section": "real-fly",
+   "title": "Gr63a nulls are CO2-blind",
+   "status": "recorded",
+   "literature": "Gr21a/Gr63a is the ab1C CO2 receptor (glomerulus V; lab gene note).",
+   "prediction": "Silencing CO2 ORNs kills the CO2 response to zero.",
+   "mechanism": "Gr63a_ko lesions CO2 ORNs (91 banc / 55 malecns); manual provenance.",
+   "notes": "KO6 SUPPORTED both: CO2 firing -100%/-100%.",
+   "evidence_tests": [
+    "Gr63a_co2_blind"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "Gr63a_ko"
+   ],
+   "records": [
+    {
+     "id": "20261101_232223_gr63a-nulls-are-co2-blind-co2-response-g",
+     "date": "2026-11-01 23:24",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-nompC",
+   "section": "real-fly",
+   "title": "nompC nulls are wind-blind",
+   "status": "recorded",
+   "literature": "nompC is a mechanotransduction channel of chordotonal/JO neurons (lab gene note).",
+   "prediction": "Silencing wind sensors kills the wind response to zero.",
+   "mechanism": "nompC_ko lesions wind sensors (2132 / 4291); manual provenance.",
+   "notes": "KO7 SUPPORTED both: wind firing -100%/-100%; Maxime map nerve cord/GNG down.",
+   "evidence_tests": [
+    "nompC_wind_blind"
+   ],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "nompC_ko"
+   ],
+   "records": [
+    {
+     "id": "20261101_232459_nompc-nulls-are-wind-blind-wind-response",
+     "date": "2026-11-01 23:27",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-per01",
+   "section": "real-fly",
+   "title": "per01 misses the daylight lift",
+   "status": "recorded",
+   "literature": "per01 nulls are arrhythmic (no functional PERIOD; lab mutant note).",
+   "prediction": "Over a day-biased run, rhythmic WT averages more drive: per01 lower firing, higher sleep fraction.",
+   "mechanism": "circa_amp 0.3 both boxes (1440-step day, runs cover dawn->midday); per01 preset forces amp 0.",
+   "notes": "C1 SUPPORTED both sexes both measures: firing -75%/-46%, sleep 0.00->0.55. Partial-day window only; period/phase need longer runs.",
+   "evidence_tests": [],
+   "record_measures": [],
+   "record_drugs": [],
+   "record_mutants": [
+    "per01"
+   ],
+   "records": [
+    {
+     "id": "20261101_233543_per01-misses-the-daylight-lift-clock-vs",
+     "date": "2026-11-01 23:38",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-tolerance",
+   "section": "real-fly",
+   "title": "Caffeine tolerance over 4 declared days",
+   "status": "recorded",
+   "literature": "Metabolic tolerance by faster clearance (model assumption, Phase 3; fly methylxanthine tolerance data may not exist).",
+   "prediction": "Four prior days shrink the caffeine firing lift (clearance x1.8).",
+   "mechanism": "set_exposure verb + induction k=0.2 on methylxanthines; declared on the card.",
+   "notes": "T1 SUPPORTED both: -9%/-4% with zero spread. Small sizes, real gaps; resolves at endpoints per TEST 17.",
+   "evidence_tests": [
+    "tolerance_by_exposure"
+   ],
+   "record_measures": [],
+   "record_drugs": [
+    "caffeine"
+   ],
+   "record_mutants": [],
+   "records": [
+    {
+     "id": "20261101_104958_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:50",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_233921_caffeine-tolerance-fresh-vs-four-prior-d",
+     "date": "2026-11-01 23:42",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_150553_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 15:06",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_135020_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 13:51",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_163658_methylxanthine-trio-at-standard-dose-che",
+     "date": "2026-11-01 16:44",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_201757_caffeine-vs-control-firing-all",
+     "date": "2026-10-31 20:18",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_100734_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:08",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_104806_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:48",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_125846_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 12:59",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_135340_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 13:54",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_193906_caffeine-vs-control-firing-all",
+     "date": "2026-10-31 19:41",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_164206_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 16:42",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_105053_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:51",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261031_201020_caffeine-vs-control-firing-all",
+     "date": "2026-10-31 20:12",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_220906_methylxanthine-trio-at-standard-dose-che",
+     "date": "2026-11-01 22:16",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261102_102830_caffeine-vs-control-firing-all",
+     "date": "2026-11-02 10:29",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_160940_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 16:10",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261030_145757_caffeine-vs-control-firing-all",
+     "date": "2026-10-30 14:58",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    },
+    {
+     "id": "20261101_105245_caffeine-vs-control-firing-all",
+     "date": "2026-11-01 10:53",
+     "verdict": "SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  },
+  {
+   "id": "E-bupropion-wired",
+   "section": "real-fly",
+   "title": "Bupropion wired curve reads net-inhibitory",
+   "status": "mismatch",
+   "literature": "DAT/NET inhibition + nicotinic antagonism, both mammalian (entry evidence); DAT ratio 4.21x cocaine from ChEMBL.",
+   "prediction": "Predicted DA firing higher at 1.5 (wired ec50 1.68).",
+   "mechanism": "DAT/NET arms at ec50 1.68; nAChR arm at 0.6 (assumption). g_DA scales release, not excitability.",
+   "notes": "MISMATCH on expectation, wiring vindicated: -6%/-18% DA firing, regions -25-40%. The ACh arm (x0.79) beats the DAT arm at every dose. Follow-up: measure downstream/activity or rebalance arms from data.",
+   "evidence_tests": [],
+   "record_measures": [],
+   "record_drugs": [
+    "bupropion"
+   ],
+   "record_mutants": [],
+   "records": [
+    {
+     "id": "20261101_234607_bupropion-lifts-dopamine-firing-wired-da",
+     "date": "2026-11-02 07:13",
+     "verdict": "NOT SUPPORTED",
+     "weight_model": null
+    }
+   ]
+  }
+ ],
+ "generated": "2026-11-02 13:55",
+ "record_count": 95
+}

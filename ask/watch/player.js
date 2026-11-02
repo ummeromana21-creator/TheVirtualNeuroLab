@@ -222,7 +222,7 @@ function setRecord(rec) {
   for (const rr of rec.rec_runs) for (const vs of Object.values((rr.rec.groups || {}))) for (const v of vs) mx = Math.max(mx, v);
   P.gmax = mx;
   shellName().textContent = 'Watch: ' + (rec.card.title || rec.id);
-  shellSub().textContent = `${rec.rec_runs.length} recorded runs · ${rec.verdict} · ${rec.id}`;
+  shellSub().textContent = `${rec.rec_runs.length} recorded runs · ${rec.verdict} · ${rec.weight_model ? `${rec.weight_model} · rec ${rec.id}` : "old model, before Nov 1"}`;
   $('runSel').innerHTML = rec.rec_runs.map((rr, i) => `<option value="${i}">${esc(rr.condition)} · rep ${(rr.repeat || 0) + 1} · ${esc(rr.slot)}</option>`).join('');
   $('picker').hidden = true;
   $('player').hidden = false;

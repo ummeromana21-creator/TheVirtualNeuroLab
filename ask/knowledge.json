@@ -11,7 +11,11 @@
     "banana_dist": "average distance to the nearest banana",
     "banana_near": "share of time within reach of a banana",
     "firing.nose": "firing in the banana-smell receptor neurons",
+    "firing.taste neurons": "firing in the taste neurons (gustatory, sweet + bitter arms)",
+    "firing.photoreceptors": "firing in the photoreceptors (the eye)",
+    "firing.visual targets": "firing in the direct visual targets (non-photoreceptors taking >25% input from photoreceptors)",
     "firing.dopamine neurons": "firing in the dopamine neurons",
+    "firing.dopamine-receptor neurons": "firing in the dopamine-receptor neurons",
     "firing.octopamine neurons": "firing in the octopamine neurons",
     "firing.acetylcholine neurons": "firing in the acetylcholine neurons",
     "firing.GABA (inhibitory) neurons": "firing in the GABA (inhibitory) neurons",
@@ -168,7 +172,8 @@
       "confidence": "inferred",
       "dosable": true,
       "evidence": [
-        "Fredholm and Sandberg (1983) Br J Pharmacol 80:639 — methylxanthine adenosine antagonism, potency theophylline > caffeine > theobromine (mammalian)"
+        "Fredholm and Sandberg (1983) Br J Pharmacol 80:639 — methylxanthine adenosine antagonism, potency theophylline > caffeine > theobromine (mammalian)",
+        "ChEMBL adenosine-receptor activity: median Ki 32.5 µM (n=104)"
       ],
       "expect": {
         "direction": "higher",
@@ -183,7 +188,11 @@
       "behavior": "activity",
       "drug_class": "stimulant",
       "effect_confidence": "literature-assisted",
-      "mechanism_confidence": "literature-assisted"
+      "mechanism_confidence": "literature-assisted",
+      "receptors": [
+        "AdoR"
+      ],
+      "acts_where": "1 glial report(s) (glial tone pool is live, but this report names no region to place it in); also reported in 9 site(s) with no sim group; map on file; dynamics not wired to it."
     },
     "camphor": {
       "aliases": [],
@@ -299,11 +308,14 @@
         "why": "masks the banana smell at the receptors, so fewer bananas are found"
       },
       "kind": "repellent (active ingredient)",
-      "mechanism": "inhibits odour responses of smell receptor neurons",
-      "not_modelled": "the contact (taste) route: gustatory neurons are wired but DEET-as-bitter is not dosed yet, so only smell-masking is tested",
+      "mechanism": "inhibits odorant-receptor (Orco-dependent) responses of olfactory receptor neurons to attractive odours; also detected by bitter-taste neurons on contact",
+      "not_modelled": "taste has no feedback onto walking, so the contact route moves taste firing only; the bitter dose sits on the banana by assumption S3 (validation.md)",
       "target": "firing.nose",
       "target_prediction": "lower",
-      "behavior": "banana_dist",
+      "behavior": [
+        "banana_dist",
+        "firing.taste neurons"
+      ],
       "drug_class": "smell",
       "effect_confidence": "established in Drosophila",
       "mechanism_confidence": "established in Drosophila"
@@ -317,19 +329,25 @@
         "Porzgen et al. (2001) — dDAT, the fly dopamine transporter"
       ],
       "expect": {
-        "direction": "different",
-        "measure": "firing_all",
-        "why": "dopamine gain rises, but whether whole-brain firing follows is not obvious — the run decides"
+        "direction": "higher",
+        "measure": "firing.dopamine-receptor neurons",
+        "why": "dopamine-receptor neuron firing should rise; whether whole-brain firing_all follows is not obvious — the run decides"
       },
       "kind": "amine (fly transmitter)",
-      "mechanism": "raises the fly's own dopamine drive (dose-the-transmitter-itself)",
-      "not_modelled": "dopamine as a slow modulator (see amphetamine)",
-      "target": "firing.dopamine neurons",
-      "target_prediction": "different",
+      "mechanism": "floods dopamine receptors, raising drive into receptor-expressing neurons (dosed transmitter itself; postsynaptic side)",
+      "not_modelled": "dopamine as a slow modulator (see amphetamine); presynaptic autoreceptor action not separated",
+      "target": "firing.dopamine-receptor neurons",
+      "target_prediction": "higher",
       "behavior": "firing_all",
       "drug_class": "modulator",
-      "effect_confidence": "established in Drosophila",
-      "mechanism_confidence": "established in Drosophila"
+      "effect_confidence": "literature-assisted (receptor map); assumption (net excitatory direction)",
+      "mechanism_confidence": "literature-assisted (receptor map); assumption (term-to-group mapping)",
+      "receptors": [
+        "Dop1R1",
+        "Dop1R2",
+        "DopEcR"
+      ],
+      "acts_where": "receptor reported in: antennal lobe PNs, central complex, lateral horn, mushroom body, nerve cord, optic lobes; also reported in 11 site(s) with no sim group."
     },
     "ethanol": {
       "aliases": [
@@ -859,7 +877,8 @@
       "dosable": true,
       "evidence": [
         "Fredholm and Sandberg (1983) Br J Pharmacol 80:639 — methylxanthine adenosine antagonism, potency theophylline > caffeine > theobromine (mammalian)",
-        "Fredholm et al. (1982) Eur J Pharmacol — xanthine derivatives as adenosine receptor antagonists (mammalian)"
+        "Fredholm et al. (1982) Eur J Pharmacol — xanthine derivatives as adenosine receptor antagonists (mammalian)",
+        "ChEMBL adenosine-receptor activity: median Ki 105 µM (n=3)"
       ],
       "expect": {
         "direction": "higher",
@@ -874,7 +893,11 @@
       "behavior": "activity",
       "drug_class": "stimulant",
       "effect_confidence": "literature-assisted",
-      "mechanism_confidence": "literature-assisted"
+      "mechanism_confidence": "literature-assisted",
+      "receptors": [
+        "AdoR"
+      ],
+      "acts_where": "1 glial report(s) (glial tone pool is live, but this report names no region to place it in); also reported in 9 site(s) with no sim group; map on file; dynamics not wired to it."
     },
     "theophylline": {
       "aliases": [],
@@ -882,7 +905,9 @@
       "dosable": true,
       "evidence": [
         "Fredholm and Sandberg (1983) Br J Pharmacol 80:639 — methylxanthine adenosine antagonism, potency theophylline > caffeine > theobromine (mammalian)",
-        "GtoPdb 2026.3.1: theophylline rows at the adenosine A1 receptor (mammalian)"
+        "GtoPdb 2026.3.1: theophylline rows at the adenosine A1 receptor (mammalian)",
+        "ChEMBL adenosine-receptor activity: median Ki 8.5 µM (n=108)",
+        "ChEMBL PDE/adenosine potency ratio ~31x (n=20) — PDE arm EC50 3.1"
       ],
       "expect": {
         "direction": "higher",
@@ -890,14 +915,18 @@
         "why": "lifts the adenosine brake on background drive, so firing rises (more than caffeine)"
       },
       "kind": "stimulant (methylxanthine)",
-      "mechanism": "blocks adenosine receptors, lifting a tonic brake on background excitatory drive (stronger than caffeine)",
-      "not_modelled": "phosphodiesterase inhibition (a second theophylline action) is not modelled; mammalian mapping as with theobromine",
+      "mechanism": "blocks adenosine receptors at low doses (tonic brake off background drive, stronger than caffeine); inhibits cAMP phosphodiesterase at higher doses, boosting excitatory synaptic gain",
+      "not_modelled": "mammalian mapping as with theobromine; PDE isoform pattern unresolved (PDE arm is global, not placed)",
       "target": "firing_all",
       "target_prediction": "higher",
       "behavior": "activity",
       "drug_class": "stimulant",
       "effect_confidence": "literature-assisted",
-      "mechanism_confidence": "literature-assisted"
+      "mechanism_confidence": "literature-assisted (adenosine ordering); assumption (PDE EC50/strength/placement)",
+      "receptors": [
+        "AdoR"
+      ],
+      "acts_where": "1 glial report(s) (glial tone pool is live, but this report names no region to place it in); also reported in 9 site(s) with no sim group; map on file; dynamics not wired to it."
     },
     "ttx": {
       "aliases": [
@@ -962,5 +991,219 @@
       ],
       "why": "synaptic weights are static; nothing learns or remembers yet"
     }
-  ]
+  ],
+  "stimuli": {
+    "light": {
+      "kind": "stimulus (light)",
+      "mechanism": "full-field light through the photoreceptor channel (level 0..1); assay current I_vis 2.0",
+      "evidence": [],
+      "confidence": "recorded in the lab",
+      "effect_confidence": "recorded: eye rises in both flies; targets split (banc suppressed, malecns driven)",
+      "mechanism_confidence": "assay definition (I_vis 2.0, level 1.0; I_bg 2.2 awake floor on targets)",
+      "not_modelled": "behaviour is not predicted (P7 steering stands)",
+      "assays": {
+        "eye": {
+          "title": "Light reaches the eye",
+          "hypothesis": "Light raises photoreceptor firing in both flies.",
+          "measure": "firing.photoreceptors",
+          "prediction": "higher",
+          "secondary": [],
+          "secondary_prediction": [],
+          "treatment_name": "lit",
+          "setup": [
+            {
+              "cmd": "set_param",
+              "key": "I_vis",
+              "value": 2.0
+            },
+            {
+              "cmd": "stimulus",
+              "channel": "light",
+              "x": null,
+              "y": null,
+              "level": 1.0
+            }
+          ],
+          "why": "light drives photoreceptor current, so eye firing rises",
+          "facts": "Photoreceptors: 1,849 banc (L252/R1597 — the asymmetry is the dataset), 5,160 malecns, 11,151 flywire."
+        },
+        "targets": {
+          "title": "Light moves the direct visual targets",
+          "hypothesis": "Light quiets the direct visual targets (histamine hypothesis).",
+          "measure": "firing.visual targets",
+          "prediction": "lower",
+          "secondary": [
+            "firing.photoreceptors"
+          ],
+          "secondary_prediction": [
+            "higher"
+          ],
+          "treatment_name": "lit, awake",
+          "setup": [
+            {
+              "cmd": "set_param",
+              "key": "I_bg",
+              "value": 2.2
+            },
+            {
+              "cmd": "set_param",
+              "key": "I_vis",
+              "value": 2.0
+            },
+            {
+              "cmd": "stimulus",
+              "channel": "light",
+              "x": null,
+              "y": null,
+              "level": 1.0
+            }
+          ],
+          "why": "banc targets are HIST-labelled inhibitory followers, so light suppresses them; malecns mixes toward drive — MIXED is an honest outcome",
+          "facts": "Visual targets (>25% input from photoreceptors, non-photo): 2,244 banc, 2,821 malecns, 6,861 flywire (Nov 1 recalibration; float32 boundary flips). Sign splits by sex: banc SUPPRESSED (HIST-labelled, correct biology; suppression now dark 4.24 → light 1.77), malecns DRIVEN (67% unlabeled default-excitatory — data-quality flag, not a fly finding)."
+        }
+      }
+    }
+  },
+  "mutants": {
+    "ninaE_ko": {
+      "gene": "ninaE",
+      "fbgn": "FBgn0002940",
+      "title": "ninaE null (blind: photoreceptors silenced)",
+      "kind": "mutant (null)",
+      "mechanism": "null rhodopsin — photoreceptors silenced (no phototransduction)",
+      "measure": "firing.photoreceptors",
+      "prediction": "lower",
+      "secondary": [
+        "firing.visual targets"
+      ],
+      "secondary_prediction": [
+        "lower"
+      ],
+      "treatment_name": "lit, ninaE null",
+      "setup": [
+        {
+          "cmd": "set_param",
+          "key": "I_bg",
+          "value": 2.2
+        },
+        {
+          "cmd": "set_param",
+          "key": "I_vis",
+          "value": 2.0
+        },
+        {
+          "cmd": "stimulus",
+          "channel": "light",
+          "x": null,
+          "y": null,
+          "level": 1.0
+        },
+        {
+          "cmd": "mutant",
+          "name": "ninaE_ko"
+        }
+      ],
+      "hypothesis": "Silencing photoreceptors kills the lit-vs-dark response.",
+      "why": "no phototransduction, so the eye cannot respond to light; watch the targets — Maxime's rose 40% when inhibition lifted (recorded)",
+      "facts": "Lesion: photoreceptors silenced exactly (1,849 banc / 5,160 malecns), cleared by restore. Mapping: adult photoreceptor/rhabdomere/eye sites → photoreceptors group (graded coarse-site). KO1 headline MIXED with a story: Maxime's targets ROSE 40% (disinhibition), Hagrid's fell — re-confirms the vision sign split. Alliance PHENOTYPE: rhabdomere / visual-behavior terms match.",
+      "evidence": [],
+      "confidence": "recorded in the lab",
+      "effect_confidence": "recorded MIXED (eye silenced both sexes; targets split by sex)",
+      "mechanism_confidence": "lesion mask on the mapped group (mutants_map.json, graded coarse-site)",
+      "not_modelled": "partial loss (null only — photoreceptors fully silenced)"
+    },
+    "Orco_ko": {
+      "gene": "Orco",
+      "fbgn": "FBgn0037324",
+      "title": "Orco null (anosmic: smell ORNs silenced)",
+      "kind": "mutant (null)",
+      "mechanism": "null obligate coreceptor — smell ORNs silenced (anosmic)",
+      "measure": "firing.nose",
+      "prediction": "lower",
+      "secondary": [],
+      "secondary_prediction": [],
+      "treatment_name": "banana, Orco null",
+      "setup": [
+        {
+          "cmd": "mutant",
+          "name": "Orco_ko"
+        }
+      ],
+      "hypothesis": "Silencing nose ORNs kills the banana-smell response.",
+      "why": "no obligate coreceptor, so smell ORNs cannot respond",
+      "facts": "Lesion: nose banana-ORN subset silenced (only the simulable subset exists as a group — stated, not the whole nose), cleared by restore. Mapping: adult ORN/antenna/palp sites → nose group. Alliance PHENOTYPE: smell-perception terms match.",
+      "evidence": [],
+      "confidence": "recorded in the lab",
+      "effect_confidence": "recorded SUPPORTED both sexes",
+      "mechanism_confidence": "lesion mask on the mapped group (mutants_map.json)",
+      "not_modelled": "the whole nose (lesion covers the simulable banana-ORN subset only)"
+    },
+    "para_ko": {
+      "gene": "para",
+      "fbgn": "FBgn0285944",
+      "title": "para null (unexcitable: the whole brain silenced)",
+      "kind": "mutant (null)",
+      "mechanism": "null sodium-channel pore — no neuron can spike (unexcitable)",
+      "measure": "firing_all",
+      "prediction": "lower",
+      "secondary": [],
+      "secondary_prediction": [],
+      "treatment_name": "para null",
+      "setup": [
+        {
+          "cmd": "restore"
+        },
+        {
+          "cmd": "mutant",
+          "name": "para_ko"
+        }
+      ],
+      "hypothesis": "A null sodium channel silences the whole brain.",
+      "why": "no sodium-channel pore, so no neuron can spike",
+      "facts": "Lesion: brain-wide silencing, cleared by restore. Mapping: adult-brain site → brain-wide (graded coarse-site; eye site noted but not used). Null beside the para_ts hypomorph (+3 mV threshold) preset. Alliance PHENOTYPE: paralytic / bang-sensitive terms match.",
+      "evidence": [],
+      "confidence": "recorded in the lab",
+      "effect_confidence": "recorded: null silences the brain (allelic-series record, SUPPORTED)",
+      "mechanism_confidence": "lesion mask on the mapped group (mutants_map.json, graded coarse-site)",
+      "not_modelled": "graded severity (null only here; para_ts hypomorph is the milder preset)"
+    },
+    "Gr66a_ko": {
+      "gene": "Gr66a",
+      "fbgn": "FBgn0035870",
+      "title": "Gr66a null (bitter-blind: bitter arm silenced, sweet kept)",
+      "kind": "mutant (null)",
+      "mechanism": "bitter_gain 0 — bitter arm silenced, sweet kept (param preset, not a lesion: the sim pools all gustatory neurons, so a lesion would wrongly kill sweet too)",
+      "measure": "firing.taste neurons",
+      "prediction": "higher",
+      "secondary": [],
+      "secondary_prediction": [],
+      "treatment_name": "bitter, Gr66a null",
+      "setup": [
+        {
+          "cmd": "set_param",
+          "key": "I_taste",
+          "value": 2.0
+        },
+        {
+          "cmd": "stimulus",
+          "channel": "bitter",
+          "x": null,
+          "y": null,
+          "level": 1.0
+        },
+        {
+          "cmd": "mutant",
+          "name": "Gr66a_ko"
+        }
+      ],
+      "hypothesis": "Zeroing the bitter arm removes bitter suppression of taste firing.",
+      "why": "bitter normally suppresses taste firing; with the arm zeroed the KO stays unsuppressed (higher)",
+      "facts": "Preset, not a lesion: bitter_gain 0 (no mutants_map entry — a lesion would wrongly kill sweet too). Assay current I_taste 2.0 (pinned: sweet plain 0.35%→10.63% banc, 0.77%→11.73% malecns; bitter suppresses WT to ~0; no saturation to 4.0). KO4 SUPPORTED, norm-v1: KO taste firing +299% Maxime / +166% Hagrid vs bitter WT. Effect map names GNG (+23%/+15%, the gustatory center) + nerve cord. Adult expression: labellar/tarsal taste bristles.",
+      "evidence": [],
+      "confidence": "recorded in the lab",
+      "effect_confidence": "recorded SUPPORTED (KO unsuppressed vs bitter WT, both sexes)",
+      "mechanism_confidence": "param preset (bitter_gain 0); assay definition (I_taste 2.0)",
+      "not_modelled": "cell-level Gr66a expression (preset zeroes the pooled bitter arm, not Gr66a cells specifically)"
+    }
+  }
 }

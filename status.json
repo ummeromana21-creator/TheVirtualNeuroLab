@@ -1,0 +1,92 @@
+{
+ "built_utc": "2026-11-02 18:53 UTC",
+ "provenance": "NOT YET",
+ "suites": {
+  "drugs": {
+   "green": 35,
+   "total": 35,
+   "ok": true
+  },
+  "cards": {
+   "green": 99,
+   "total": 99,
+   "ok": true
+  },
+  "channels": {
+   "green": 21,
+   "total": 21,
+   "ok": true
+  },
+  "mutants": {
+   "green": 21,
+   "total": 21,
+   "ok": true
+  },
+  "fly": {
+   "green": 17,
+   "total": 17,
+   "ok": true
+  },
+  "provenance": {
+   "green": 36,
+   "total": 40,
+   "ok": false
+  },
+  "raw": {
+   "green": 21,
+   "total": 21,
+   "ok": true
+  },
+  "experiments": {
+   "green": 35,
+   "total": 35,
+   "ok": true
+  },
+  "figures": {
+   "green": 0,
+   "total": 8,
+   "ok": false
+  },
+  "library": {
+   "green": 138,
+   "total": 138,
+   "ok": true
+  },
+  "ask": {
+   "green": 120,
+   "total": 120,
+   "ok": true
+  },
+  "duo": {
+   "green": 157,
+   "total": 157,
+   "ok": true
+  },
+  "flies": {
+   "green": 62,
+   "total": 62,
+   "ok": true
+  },
+  "exp-page": {
+   "green": 42,
+   "total": 42,
+   "ok": true
+  },
+  "anatomy": {
+   "green": 20,
+   "total": 20,
+   "ok": true
+  },
+  "celltypes": {
+   "green": 45,
+   "total": 45,
+   "ok": true
+  }
+ },
+ "green": 869,
+ "total": 881,
+ "dose_model": "chembl-v1",
+ "weight_model": "norm-v1",
+ "commit_site": "a2da8ff",
+ "commit_sim": "a5de1ab"
+}

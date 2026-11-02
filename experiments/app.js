@@ -14,8 +14,9 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g,
   c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+const hypText = c => c.hypothesis ? [c.hypothesis.text, c.hypothesis.given, c.hypothesis.falsified].join(" ") : "";
 const hay = c => [c.title, c.kind, c.sentence, c.claim || "", c.real, c.real_source,
-  c.target || "", (c.behavior || []).join(" ")].join(" ").toLowerCase();
+  c.target || "", (c.behavior || []).join(" "), hypText(c)].join(" ").toLowerCase();
 const labRank = s => ({ run: 0, ready: 1, needs_model: 2, cant_test: 3 }[s] ?? 9);
 function sortKey(c) {
   if (state.sort === "kind") return c.kind + "\0" + c.title.toLowerCase();
@@ -44,6 +45,8 @@ function labBlock(c) {
     if (r.kind === "notebook" || r.id) {
       inner += `<a class="runlink" href="../ask/watch/?id=${encodeURIComponent(r.id)}">replay&nbsp;→</a>`;
       inner += `<span class="rec-title">${esc(r.title)} <span class="rec-date">${esc(r.date || "")}</span></span>`;
+      inner += `<span class="stamp">${esc(r.weight_model ? `${r.weight_model} · rec ${r.id}` : "old model, before Nov 1")}</span>`;
+      if (r.story) inner += `<p class="story">${esc(r.story)}</p>`;
     } else {
       inner += `<span class="rec-title">${esc(r.title)}</span>`;
       if (r.note) inner += `<p class="benchnote">${esc(r.note)}</p>`;
@@ -60,9 +63,10 @@ function labBlock(c) {
 
 function figure(c) {
   if (c.kind === "drug") {
+    const cap = c.formula ? `<figcaption>${esc(c.formula)}</figcaption>` : ``;
     return c.structure
-      ? `<figure><img src="${esc(c.structure)}" alt="2D structure of ${esc(c.title)}" loading="lazy" decoding="async"></figure>`
-      : `<figure><span class="nosvg">structure not found</span></figure>`;
+      ? `<figure><img src="${esc(c.structure)}" alt="2D structure of ${esc(c.title)}" loading="lazy" decoding="async">${cap}</figure>`
+      : `<figure><span class="nosvg">structure not found</span>${cap}</figure>`;
   }
   const svg = (c.schematic || "").replace("<svg ", '<svg class="schematic" ');
   return `<figure>${svg}</figure>`;
@@ -108,9 +112,10 @@ const byKey = k => CARDS.find(c => c.key === k);
 
 function detailFigure(c) {
   if (c.kind === "drug") {
-    return c.structure
+    const cap = c.formula ? `<p class="formula">${esc(c.formula)}</p>` : ``;
+    return (c.structure
       ? `<img src="${esc(c.structure)}" alt="2D structure of ${esc(c.title)}">`
-      : `<span class="nosvg">structure not found — neither the pharmacology file nor PubChem had it</span>`;
+      : `<span class="nosvg">structure not found — neither the pharmacology file nor PubChem had it</span>`) + cap;
   }
   return (c.schematic || "").replace("<svg ", '<svg class="schematic" ');
 }
@@ -123,9 +128,18 @@ function detailLab(c) {
     h += verdictPill(r.verdict) + `</div>`;
     h += `<div class="traits">`;
     h += `<div class="trait"><span class="k">Record</span><span class="v">${esc(r.title)}</span></div>`;
+    if (r.id) h += `<div class="trait"><span class="k">Model</span><span class="v">${esc(r.weight_model ? `${r.weight_model} · rec ${r.id}` : "old model, before Nov 1")}</span></div>`;
     if (r.date) h += `<div class="trait"><span class="k">Date</span><span class="v">${esc(r.date)}</span></div>`;
     if (r.measure) h += `<div class="trait"><span class="k">Measure</span><span class="v">${esc(r.measure)}</span></div>`;
     h += `</div>`;
+    if (r.story) h += `<p class="story full">${esc(r.story)}</p>`;
+    if (r.recipe) {
+      const R = r.recipe;
+      const row = (k, v) => `<div class="trait"><span class="k">${esc(k)}</span><span class="v">${esc(v)}</span></div>`;
+      h += `<p class="dim">The run, row by row:</p><div class="traits">`
+        + row("Control", R.control) + row("Treatment", R.treatment) + row("Effort", R.effort)
+        + row("Prediction", R.prediction) + row("Measure", R.measure) + `</div>`;
+    }
     if (r.id) h += `<a class="dask" href="../ask/watch/?id=${encodeURIComponent(r.id)}">Replay this run →</a>`;
     else if (r.note) h += `<p class="dim">${esc(r.note)}</p>`;
   } else if (st === "ready" && lab.ask) {
@@ -152,6 +166,14 @@ function openDetail(key) {
     ? (c.structure ? "2D structure · Guide to Pharmacology / PubChem" : "No structure on file")
     : "Where it acts → what to measure";
   let h = `<p class="eyebrow">${esc(c.kind)}</p><h1>${esc(c.title)}</h1><p class="dsent">${esc(c.sentence)}</p>`;
+  if (c.hypothesis) {
+    const hp = c.hypothesis;
+    h += `<h2>The hypothesis</h2><p>${esc(hp.text)}</p>`
+      + `<p class="dim">Rests on: ${esc(hp.given)}</p>`
+      + `<p class="dim">Would fail if: ${esc(hp.falsified)}</p>`
+      + `<p class="dim">Reconstructed from the standing rules after the run — the card's rationale, not a sealed prediction.</p>`
+      + `<p><a class="dask" href="../study.html?hyp=${encodeURIComponent(c.key)}">Ask about this hypothesis →<small>plain-language answers + follow-ups</small></a></p>`;
+  }
   if (c.kind === "drug") {
     if (c.mechanism) h += `<h2>How it works</h2><p>${esc(c.mechanism)}</p>`;
     h += `<h2>Standing rule</h2><div class="traits">`

@@ -133,12 +133,7 @@
     });
   });
   $("openLabBtn").addEventListener("click", () => {
-    if (DuoAuth.currentUser()) {
-      $("labGate").scrollIntoView({ behavior: "smooth", block: "center" });
-    } else {
-      setMode("signup");
-      openModal();
-    }
+    $("labGate").scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
   function renderGate(user) {
@@ -152,11 +147,11 @@
     document.querySelector(".duo-gatecard").classList.toggle("open", in_);
     $("gateTitle").textContent = in_
       ? `The lab is open, ${user.name.split(" ")[0]}`
-      : "The lab is locked — for now";
+      : "Save your work in the lab";
     $("gateSub").textContent = in_
       ? `Signed in as ${user.email} (${user.provider}). Pick a bench.`
-      : "One account opens every bench: the study pages and Ask the flies. Browsing this story stays free.";
-    $("openLabLabel").textContent = in_ ? "Open the Lab · enter" : "Open the Lab · sign in";
+      : "Browsing is free — one account saves your runs and questions.";
+    $("openLabLabel").textContent = "Open the Lab · enter";
     if (in_) $("gateWelcome").textContent =
       `Welcome${user.provider === "email" ? " back" : ""}, ${user.name} — the benches are open.`;
   }

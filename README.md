@@ -28,29 +28,20 @@ python3 -m http.server 8123
 Then open http://localhost:8123/lab.html in a browser. Drag to orbit,
 scroll to zoom. On a headset, press VR.
 
-## Fly Study (side-view lab + 3D dock)
+## Fly Study (Ask bench + brains rail)
 
-`study.html` (+ `study.css`, `study.js`) is the screen-first build: nine
-lab pages behind a toggle list, with the CONTROL + VARIABLE jars always
-visible in a 3D observation dock. Same servers as above, then open
-http://localhost:8123/study.html (serve over http — modules don't load
-from file://). Click a lab or press 1–9. Requires the lab on
-ws://localhost:8765. Lab order: computational, comparative,
-connectomics/neuroanatomy, neuroinformatics, electrophysiology,
-neuropharmacology, pharmacokinetics, circuit & systems, behaviour.
-
-The computational lab does one experiment at a time: a "Before you start"
-intro, an always-visible status bar (live/offline, step, focus fly,
-nose→brain→legs ticker, Heal, Download report), an experiment list with a
-status chip per item, one experiment screen at a time (Question, Setup,
-Predict, Run, Result, So what, Footer), and a Results board generated
-from the records. Each screen replays its recording (date + seeds shown)
-or runs the card live against the lab; predictions lock before running.
-A talking-Muse tour (browser voice; drop studio mp3s in `audio/` as
-`comp-chN.mp3` and flip `NARR_AUDIO` in study.js) walks the list in
-order, running short cards live and replaying long ones with a
-"recorded earlier" line. Every number is mean ± wobble over ≥3 runs with
-runs visible; verdicts come from the lab's own rule.
+`study.html` (+ `study.css`, `study.js`) is the screen-first build: the
+Ask the flies bench (question box, example questions, run button, cards,
+results, follow-up thread) with the Maxime/Hagrid brain tabs on one
+shared 3D stage in the right rail and live mini stats below. Same
+servers as above, then open http://localhost:8123/study.html (serve
+over http — modules don't load from file://). Ask anything testable;
+`?q=` prefills a question. Requires the lab on ws://localhost:8765 for
+live runs and replays. The page holds one socket for everything; runs
+survive navigation (a finished-while-away run renders its record on
+return). Every number is mean ± wobble with runs visible; verdicts come
+from the lab's own rule. (The old nine-bench/tour build lives in git
+history and the pre-strip GitHub push.)
 
 Figures are generated offline (same engine, headless). Copy `compute/`
 into Fly Brain, then:

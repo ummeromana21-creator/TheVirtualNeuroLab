@@ -12,7 +12,7 @@
   "ms": 31411837,
   "ratio": 4.77,
   "func": "vision, motion",
-  "desc": "First vision: photoreceptors feed lamina and medulla columns splitting motion, color and form, projecting to AVLP/PLP and navigation.",
+  "desc": "In a real fly, first vision: photoreceptors feed lamina and medulla columns splitting motion, color and form, projecting to AVLP/PLP and navigation. Simulated version: The sim's vision lives here: light assays drive the photoreceptors and their direct visual targets, and knocking those out blinds the fly. Finer cell types are mapped, not modeled.",
   "img": "img/row04_optic.jpg"
  },
  {
@@ -28,7 +28,7 @@
   "ms": 18681783,
   "ratio": 4.51,
   "func": "early vision",
-  "desc": "Main visual relay; motion, color and form columns (Mi, Tm, T4/T5 dendrites).",
+  "desc": "In a real fly, main visual relay; motion, color and form columns (Mi, Tm, T4/T5 dendrites). It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as medulla.",
   "img": "img/row05_ME.jpg"
  },
  {
@@ -44,7 +44,7 @@
   "ms": 8041134,
   "ratio": 5.78,
   "func": "visual features",
-  "desc": "Feature detection; lobula columnar output to AVLP/PLP (escape, object vision).",
+  "desc": "In a real fly, feature detection; lobula columnar output to AVLP/PLP (escape, object vision). It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as lobula.",
   "img": "img/row06_LO.jpg"
  },
  {
@@ -60,7 +60,7 @@
   "ms": 4342605,
   "ratio": 4.15,
   "func": "optic flow",
-  "desc": "Optic flow; wide-field motion (HS/VS) steadies flight.",
+  "desc": "In a real fly, optic flow; wide-field motion (HS/VS) steadies flight. It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as lobula plate.",
   "img": "img/row07_LOP.jpg"
  },
  {
@@ -76,7 +76,7 @@
   "ms": 27481,
   "ratio": 5.08,
   "func": "clock",
-  "desc": "Circadian clock; PDF neurons time daily activity.",
+  "desc": "In a real fly, circadian clock; PDF neurons time daily activity. It sits in the optic system. Simulated version: modeled with the optic lobes; the sim's vision runs through the photoreceptors and their direct visual targets, and light assays move those.",
   "img": "img/row08_AME.jpg"
  },
  {
@@ -92,7 +92,7 @@
   "ms": 318834,
   "ratio": "M-only",
   "func": "first vision",
-  "desc": "First visual synapse; photoreceptor to monopolar contrast split. Male-only label; tissue exists in both.",
+  "desc": "In a real fly, first visual synapse; photoreceptor to monopolar contrast split. Male-only label; tissue exists in both. It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as lamina.",
   "img": "img/row09_LA.jpg"
  },
  {
@@ -108,7 +108,7 @@
   "ms": 18678163,
   "ratio": 2.46,
   "func": "legs, wings",
-  "desc": "Body control: three leg neuromeres plus wing and haltere tectula drive walking, flight and grooming, with local reflexes and ascending feedback.",
+  "desc": "In a real fly, body control: three leg neuromeres plus wing and haltere tectula drive walking, flight and grooming, with local reflexes and ascending feedback. Simulated version: The motor cord and legs: every walk the fly takes runs through here, and toxins that freeze the body show up in its firing.",
   "img": "img/row10_VNC.jpg"
  },
  {
@@ -124,7 +124,7 @@
   "ms": 3917636,
   "ratio": 2.03,
   "func": "mid legs",
-  "desc": "Middle legs plus wings; flight motors live here. BANC VNC_T2_MesoNm = Male LegNp_T2.",
+  "desc": "In a real fly, middle legs plus wings; flight motors live here. BANC VNC_T2_MesoNm = Male LegNp_T2. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row11_MesoNm.jpg"
  },
  {
@@ -140,7 +140,7 @@
   "ms": 2458020,
   "ratio": 1.43,
   "func": "front legs",
-  "desc": "Front legs; reaching and grooming. BANC VNC_T1_ProNm = Male LegNp_T1.",
+  "desc": "In a real fly, front legs; reaching and grooming. BANC VNC_T1_ProNm = Male LegNp_T1. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row12_ProNm.jpg"
  },
  {
@@ -156,7 +156,7 @@
   "ms": 4449339,
   "ratio": 3.02,
   "func": "hind legs",
-  "desc": "Hind legs; walking thrust. BANC VNC_T3_MetaNm = Male LegNp_T3.",
+  "desc": "In a real fly, hind legs; walking thrust. BANC VNC_T3_MetaNm = Male LegNp_T3. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row13_MetaNm.jpg"
  },
  {
@@ -172,7 +172,7 @@
   "ms": 2884530,
   "ratio": 4.04,
   "func": "abdomen",
-  "desc": "Abdomen; mating, egg-laying, gut control. BANC ABDNM = Male ANm.",
+  "desc": "In a real fly, abdomen; mating, egg-laying, gut control. BANC ABDNM = Male ANm. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row14_Abdomen.jpg"
  },
  {
@@ -188,7 +188,7 @@
   "ms": 646417,
   "ratio": 1.29,
   "func": "VNC highway",
-  "desc": "Cord highway; ascending and descending trunk.",
+  "desc": "In a real fly, cord highway; ascending and descending trunk. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row15_IntTct.jpg"
  },
  {
@@ -204,7 +204,7 @@
   "ms": 444643,
   "ratio": 1.26,
   "func": "haltere, wing",
-  "desc": "Haltere plus wing; balance organs meet wing drive.",
+  "desc": "In a real fly, haltere plus wing; balance organs meet wing drive. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row16_HTct.jpg"
  },
  {
@@ -220,7 +220,7 @@
   "ms": 1304295,
   "ratio": 4.63,
   "func": "wing drive",
-  "desc": "Wing drive; power and steering muscles.",
+  "desc": "In a real fly, wing drive; power and steering muscles. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row17_WTct.jpg"
  },
  {
@@ -236,7 +236,7 @@
   "ms": 0,
   "ratio": "F-only",
   "func": "flight relay",
-  "desc": "Accessory flight relay. Female-only label; tissue exists in both.",
+  "desc": "In a real fly, accessory flight relay. Female-only label; tissue exists in both. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row18_AMNp.jpg"
  },
  {
@@ -252,7 +252,7 @@
   "ms": 188264,
   "ratio": 1.13,
   "func": "neck relay",
-  "desc": "Neck relay for head movement commands.",
+  "desc": "In a real fly, neck relay for head movement commands. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row19_NTct.jpg"
  },
  {
@@ -268,7 +268,7 @@
   "ms": 789023,
   "ratio": 5.66,
   "func": "leg highway",
-  "desc": "Leg highway coordinating all legs.",
+  "desc": "In a real fly, leg highway coordinating all legs. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row20_LTct.jpg"
  },
  {
@@ -284,7 +284,7 @@
   "ms": 411405,
   "ratio": 4.78,
   "func": "leg reflex",
-  "desc": "Leg reflex; local sensorimotor loops.",
+  "desc": "In a real fly, leg reflex; local sensorimotor loops. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row21_mVAC.jpg"
  },
  {
@@ -300,7 +300,7 @@
   "ms": 57078,
   "ratio": 311.9,
   "func": "nerve exit",
-  "desc": "Motor axons and nerve branches leaving the cord.",
+  "desc": "In a real fly, motor axons and nerve branches leaving the cord. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row22_nerves.jpg"
  },
  {
@@ -316,7 +316,7 @@
   "ms": 1127513,
   "ratio": "M-only",
   "func": "male-only tag",
-  "desc": "Ovoid; wing-sensory mesothoracic neuropil (MANC). Male-only label in these exports.",
+  "desc": "In a real fly, ovoid; wing-sensory mesothoracic neuropil (MANC). Male-only label in these exports. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
   "img": "img/row23_Ov.jpg"
  },
  {
@@ -332,7 +332,7 @@
   "ms": 22551487,
   "ratio": 4.48,
   "func": "action choice",
-  "desc": "Association and premotor zone: blends vision, smell and state into action choice and steering for descending neurons.",
+  "desc": "In a real fly, association and premotor zone: blends vision, smell and state into action choice and steering for descending neurons. Simulated version: Premotor country: no dedicated groups, but its regions light up on effect maps whenever drive shifts \u2014 disinhibition hits here hardest.",
   "img": "img/row24_lateral.jpg"
  },
  {
@@ -348,7 +348,7 @@
   "ms": 4895038,
   "ratio": 3.86,
   "func": "multisensory mix",
-  "desc": "Multisensory mixer; vision meets mechanosensation.",
+  "desc": "In a real fly, multisensory mixer; vision meets mechanosensation. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network \u2014 its neurons fire in every run and count toward whole-brain measures. On effect maps it reports as AVLP.",
   "img": "img/row25_AVLP.jpg"
  },
  {
@@ -364,7 +364,7 @@
   "ms": 1241043,
   "ratio": 2.48,
   "func": "premotor out",
-  "desc": "Premotor output toward descending neurons.",
+  "desc": "In a real fly, premotor output toward descending neurons. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row26_SPS.jpg"
  },
  {
@@ -380,7 +380,7 @@
   "ms": 746105,
   "ratio": 1.56,
   "func": "motor relay",
-  "desc": "Motor relay linking brain to neck and cord.",
+  "desc": "In a real fly, motor relay linking brain to neck and cord. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row27_IPS.jpg"
  },
  {
@@ -396,7 +396,7 @@
   "ms": 1787080,
   "ratio": 4.07,
   "func": "visual output",
-  "desc": "Visual output from lobula toward action.",
+  "desc": "In a real fly, visual output from lobula toward action. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network \u2014 its neurons fire in every run and count toward whole-brain measures. On effect maps it reports as PLP.",
   "img": "img/row28_PLP.jpg"
  },
  {
@@ -412,7 +412,7 @@
   "ms": 1375008,
   "ratio": 3.36,
   "func": "steering",
-  "desc": "Steering; turning and walking direction commands.",
+  "desc": "In a real fly, steering; turning and walking direction commands. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network \u2014 its neurons fire in every run and count toward whole-brain measures. On effect maps it reports as LAL.",
   "img": "img/row29_LAL.jpg"
  },
  {
@@ -428,7 +428,7 @@
   "ms": 1860508,
   "ratio": 4.88,
   "func": "goal state",
-  "desc": "Goal state; holds context for decisions.",
+  "desc": "In a real fly, goal state; holds context for decisions. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row30_SMP.jpg"
  },
  {
@@ -444,7 +444,7 @@
   "ms": 711339,
   "ratio": 2.43,
   "func": "premotor",
-  "desc": "Premotor; crepine interneurons pre-shape motor commands.",
+  "desc": "In a real fly, premotor; crepine interneurons pre-shape motor commands. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row31_CRE.jpg"
  },
  {
@@ -460,7 +460,7 @@
   "ms": 912595,
   "ratio": 3.35,
   "func": "relay",
-  "desc": "Relay between upper and lower brain.",
+  "desc": "In a real fly, relay between upper and lower brain. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row32_ICL.jpg"
  },
  {
@@ -476,7 +476,7 @@
   "ms": 3039498,
   "ratio": 14.41,
   "func": "escape",
-  "desc": "Escape; looming detectors trigger takeoff and avoidance. High ratio is a split difference.",
+  "desc": "In a real fly, escape; looming detectors trigger takeoff and avoidance. High ratio is a split difference. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row33_PVLP.jpg"
  },
  {
@@ -492,7 +492,7 @@
   "ms": 1222722,
   "ratio": 7.66,
   "func": "visual-mechano",
-  "desc": "Visual-mechano; wedge blends optic flow with wind.",
+  "desc": "In a real fly, visual-mechano; wedge blends optic flow with wind. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row34_WED.jpg"
  },
  {
@@ -508,7 +508,7 @@
   "ms": 425368,
   "ratio": 2.7,
   "func": "coordination",
-  "desc": "Coordination; inferior bridge couples hemispheres.",
+  "desc": "In a real fly, coordination; inferior bridge couples hemispheres. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row35_IB.jpg"
  },
  {
@@ -524,7 +524,7 @@
   "ms": 1763004,
   "ratio": 13.43,
   "func": "learned output",
-  "desc": "Learned output; mushroom-body signals reach action.",
+  "desc": "In a real fly, learned output; mushroom-body signals reach action. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row36_SLP.jpg"
  },
  {
@@ -540,7 +540,7 @@
   "ms": 761150,
   "ratio": 6.36,
   "func": "relay",
-  "desc": "Relay and distribution node.",
+  "desc": "In a real fly, relay and distribution node. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row37_SCL.jpg"
  },
  {
@@ -556,7 +556,7 @@
   "ms": 881059,
   "ratio": 8.12,
   "func": "sky compass",
-  "desc": "Sky compass; polarized-light heading cues.",
+  "desc": "In a real fly, sky compass; polarized-light heading cues. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row38_AOTU.jpg"
  },
  {
@@ -572,7 +572,7 @@
   "ms": 863759,
   "ratio": 10.64,
   "func": "sleep, hunger",
-  "desc": "Drive; sleep pressure and hunger signals.",
+  "desc": "In a real fly, drive; sleep pressure and hunger signals. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row39_SIP.jpg"
  },
  {
@@ -588,7 +588,7 @@
   "ms": 66211,
   "ratio": 2.79,
   "func": "relay",
-  "desc": "Relay and distribution node.",
+  "desc": "In a real fly, relay and distribution node. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row40_CAN.jpg"
  },
  {
@@ -604,7 +604,7 @@
   "ms": 5665016,
   "ratio": 3.53,
   "func": "smell, memory",
-  "desc": "Smell learning and instinct: antennal-lobe glomeruli split into mushroom-body Kenyon cells for learned value and lateral-horn neurons for innate responses.",
+  "desc": "In a real fly, smell learning and instinct: antennal-lobe glomeruli split into mushroom-body Kenyon cells for learned value and lateral-horn neurons for innate responses. Simulated version: The sim's smell lives here: banana finding, repellent effects fading stage by stage, and anosmia when the nose neurons are silenced.",
   "img": "img/row41_olfactory.jpg"
  },
  {
@@ -620,7 +620,7 @@
   "ms": 2918760,
   "ratio": 2.6,
   "func": "first smell",
-  "desc": "First smell; one glomerulus per receptor type, PNs relay onward.",
+  "desc": "In a real fly, first smell; one glomerulus per receptor type, PNs relay onward. It sits in the olfactory system. Simulated version: the first smell relay is a measured stage \u2014 cards read its projection neurons live, and a repellent's effect lands here first. On effect maps it reports as antennal lobe.",
   "img": "img/row42_AL.jpg"
  },
  {
@@ -636,7 +636,7 @@
   "ms": 1032499,
   "ratio": 4.74,
   "func": "innate smell",
-  "desc": "Innate odor responses; hardwired approach and avoidance.",
+  "desc": "In a real fly, innate odor responses; hardwired approach and avoidance. It sits in the olfactory system. Simulated version: the instinctive-smell group, measured live on the nose-to-legs path. On effect maps it reports as lateral horn.",
   "img": "img/row43_LH.jpg"
  },
  {
@@ -652,7 +652,7 @@
   "ms": 456939,
   "ratio": 2.24,
   "func": "memory input",
-  "desc": "Memory input; PNs spread odors across Kenyon cells.",
+  "desc": "In a real fly, memory input; PNs spread odors across Kenyon cells. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
   "img": "img/row44_MB_CA.jpg"
  },
  {
@@ -668,7 +668,7 @@
   "ms": 297677,
   "ratio": 9.75,
   "func": "memory output",
-  "desc": "Learned output; vertical-lobe MBONs report odor value.",
+  "desc": "In a real fly, learned output; vertical-lobe MBONs report odor value. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
   "img": "img/row45_MB_VL.jpg"
  },
  {
@@ -684,7 +684,7 @@
   "ms": 104512,
   "ratio": 5.8,
   "func": "memory stalk",
-  "desc": "Kenyon axon stalk; conduit, not a processing layer.",
+  "desc": "In a real fly, kenyon axon stalk; conduit, not a processing layer. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
   "img": "img/row46_MB_PED.jpg"
  },
  {
@@ -700,7 +700,7 @@
   "ms": 854629,
   "ratio": 70.47,
   "func": "memory output",
-  "desc": "Learned output; medial-lobe MBONs drive approach and avoidance. Extreme ratio is a female under-split, not missing tissue.",
+  "desc": "In a real fly, learned output; medial-lobe MBONs drive approach and avoidance. Extreme ratio is a female under-split, not missing tissue. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
   "img": "img/row47_MB_ML.jpg"
  },
  {
@@ -716,7 +716,7 @@
   "ms": 7122875,
   "ratio": 3.34,
   "func": "feeding, taste",
-  "desc": "Mouth and neck: feeding, taste, proboscis, grooming, plus hearing and wind input and head and neck relays.",
+  "desc": "In a real fly, mouth and neck: feeding, taste, proboscis, grooming, plus hearing and wind input and head and neck relays. Simulated version: The sim's taste and feeding hub: sweet and bitter drive the taste neurons, and Gr66a/Gr5a mutants lose one arm each. Taste has no feedback onto walking, so it moves firing only.",
   "img": "img/row48_GNG.jpg"
  },
  {
@@ -732,7 +732,7 @@
   "ms": 3923843,
   "ratio": 3.1,
   "func": "feeding control",
-  "desc": "Feeding control; taste in, proboscis and ingestion out.",
+  "desc": "In a real fly, feeding control; taste in, proboscis and ingestion out. It sits in the GNG system. Simulated version: the feeding and taste hub; taste firing projects here, and the GNG leads the taste effect maps. On effect maps it reports as GNG.",
   "img": "img/row49_GNG.jpg"
  },
  {
@@ -748,7 +748,7 @@
   "ms": 1089464,
   "ratio": 3.24,
   "func": "balance relay",
-  "desc": "Balance relay for posture.",
+  "desc": "In a real fly, balance relay for posture. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row50_VES.jpg"
  },
  {
@@ -764,7 +764,7 @@
   "ms": 319881,
   "ratio": 1.93,
   "func": "head, neck",
-  "desc": "Head movement via neck muscles.",
+  "desc": "In a real fly, head movement via neck muscles. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row51_FLA.jpg"
  },
  {
@@ -780,7 +780,7 @@
   "ms": 0,
   "ratio": "F-only",
   "func": "hearing, wind",
-  "desc": "Hearing and wind from Johnston's organ. Female-only label; tissue exists in both.",
+  "desc": "In a real fly, hearing and wind from Johnston's organ. Female-only label; tissue exists in both. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row52_AMMC.jpg"
  },
  {
@@ -796,7 +796,7 @@
   "ms": 319102,
   "ratio": 4.44,
   "func": "taste relay",
-  "desc": "Taste relay from pharynx to GNG.",
+  "desc": "In a real fly, taste relay from pharynx to GNG. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row53_PRW.jpg"
  },
  {
@@ -812,7 +812,7 @@
   "ms": 1163080,
   "ratio": 18.26,
   "func": "flight steer",
-  "desc": "Flight steering; saddle couples vision to wing commands. High ratio is a split difference.",
+  "desc": "In a real fly, flight steering; saddle couples vision to wing commands. High ratio is a split difference. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row54_SAD.jpg"
  },
  {
@@ -828,7 +828,7 @@
   "ms": 141923,
   "ratio": 2.78,
   "func": "relay",
-  "desc": "Relay and distribution node.",
+  "desc": "In a real fly, relay and distribution node. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row55_EPA.jpg"
  },
  {
@@ -844,7 +844,7 @@
   "ms": 165582,
   "ratio": 3.32,
   "func": "relay",
-  "desc": "Relay and distribution node.",
+  "desc": "In a real fly, relay and distribution node. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row56_GOR.jpg"
  },
  {
@@ -860,7 +860,7 @@
   "ms": 2281837,
   "ratio": 3.81,
   "func": "heading, sleep",
-  "desc": "Compass and sleep: the ellipsoid-body ring holds head direction while the fan-shaped body and bridge steer and gate sleep and arousal.",
+  "desc": "In a real fly, compass and sleep: the ellipsoid-body ring holds head direction while the fan-shaped body and bridge steer and gate sleep and arousal. Simulated version: Navigation and sleep, honestly bounded: the compass circuitry fires, but steering from it was tested and rejected \u2014 and sleep is a quiet-brain proxy, as the per01 record shows.",
   "img": "img/row57_CX.jpg"
  },
  {
@@ -876,7 +876,7 @@
   "ms": 1201153,
   "ratio": 4.31,
   "func": "heading, sleep",
-  "desc": "Heading and sleep; tangential inputs steer the compass.",
+  "desc": "In a real fly, heading and sleep; tangential inputs steer the compass. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
   "img": "img/row58_FB.jpg"
  },
  {
@@ -892,7 +892,7 @@
   "ms": 652120,
   "ratio": 5,
   "func": "compass",
-  "desc": "Compass; ring bump tracks head direction.",
+  "desc": "In a real fly, compass; ring bump tracks head direction. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
   "img": "img/row59_EB.jpg"
  },
  {
@@ -908,7 +908,7 @@
   "ms": 158924,
   "ratio": 2.3,
   "func": "heading math",
-  "desc": "Heading math; columnar bridge across hemispheres.",
+  "desc": "In a real fly, heading math; columnar bridge across hemispheres. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
   "img": "img/row60_PB.jpg"
  },
  {
@@ -924,7 +924,7 @@
   "ms": 70091,
   "ratio": 1.1,
   "func": "CX input",
-  "desc": "CX input; antler relays novelty signals.",
+  "desc": "In a real fly, cX input; antler relays novelty signals. It sits in the CX system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row61_ATL.jpg"
  },
  {
@@ -940,7 +940,7 @@
   "ms": 163428,
   "ratio": 4.46,
   "func": "turn gain",
-  "desc": "Turn gain; noduli tune rotational sensitivity.",
+  "desc": "In a real fly, turn gain; noduli tune rotational sensitivity. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
   "img": "img/row62_NO.jpg"
  },
  {
@@ -956,7 +956,7 @@
   "ms": 0,
   "ratio": "F-only",
   "func": "CX input",
-  "desc": "CX input; gall relays visual landmarks. Female-only label; tissue exists in both.",
+  "desc": "In a real fly, cX input; gall relays visual landmarks. Female-only label; tissue exists in both. It sits in the CX system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row63_GA.jpg"
  },
  {
@@ -972,7 +972,7 @@
   "ms": 36121,
   "ratio": 5.81,
   "func": "compass input",
-  "desc": "Compass input; bulb feeds heading signals to EB.",
+  "desc": "In a real fly, compass input; bulb feeds heading signals to EB. It sits in the CX system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row64_BU.jpg"
  },
  {
@@ -988,7 +988,7 @@
   "ms": 2149065,
   "ratio": "M-only",
   "func": "unassigned",
-  "desc": "Contacts the male export left outside any neuropil. The female export assigns everything.",
+  "desc": "In a real fly, contacts the male export left outside any neuropil. The female export assigns everything. Simulated version: Contacts without a home region: counted, shown, and modeled only as part of the whole-brain network.",
   "img": "img/row65_unassigned.jpg"
  },
  {
@@ -1004,7 +1004,7 @@
   "ms": 1263143,
   "ratio": "M-only",
   "func": "unassigned",
-  "desc": "Brain contacts the male export left unassigned.",
+  "desc": "In a real fly, brain contacts the male export left unassigned. It sits in the unassigned system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row66_CB_UNASGD.jpg"
  },
  {
@@ -1020,7 +1020,7 @@
   "ms": 386334,
   "ratio": "M-only",
   "func": "unassigned",
-  "desc": "Optic contacts the male export left unassigned.",
+  "desc": "In a real fly, optic contacts the male export left unassigned. It sits in the unassigned system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row67_OL_UNASGD.jpg"
  },
  {
@@ -1036,7 +1036,7 @@
   "ms": 499588,
   "ratio": "M-only",
   "func": "unassigned",
-  "desc": "Cord contacts the male export left unassigned (includes tiny CV/UNASGD rows).",
+  "desc": "In a real fly, cord contacts the male export left unassigned (includes tiny CV/UNASGD rows). It sits in the unassigned system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
   "img": "img/row68_VNC_UNASGD.jpg"
  },
  {
@@ -1052,7 +1052,7 @@
   "ms": 0,
   "ratio": null,
   "func": "no wiring",
-  "desc": "Neurons absent from the connections files: fragments without consensus wiring, kept out of hub assignment.",
+  "desc": "In a real fly, neurons absent from the connections files: fragments without consensus wiring, kept out of hub assignment. Simulated version: Neurons with no wiring in the export: counted and shown, but the sim cannot drive what has no connections.",
   "img": "img/row69_nowire.jpg"
  }
 ]

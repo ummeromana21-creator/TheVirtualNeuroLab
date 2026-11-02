@@ -36,6 +36,11 @@ for pin in ["function compileCard(question)", "function runCard()",
             "cmd: 'run_experiment'", "cmd: 'compile_card'"]:
     check(f"single-flow pin: {pin[:40]}", pin in APP)
 check("wss-aware lab link intact", "location.protocol === 'https:' ? 'wss' : 'ws'" in STUDY)
+for pin in ["controlGloss", "treatGloss", "effortGloss", "doseGloss",
+            "Every result is measured against these two",
+            "a unitless knob on the sim, not milligrams",
+            "rule 2 needs at least 5 per side"]:
+    check(f"trait gloss pin: {pin[:40]}", pin in APP)
 
 # 3. Methylxanthine data pins
 MX = ["caffeine", "theophylline", "theobromine"]
@@ -125,6 +130,77 @@ check("study loads bench script+style",
       "ask/app.js?v=" in HTML and "ask/style.css" in HTML)
 for rid in ["brainWrap", "tab0", "tab1", "stage", "caption", "benchTabs"]:
     check(f"rail pin: {rid}", f'id="{rid}"' in HTML)
+
+# 13. Cross-page return pins (run context survives navigation via sessionStorage)
+check("run context stored at ack", "card: CARD" in APP and "pendSet({ id:" in APP)
+check("rejoin restores context", "restoreRunContext(s.experiment.id)" in APP)
+check("restore needs id match", "p.id !== liveId" in APP)
+check("failed runs clear key", "don't haunt the next visit" in APP)
+check("finished renders card too", "renderCard(($('q')" in APP)
+_dop = K["substances"]["dopamine"]
+check("dopamine postsynaptic target", _dop["target"] == "firing.dopamine-receptor neurons"
+      and _dop["target_prediction"] == "higher" and _dop["expect"]["measure"] == _dop["target"]
+      and _dop["expect"]["direction"] == "higher")
+check("dopamine receptor measure on file", "firing.dopamine-receptor neurons" in K["measures"])
+check("acts_where on file", all("acts_where" in K["substances"][n] and "receptors" in K["substances"][n]
+      for n in ("dopamine", "caffeine", "theophylline", "theobromine")))
+check("where-it-acts card line", "Where it acts:" in APP and "acts_where: s.acts_where" in APP)
+check("offline procedure notes", "background excitatory drive on dopamine-receptor neurons ${X2" in APP
+      and "scales with glial tone (half rested, full tired)" in APP)
+check("dose model exact", "hill(d, 0.4, 2)" in APP and "0.25 * hill(d, 0.1, 1.5)" in APP
+      and "0.5 * hill(d, 3.1, 4)" in APP and "excitatory transmission ${X2" in APP
+      and "PDE_JOIN = 1.79" in APP and "dose_model !== 'chembl-v1'" in APP
+      and "weight_model !== 'norm-v1'" in APP)
+check("vision counts recalibrated", "2,244 banc, 2,821 malecns" in K["stimuli"]["light"]["assays"]["targets"]["facts"])
+check("chembl evidence", any("8.5" in e for e in K["substances"]["theophylline"]["evidence"])
+      and any("32.5" in e for e in K["substances"]["caffeine"]["evidence"])
+      and any("105" in e for e in K["substances"]["theobromine"]["evidence"]))
+check("theophylline two-arm sync", "phosphodiesterase at higher doses" in K["substances"]["theophylline"]["mechanism"]
+      and "PDE EC50" in K["substances"]["theophylline"]["mechanism_confidence"])
+check("dose picker", 'data-dose="${d}"' in APP and "[0.25, 0.5, 1.5]" in APP
+      and "DOSES.includes(d)" in APP and "CARD.dose = d" in APP)
+check("dose threaded", "amount: DOSE_DEFAULT" in APP and "dose ${c.substance} ${dose}" in APP
+      and "recDose(rec)" in APP)
+check("engagement annotation", "second action joins" in APP and "hill(dose, 3.1, 4)" in APP
+      and "hill(dose, 0.1, 1.5)" in APP)
+check("dose curve", "list_notebook" in APP and "Dose–response" in APP and 'id="curve"' in APP
+      and "runSweep" in APP and ".doseseg" in CSS)
+check("pooling matches member entries", "poolCurve(recs, measure, sub)" in APP
+      and "one entry per member" in APP)
+check("vision measures on file", "firing.photoreceptors" in K["measures"]
+      and "firing.visual targets" in K["measures"])
+check("vision stimulus entry", "light" in K["stimuli"] and "eye" in K["stimuli"]["light"]["assays"]
+      and "targets" in K["stimuli"]["light"]["assays"])
+check("light card template", "compileStimulus" in APP and "findStimulus" in APP
+      and "stimulus ${a.channel} level ${a.level}" in APP)
+check("stimulus offline lines", "set ${a.key} ${a.value}" in APP and "awake floor for target assays" in APP
+      and K["stimuli"]["light"]["assays"]["eye"]["setup"][0] == {"cmd": "set_param", "key": "I_vis", "value": 2.0})
+check("dose UI gated to dosable", "c.dosable === false" in APP and "treatLabel(rec" in APP)
+check("mutants on file", all(n in K["mutants"] for n in ("ninaE_ko", "Orco_ko", "para_ko", "Gr66a_ko"))
+      and K["mutants"]["para_ko"]["measure"] == "firing_all"
+      and K["mutants"]["Gr66a_ko"]["measure"] == "firing.taste neurons"
+      and "firing.taste neurons" in K["measures"])
+check("deet contact route", "bitter-taste neurons on contact" in K["substances"]["deet"]["mechanism"]
+      and "assumption S3" in K["substances"]["deet"]["not_modelled"]
+      and "contact route, S3" in APP)
+check("deet taste secondary", K["substances"]["deet"]["behavior"] == ["banana_dist", "firing.taste neurons"]
+      and "sub.name === 'deet'" in APP and "key: 'I_taste', value: 2.0" in APP)
+check("mutant card template", "compileMutant" in APP and "findMutant" in APP
+      and "raise her as a ${a.name} mutant" in APP)
+check("knowledge fetch versioned", "knowledge.json?v=" in APP)
+check("region subset file", "library/subsets.json" in APP)
+check("region sense file", "library/sensegroups.json" in APP)
+check("dose row icon", '#i-drop' in APP and 'id="i-drop"' in HTML)
+check("dose buttons horizontal", ".doseseg { display:flex" in CSS and 'aria-pressed="true"' in CSS)
+check("local-first substances", "trio.length === 1 ? compileCard" in APP)
+check("ai wait capped", "askp({ cmd: 'compile_card', question }, 30000)" in APP)
+check("showcard guarded", "Could not write this card" in APP)
+SJ = (HERE / ".." / "study.js").read_text()
+check("send race safe", "dropped between check and send" in SJ)
+check("waiters flushed on close", "never strand a waiter on a dead socket" in SJ)
+check("region name routing", "/^what does (.+?) do" in APP and "triedRegion" in APP)
+check("region fallback guarded", "showCard(question, true)" in APP)
+check("food stops atlas words", "'male', 'female', 'left', 'right', 'subset'" in APP)
 
 print()
 if fails:

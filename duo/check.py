@@ -29,7 +29,8 @@ for ref in ("style.css", "app.js", "auth.js", "server.py", "AUTH.md",
             "../study.html", "../library/index.html"):
     check(f"ref {ref}", os.path.exists(os.path.join(HERE, ref)))
 check("archived lab.html kept",
-      os.path.exists(os.path.join(HERE, "..", "..", "archive", "lab.html")))
+      any(os.path.exists(os.path.join(HERE, *p, "archive", "lab.html"))
+          for p in (("..", ".."), ("..",))))  # workshop layout or repo-root layout
 check("cache-busted assets",
       "style.css?v=" in html and "app.js?v=" in html and "auth.js?v=" in html)
 check("no hotlinked lab css/js",

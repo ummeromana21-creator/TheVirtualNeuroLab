@@ -5,6 +5,9 @@
 /* ---------- library view ---------- */
 .top { display:flex; gap:14px; align-items:center; padding:14px 22px;
   border-bottom:1px solid var(--line); background:var(--panel); position:sticky; top:0; z-index:5; }
+.top .brand h1 { font-family:"Newsreader","Iowan Old Style",Georgia,serif; font-weight:500;
+  font-size:20px; margin:0; white-space:nowrap; }
+.top .brand #sub { font-size:11.5px; color:var(--muted); margin:1px 0 0; white-space:nowrap; }
 .topsearch { flex:1; max-width:420px; margin-left:auto; display:flex; align-items:center; gap:8px;
   background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:0 10px; height:34px; }
 .topsearch .ic { width:16px; height:16px; color:var(--muted); flex:none; }
@@ -68,6 +71,24 @@ main { padding:18px 22px 60px; min-width:0; }
 #stage.grabbing { cursor:grabbing; }
 #gl { position:absolute; inset:0; width:100%; height:100%; display:block; }
 #fallback { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#0b0f17; }
+#cellwrap { position:absolute; inset:0; }
+#cellwrap[hidden] { display:none; }
+#cellgl { position:absolute; inset:0; }
+#cellgl canvas { display:block; width:100%; height:100%; }
+.cvviews { position:absolute; top:10px; right:10px; display:flex; gap:6px; }
+.cvviews button { padding:6px 10px; border:1px solid var(--line); border-radius:7px;
+  background:var(--panel); color:var(--ink); font:inherit; font-size:13px; cursor:pointer; }
+.cvviews button[aria-pressed="true"] { border-color:var(--sage); color:var(--sage); }
+#cvscale { position:absolute; left:14px; bottom:12px; color:var(--ink); font-size:12px; pointer-events:none; }
+#cvscale .bar { height:3px; background:var(--ink); margin-bottom:3px; }
+.fine { color:var(--muted); font-size:12px; border-top:1px solid var(--line); margin-top:10px; padding-top:8px; }
+.fine p { margin:4px 0; }
+p.fine { border-top:1px solid var(--line); }
+.ntsub { font-size:12px; color:var(--muted); }
+.sibline { font-size:13px; margin-top:8px; }
+.clickline { font-size:13px; margin-top:8px; word-break:break-all; }
+.clickline a { color:var(--sage); }
+.sw { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; }
 .loader { position:absolute; inset:0; display:flex; gap:10px; align-items:center; justify-content:center;
   font-size:12.5px; color:var(--muted); background:var(--panel); }
 .ring { width:30px; height:30px; border-radius:50%; border:1.5px solid var(--line);
@@ -116,6 +137,7 @@ main { padding:18px 22px 60px; min-width:0; }
 .asklink { margin-top:10px; display:block; text-align:center; font-size:14px; color:var(--ink);
   background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px 14px; }
 .asklink:hover { border-color:var(--sage); background:var(--sage-tint); }
+.vsrc { margin:0; font-size:12px; color:var(--muted); }
 
 .cite { border-top:1px solid var(--line); padding:14px 22px 26px; font-size:12px;
   color:var(--muted); max-width:980px; }

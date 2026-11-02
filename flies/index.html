@@ -3,11 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meet the Flies — Fly Study</title>
+<title>Vivarium · Fly Lab</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234d5a3d'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=1">
+<link rel="stylesheet" href="../feather.css?v=2">
 <style>
 :root{
   --bg:#f6f1e7; --panel:#fbf8f1; --line:#e7e0d1; --ink:#1b1a17; --muted:#6d685d;
@@ -29,23 +28,14 @@ button{font-family:inherit; color:inherit}
 :focus-visible{outline:2px solid var(--sage); outline-offset:2px}
 .ic{width:20px; height:20px; flex:none}
 .hero{position:relative; height:100vh; height:100dvh; overflow:hidden; display:grid;
-  grid-template-columns:196px minmax(0,1fr) clamp(300px,27vw,356px);
-  grid-template-rows:minmax(0,1fr);
+  grid-template-rows:auto minmax(0,1fr);
+  grid-template-columns:minmax(0,1fr) clamp(300px,27vw,356px);
   background:var(--bg); color:var(--ink); transition:background .6s, color .6s}
+#navMount{grid-column:1 / -1; position:relative; z-index:20}
 #gl{position:absolute; inset:0; width:100%; height:100%; z-index:5; pointer-events:none; display:block}
 /* ---------- sidebar ---------- */
-.sidebar{display:flex; flex-direction:column; padding:22px 12px 18px 24px; border-right:1px solid var(--line); min-height:0}
 .brand{font-family:var(--serif); font-size:26px; letter-spacing:-.01em; margin:0; font-weight:500}
 .brand small{display:block; font-family:var(--sans); font-size:11.5px; color:var(--muted); letter-spacing:.02em; margin-top:2px}
-.nav{list-style:none; margin:20px 0 12px; padding:0; display:flex; flex-direction:column; gap:2px}
-.nav a{display:flex; gap:16px; align-items:flex-start; padding:7px 10px; border-radius:10px;
-  text-decoration:none; color:inherit; font-size:14.5px}
-.nav a:hover{background:var(--chip)}
-.nav a[aria-current="page"]{background:var(--sage-tint)}
-.nav a .ic{margin-top:1px}
-.nav small{display:block; font-size:12px; color:var(--muted); margin-top:3px}
-.sourcenote{margin-top:auto; font-size:11.5px; line-height:1.5; color:var(--muted); padding:0 10px}
-.sourcenote a{color:inherit}
 /* ---------- centre ---------- */
 .main{display:grid; grid-template-rows:auto minmax(0,1fr); padding:48px 18px 14px 26px; min-width:0; min-height:0}
 .tabs{display:flex; gap:10px; margin:0; padding:0; list-style:none}
@@ -59,11 +49,10 @@ button{font-family:inherit; color:inherit}
 .tab .lt{font-family:var(--serif); font-style:italic; font-size:12.5px; color:var(--muted)}
 #stage{position:relative; min-height:0; touch-action:none; cursor:grab; user-select:none; -webkit-user-select:none}
 #stage.dragging{cursor:grabbing}
-.ground{position:absolute; left:50%; bottom:15%; width:min(62%,460px); height:44px;
+.ground{position:absolute; left:50%; bottom:15%; width:min(92%,720px); height:44px;
   transform:translateX(-50%);
   background:radial-gradient(closest-side, rgba(var(--shadow),.22), transparent);
   transition:opacity .3s, transform .3s}
-.hero.switching .ground{opacity:0; transform:translateX(-50%) scaleX(.4)}
 .loader{position:absolute; left:50%; top:44%; transform:translate(-50%,-50%);
   display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--muted);
   opacity:0; transition:opacity .3s; pointer-events:none}
@@ -123,6 +112,15 @@ button{font-family:inherit; color:inherit}
 .card::-webkit-scrollbar{width:6px}
 .card::-webkit-scrollbar-thumb{background:var(--line); border-radius:3px}
 .card article{display:flex; flex-direction:column; min-height:100%}
+.vivrow{display:flex; align-items:center; gap:8px; margin:8px 0; font-size:12.5px}
+.vivrow.dim{color:var(--muted); font-size:12px}
+.vivrow .dot{width:9px; height:9px; border-radius:50%; background:var(--muted); flex:none}
+.vivrow .dot.live{background:var(--sage)}
+.seg{display:flex; gap:6px}
+.seg button{flex:1; padding:7px 0; border:1px solid var(--line); border-radius:8px;
+  background:var(--bg); cursor:pointer; font-size:12.5px}
+.seg button[aria-pressed="true"]{background:var(--sage); border-color:var(--sage); color:var(--sage-ink)}
+p.fine{color:var(--muted); font-size:12px; border-top:1px solid var(--line); margin:10px 0 0; padding-top:8px}
 .eyebrow{font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-weight:600; margin:0}
 h1{font-family:var(--serif); font-weight:500; font-size:clamp(40px,4.2vw,54px);
   line-height:1; letter-spacing:-.025em; margin:8px 0 0}
@@ -160,23 +158,22 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
 .swap-in{animation:rise .6s var(--ease) backwards}
 @keyframes rise{from{opacity:0; transform:translateY(12px)}}
 /* ---------- focus mode ---------- */
-.hero.focus .sidebar{opacity:0; transform:translateX(-24px); pointer-events:none}
+.hero.focus #navMount{opacity:0; transform:translateY(-16px); pointer-events:none}
 .hero.focus .info{opacity:0; transform:translateX(24px); pointer-events:none}
 .hero.focus .tabs{opacity:0; transform:translateY(-16px); pointer-events:none}
-.sidebar,.info,.tabs{transition:opacity .5s var(--ease), transform .5s var(--ease)}
+#navMount,.info,.tabs{transition:opacity .5s var(--ease), transform .5s var(--ease)}
 /* ---------- phone top bar ---------- */
 .phonetop{display:none}
 /* ---------- tablet ---------- */
 @media (max-width:1100px){
   .hero{grid-template-columns:minmax(0,1fr) clamp(280px,36vw,340px)}
-  .sidebar{display:none}
   .main{padding-left:20px}
 }
 /* ---------- phone ---------- */
 @media (max-width:760px){
   .hero{display:flex; flex-direction:column; height:100dvh}
   .phonetop{display:flex; align-items:center; gap:10px; padding:10px 14px 0}
-  .phonetop .brand{font-size:21px; margin-right:auto}
+  .phonetop .brand{display:none}
   .phonetop .iconbtn{border-radius:50%}
   .psearch{position:absolute; top:52px; left:14px; right:14px; z-index:8; display:none;
     background:var(--panel); border:1px solid var(--sage); border-radius:8px; padding:0 10px; height:36px}
@@ -210,8 +207,6 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
 /* ---------- short viewports ---------- */
 @media (max-height:620px) and (min-width:761px){
   .main{padding-top:20px}
-  .sidebar{padding-top:14px}
-  .sourcenote{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s !important; transition-duration:.001s !important}
@@ -258,16 +253,7 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
 <div class="hero" id="hero" data-light="day">
   <canvas id="gl"></canvas>
 
-  <aside class="sidebar" aria-label="Portal">
-    <p class="brand">Fly Guide<small>Meet the flies</small></p>
-    <nav aria-label="Pages"><ul class="nav">
-      <li><a href="../study.html"><svg class="ic"><use href="#i-flask"/></svg><span>Study<small>Computational lab</small></span></a></li>
-      <li><a href="../library/"><svg class="ic"><use href="#i-layers"/></svg><span>Fly Atlas<small>66 brain regions</small></span></a></li>
-      <li><a href="../ask/"><svg class="ic"><use href="#i-chat"/></svg><span>Ask the flies<small>Run it live</small></span></a></li>
-      <li><a href="./" aria-current="page"><svg class="ic"><use href="#i-eye"/></svg><span>Meet the flies<small>Maxime · Hagrid</small></span></a></li>
-    </ul></nav>
-    <p class="sourcenote">Neuron counts from the <a href="../library/">Fly Atlas</a> wiring: BANC (female) + Male CNS.</p>
-  </aside>
+  <header id="navMount"></header>
 
   <div class="phonetop">
     <p class="brand">Fly Guide</p>
@@ -329,17 +315,29 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
   </section>
 </div>
 
+<script src="../duo/auth.js?v=3"></script>
+<script src="../feather.js?v=2"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Vivarium', base: '../', current: 'flies' });
+Feather.init();
+</script>
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js" } }</script>
 <script type="module">
 import * as THREE from 'three';
+import { buildFly } from './fly.js';
 
 // =====================================================================
 // 1. CONFIG + FLY DATA (atlas numbers from ../library/data.json hub sums)
 // =====================================================================
 const HOME_YAW = 0.75, HOME_PITCH = 0.12;   // three-quarter view, head right
 const ZMIN = 0.55, ZMAX = 3.4, CLOSEUP_Z = 2.6;
-const SWITCH_MS = 780;
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Vivarium live mapping: Maxime follows her control-box slot, Hagrid his
+// treatment-box slot, so a running experiment visibly splits the table.
+const SLOTS = ['control:banc', 'treatment:malecns'];
+const ARENA_K = 0.11, HALF_X = [-1.5, 1.5];  // arena ±10 -> ±1.1 per half
+const LIVE_SCALE = 0.55;  // specimens shrink toward their true spots when live
+const BRAIN_POS = [0, 0.12, 0.68], BRAIN_S = 0.16;  // seated by eye (see sheet note)
 
 const FLIES = [
   {
@@ -424,9 +422,6 @@ const PROXY_MAT = new THREE.MeshBasicMaterial({
 // =====================================================================
 const $ = (id) => document.getElementById(id);
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-const easeInCubic = (t) => t * t * t;
-const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-const outBack = (t) => 1 + 2.2 * Math.pow(t - 1, 3) + 1.2 * Math.pow(t - 1, 2);
 const damp = (rate, dt) => 1 - Math.exp(-dt * rate);
 
 const hero = $('hero'), stage = $('stage'), canvas = $('gl'), loader = $('loader'),
@@ -444,224 +439,8 @@ function showFallback(msg) {
 addEventListener('error', (e) => { if (!booted) showFallback('This specimen could not be prepared: ' + (e.message || 'script error')); });
 addEventListener('unhandledrejection', (e) => { if (!booted) showFallback('This specimen could not be prepared: ' + (e.reason || 'load error')); });
 
-// =====================================================================
-// 3. CODE-DRAWN TEXTURES (no assets: CanvasTexture only)
-// =====================================================================
-function makeTex(w, h, draw, srgb = true) {
-  const c = document.createElement('canvas');
-  c.width = w; c.height = h;
-  draw(c.getContext('2d'), w, h);
-  const t = new THREE.CanvasTexture(c);
-  if (srgb) t.colorSpace = THREE.SRGBColorSpace;
-  t.anisotropy = 8;
-  return t;
-}
-// Abdomen: cuticle base + transverse dark bands. Canvas bottom = rear tip
-// (lathe v=0 at the first profile point).
-function abdomenTex(male) {
-  return makeTex(256, 256, (g, w, h) => {
-    const base = g.createLinearGradient(0, 0, 0, h);
-    base.addColorStop(0, '#d3ab74'); base.addColorStop(1, '#bd9260');
-    g.fillStyle = base; g.fillRect(0, 0, w, h);
-    g.fillStyle = '#2b2320';
-    // bands widen toward the rear (larger y = rear)
-    const bands = male  // fractions from the rear tip; male rear is solid dark
-      ? [[0.00, 0.45], [0.52, 0.60], [0.68, 0.74], [0.84, 0.88]]
-      : [[0.04, 0.17], [0.22, 0.32], [0.38, 0.46], [0.54, 0.60], [0.70, 0.74], [0.85, 0.88]];
-    for (const [a, b] of bands) g.fillRect(0, h * (1 - b), w, h * (b - a));
-    // speckle for cuticle variation
-    g.fillStyle = 'rgba(60,40,20,0.08)';
-    for (let i = 0; i < 700; i++) g.fillRect(Math.random() * w, Math.random() * h, 1.5, 1.5);
-  });
-}
-// Thorax: tan with faint longitudinal stripes (constant-u lines).
-const thoraxTex = () => makeTex(256, 256, (g, w, h) => {
-  g.fillStyle = '#b28a5c'; g.fillRect(0, 0, w, h);
-  g.fillStyle = 'rgba(70,50,28,0.35)';
-  for (const x of [0.30, 0.42, 0.58, 0.70]) g.fillRect(w * x - 3, 0, 6, h);
-  g.fillStyle = 'rgba(255,235,200,0.10)';
-  for (const x of [0.24, 0.36, 0.48, 0.60, 0.72]) g.fillRect(w * x - 2, 0, 4, h);
-  g.fillStyle = 'rgba(60,40,20,0.10)';
-  for (let i = 0; i < 600; i++) g.fillRect(Math.random() * w, Math.random() * h, 1.5, 1.5);
-});
-// Compound eye: offset rows of ommatidia facets, shaded per facet.
-const eyeTex = () => makeTex(256, 256, (g, w, h) => {
-  g.fillStyle = '#7c1f1f'; g.fillRect(0, 0, w, h);
-  const r = 7, dx = 13, dy = 11;
-  for (let row = 0, y = 0; y < h + dy; y += dy, row++) {
-    for (let x = (row % 2) * dx / 2; x < w + dx; x += dx) {
-      const grad = g.createRadialGradient(x - 2, y - 2, 1, x, y, r);
-      grad.addColorStop(0, '#d95f4a'); grad.addColorStop(0.55, '#b03227'); grad.addColorStop(1, '#6e1a14');
-      g.fillStyle = grad;
-      g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
-    }
-  }
-});
-// Wing membrane: faint tint + veins. Canvas bottom = leading edge,
-// left = wing base (u=0), right = tip.
-const wingTex = () => makeTex(256, 128, (g, w, h) => {
-  g.clearRect(0, 0, w, h);
-  g.fillStyle = 'rgba(240,240,235,0.22)'; g.fillRect(0, 0, w, h);
-  g.strokeStyle = 'rgba(80,68,56,0.9)'; g.lineCap = 'round';
-  g.lineWidth = 6;  // leading edge (costa)
-  g.beginPath(); g.moveTo(2, h - 3); g.lineTo(w - 4, 6); g.stroke();
-  g.lineWidth = 3.5;  // longitudinal veins fanning from the base
-  const base = [6, h - 8];
-  for (const ty of [0.10, 0.32, 0.54, 0.76, 0.94]) {
-    g.beginPath(); g.moveTo(...base);
-    g.quadraticCurveTo(w * 0.4, h * ty + 8, w - 3, h * ty); g.stroke();
-  }
-  g.lineWidth = 2;  // crossveins
-  g.beginPath(); g.moveTo(w * 0.30, h * 0.72); g.lineTo(w * 0.30, h * 0.92); g.stroke();
-  g.beginPath(); g.moveTo(w * 0.55, h * 0.42); g.lineTo(w * 0.55, h * 0.62); g.stroke();
-});
-
-// =====================================================================
-// 4. FLY BUILDER (procedural Drosophila; faces +Z, up +Y)
-// =====================================================================
+// Fly builder now shared with the story page (single source: ./fly.js).
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
-function limb(a, b, r1, r2, mat) {
-  const dir = V3(0, 0, 0).subVectors(b, a);
-  const len = dir.length();
-  const m = new THREE.Mesh(new THREE.CylinderGeometry(r2, r1, len, 10), mat);
-  m.position.copy(a).addScaledVector(dir, 0.5);
-  m.quaternion.setFromUnitVectors(V3(0, 1, 0), dir.normalize());
-  return m;
-}
-function ball(r, mat, x, y, z, w = 32, h = 24) {
-  const m = new THREE.Mesh(new THREE.SphereGeometry(r, w, h), mat);
-  m.position.set(x, y, z);
-  return m;
-}
-
-// Wing blade: Shape in XY (x = base→tip, +y = trailing), UVs remapped to
-// the bounding box so the vein texture spans base→tip, leading→trailing.
-function wingGeo(mirror) {
-  const X = (v) => v * mirror;
-  const s = new THREE.Shape();
-  s.moveTo(X(0), 0.10);
-  s.quadraticCurveTo(X(0.7), 0.30, X(1.25), 0.12);
-  s.quadraticCurveTo(X(1.6), 0.02, X(1.7), -0.06);
-  s.quadraticCurveTo(X(1.1), -0.20, X(0.5), -0.22);
-  s.quadraticCurveTo(X(0.15), -0.22, X(0), -0.12);
-  s.closePath();
-  const g = new THREE.ShapeGeometry(s, 12);
-  g.computeBoundingBox();
-  const bb = g.boundingBox, sx = bb.max.x - bb.min.x, sy = bb.max.y - bb.min.y;
-  const pos = g.attributes.position, uv = g.attributes.uv;
-  for (let i = 0; i < uv.count; i++)
-    uv.setXY(i, (pos.getX(i) - bb.min.x) / sx, (pos.getY(i) - bb.min.y) / sy);
-  g.rotateX(-Math.PI / 2);   // lay flat: length ±X, leading edge +Z
-  g.rotateX(-0.15);          // slight blade pitch, leading edge up
-  return g;
-}
-
-function buildFly(male) {
-  const model = new THREE.Group();
-  // Shared material roles.
-  const cuticle = new THREE.MeshStandardMaterial({ color: 0xbb9160, roughness: 0.6, metalness: 0.02 });
-  const dark = new THREE.MeshStandardMaterial({ color: 0x241d18, roughness: 0.7 });
-  const legMat = new THREE.MeshStandardMaterial({ color: 0x5a4630, roughness: 0.7 });
-  const paleMat = new THREE.MeshStandardMaterial({ color: 0xd9c9a8, roughness: 0.5 });
-  const eyeMap = eyeTex();
-  const eyeMat = new THREE.MeshStandardMaterial({
-    map: eyeMap, bumpMap: eyeMap, bumpScale: 0.6,
-    roughness: 0.32, metalness: 0.05,
-  });
-  const abdomenMat = new THREE.MeshStandardMaterial({ map: abdomenTex(male), roughness: 0.55, metalness: 0.03 });
-  const thoraxMat = new THREE.MeshStandardMaterial({ map: thoraxTex(), roughness: 0.6, metalness: 0.02 });
-  const wingMat = new THREE.MeshStandardMaterial({
-    map: wingTex(), transparent: true, opacity: 0.62, roughness: 0.15,
-    metalness: 0, side: THREE.DoubleSide, depthWrite: false,
-  });
-
-  // Abdomen: lathe from a traced profile (female pointed, male blunt).
-  const prof = male  // [0,0] first: closes the rear tip (open lathes show a hole)
-    ? [[0, 0], [0.10, 0.02], [0.28, 0.10], [0.40, 0.35], [0.44, 0.65], [0.42, 0.95], [0.36, 1.20], [0.26, 1.35]]
-    : [[0, 0], [0.18, 0.08], [0.34, 0.30], [0.44, 0.60], [0.47, 0.90], [0.42, 1.20], [0.34, 1.40], [0.22, 1.50]];
-  const abd = new THREE.Mesh(
-    new THREE.LatheGeometry(prof.map(([x, y]) => new THREE.Vector2(x, y)), 48), abdomenMat);
-  abd.geometry.rotateX(Math.PI / 2);   // axis → +Z, tip at z=0
-  abd.position.set(0, 0.02, male ? -1.22 : -1.32);
-  model.add(abd);
-
-  // Thorax + head.
-  const thorax = ball(0.5, thoraxMat, 0, 0.06, 0.18);
-  thorax.geometry.rotateX(Math.PI / 2);  // stripes run front-to-back
-  thorax.scale.set(0.86, 0.86, 1.10);
-  model.add(thorax);
-  const head = ball(0.36, cuticle, 0, 0.10, 0.72);
-  head.scale.set(1.12, 0.92, 0.88);
-  model.add(head);
-
-  // Compound eyes + ocelli + antennae + proboscis.
-  for (const sx of [1, -1]) {
-    const eye = ball(0.27, eyeMat, sx * 0.20, 0.15, 0.70);
-    eye.scale.set(0.82, 1.0, 0.95);  // seated into the head, less googly
-    model.add(eye);
-    const fun = ball(0.055, legMat, sx * 0.11, 0.02, 1.00);
-    fun.scale.set(1, 1.2, 0.8);
-    model.add(fun, ball(0.03, legMat, sx * 0.09, 0.06, 0.96));
-    model.add(limb(V3(sx * 0.11, 0.02, 1.03), V3(sx * 0.22, -0.08, 1.36), 0.011, 0.007, dark));
-  }
-  model.add(ball(0.028, dark, 0, 0.42, 0.62));
-  model.add(ball(0.028, dark, 0.06, 0.40, 0.58), ball(0.028, dark, -0.06, 0.40, 0.58));
-  const prob = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.2, 16), legMat);
-  prob.position.set(0, -0.20, 0.92); prob.rotation.x = Math.PI * 0.75;
-  model.add(prob);
-
-  // Wings: dihedral group > yaw group > blade.
-  for (const sx of [1, -1]) {
-    const dihedral = new THREE.Group(), yaw = new THREE.Group();
-    const blade = new THREE.Mesh(wingGeo(sx), wingMat);
-    blade.renderOrder = 2;
-    blade.scale.set(1.18, 1, 1.28);  // broader blade, past the abdomen tip
-    yaw.add(blade);
-    yaw.rotation.y = sx * 1.35;  // swept back over the abdomen
-    dihedral.add(yaw);
-    dihedral.rotation.z = sx * 0.06;  // lying flatter
-    dihedral.position.set(sx * 0.13, 0.40, -0.10);
-    model.add(dihedral);
-    // Halteres (Diptera signature): stalk + knob behind each wing.
-    model.add(limb(V3(sx * 0.26, 0.26, -0.30), V3(sx * 0.48, 0.30, -0.46), 0.018, 0.014, paleMat));
-    model.add(ball(0.055, paleMat, sx * 0.48, 0.30, -0.46));
-  }
-
-  // Legs: femur / tibia / tarsus posed per pair; males get a sex comb.
-  const pairs = [[0.38, 0.12], [0.14, 0.0], [-0.12, -0.14]];
-  pairs.forEach(([z, dz], pi) => {
-    for (const sx of [1, -1]) {
-      const hip = V3(sx * 0.24, -0.20, z), knee = V3(sx * 0.60, -0.58, z + dz),
-        ankle = V3(sx * 0.44, -1.00, z + dz * 1.5 + 0.05), foot = V3(sx * 0.42, -1.30, z + 0.14);
-      model.add(limb(hip, knee, 0.042, 0.034, legMat));
-      model.add(limb(knee, ankle, 0.028, 0.022, legMat));
-      model.add(limb(ankle, foot, 0.016, 0.010, legMat));
-      if (male && pi === 0) {  // foreleg sex comb
-        const comb = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.16, 0.03), dark);
-        comb.position.set(sx * 0.42, -0.39, z + 0.10);
-        comb.rotation.z = sx * 0.7;
-        model.add(comb);
-      }
-    }
-  });
-
-  // Bristles (macrochaetae): thorax dorsum, scutellum, head.
-  const bristle = (x, y, z) => {
-    const b = new THREE.Mesh(new THREE.ConeGeometry(0.008, 0.16, 6), dark);
-    b.position.set(x, y, z); b.rotation.x = -0.95;
-    model.add(b);
-  };
-  for (const sx of [1, -1]) {
-    bristle(sx * 0.12, 0.56, -0.05); bristle(sx * 0.18, 0.54, -0.25);
-    bristle(sx * 0.10, 0.58, 0.15); bristle(sx * 0.08, 0.46, -0.38);
-    bristle(sx * 0.15, 0.40, 0.72);
-  }
-
-  if (male) model.scale.setScalar(0.82);  // true relative size (≈2.0 vs 2.5 mm)
-  model.traverse((o) => { if (o.isMesh) o.frustumCulled = false; });
-  return model;
-}
-
 // =====================================================================
 // 5. RENDERER, SCENE, RIGS, FRAMING, MAIN LOOP
 // =====================================================================
@@ -678,6 +457,100 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;  // r160 has no NeutralTM
 renderer.toneMappingExposure = 1.05;
 
 const scene = new THREE.Scene();
+// Vivarium table: both specimens stand side by side and turn as one.
+const table = new THREE.Group();
+scene.add(table);
+const SPREAD = 1.5;  // pivot offset in units: Maxime left, Hagrid right
+// ---------- vivarium set-dressing (illustrative, not data) ----------
+// One open-top glass jar per half: agar floor, banana marker, yeast patch,
+// a leafy sprig. Each half rides a stage group pinned to its fly's feet.
+const FOOT_Y = -1.30;  // lowest foot point in model units (fly.js legs)
+const stages = [], bananas = [], sprigs = [];
+function agarTex() {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const g = c.getContext('2d');
+  g.fillStyle = '#e2d3b3';
+  g.fillRect(0, 0, 256, 256);
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 900; i++) {  // cornmeal + yeast speckle
+    g.fillStyle = rnd() > 0.5 ? 'rgba(120,95,60,0.25)' : 'rgba(245,238,220,0.5)';
+    const r = 1 + rnd() * 2.5;
+    g.beginPath();
+    g.arc(rnd() * 256, rnd() * 256, r, 0, 7);
+    g.fill();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+{
+  const peel = new THREE.MeshStandardMaterial({ color: 0xe8c33a, roughness: 0.55 });
+  const tipM = new THREE.MeshStandardMaterial({ color: 0x5a4630, roughness: 0.7 });
+  const glassM = new THREE.MeshPhysicalMaterial({
+    color: 0xdfe8e4, roughness: 0.06, transparent: true, opacity: 0.08,
+    side: THREE.DoubleSide, depthWrite: false,
+  });
+  const floorM = new THREE.MeshStandardMaterial({ map: agarTex(), roughness: 0.95 });
+  const yeastM = new THREE.MeshStandardMaterial({ color: 0xf2e9d2, roughness: 1 });
+  const stemM = new THREE.MeshStandardMaterial({ color: 0x5d6b3a, roughness: 0.9 });
+  const leafM = new THREE.MeshStandardMaterial({ color: 0x6f8f4e, roughness: 0.8, side: THREE.DoubleSide });
+  const leafShape = new THREE.Shape();
+  leafShape.moveTo(0, 0);
+  leafShape.quadraticCurveTo(0.09, 0.10, 0, 0.26);
+  leafShape.quadraticCurveTo(-0.09, 0.10, 0, 0);
+  const leafGeo = new THREE.ShapeGeometry(leafShape, 6);
+  const HW = 10 * ARENA_K, WALL_H = 2.3;
+  for (let i = 0; i < 2; i++) {
+    const st = new THREE.Group();
+    st.position.x = HALF_X[i];
+    st.userData.stage = i;
+    const floor = new THREE.Mesh(new THREE.CircleGeometry(1.55, 48), floorM);
+    floor.rotation.x = -Math.PI / 2;
+    floor.userData.env = 'floor';
+    st.add(floor);
+    for (const [w, x, z, ry] of [[2 * HW, 0, -HW, 0], [2 * HW, 0, HW, 0], [2 * HW, -HW, 0, Math.PI / 2], [2 * HW, HW, 0, Math.PI / 2]]) {
+      const wall = new THREE.Mesh(new THREE.PlaneGeometry(w, WALL_H), glassM);
+      wall.position.set(x, WALL_H / 2, z);
+      wall.rotation.y = ry;
+      wall.userData.env = 'glass';
+      st.add(wall);
+    }
+    const b = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.055, 10, 20, 2.2), peel);
+    body.rotation.set(Math.PI / 2, 0, 0.6);
+    const tip = new THREE.Mesh(new THREE.ConeGeometry(0.03, 0.09, 8), tipM);
+    tip.position.set(0.10, 0.02, 0.13);
+    b.add(body, tip);
+    b.position.set(5 * ARENA_K, 0.055, 0);  // default sugar (5, 0), resting on the agar
+    b.userData.env = 'banana';
+    st.add(b);
+    bananas.push(b);
+    const yeast = new THREE.Mesh(new THREE.CircleGeometry(0.34, 24), yeastM);
+    yeast.rotation.x = -Math.PI / 2;
+    yeast.position.set(-0.55, 0.004, 0.45);
+    yeast.userData.env = 'yeast';
+    st.add(yeast);
+    const sprig = new THREE.Group();
+    const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.03, 0.85, 6), stemM);
+    stem.position.y = 0.42;
+    sprig.add(stem);
+    [[0.30, 0.5], [0.52, 2.4], [0.70, 4.4]].forEach(([y, a]) => {
+      const leaf = new THREE.Mesh(leafGeo, leafM);
+      leaf.position.y = y;
+      leaf.rotation.set(0.5, a, 0.25);
+      sprig.add(leaf);
+    });
+    sprig.position.set(0.62, 0, -0.58);
+    sprig.userData.env = 'sprig';
+    st.add(sprig);
+    sprigs.push(sprig);
+    table.add(st);
+    stages.push(st);
+  }
+}
+scene.fog = new THREE.Fog(0xf6f1e7, 9, 22);
 const camera = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
 camera.position.set(0, 0, 5);
 camera.lookAt(0, 0, 0);
@@ -688,9 +561,9 @@ key.position.set(2.5, 4, 5);
 const rim = new THREE.DirectionalLight(0xbfd8ff, 0.7);
 rim.position.set(-4, 2, -3);
 scene.add(hemi, key, rim);
-const DAY = { hemi: 0.8, key: 1.6, keyC: new THREE.Color(0xfff4e2), rim: 0.7, exp: 1.05 };
-const DUSK = { hemi: 0.25, key: 2.6, keyC: new THREE.Color(0xffc98a), rim: 1.9, exp: 1.0 };
-let duskW = 0, duskTarget = 0;  // eased 0..1
+const DAY = { hemi: 0.8, key: 1.6, keyC: new THREE.Color(0xfff4e2), rim: 0.7, exp: 1.05, fog: new THREE.Color(0xf6f1e7) };
+const DUSK = { hemi: 0.25, key: 2.6, keyC: new THREE.Color(0xffc98a), rim: 1.9, exp: 1.0, fog: new THREE.Color(0x14170f) };
+let duskW = 0, duskTarget = 0, brainSide = false;  // eased 0..1
 
 const HOME_Q = new THREE.Quaternion()
   .setFromEuler(new THREE.Euler(HOME_PITCH, HOME_YAW, 0, 'YXZ'));
@@ -715,6 +588,7 @@ function buildRig(i) {
       if (p.scale) m.scale.set(p.scale[0], p.scale[1], p.scale[2]);
       m.frustumCulled = false;
       m.userData.part = p.text;
+      m.userData.fly = i;
       model.add(m);
       proxies.push(m);
     }
@@ -731,10 +605,96 @@ function buildRig(i) {
   }
   holder.scale.setScalar(normScale);
   spin.quaternion.copy(HOME_Q);
-  spin.add(holder); pivot.add(spin); scene.add(pivot);
-  pivot.visible = false;
-  rigs[i] = { pivot, spin, holder, model, proxies };
+  spin.add(holder); pivot.add(spin); table.add(pivot);
+  pivot.position.x = i === 0 ? -SPREAD : SPREAD;
+  pivot.visible = true;  // vivarium: both specimens on stage together
+  const gait = -(i * 2.1);  // per-fly walk phase so they don't step in sync
+  rigs[i] = { pivot, spin, holder, model, proxies, gait, stride: 0, zoomK: 1, brain: null };
+  buildBrain(rigs[i]);  // async; the fly stands without it until it lands
   return rigs[i];
+}
+
+// Real brain cloud seated in the stylized head (imagery: ../library/points).
+// Positions come from the data; the seating itself is placed by eye.
+const SOMAC_VIV = {
+  day: { optic: 0x2f5da3, central: 0x8a6d1a, sensory: 0x1e7d4f, visual_projection: 0x6a4fb3, descending: 0xb03a3a, ascending: 0xc26a8a, visual_centrifugal: 0x2a7f9e, motor: 0x555555, endocrine: 0x888888 },
+  dusk: { optic: 0x4c9be8, central: 0xf2b134, sensory: 0x3ec28f, visual_projection: 0x9b7bea, descending: 0xef5b5b, ascending: 0xff8fb1, visual_centrifugal: 0x7fd4e8, motor: 0xffffff, endocrine: 0xc0c0c0 },
+};
+async function buildBrain(rig) {
+  try {
+    const [P, C, idx, PH] = await Promise.all([
+      fetch('../library/points/somas.bin').then(r => r.arrayBuffer()).then(b => new Float32Array(b)),
+      fetch('../library/points/classes.bin').then(r => r.arrayBuffer()).then(b => new Uint8Array(b)),
+      fetch('../library/points/index.json').then(r => r.json()),
+      fetch('../library/points/photoreceptors.bin').then(r => r.arrayBuffer()).then(b => new Float32Array(b)).catch(() => null),
+    ]);
+    for (let i = 1; i < P.length; i += 3) P[i] = -P[i];  // FAFB +y runs down
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(P, 3));
+    const col = new Float32Array(P.length);
+    g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    const soma = new THREE.Points(g, new THREE.PointsMaterial({
+      size: 0.008, vertexColors: true, transparent: true, opacity: 0.85,
+      sizeAttenuation: true, depthWrite: false,
+    }));
+    soma.frustumCulled = false;
+    const grp = new THREE.Group();
+    grp.position.set(...BRAIN_POS);
+    grp.scale.setScalar(BRAIN_S);
+    grp.add(soma);
+    let photo = null;
+    if (PH) {
+      for (let i = 1; i < PH.length; i += 3) PH[i] = -PH[i];
+      const pg = new THREE.BufferGeometry();
+      pg.setAttribute('position', new THREE.BufferAttribute(PH, 3));
+      photo = new THREE.Points(pg, new THREE.PointsMaterial({
+        size: 0.013, color: 0xe07cc4, transparent: true, opacity: 0,
+        sizeAttenuation: true, depthWrite: false,
+      }));
+      photo.frustumCulled = false;
+      grp.add(photo);
+    }
+    rig.model.add(grp);
+    rig.brain = { group: grp, soma, photo, classes: C, names: idx.classes };
+    paintBrain(rig);
+  } catch { rig.brain = null; }  // offline/file: the fly stands brainless
+}
+function paintBrain(rig) {
+  const b = rig.brain;
+  if (!b) return;
+  const pal = duskW > 0.5 ? SOMAC_VIV.dusk : SOMAC_VIV.day;
+  const col = b.soma.geometry.attributes.color, tmp = new THREE.Color();
+  for (let i = 0; i < b.classes.length; i++) {
+    tmp.setHex(pal[b.names[b.classes[i]]] ?? 0x888888);
+    col.setXYZ(i, tmp.r, tmp.g, tmp.b);
+  }
+  col.needsUpdate = true;
+}
+
+// Cuticle: solid / ghost / hidden. Shared materials repeat the sets — idempotent.
+let cuticle = 0;
+function setCuticle(mode) {
+  cuticle = mode;
+  for (const rig of rigs) {
+    if (!rig) continue;
+    rig.model.traverse(o => {
+      if (!o.isMesh || o.material === PROXY_MAT) return;
+      const m = o.material;
+      if (m.userData.orig === undefined) {
+        m.userData.orig = { transparent: m.transparent, opacity: m.opacity, depthWrite: m.depthWrite };
+      }
+      if (mode === 0) { Object.assign(m, m.userData.orig); o.visible = true; }
+      else if (mode === 1) {
+        m.transparent = true; m.opacity = Math.min(m.userData.orig.opacity, 0.22);
+        m.depthWrite = false; o.visible = true;
+      } else { o.visible = false; }
+      m.needsUpdate = true;
+    });
+    for (const p of rig.proxies) p.visible = mode !== 2;
+  }
+  document.querySelectorAll('[data-cut]').forEach(b =>
+    b.setAttribute('aria-pressed', String(+b.dataset.cut === mode)));
+  interact();
 }
 
 // ---- state ----
@@ -743,7 +703,6 @@ let zoom = 1, zoomTarget = 1;
 let velX = 0, velY = 0;          // inertia (rad/s about world Y / X)
 let turnQueue = 0;               // queued yaw from the turn pill
 let resetting = false;
-let switching = null;            // { from, to, t0, dir, outBase }
 let lastInteract = -10, idleW = 0;
 let closeupBtn = null;
 
@@ -755,24 +714,127 @@ function measure() {
   heroW = hb.width; heroH = hb.height;
   stageL = sb.left - hb.left; stageT = sb.top - hb.top;
   stageW = sb.width; stageH = sb.height;
+  // Two specimens share the width: fit ~2.3 units of fly per half-stage.
   const focus = hero.classList.contains('focus');
-  if (focus) {
-    tCx = heroW / 2; tCy = heroH * 0.5;
-    tPx = Math.min(heroW * 0.5, heroH * 0.6) * 1.16;
-  } else {
-    tCx = stageL + stageW / 2; tCy = stageT + stageH * 0.44;
-    tPx = Math.min(stageW * 0.5, stageH * 0.6) * 1.16;
-  }
+  tPx = focus
+    ? Math.min(heroW * 0.30, heroH * 0.62) * 1.16
+    : Math.min(stageW * 0.24, stageH * 0.62) * 1.16;
+  retarget();
   renderer.setSize(heroW, heroH, false);
   camera.aspect = heroW / heroH;
   camera.updateProjectionMatrix();
+}
+// Framing target, re-evaluated every frame: centred on the table, drifting
+// toward the selected fly when zoomed to close-up.
+function retarget() {
+  const focus = hero.classList.contains('focus');
+  const w = focus ? heroW : stageW;
+  tCx = (focus ? heroW / 2 : stageL + stageW / 2) +
+    (zoomTarget > 1.8 ? (active ? 1 : -1) * w * 0.20 : 0);
+  tCy = focus ? heroH * 0.5 : stageT + stageH * 0.44;
 }
 new ResizeObserver(measure).observe(hero);
 new ResizeObserver(measure).observe(stage);
 
 const zinBtn = $('zin'), zoutBtn = $('zout');
-function applyYaw(rig, a) {
-  rig.spin.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(YAXIS, a));
+const HOME_T = new THREE.Quaternion();  // table rest pose (both flies face out)
+function applyYaw(a) {
+  table.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(YAXIS, a));
+}
+
+// Alternating-tripod walk in place: legs swing fore-aft, knees lift on the
+// swing half; the body bobs at twice the stride rate. Stride rate follows
+// the sim's leg-motor firing when live, else a resting amble.
+function stepGait(rig, t, dt, i, s) {
+  const legs = rig.model.userData.rig && rig.model.userData.rig.legs;
+  if (!legs) return;
+  let freq = 7;
+  if (s && Array.isArray(s.legs) && s.legs.length) {
+    const m = s.legs.reduce((a, v) => a + (+v || 0), 0) / s.legs.length;
+    const b = Viv.base[i];
+    b.walk = b.walk > 0 ? b.walk + 0.003 * (m - b.walk) : m;
+    freq = 7 * clamp(m / Math.max(b.walk, 1e-6), 0.4, 2.2);
+  }
+  rig.stride += dt * freq;
+  const wt = rig.stride + rig.gait;
+  for (const leg of legs) {
+    const sw = Math.sin(wt + leg.phase);
+    leg.hip.rotation.x = 0.30 * sw;
+    leg.hip.rotation.z = 0.05 * sw;
+    leg.knee.rotation.x = 0.28 * Math.sin(wt + leg.phase + 0.7);
+    leg.ankle.rotation.x = -0.32 * Math.sin(wt + leg.phase + 0.7);
+  }
+  rig.pivot.position.y = Math.sin(t * 1.3 + rig.gait) * 0.028 + Math.sin(2 * wt) * 0.016;
+  rig.pivot.rotation.x = Math.sin(2 * wt) * 0.018;
+}
+
+// Brain glow: sim firing rate against a slow baseline when live, else a
+// resting pulse. The photoreceptor overlay flashes with the light stimulus.
+function stepGlow(rig, t, dt, i, s) {
+  const b = rig.brain;
+  if (!b) return;
+  let g = 1 + 0.15 * Math.sin(t * 0.8 + rig.gait);
+  if (s && s.rates && isFinite(+s.rates.all)) {
+    const r = +s.rates.all, base = Viv.base[i];
+    base.glow = base.glow > 0 ? base.glow + 0.003 * (r - base.glow) : r;
+    g = clamp(r / Math.max(base.glow, 1e-6), 0.35, 2.4);
+  }
+  b.soma.material.opacity = clamp(0.45 + 0.22 * g, 0, 1);
+  b.soma.material.size = 0.006 + 0.0022 * g;
+  const pm = b.photo && b.photo.material;
+  if (pm) pm.opacity += ((s ? 0.9 * Math.min(Viv.light[i], 1) : 0) - pm.opacity) * damp(8, dt);
+}
+
+function shortAngle(from, to) {
+  return Math.atan2(Math.sin(to - from), Math.cos(to - from));
+}
+
+// ---------- vivarium live link: each fly trails its own box slot ----------
+const Viv = {
+  ws: null, live: false, lastMsg: 0, step: 0,
+  slots: [null, null], light: [0, 0], drugs: [[], []],
+  base: [{ glow: 0, walk: 0 }, { glow: 0, walk: 0 }],  // slow adaptive baselines
+};
+function vivConnect() {
+  let ws;
+  try {
+    ws = new WebSocket((location.protocol === 'https:' ? 'wss' : 'ws') +
+      '://' + (location.hostname || 'localhost') + ':8765');
+  } catch { setTimeout(vivConnect, 5000); return; }
+  Viv.ws = ws;
+  ws.onmessage = ev => { try { vivState(JSON.parse(ev.data)); } catch {} };
+  ws.onclose = () => { Viv.ws = null; Viv.live = false; paintVivarium(); setTimeout(vivConnect, 5000); };
+  ws.onerror = () => { try { ws.close(); } catch {} };
+}
+function vivState(m) {
+  if (!m || m.type !== 'state' || !m.flies) return;
+  Viv.live = true;
+  Viv.lastMsg = performance.now();
+  Viv.step = m.t || 0;
+  for (let i = 0; i < 2; i++) {
+    const s = m.flies[SLOTS[i]];
+    if (!s) continue;
+    Viv.slots[i] = s;
+    Viv.drugs[i] = Object.entries(s.drugs || {}).filter(([, v]) => +v > 0)
+      .map(([k, v]) => `${k} ${(+v).toFixed(2)}`);
+    const li = (s.stimuli && s.stimuli.light) || [0, 0];
+    Viv.light[i] = Math.max(+li[0] || 0, +li[1] || 0);
+    if (s.banana && bananas[i]) {
+      bananas[i].position.x = (+s.banana.x || 0) * ARENA_K;  // stage-local
+      bananas[i].position.z = (+s.banana.y || 0) * ARENA_K;
+    }
+  }
+  paintVivarium();
+}
+function paintVivarium() {
+  const dot = $('vivDot'), status = $('vivStatus'), boxes = $('vivBoxes');
+  if (!dot || !status || !boxes) return;  // sheet mid-swap
+  dot.classList.toggle('live', Viv.live);
+  status.textContent = Viv.live ? `Live from the sim · step ${Viv.step}.` : 'Illustrated rest — lab offline.';
+  const side = i => `${FLIES[i].name} · ${i ? 'treatment' : 'control'} box` +
+    (Viv.slots[i] && isFinite(+Viv.slots[i].dist) ? ` · banana ${(+Viv.slots[i].dist).toFixed(1)}` : '') +
+    (Viv.drugs[i].length ? ` · ${Viv.drugs[i].join(', ')}` : '');
+  boxes.textContent = `${side(0)} — ${side(1)}`;
 }
 
 const clock = new THREE.Clock();
@@ -780,15 +842,16 @@ function tick() {
   requestAnimationFrame(tick);
   const dt = Math.min(clock.getDelta(), 0.05);
   const t = clock.elapsedTime;
-  const rig = rigs[active];
 
   // Eased framing + zoom.
+  retarget();
   const k7 = damp(7, dt);
   cx += (tCx - cx) * k7; cy += (tCy - cy) * k7; px += (tPx - px) * k7;
   zoom += (zoomTarget - zoom) * damp(6, dt);
   const fovR = THREE.MathUtils.degToRad(camera.fov);
   camera.position.z = heroH / (2 * Math.tan(fovR / 2) * px * zoom);
   camera.setViewOffset(heroW, heroH, heroW / 2 - cx, heroH / 2 - cy, heroW, heroH);
+  camera.updateProjectionMatrix();  // offsets apply only here — without this the eased pan never lands
 
   // Dusk easing.
   duskW += (duskTarget - duskW) * damp(4, dt);
@@ -797,41 +860,58 @@ function tick() {
   key.color.copy(DAY.keyC).lerp(DUSK.keyC, duskW);
   rim.intensity = DAY.rim + (DUSK.rim - DAY.rim) * duskW;
   renderer.toneMappingExposure = DAY.exp + (DUSK.exp - DAY.exp) * duskW;
+  scene.fog.color.copy(DAY.fog).lerp(DUSK.fog, duskW);
+  const bSide = duskW > 0.5;
+  if (bSide !== brainSide) { brainSide = bSide; for (const r of rigs) if (r) paintBrain(r); }
 
-  if (switching) stepSwitch(performance.now());
-
-  if (rig) {
-    // Inertia + turn queue + reset-to-home.
-    if (!switching) {
-      if (velX !== 0 || velY !== 0) {
-        rig.spin.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(YAXIS, velX * dt));
-        rig.spin.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, velY * dt));
-        const d = Math.exp(-dt * 4.5);
-        velX *= d; velY *= d;
-        if (Math.abs(velX) < 1e-4) velX = 0;
-        if (Math.abs(velY) < 1e-4) velY = 0;
-      }
-      if (turnQueue !== 0) {
-        const step = turnQueue * damp(4.2, dt);
-        applyYaw(rig, step);
-        turnQueue -= step;
-        if (Math.abs(turnQueue) < 1e-4) turnQueue = 0;
-      }
-      if (resetting) {
-        rig.spin.quaternion.slerp(HOME_Q, damp(6, dt));
-        if (rig.spin.quaternion.angleTo(HOME_Q) < 0.002 && Math.abs(zoomTarget - 1) < 1e-6) {
-          rig.spin.quaternion.copy(HOME_Q);
-          resetting = false;
-        }
-      }
+  // Inertia + turn queue + reset-to-home: the whole table turns.
+  if (velX !== 0 || velY !== 0) {
+    table.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(YAXIS, velX * dt));
+    table.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, velY * dt));
+    const d = Math.exp(-dt * 4.5);
+    velX *= d; velY *= d;
+    if (Math.abs(velX) < 1e-4) velX = 0;
+    if (Math.abs(velY) < 1e-4) velY = 0;
+  }
+  if (turnQueue !== 0) {
+    const step = turnQueue * damp(4.2, dt);
+    applyYaw(step);
+    turnQueue -= step;
+    if (Math.abs(turnQueue) < 1e-4) turnQueue = 0;
+  }
+  if (resetting) {
+    table.quaternion.slerp(HOME_T, damp(6, dt));
+    if (table.quaternion.angleTo(HOME_T) < 0.002 && Math.abs(zoomTarget - 1) < 1e-6) {
+      table.quaternion.copy(HOME_T);
+      resetting = false;
     }
-    // Idle life: slow sway eased in after 1.8 s + constant hover.
-    if (!REDUCED) {
-      const target = (t - lastInteract > 1.8 && !switching) ? 1 : 0;
-      idleW += (target - idleW) * damp(2, dt);
-      rig.pivot.rotation.y = Math.sin(t * 0.55) * 0.16 * idleW;
-      rig.pivot.rotation.x = Math.sin(t * 0.9) * 0.03 * idleW;
-      rig.pivot.position.y = Math.sin(t * 1.3 + active) * 0.028;
+  }
+  // Life per specimen: true sim spots when live, illustrated anchors when not.
+  // Everything eases, so lab connects/disconnects never jump the table.
+  if (!REDUCED) {
+    const target = (t - lastInteract > 1.8) ? 1 : 0;
+    idleW += (target - idleW) * damp(2, dt);
+    const live = Viv.live && (performance.now() - Viv.lastMsg < 6000);
+    for (let i = 0; i < 2; i++) {
+      const rig = rigs[i];
+      if (!rig) continue;
+      const s = live ? Viv.slots[i] : null;
+      const k = damp(s ? 3.5 : 2, dt);
+      const tx = s && s.fly ? HALF_X[i] + s.fly.x * ARENA_K : (i === 0 ? -SPREAD : SPREAD);
+      const tz = s && s.fly ? s.fly.y * ARENA_K : 0;
+      rig.pivot.position.x += (tx - rig.pivot.position.x) * k;
+      rig.pivot.position.z += (tz - rig.pivot.position.z) * k;
+      const wantY = s && s.fly && isFinite(+s.fly.angle) ? Math.PI / 2 - s.fly.angle
+        : Math.sin(t * 0.55 + rig.gait) * 0.16 * idleW + Math.sin(t * 0.23 + rig.gait * 2.1) * 0.10;
+      rig.pivot.rotation.y += shortAngle(rig.pivot.rotation.y, wantY) * k;
+      rig.zoomK += ((s ? LIVE_SCALE : 1) - rig.zoomK) * damp(2, dt);
+      if (normScale) {
+        rig.holder.scale.setScalar(normScale * rig.zoomK);
+        stages[i].position.y = FOOT_Y * normScale * rig.zoomK;  // floors ride the feet
+      }
+      sprigs[i].rotation.z = Math.sin(t * 0.9 + i * 2.4) * 0.03;
+      stepGait(rig, t, dt, i, s);
+      stepGlow(rig, t, dt, i, s);
     }
   }
 
@@ -883,7 +963,6 @@ stage.addEventListener('pointerdown', (e) => {
 stage.addEventListener('pointermove', (e) => {
   if (!pointers.has(e.pointerId)) return;
   pointers.set(e.pointerId, [e.clientX, e.clientY]);
-  const rig = rigs[active];
   if (pointers.size === 2) {
     const [a, b] = [...pointers.values()];
     const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
@@ -892,13 +971,13 @@ stage.addEventListener('pointermove', (e) => {
     interact();
     return;
   }
-  if (!stage.classList.contains('dragging') || !rig || switching) return;
+  if (!stage.classList.contains('dragging')) return;
   const dx = e.clientX - lastPX, dy = e.clientY - lastPY;
   const now = performance.now(), dts = Math.max((now - lastPT) / 1000, 1e-3);
   lastPX = e.clientX; lastPY = e.clientY; lastPT = now;
   const k = Math.PI / Math.max(260, px * 1.6);
-  rig.spin.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(YAXIS, dx * k));
-  rig.spin.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, dy * k));
+  table.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(YAXIS, dx * k));
+  table.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, dy * k));
   velX = 0.75 * velX + 0.25 * (dx * k / dts);
   velY = 0.75 * velY + 0.25 * (dy * k / dts);
   interact();
@@ -907,15 +986,16 @@ function endPointer(e) {
   pointers.delete(e.pointerId);
   if (pointers.size < 2) pinchD = 0;
   if (pointers.size === 0) stage.classList.remove('dragging');
-  // Tap (no hover on touch): name the part briefly.
+  // Tap (no hover on touch): name the part briefly + select that fly's sheet.
   if (e.type === 'pointerup' && e.clientX !== undefined && !e.target.closest('button') &&
       Math.hypot(e.clientX - tapX, e.clientY - tapY) < 8 &&
       performance.now() - tapT < 350) {
-    const part = partAt(e.clientX, e.clientY);
-    if (part) {
-      moveTip(e.clientX, e.clientY, part);
+    const hit = partAt(e.clientX, e.clientY);
+    if (hit) {
+      moveTip(e.clientX, e.clientY, hit.part);
       clearTimeout(tipTimer);
       tipTimer = setTimeout(hideTip, 1600);
+      selectTab(hit.fly);
     }
   }
 }
@@ -932,15 +1012,13 @@ stage.addEventListener('wheel', (e) => {
 // ---- double-click / keyboard ----
 stage.addEventListener('dblclick', (e) => { if (!e.target.closest('button')) resetView(); });
 stage.addEventListener('keydown', (e) => {
-  const rig = rigs[active];
-  if (!rig || switching) return;
   const step = 0.18;
-  if (e.key === 'ArrowLeft') { applyYaw(rig, -step); interact(); }
-  else if (e.key === 'ArrowRight') { applyYaw(rig, step); interact(); }
+  if (e.key === 'ArrowLeft') { applyYaw(-step); interact(); }
+  else if (e.key === 'ArrowRight') { applyYaw(step); interact(); }
   else if (e.key === 'ArrowUp') {
-    rig.spin.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, -step)); interact();
+    table.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, -step)); interact();
   } else if (e.key === 'ArrowDown') {
-    rig.spin.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, step)); interact();
+    table.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(XAXIS, step)); interact();
   } else if (e.key === '+' || e.key === '=') { zoomTarget = clamp(zoomTarget * 1.2, ZMIN, ZMAX); interact(); }
   else if (e.key === '-' || e.key === '_') { zoomTarget = clamp(zoomTarget / 1.2, ZMIN, ZMAX); interact(); }
   else if (e.key === '0') resetView();
@@ -954,13 +1032,15 @@ let labelsOn = true, tipTimer = 0;
 const raycaster = new THREE.Raycaster();
 const _ndc = new THREE.Vector2();
 function partAt(clientX, clientY) {
-  const rig = rigs[active];
-  if (!labelsOn || switching || !rig) return null;
+  if (!labelsOn || !rigs[0] || !rigs[1]) return null;
   const hb = hero.getBoundingClientRect();  // canvas covers the whole hero
   _ndc.set(((clientX - hb.left) / hb.width) * 2 - 1, -((clientY - hb.top) / hb.height) * 2 + 1);
   raycaster.setFromCamera(_ndc, camera);
-  const hits = raycaster.intersectObjects(rig.proxies, false);
-  return hits.length ? hits[0].object.userData.part : null;
+  const hits = raycaster.intersectObjects([rigs[0].proxies, rigs[1].proxies].flat(), false)
+    .filter(h => h.object.visible);  // raycast ignores visibility; hidden cuticle hides its tips
+  if (!hits.length) return null;
+  const u = hits[0].object.userData;
+  return { part: u.part, fly: u.fly };
 }
 function moveTip(clientX, clientY, text) {
   const sb = stage.getBoundingClientRect();
@@ -977,8 +1057,8 @@ function hideTip() { partTip.hidden = true; }
 stage.addEventListener('pointermove', (e) => {
   if (e.pointerType === 'touch') return;
   if (stage.classList.contains('dragging')) { hideTip(); return; }
-  const part = partAt(e.clientX, e.clientY);
-  if (part) moveTip(e.clientX, e.clientY, part);
+  const hit = partAt(e.clientX, e.clientY);
+  if (hit) moveTip(e.clientX, e.clientY, hit.part);
   else hideTip();
 });
 stage.addEventListener('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); });
@@ -1051,58 +1131,13 @@ tablist.addEventListener('keydown', (e) => {
   e.preventDefault();
 });
 
+// Tabs switch the info sheet; both specimens stay on stage.
 function selectTab(i) {
   tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
-  if (i === active || switching) return;
+  if (i === active) return;
+  active = i;
   interact();
-  startSwitch(i);
-}
-
-function startSwitch(to) {
-  const from = active, dir = Math.sign(to - from);
-  buildRig(to);
-  const inn = rigs[to], out = rigs[from];
-  inn.spin.quaternion.copy(HOME_Q);
-  inn.pivot.visible = true;
-  zoom = 1; zoomTarget = 1;
-  turnQueue = 0; velX = 0; velY = 0; resetting = false;
-  if (REDUCED) {  // instant swap
-    out.pivot.visible = false;
-    active = to;
-    swapInfo(to);
-    return;
-  }
-  switching = { from, to, t0: performance.now(), dir, outBase: out.spin.quaternion.clone() };
-  hero.classList.add('switching');
-  swapInfo(to);
-}
-
-function stepSwitch(now) {
-  const { from, to, t0, dir, outBase } = switching;
-  const t = Math.min((now - t0) / SWITCH_MS, 1);
-  const slide = stageW * 0.95 / px;
-  const out = rigs[from], inn = rigs[to];
-  // Outgoing: first 60%, ease-in.
-  const e = easeInCubic(Math.min(t / 0.6, 1));
-  out.pivot.scale.setScalar(Math.max(1 - e, 1e-4));
-  out.pivot.position.x = -dir * e * slide;
-  out.spin.quaternion.copy(outBase).multiply(
-    new THREE.Quaternion().setFromAxisAngle(YAXIS, -dir * e * 1.4));
-  // Incoming: full duration, ease-out + back-overshoot.
-  const e2 = easeOutCubic(t), s = outBack(t) * (0.25 + 0.75 * e2);
-  inn.pivot.scale.setScalar(Math.max(s, 1e-4));
-  inn.pivot.position.x = dir * (1 - e2) * slide;
-  inn.spin.quaternion.copy(HOME_Q).multiply(
-    new THREE.Quaternion().setFromAxisAngle(YAXIS, dir * (1 - e2) * 1.6));
-  if (t >= 1) {
-    out.pivot.visible = false;
-    out.pivot.position.x = 0; out.pivot.scale.setScalar(1);
-    inn.pivot.position.x = 0; inn.pivot.scale.setScalar(1);
-    inn.spin.quaternion.copy(HOME_Q);
-    active = to;
-    switching = null;
-    hero.classList.remove('switching');
-  }
+  swapInfo(i);
 }
 
 function infoHTML(i) {
@@ -1124,7 +1159,17 @@ function infoHTML(i) {
     `<button class="closeup" id="closeup" aria-pressed="false">` +
     `<span class="lens" aria-hidden="true"></span>` +
     `<span><span class="ct">Close-up Detail</span><p>${f.closeup}</p></span>` +
-    `<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></button>`;
+    `<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></button>` +
+    `<h2>Vivarium</h2>` +
+    `<div class="vivrow"><span id="vivDot" class="dot"></span><span id="vivStatus">Illustrated rest — lab offline.</span></div>` +
+    `<div class="vivrow dim" id="vivBoxes">Maxime · control box · Hagrid · treatment box</div>` +
+    `<div class="vivrow seg" role="group" aria-label="Cuticle">` +
+    `<button data-cut="0" aria-pressed="true">Solid</button>` +
+    `<button data-cut="1" aria-pressed="false">Ghost</button>` +
+    `<button data-cut="2" aria-pressed="false">Hidden</button></div>` +
+    `<p class="fine">Real brain clouds seated by eye in stylized bodies, greatly magnified; ` +
+    `positions true. Movement and glow follow live sim numbers — or a resting guess when ` +
+    `the lab is offline. Not tracked motion. The jars, agar, bananas and sprigs are set-dressing.</p>`;
 }
 
 function renderInfo(i) {
@@ -1138,6 +1183,9 @@ function renderInfo(i) {
     zoomTarget = zoomTarget > 1.8 ? 1 : CLOSEUP_Z;
     interact();
   });
+  detail.querySelectorAll('[data-cut]').forEach(b =>
+    b.addEventListener('click', () => setCuticle(+b.dataset.cut)));
+  paintVivarium();
 }
 
 function swapInfo(to) {
@@ -1162,13 +1210,13 @@ function boot() {
   caption.textContent = FLIES[active].caption;
   loader.classList.add('show');
   try {
-    buildRig(active);
-    rigs[active].pivot.visible = true;
+    buildRig(0);
+    buildRig(1);
   } catch (err) {
     showFallback('This specimen could not be prepared: ' + (err && err.message ? err.message : err));
     return;
   }
-  setTimeout(() => { try { buildRig(1 - active); } catch { /* loader covers it */ } }, 30);
+  vivConnect();
   tick();
 }
 boot();

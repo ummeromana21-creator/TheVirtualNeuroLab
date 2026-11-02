@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validation Battery · Fly Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234d5a3d'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=1">
+<link rel="stylesheet" href="../feather.css">
+<link rel="stylesheet" href="style.css?v=1">
+<style>
+.bwrap{max-width:56rem;margin:0 auto;padding:0 1.25rem 3rem}
+.bintro{font-size:1.02rem;line-height:1.65;max-width:44rem}
+.bintro p{margin:.7em 0}
+.st{display:inline-block;font-size:.78rem;font-weight:600;padding:.15em .7em;border-radius:999px;vertical-align:middle}
+.st-matches{background:#dcebd4;color:#2f5b23}
+.st-recorded{background:#dcebd4;color:#2f5b23}
+.st-checks-green{background:#d7e6f2;color:#24506e}
+.st-preliminary-match{background:#f3e9c8;color:#7a5c14}
+.st-mismatch{background:#f3d3c8;color:#8c2f1b}
+.st-mismatch-predicted{background:#d3e8e4;color:#1f6e6b}
+.st-negative-result{background:#e3ddd2;color:#5c5546}
+.st-proposed{background:#e3ddd2;color:#5c5546}
+.bsec{margin-top:2.2rem}
+.bsec>h2{font-size:1.15rem;margin-bottom:.2rem}
+.bsec>.bsub{color:#6b6355;margin:.1rem 0 1rem;max-width:44rem;line-height:1.55}
+.bcard{background:#fffdf8;border:1px solid #ddd3bd;border-radius:14px;padding:1rem 1.2rem;margin:.9rem 0;box-shadow:0 1px 3px rgba(90,75,40,.08)}
+.bcard h3{margin:.1rem 0 .4rem;font-size:1.02rem}
+.bcard h3 .st{margin-left:.5rem}
+.bcard p{margin:.45em 0;line-height:1.55}
+.bcard .blab{font-weight:600}
+.bcard details{margin-top:.5rem;border-top:1px dashed #ddd3bd;padding-top:.5rem}
+.bcard summary{cursor:pointer;font-weight:600}
+.bcard .mono{font-family:ui-monospace,Menlo,monospace;font-size:.85em}
+.recs{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
+.rec{font-size:.78rem;background:#f1ecdd;border:1px solid #ddd3bd;border-radius:8px;padding:.2em .6em}
+.rec b{font-weight:700}
+.v-SUPPORTED{color:#2f5b23}.v-NOT{color:#8c2f1b}.v-CANT{color:#7a5c14}.v-MIXED{color:#5c2f8c}
+.btop{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.btop h1{margin-bottom:.1rem}
+.backlink{font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+  <div class="bwrap">
+    <div class="btop">
+      <div class="brand"><h1>Validation Battery</h1><p id="sub">Where the virtual lab holds, and where it breaks.</p></div>
+      <a class="backlink" href="./">← Experiment Atlas</a>
+    </div>
+    <div class="bintro">
+      <p>This page is the lab's proof artifact. Each entry is a real experiment we recreated — or a piece of machinery we test — with the prediction written down before the run and the outcome shown honestly, including the misses.</p>
+      <p>A mismatch here is not an embarrassment; it is the most useful result on the page. It says exactly which piece of biology the sim is missing, which is how the next build gets better. “Solid” doesn't mean always right — it means we know precisely where it holds and where it breaks.</p>
+    </div>
+    <p id="counts" class="counts" aria-live="polite"></p>
+    <section class="bsec" id="secReal"><h2>Against real flies</h2>
+      <p class="bsub">Recreated from published experiments. The prediction was locked in before the run; the outcome is what the sim actually did.</p>
+      <div id="gridReal"></div>
+    </section>
+    <section class="bsec" id="secMach"><h2>Machinery proofs</h2>
+      <p class="bsub">These test the sim's own parts — that targeted routing, glial tone, dual mechanisms and tolerance behave as built. They prove the machinery works, not that real flies agree.</p>
+      <div id="gridMach"></div>
+    </section>
+  </div>
+  <footer class="cite">
+    <strong>Data &amp; honesty.</strong> Built from <span class="mono">battery.json</span>
+    (authored from <span class="mono">validation.md</span>), saved runs
+    (<span class="mono">notebook/*.json</span>), and the check suite
+    (<span class="mono">check_drugs.py</span>). Rebuilt with
+    <span class="mono">build_battery.py</span> — <span id="gen"></span>.
+  </footer>
+</div>
+<script src="../duo/auth.js"></script>
+<script src="../feather.js?v=2"></script>
+<script>Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Validation Battery', base: '../', current: 'experiments' }); Feather.init();</script>
+<script src="battery.js?v=1"></script>
+</body>
+</html>

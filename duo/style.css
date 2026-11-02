@@ -81,17 +81,15 @@ a { color:var(--sage); }
 .duo-textlink .duo-ic { width:15px; height:15px; }
 .duo-art { margin:0; background:var(--panel); border:1px solid var(--line);
   border-radius:10px; padding:10px 10px 8px; }
-.duo-art svg { display:block; width:100%; height:auto; }
 .duo-art figcaption { font-size:11.5px; color:var(--muted); text-align:center;
   padding:6px 4px 2px; }
-.duo-sh { fill:rgba(var(--shadow),.18); }
-.duo-jar { fill:none; stroke:var(--sage); stroke-width:2; opacity:.55; }
-.duo-lid { fill:var(--chip); stroke:var(--line); }
-.duo-fly-a ellipse, .duo-fly-b ellipse { fill:var(--ink); }
-.duo-wing { fill:var(--panel) !important; stroke:var(--muted); stroke-width:1; opacity:.9; }
-.duo-eye { fill:var(--sage) !important; stroke:none !important; }
-.duo-svglabel { font-family:var(--serif); font-style:italic; font-size:15px;
-  fill:var(--muted); }
+.duo-livepair { display:flex; gap:8px; justify-content:center; padding:8px 4px 2px; }
+/* Live 3D pair overlay: full-viewport stage, never intercepts clicks. */
+#flyby { position:fixed; inset:0; z-index:40; pointer-events:none; }
+#flyby .duo-flygl { position:absolute; inset:0; width:100%; height:100%; }
+.duo-flytag { position:absolute; left:0; top:0; font-family:var(--serif);
+  font-style:italic; font-size:14px; color:var(--ink); white-space:nowrap;
+  text-shadow:0 1px 0 var(--panel), 0 0 6px var(--panel); }
 
 /* ---------- cast cards ---------- */
 .duo-cast { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
@@ -111,6 +109,10 @@ ul.duo-tight { margin:8px 0 12px; padding-left:20px; font-size:13.5px;
   font-size:13.5px; font-weight:700; }
 .duo-cardlink .duo-ic { width:15px; height:15px; }
 
+/* ---------- state of the model ---------- */
+ol.duo-statelist { margin:8px 0 8px; padding-left:22px; font-size:13.5px; line-height:1.7; }
+ol.duo-statelist li { margin-bottom:2px; }
+
 /* ---------- gallery ---------- */
 .duo-sechead h3 { margin:0; font-size:24px; font-weight:500; }
 .duo-sechead p { margin:2px 0 12px; font-size:13px; }
@@ -119,6 +121,7 @@ ul.duo-tight { margin:8px 0 12px; padding-left:20px; font-size:13.5px;
 .duo-strip figure { margin:0; background:var(--panel);
   border:1px solid var(--line); border-radius:10px; overflow:hidden; }
 .duo-strip svg { display:block; width:100%; height:auto; }
+.duo-strip img { display:block; width:100%; height:130px; object-fit:cover; background:var(--bg); }
 .duo-strip figcaption { font-size:12px; color:var(--muted); padding:8px 12px 10px; }
 .duo-frame { fill:var(--bg); stroke:var(--line); }
 .duo-blob { fill:var(--sage); opacity:.75; }

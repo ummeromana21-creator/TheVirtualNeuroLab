@@ -2,7 +2,7 @@
 window.Feather = (() => {
   const HUBS = [
     { id: 'home', name: 'Home', sub: 'the story', icon: 'i-house', href: 'duo/' },
-    { id: 'flies', name: 'Meet the flies', sub: 'Maxime · Hagrid', icon: 'i-fly', href: 'flies/' },
+    { id: 'flies', name: 'Vivarium', sub: 'Maxime · Hagrid', icon: 'i-fly', href: 'flies/' },
     { id: 'study', name: 'Study', sub: 'ask · benches · live', icon: 'i-flask', href: 'study.html' },
     { id: 'atlas', name: 'Fly Atlas', sub: '66 brain regions', icon: 'i-layers', href: 'library/' },
     { id: 'experiments', name: 'Experiments', sub: 'every experiment', icon: 'i-cards', href: 'experiments/' },
