@@ -106,7 +106,7 @@ window.Feather = (() => {
   // ---- Guided tour: a short walkthrough per page; runs once automatically on a first visit ----
   const TOURS = {
     home: [
-      { t: 'Welcome to the Virtual Neuro Lab', b: 'This lab runs experiments on a simulated fruit-fly brain, wired neuron by neuron from a real microscope scan. This short tour shows you around. You can replay it any time with the Tour button at the top.' },
+      { t: 'Welcome to the Virtual Neuro Lab', b: 'This lab runs experiments on a simulation of the complete fruit-fly brain, reconstructed synapse by synapse from electron microscopy. This short tour shows you around. You can replay it any time with the Tour button at the top.' },
       { el: '.shell-nav, .shell-menubtn', t: 'Getting around', b: 'Every part of the lab is here. Each page has its own short tour the first time you open it.' },
       { el: '.cta', t: 'Start here: the Knockout Lab', b: 'Switch off one neuron and see whether the fly can still eat or drink. This is where the lab makes new predictions that no one has tested yet.' },
       { el: '.tiles', t: 'The rest of the lab', b: 'Parkinson\u2019s, the experiments and their full records, the flies in 3D, a map of every brain region, and the worm.' },
