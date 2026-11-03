@@ -1,7 +1,21 @@
 # The Virtual Neuro Lab
 
-The reference layer of the Virtual Neuro Lab: the flies' bodies and brains, the brain atlas,
-and the chemical library. No experiments, no simulation server, no accounts.
+Experiments on a simulated fruit-fly brain, wired neuron by neuron from a real electron-microscope scan (FlyWire v783),
+running the published brain model of Shiu et al. 2024 (*Nature* 634:210) with its published settings. Every pass mark is
+written down before the run, nothing is tuned, and misses stay on the page. Built for the Meta (Muse) hackathon, November 2026.
+
+**Pages:** Home · Knockout Lab (switch off one neuron, watch the signal; Discovery Screen predictions with confidence levels) ·
+Vivarium (Maxime and Hagrid in 3D) · Fly Atlas · Chemical Library · Prediction check · Experiments (calibration test, Taste Bench,
+Round 1) and the **Lab notebook** (a full record of every experiment) · The worm (*C. elegans*, all 302 neurons) · Parkinson's (where the dopamine signal is lost as dopamine neurons die; exploratory) · What's next.
+Ask Muse (Meta's AI) answers questions about the lab, with sources. Each page has a guided tour.
+
+`old-version/` holds the earlier build of the lab from 2 November 2026, kept for reference.
+
+---
+
+## About this build
+
+The current lab. (It started as the reference layer of the earlier build and grew the experiments back on top.)
 
 ## Run it
 
@@ -23,6 +37,10 @@ the .html files.
 | `lab_index.json` | what Ask Muse can search | `tools/build_lab_index.py` |
 | `flies/` | Vivarium — Maxime and Hagrid in 3D, each drawn from its own measured cell bodies | BANC v888 (Maxime), male CNS v1.0 (Hagrid), via `library/points/` |
 | `library/` | Fly Atlas — 54 brain and nerve-cord regions in 13 families, 236 cell types, per-fly counts | FlyWire v783 (pictures, cell types), BANC and male CNS (counts) |
+| `experiments/notebook.html` | Lab notebook: every experiment's question, method, pass mark, results, confidence and discovery status | `tools/build_notebook.py` |
+| `worm/` | The worm — *C. elegans*, 302 neurons in 3D with the Cook et al. 2019 wiring | OpenWorm c302 (Virtual Worm shapes; MIT licence) |
+| `disease/` | Parkinson's mechanisms 1 — where the dopamine signal is lost as dopamine neurons die (exploratory) | `tools/build_pd.py`, `tools/run_pd_fast.py` |
+| `next/` | What's next — predictions waiting for a real-fly test, work in progress, plans | `discover/screen.json` |
 | `prediction/` | Prediction check — how closely the lab's earlier wiring-only position guesses matched each fly's real anatomy | `library/prediction_vs_real.json` |
 | `anatomy/celltypes/` | data the Fly Atlas reads (cell-type positions, skeletons, edges) | FlyWire v783 |
 | `chemicals/` | Chemical Library — what each substance does in a real fly | `chemicals/data.json` (hand-checked, with papers) |
