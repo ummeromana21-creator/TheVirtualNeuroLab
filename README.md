@@ -5,7 +5,7 @@ running the published brain model of Shiu et al. 2024 (*Nature* 634:210) with it
 written down before the run, nothing is tuned, and misses stay on the page. Built for the Meta (Muse) hackathon, November 2026.
 
 **Pages:** Home · Knockout Lab (switch off one neuron, watch the signal; Discovery Screen predictions with confidence levels) ·
-Vivarium (Maxime and Hagrid in 3D) · Fly Atlas · Chemical Library · Prediction check · Experiments (calibration test, Taste Bench,
+Vivarium (Maxime and Hagrid in 3D) · Fly Atlas · Prediction check · Experiments (calibration test, Taste Bench,
 Round 1) and the **Lab notebook** (a full record of every experiment) · The worm (*C. elegans*, all 302 neurons) · Parkinson's (where the dopamine signal is lost as dopamine neurons die; exploratory) · What's next.
 Ask Muse (Meta's AI) answers questions about the lab, with sources. Each page has a guided tour.
 
@@ -43,7 +43,6 @@ the .html files.
 | `next/` | What's next — predictions waiting for a real-fly test, work in progress, plans | `discover/screen.json` |
 | `prediction/` | Prediction check — how closely the lab's earlier wiring-only position guesses matched each fly's real anatomy | `library/prediction_vs_real.json` |
 | `anatomy/celltypes/` | data the Fly Atlas reads (cell-type positions, skeletons, edges) | FlyWire v783 |
-| `chemicals/` | Chemical Library — what each substance does in a real fly | `chemicals/data.json` (hand-checked, with papers) |
 | `vendor/` | three.js r160 and fonts, pinned locally | — |
 | `feather.css`, `feather.js` | shared look and top bar | — |
 | `tools/` | the Python scripts that rebuild every data file above (each explains its inputs at the top) | — |
@@ -52,9 +51,6 @@ Copied from `metaverse-lab/` on 2026-11-02, with the experiment, study, ask and 
 removed. The Vivarium's live link to the simulation is switched off here. Since then the flies
 have been rebuilt from their own measured scans, and the Prediction check page was added.
 
-## Chemical Library rules
+## Next step
 
-Each entry in `chemicals/data.json` says what the substance does in a **real** fruit fly, in plain
-words, with the fly molecules it acts on and the papers behind it, and one confidence label:
-shown in fruit flies / shown in other insects / borrowed from mammals / no fly target known.
-No simulation results or verdicts go here — those belong to the experiments part.
+Docking (does a molecule fit a target such as the fly's dopamine pump?), with its own calibration test first. See `next/`.
