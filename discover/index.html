@@ -127,7 +127,6 @@ td.n { text-align:right; white-space:nowrap; }
           <span><i style="background:#c27c0e"></i>taste neurons on the tongue</span>
           <span><i style="background:#0064e0"></i>a neuron fires</span>
           <span><i class="ln" style="background:#d4a017"></i>signal passed along this connection</span>
-          <span><i class="ln" style="background:#c0392b"></i>connection that went silent after the switch-off</span>
           <span><i style="background:#ffd23f;box-shadow:0 0 0 2px #b8860b"></i>MN9: the tongue</span>
           <span><i style="background:#c0392b"></i>switched off</span>
         </div>
@@ -328,8 +327,8 @@ function story() {
   }
   if (eB && sel) {
     const n = BY[sel];
-    if (eB.mn9 != null) s.push([eB.mn9, `<b>${f1(eB.mn9)} ms</b> · With <b>${n.label}</b> switched off, the signal still reaches MN9${eA && eA.mn9 != null ? (eB.mn9 > eA.mn9 + 0.5 ? `, ${f1(eB.mn9 - eA.mn9)} ms later than normal` : '') : ''}. Red dashed lines are connections on the normal route that went silent.`]);
-    else s.push([Math.max(30, (eA && eA.mn9 != null ? eA.mn9 : 0) + 0.2), `<b>by 100 ms</b> · With <b>${n.label}</b> switched off, the signal never reaches MN9 in this run: the tongue stays in. Red dashed lines are the connections that went silent.`]);
+    if (eB.mn9 != null) s.push([eB.mn9, `<b>${f1(eB.mn9)} ms</b> · With <b>${n.label}</b> switched off, the signal still reaches MN9${eA && eA.mn9 != null ? (eB.mn9 > eA.mn9 + 0.5 ? `, ${f1(eB.mn9 - eA.mn9)} ms later than normal` : '') : ''}. Compare the two maps: connections missing from the lower one went silent.`]);
+    else s.push([Math.max(30, (eA && eA.mn9 != null ? eA.mn9 : 0) + 0.2), `<b>by 100 ms</b> · With <b>${n.label}</b> switched off, the signal never reaches MN9 in this run: the tongue stays in.`]);
   }
   s.sort((a, b) => a[0] - b[0]);
   $('steps').innerHTML = s.map(([t, h]) => `<li data-t="${t}">${h}</li>`).join('');
@@ -434,9 +433,8 @@ function drawOne(svg, run, mine, other, isB) {
   const live = [];
   for (const e of mine.values()) { const a = N[e.u], b = N[e.v]; const p = el('path', { d: path(a, b), fill: 'none', stroke: '#d4a017', 'stroke-width': Math.min(6, 1.2 + Math.log2(1 + e.n)), 'stroke-linecap': 'round', opacity: 0 }, gE);
     const dotc = el('circle', { r: 4.5, fill: '#ffcf33', opacity: 0 }, gP); live.push({ e, p, dotc, len: 0 }); }
-  if (isB && other) for (const [k, e] of other) if (!mine.has(k)) { const a = N[e.u], b = N[e.v];
-    live.push({ e, p: el('path', { d: path(a, b), fill: 'none', stroke: '#c0392b', 'stroke-width': 2, 'stroke-dasharray': '5 4', opacity: 0 }, gE), lost: true }); }
-  const nodeEls = nodes.map(n => { const g = el('g', {}, gN);
+  // the switched-off neuron is marked only on the switched-off map; on the normal map it is an ordinary neuron
+  const nodeEls = nodes.filter(n => isB || !n.off).map(n0 => { const n = isB ? n0 : Object.assign({}, n0, { ko: false }); const g = el('g', {}, gN);
     const big = n.id === 'MN9' || n.id === 'IN';
     const c = el('circle', { cx: n.x, cy: n.y, r: big ? 14 : n.group ? 9 : 10, fill: n.id === 'IN' ? '#c27c0e' : 'var(--chip)', stroke: n.ko ? '#c0392b' : 'var(--line)', 'stroke-width': n.ko ? 3 : 1.2 }, g);
     if (n.ko) { el('path', { d: `M${n.x - 6} ${n.y - 6}L${n.x + 6} ${n.y + 6}M${n.x + 6} ${n.y - 6}L${n.x - 6} ${n.y + 6}`, stroke: '#c0392b', 'stroke-width': 2.5 }, g); }
