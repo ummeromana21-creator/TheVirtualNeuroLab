@@ -164,3 +164,10 @@ p.fine { border-top:1px solid var(--line); }
   .info .card { max-height:none; }
 }
 
+
+.predlink { font-size:13px; color:var(--sage); text-decoration:none; font-weight:600; white-space:nowrap; }
+.predlink:hover { text-decoration:underline; }
+@media (max-width:760px) { .predlink { order:4; flex-basis:100%; white-space:normal; } }
+
+/* the top bar already has the light/dark switch */
+#lightBtn, #lightBtn2 { display:none; }

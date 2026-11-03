@@ -93,7 +93,7 @@ html, body { overflow-x:clip; }
 @supports not (overflow:clip) {
   html, body { overflow-x:hidden; }
 }
-@media (max-width:1320px) {
+@media (max-width:1240px) {
   .shell-top .shell-menubtn { display:grid; }
   .shell-top { flex-wrap:nowrap; }
   .shell-top .shell-brand { margin-right:auto; }
@@ -123,3 +123,13 @@ a { color:inherit; }
 /* many sections: drop the small captions in the top bar before it runs out of room */
 @media (max-width:1800px) { .shell-nav small { display:none; } .shell-nav a, .shell-nav .cur { padding:8px 10px; } }
 @media (max-width:1640px) and (min-width:1321px) { .shell-nav .ic { display:none; } .shell-nav a, .shell-nav .cur { padding:8px 8px; font-size:13.5px; } }
+
+/* ---------- calmer top bar (Nov 3 cleanup) ---------- */
+.shell-nav small { display:none; }
+.shell-nav .ic { display:none; }
+.shell-nav a, .shell-nav .cur { padding:7px 11px; font-size:14px; border-radius:100px; }
+.shell-nav .cur { background:var(--sage-tint); color:var(--sage); font-weight:600; }
+.shell-sub { display:none; }
+.shell-name { font-size:19px; font-weight:600; letter-spacing:-.02em; }
+.shell-top { gap:14px; }
+@media (max-width:1240px) { .shell-top .shell-menubtn { display:grid; } }

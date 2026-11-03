@@ -92,7 +92,7 @@ def search_wikipedia(query, k=3):
     return out
 
 TOOLS = [
-    {'type': 'function', 'function': {'name': 'search_lab', 'description': "Search The Virtual Neuro Lab's own records: experiments and their results, rules, calibration, the Discovery Screen predictions, brain regions, cell types, chemicals, the flies. Always try this first.",
+    {'type': 'function', 'function': {'name': 'search_lab', 'description': "Search The Virtual Neuro Lab's own records: experiments and their results, rules, calibration, the Discovery Screen predictions, brain regions, cell types, the flies, the worm, Parkinson's. Always try this first.",
                                       'parameters': {'type': 'object', 'properties': {'query': {'type': 'string'}}, 'required': ['query']}}},
     {'type': 'function', 'function': {'name': 'search_pubmed', 'description': 'Search published biology papers (PubMed) when the lab has no answer. Returns titles, links and abstracts.',
                                       'parameters': {'type': 'object', 'properties': {'query': {'type': 'string'}}, 'required': ['query']}}},

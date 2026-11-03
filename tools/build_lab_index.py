@@ -10,9 +10,10 @@ def add(title, page, text): E.append(dict(id=f'L{len(E)+1}', title=title, page=p
 
 add('What this lab is', 'index.html',
     'The Virtual Neuro Lab runs experiments on simulated fruit fly (Drosophila) nervous systems wired from real connectome '
-    'scans. Pages: Vivarium (the flies Maxime and Hagrid in 3D), Fly Atlas (brain regions and cell types), Chemicals (what substances do in '
-    'real flies), Prediction check (how well the lab predicted anatomy), Experiments (Taste Bench, calibration, round 1 results, Discovery '
-    'Screen). Experiments run on the FlyWire brain (female, 139,255 neurons, v783) using the published leaky integrate-and-fire model of '
+    'scans. Pages: Knockout Lab (switch off one neuron; Discovery Screen predictions with confidence levels), Parkinson\'s (where the dopamine '
+    'signal is lost as dopamine neurons die), Experiments (calibration test, Taste Bench, round 1, and the lab notebook), Vivarium (the flies Maxime and Hagrid in 3D), '
+    'Fly Atlas (brain regions and cell types; the Prediction check is linked from it), The worm (C. elegans, 302 neurons), What\'s next (the plan: docking is the next step). '
+    'The lab is a hypothesis generator on the road to drug discovery. Experiments run on the FlyWire brain (female, 139,255 neurons, v783) using the published leaky integrate-and-fire model of '
     'Shiu et al. 2024 (Nature 634:210) with its published settings; rules for passing are saved before every run.')
 for k, f in J('library/flies.json').items():
     if isinstance(f, dict):
@@ -30,12 +31,6 @@ for r in J('library/data.json'):
     add(f"Region {r['name']} ({r.get('full','')})", f"library/#/{r['name']}", t)
 for c in J('library/celltypes.json'):
     add(f"Cell type {c['name']}", f"library/#/{c['name']}", c.get('desc', ''))
-for c in J('chemicals/data.json')['chemicals']:
-    refs = '; '.join(f"{x.get('cite')}: {x.get('claim')}" for x in c.get('refs', []))
-    tg = '; '.join(f"{x.get('name')} ({x.get('role')})" for x in c.get('targets', []))
-    add(f"Chemical: {c['name']}", f"chemicals/#{c['id']}",
-        f"{c['name']} ({c.get('formula','')}; scientific name: {c.get('sci','')}). {c.get('what','')} In flies: {c.get('fly','')} Route: {c.get('route','')} Targets: {tg}. "
-        f"Confidence: {c.get('confidence','')}. Papers: {refs}")
 pv = J('library/prediction_vs_real.json')
 for fly in ('maxime', 'hagrid'):
     b = pv[fly]['brain']

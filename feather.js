@@ -3,14 +3,12 @@ window.Feather = (() => {
   const HUBS = [
     { id: 'home', name: 'Home', sub: 'start here', icon: 'i-house', href: 'index.html' },
     { id: 'discover', name: 'Knockout Lab', sub: 'switch off a neuron', icon: 'i-fly', href: 'discover/' },
+    { id: 'disease', name: 'Parkinson\u2019s', sub: 'brain disease', icon: 'i-pulse2', href: 'disease/' },
+    { id: 'experiments', name: 'Experiments', sub: 'tests and notebook', icon: 'i-flask', href: 'experiments/' },
     { id: 'flies', name: 'Vivarium', sub: 'Maxime · Hagrid', icon: 'i-fly', href: 'flies/' },
     { id: 'atlas', name: 'Fly Atlas', sub: 'regions · cell types', icon: 'i-layers', href: 'library/' },
-    { id: 'chemicals', name: 'Chemicals', sub: 'substance library', icon: 'i-flask', href: 'chemicals/' },
-    { id: 'prediction', name: 'Prediction check', sub: 'predicted vs real', icon: 'i-cards', href: 'prediction/' },
-    { id: 'experiments', name: 'Experiments', sub: 'taste experiments', icon: 'i-flask', href: 'experiments/' },
-    { id: 'worm', name: 'The worm', sub: 'C. elegans · 302 neurons', icon: 'i-worm', href: 'worm/' },
-    { id: 'disease', name: 'Parkinson\u2019s', sub: 'brain disease', icon: 'i-pulse2', href: 'disease/' },
-    { id: 'next', name: 'What\u2019s next', sub: 'predictions to test', icon: 'i-next', href: 'next/' },
+    { id: 'worm', name: 'The worm', sub: 'C. elegans', icon: 'i-worm', href: 'worm/' },
+    { id: 'next', name: 'What\u2019s next', sub: 'the plan', icon: 'i-next', href: 'next/' },
   ];
   const DEFS = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>`
     + `<symbol id="i-house" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7M6 10v10h12V10"/></symbol>`
@@ -111,7 +109,7 @@ window.Feather = (() => {
       { t: 'Welcome to the Virtual Neuro Lab', b: 'This lab runs experiments on a simulated fruit-fly brain, wired neuron by neuron from a real microscope scan. This short tour shows you around. You can replay it any time with the Tour button at the top.' },
       { el: '.shell-nav, .shell-menubtn', t: 'Getting around', b: 'Every part of the lab is here. Each page has its own short tour the first time you open it.' },
       { el: '.cta', t: 'Start here: the Knockout Lab', b: 'Switch off one neuron and see whether the fly can still eat or drink. This is where the lab makes new predictions that no one has tested yet.' },
-      { el: '.tiles', t: 'The rest of the lab', b: 'Taste experiments, the flies in 3D, a map of every brain region, and a library of chemicals and what they do to flies.' },
+      { el: '.tiles', t: 'The rest of the lab', b: 'Parkinson\u2019s, the experiments and their full records, the flies in 3D, a map of every brain region, and the worm.' },
       { el: '#muse-btn', t: 'Ask Muse', b: 'Got a question? Muse, Meta’s AI, answers from the lab’s own records first and then the web, and shows its sources.' },
       { el: '[data-light-toggle]', t: 'Light or dark', b: 'Switch between a light and a dark look whenever you like.' },
     ],
@@ -137,12 +135,6 @@ window.Feather = (() => {
       { el: '.topsearch, .top', t: 'Search', b: 'Type a region, a job (like “vision”) or a cell type.' },
       { el: '#filterPanel, #filterBtn', t: 'Filter', b: 'Choose which fly to look at and narrow the list by region family.' },
       { el: '#grid', t: 'Open a region', b: 'Each card shows where the region sits in the brain. Open one to explore it in 3D.' },
-    ],
-    chemicals: [
-      { t: 'The Chemical Library', b: 'What everyday substances, insecticides and the fly’s own brain chemicals actually do to a fruit fly, with the papers behind each claim.' },
-      { el: '#q', t: 'Search', b: 'Try “caffeine”, “sugar” or “DEET”.' },
-      { el: '.bar', t: 'Filter', b: 'Filter by group, or by how strong the evidence is: shown in fruit flies, in other insects, or borrowed from mammals.' },
-      { el: '#grid', t: 'Open a chemical', b: 'Click any card for what it does, which parts of the fly it acts on, and the sources.' },
     ],
     prediction: [
       { t: 'Prediction check', b: 'Before the real 3D data arrived, the lab predicted where each fly’s neurons sit using only its wiring. This page grades that guess.' },
@@ -385,7 +377,7 @@ window.Feather = (() => {
     const btn = document.createElement('button'); btn.id = 'muse-btn'; btn.textContent = 'Ask Muse';
     const pane = document.createElement('section'); pane.id = 'muse-pane'; pane.hidden = true; pane.setAttribute('aria-label', 'Ask Muse');
     pane.innerHTML = `<header><div><b>Ask Muse</b><small>Answers from the lab's records first, then the web. Written by AI; check the sources.</small></div><button class="x" aria-label="Close">×</button></header>
-      <div id="muse-log" aria-live="polite"><div class="mchips">${['What is MN9?', 'Why did experiment E4 miss?', 'What does the Knockout Lab predict?', 'What does caffeine do to flies?'].map(q => `<button>${q}</button>`).join('')}</div></div>
+      <div id="muse-log" aria-live="polite"><div class="mchips">${['What is MN9?', 'Why did experiment E4 miss?', 'What does the Knockout Lab predict?', 'What happens when dopamine neurons die?'].map(q => `<button>${q}</button>`).join('')}</div></div>
       <form id="muse-form"><input placeholder="Ask anything about the lab…" aria-label="Your question" maxlength="1000"><button>Ask</button></form>`;
     document.body.append(btn, pane);
     const log = pane.querySelector('#muse-log'), input = pane.querySelector('input');
