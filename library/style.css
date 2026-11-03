@@ -1,11 +1,11 @@
 /* Fly Atlas: page-only rules. Tokens, base, top bar in ../feather.css. */
 .hero { min-height:100dvh; background:var(--bg); color:var(--ink); transition:background .6s, color .6s; }
-.caption { font-family:"Newsreader","Iowan Old Style",Georgia,serif; }
+.caption { font-family:Inter,"Segoe UI",system-ui,sans-serif; }
 
 /* ---------- library view ---------- */
 .top { display:flex; gap:14px; align-items:center; padding:14px 22px;
   border-bottom:1px solid var(--line); background:var(--panel); position:sticky; top:0; z-index:5; }
-.top .brand h1 { font-family:"Newsreader","Iowan Old Style",Georgia,serif; font-weight:500;
+.top .brand h1 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500;
   font-size:20px; margin:0; white-space:nowrap; }
 .top .brand #sub { font-size:11.5px; color:var(--muted); margin:1px 0 0; white-space:nowrap; }
 .topsearch { flex:1; max-width:420px; margin-left:auto; display:flex; align-items:center; gap:8px;
@@ -70,7 +70,8 @@ main { padding:18px 22px 60px; min-width:0; }
   touch-action:none; cursor:grab; user-select:none; }
 #stage.grabbing { cursor:grabbing; }
 #gl { position:absolute; inset:0; width:100%; height:100%; display:block; }
-#fallback { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#0b0f17; }
+#fallback { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:var(--panel); }
+#stage.static .rail, #stage.static #hint { display:none; }
 #cellwrap { position:absolute; inset:0; }
 #cellwrap[hidden] { display:none; }
 #cellgl { position:absolute; inset:0; }
@@ -153,7 +154,11 @@ p.fine { border-top:1px solid var(--line); }
   .filters { position:fixed; z-index:20; top:0; bottom:0; left:0; width:min(84vw,320px);
     background:var(--panel); border-right:1px solid var(--line); max-height:none; }
   .filters.drawer-hidden { display:none; }
-  .topsearch { display:none; }
+  .top { flex-wrap:wrap; }
+  .top .brand { flex:1; min-width:0; }
+  .top .brand #sub { white-space:normal; }
+  .top #lightBtn { display:none; }
+  .topsearch { order:3; flex-basis:100%; max-width:none; margin-left:0; }
   .dwrap { grid-template-columns:1fr; }
   #stage { height:44dvh; }
   .info .card { max-height:none; }

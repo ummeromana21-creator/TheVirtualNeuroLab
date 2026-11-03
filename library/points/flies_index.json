@@ -1,0 +1,42 @@
+{
+ "classes": [
+  "optic",
+  "central",
+  "sensory",
+  "visual_projection",
+  "descending",
+  "ascending",
+  "visual_centrifugal",
+  "motor",
+  "endocrine",
+  "nerve_cord"
+ ],
+ "flies": {
+  "maxime": {
+   "neurons_in_export": 158262,
+   "neurons_drawn": 140750,
+   "brain": 124232,
+   "nerve_cord": 16518,
+   "no_cell_body": 17512,
+   "stray_points_dropped": 0,
+   "microns_per_unit": 432.8,
+   "brain_width_um": 865.7,
+   "nerve_cord_length_um": 889.2
+  },
+  "hagrid": {
+   "neurons_in_export": 166700,
+   "neurons_drawn": 140638,
+   "brain": 125019,
+   "nerve_cord": 15619,
+   "no_cell_body": 26062,
+   "stray_points_dropped": 0,
+   "microns_per_unit": 356.3,
+   "brain_width_um": 712.6,
+   "nerve_cord_length_um": 833.2
+  }
+ },
+ "sources": {
+  "maxime": "BANC v888 meta (position, 4x4x45 nm voxels), matched by root_888",
+  "hagrid": "male CNS v1.0 body annotations (somaLocation, 8 nm voxels), matched by bodyId"
+ }
+}

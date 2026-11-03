@@ -1,8 +1,11 @@
 // Fly Atlas: filterable library + 3D point-cloud detail view.
 import { siblings, sideName, ntSummary, ntFull, isCollapsed } from "../anatomy/celltype_logic.js?v=1";
-const HUBS = ["all", "optic", "VNC", "lateral", "olfactory", "GNG", "CX", "senses", "celltypes", "subsets", "unassigned", "nowire"];
-const SEXES = [["both", "F + M"], ["F", "Female"], ["M", "Male"]];
-const state = { q: "", hub: "all", level: "all", sex: "both", sort: "syn" };
+let HUBS = ["all"];  // filled from data.json families (Ito et al. 2014 / Court et al. 2020) + "celltypes"
+// One fly at a time: each fly's numbers come only from its own scan (never compared side by side).
+const FLYS = [["maxime", "Maxime \u2640 \u00b7 BANC"], ["hagrid", "Hagrid \u2642 \u00b7 male CNS"]];
+const FLYNAME = { maxime: "Maxime", hagrid: "Hagrid" };
+const state = { q: "", hub: "all", level: "all", fly: "maxime", sort: "syn" };
+let FAMNAME = {};
 let DATA = [];
 const PATH = { data: [], cent: {} };  // pathways.json + per-region centroids
 const byName = n => DATA.find(e => e.name === n);
@@ -44,6 +47,8 @@ const HUBNAME = {
   unassigned: "Unassigned contacts", nowire: "Neurons with no wiring",
 };
 const dispName = e => {
+  if (e.level === "family") return e.full;
+  if (e.level === "region") return e.full && e.full !== e.name ? `${e.name} - ${e.full}` : e.name;
   if (e.level === "hub" && HUBNAME[e.name]) return HUBNAME[e.name];
   const sm = e.level === "subset" && e.name.match(/^(.*) \(male (VNC|optic)\)$/);
   if (sm) {  // "ME_R (male optic)" -> "ME (right, male, Optic) - Medulla"
@@ -74,53 +79,69 @@ const on = (id, ev, fn) => $(id)?.addEventListener(ev, fn);
 const click = (id, fn) => { const e = $(id); if (e) e.onclick = fn; };
 
 const fmt = n => n == null ? "—" : n.toLocaleString("en-US");
-const IMGV = "?v=2";  // bump when card art is re-rendered (covers rows + stills)
+const IMGV = "?v=4";  // bump when card art is re-rendered (covers rows + stills)
 const hay = e => `${e.name} ${EXP[e.name] || ""} ${e.hub} ${e.cls || ""} ${e.sub || ""} ${e.func} ${e.desc} ${e.aliases || ""}`.toLowerCase();
+// Numbers for one entry: regions/families use the chosen fly's own scan;
+// cell types use the FlyWire reference brain (labelled as such on the card).
+const nums = e => (e.level === "region" || e.level === "family")
+  ? e[state.fly] || null
+  : { neurons: e.fn, synapses: e.fs, ref: true };
 function sortKey(e) {
+  const n = nums(e) || {};
   switch (state.sort) {
-    case "fsyn": return -(e.fs || 0);
-    case "msyn": return -(e.ms || 0);
-    case "neu": return -((e.fn || 0) + (e.mn || 0));
+    case "neu": return -(n.neurons || 0);
     case "name": return e.name;
-    case "ratio": return typeof e.ratio === "number" ? -e.ratio : 1e9;
-    default: return -((e.fs || 0) + (e.ms || 0));
+    default: return -(n.synapses || 0);
   }
 }
 const filtered = () => DATA
   .filter(e => state.hub === "all" || e.hub === state.hub)
-  .filter(e => state.level === "all" || e.level === state.level)
+  .filter(e => state.level === "all" ? (e.level !== "celltype" || state.hub === "celltypes") : e.level === state.level)
   .filter(e => !state.q || hay(e).includes(state.q))
   .sort((a, b) => { const ka = sortKey(a), kb = sortKey(b); return ka < kb ? -1 : ka > kb ? 1 : 0; });
 
 // ---------- library view ----------
 function statMini(e) {
+  const n = nums(e), who = FLYNAME[state.fly];
+  if (!n) return `<dt>${who}</dt><dd>not in this scan</dd>`;
+  if (n.merged_into) return `<dt>${who}</dt><dd>counted inside ${n.merged_into} in this scan</dd>`;
   const r = [];
-  if (e.fn != null && state.sex !== "M") r.push(`<dt>F neurons</dt><dd>${fmt(e.fn)}</dd>`);
-  if (e.mn != null && state.sex !== "F") r.push(`<dt>M neurons</dt><dd>${fmt(e.mn)}</dd>`);
-  if (state.sex !== "M") r.push(`<dt>F synapses</dt><dd>${fmt(e.fs)}</dd>`);
-  if (state.sex !== "F") r.push(`<dt>M synapses</dt><dd>${fmt(e.ms)}</dd>`);
-  r.push(`<dt>M/F ratio</dt><dd>${e.ratio == null ? "—" : e.ratio}</dd>`);
+  if (n.neurons != null) r.push(`<dt>${n.ref ? "Cells" : "Neurons with synapses here"}</dt><dd>${fmt(n.neurons)}</dd>`);
+  if (n.synapses != null) r.push(`<dt>Synapses${n.ref ? "" : " (in strong connections)"}</dt><dd>${fmt(n.synapses)}</dd>`);
+  if (n.left != null && (n.left || n.right)) r.push(`<dt>Left / right</dt><dd>${fmt(n.left)} / ${fmt(n.right)}</dd>`);
+  const g = predFor(e);
+  if (g) r.push(`<dt>Prediction match</dt><dd>${g.shape_resemblance_pct}% resemblance</dd>`);
   return r.join("");
 }
+// The lab's earlier wiring-only prediction, graded against this fly's real anatomy (see ../prediction/).
+// Only regions where the prediction overlapped the real shape (>0%) are shown.
+let PRED = null;
+const predFor = e => {
+  if (!PRED || e.level !== "region") return null;
+  const g = PRED[state.fly] && PRED[state.fly].regions && PRED[state.fly].regions[e.name];
+  return g && g.shape_resemblance_pct > 0 ? g : null;
+};
+const imgFor = e => e["img_" + state.fly] || e.img;
+const tagFor = e => e.level === "family" ? "family" : e.level === "region" ? (FAMNAME[e.hub] || e.hub) : e.hub;
 function renderLibrary() {
   const list = filtered();
   const grid = $("grid");
   if (!grid) return;
   grid.innerHTML = list.length ? list.map(e => `
-    <article class="card" data-name="${e.name}" tabindex="0" role="link" aria-label="${dispName(e)}, open detail view">
-      <img src="${e.img}${IMGV}" alt="" loading="lazy" decoding="async">
+    <div class="card" data-name="${e.name}" tabindex="0" role="link" aria-label="${dispName(e)}, open detail view">
+      <img src="${imgFor(e)}${IMGV}" alt="" loading="lazy" decoding="async">
       <div class="body">
-        <div class="hd"><h2>${dispName(e)}</h2><span class="tag">${e.level === "hub" ? e.hub + " hub" : e.hub}</span></div>
+        <div class="hd"><h2>${dispName(e)}</h2><span class="tag">${tagFor(e)}</span></div>
         <p class="func">${e.func}</p>
-        ${e.hub === "celltypes" ? `<p class="vsrc">counts: FlyWire v783</p>` : ""}
+        <p class="vsrc">${e.hub === "celltypes" ? "counts: FlyWire reference brain (v783)" : "counts: " + FLYNAME[state.fly] + "\u2019s own scan"}</p>
         <dl class="stats">${statMini(e)}</dl>
       </div>
-    </article>`).join("")
+    </div>`).join("")
     : `<p class="empty">No regions match these filters.</p>`;
   const count = $("count");
   if (count) count.textContent = `${list.length} of ${DATA.length} entries`;
   document.querySelectorAll("#hubs button").forEach(b => b.classList.toggle("on", b.dataset.v === state.hub));
-  document.querySelectorAll("#sex button").forEach(b => b.classList.toggle("on", b.dataset.v === state.sex));
+  document.querySelectorAll("#sex button").forEach(b => b.classList.toggle("on", b.dataset.v === state.fly));
 }
 
 // ---------- 3D stage (lazy three.js) ----------
@@ -186,6 +207,7 @@ async function initGL() {
     const dt = Math.min(0.05, (t - stage.lastT) / 1000);
     stage.lastT = t;
     step(dt, t / 1000);
+    stepPaths(t / 1000);
     stage.renderer.render(stage.scene, stage.camera);
     stage.raf = requestAnimationFrame(loop);
   };
@@ -201,15 +223,13 @@ function fitGL() {
   stage.camera.updateProjectionMatrix();
 }
 function paintLit(hub) {
-  if (stage.lit) stage.lit.material.color.setHex(HUBC[theme()][hub] ?? 0x4d5a3d);
+  if (stage.lit) stage.lit.material.color.setHex(HUBC[theme()][hub] ?? (theme() === "dusk" ? 0xff6fb5 : 0xc2187a));
 }
 async function setLit(entry) {
   // regions to light: neuropil itself, hub merges its brain members.
   // (Cell types never reach here: they get the embedded ortho viewer.)
-  let regs = entry.level === "hub"
-    ? DATA.filter(e => e.hub === entry.hub && e.level === "neuropil").map(e => e.name)
-    : [entry.name];
-  regs = regs.filter(r => !["VNC", "unassigned", "nowire"].includes(byName(r)?.hub));
+  let regs = entry.level === "family" ? entry.members.slice() : [entry.name];
+  regs = regs.filter(r => byName(r)?.has3d !== false);
   const per = Math.max(1500, Math.floor(30000 / Math.max(1, regs.length)));
   const parts = [];
   for (const r of regs) {
@@ -240,7 +260,8 @@ async function setLit(entry) {
   paintPaths();
 }
 async function paintPaths() {
-  if (stage.paths) { stage.scene.remove(stage.paths); stage.paths.geometry.dispose(); stage.paths = null; }
+  if (stage.paths) { stage.scene.remove(stage.paths); stage.paths.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); }); stage.paths = null; }
+  if (PATH.show && !PATH.data.length) { try { PATH.data = await (await fetch("pathways.json?v=1")).json(); } catch {} }
   const on = PATH.show && PATH.data.length && !fallbackMode;
   if (!on) return;
   const top = PATH.data.filter(e => e.a !== e.b).slice(0, 30);
@@ -254,17 +275,53 @@ async function paintPaths() {
       PATH.cent[n] = [x / k, y / k, z / k];
     } catch { PATH.cent[n] = null; }
   }));
-  const pos = [];
+  if (!PATH.show || fallbackMode) return;
+  // Thick glowing arcs, drawn on top of the dots: thickness = wiring strength in this fly,
+  // wires touching the open region in the region's highlight colour, pulses travel along each wire.
+  const key = state.fly === "hagrid" ? "m" : "f";
+  const wmax = Math.max(...top.map(e => e[key] || 0), 1);
+  if (stage.soma && !stage.soma.geometry.boundingSphere) stage.soma.geometry.computeBoundingSphere();
+  const R = (stage.soma && stage.soma.geometry.boundingSphere) ? stage.soma.geometry.boundingSphere.radius : 1;
+  const dusk = theme() === "dusk";
+  const cMain = new T.Color(dusk ? 0x47a5fa : 0x0064e0);
+  const cHere = new T.Color(stage.lit ? stage.lit.material.color : (dusk ? 0xff6fb5 : 0xc2187a));
+  const here = current && current.name;
+  const grp = new T.Group(); grp.userData.lit = true; grp.renderOrder = 10;
+  const pulses = [];
+  const nodeGeo = new T.SphereGeometry(1, 16, 12);
+  const nodes = new Set();
   for (const e of top) {
     const A = PATH.cent[e.a], B = PATH.cent[e.b];
-    if (A && B) pos.push(...A, ...B);
+    if (!A || !B) continue;
+    const va = new T.Vector3(...A), vb = new T.Vector3(...B);
+    const mid = va.clone().add(vb).multiplyScalar(0.5);
+    const lift = mid.clone().normalize().multiplyScalar(va.distanceTo(vb) * 0.25 + R * 0.04);  // bow outwards so wires don't overlap
+    const curve = new T.QuadraticBezierCurve3(va, mid.add(lift), vb);
+    const w = Math.sqrt((e[key] || 0) / wmax);
+    const touch = here && (e.a === here || e.b === here);
+    const col = touch ? cHere : cMain;
+    const mat = new T.MeshBasicMaterial({ color: col, transparent: true, opacity: touch ? 0.95 : 0.55 + 0.35 * w, depthTest: false, depthWrite: false });
+    const tube = new T.Mesh(new T.TubeGeometry(curve, 48, R * (0.004 + 0.012 * w), 8, false), mat);
+    tube.renderOrder = 10; grp.add(tube);
+    const dot = new T.Mesh(nodeGeo, new T.MeshBasicMaterial({ color: dusk ? 0xffffff : 0xffffff, depthTest: false, depthWrite: false }));
+    dot.scale.setScalar(R * (0.008 + 0.012 * w)); dot.renderOrder = 12; grp.add(dot);
+    pulses.push({ curve, dot, phase: Math.random(), speed: 0.25 + 0.25 * w });
+    for (const [n, v] of [[e.a, va], [e.b, vb]]) if (!nodes.has(n)) {
+      nodes.add(n);
+      const s = new T.Mesh(nodeGeo, new T.MeshBasicMaterial({ color: n === here ? cHere : cMain, depthTest: false, depthWrite: false }));
+      s.position.copy(v); s.scale.setScalar(R * (n === here ? 0.03 : 0.018)); s.renderOrder = 11; grp.add(s);
+    }
   }
-  if (!pos.length || !PATH.show || fallbackMode) return;
-  const g = new T.BufferGeometry();
-  g.setAttribute("position", new T.BufferAttribute(new Float32Array(pos), 3));
-  stage.paths = new T.LineSegments(g, new T.LineBasicMaterial({ color: 0x0f766e, transparent: true, opacity: 0.45 }));
-  stage.paths.userData.lit = true;
-  stage.scene.add(stage.paths);
+  if (!grp.children.length) return;
+  grp.userData.pulses = pulses;
+  stage.paths = grp;
+  stage.scene.add(grp);
+}
+function stepPaths(t) {
+  const P = stage.paths && stage.paths.userData.pulses;
+  if (!P) return;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const p of P) { const u = still ? 0.5 : (t * p.speed + p.phase) % 1; p.curve.getPoint(u, p.dot.position); }
 }
 function step(dt, t) {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -413,8 +470,8 @@ const CELL = {
 };
 const CODEX = id => `https://codex.flywire.ai/app/cell_details?root_id=${id}&dataset=fafb`;
 const CELLC = {
-  day: { bg: 0x9aa7b8, left: 0x0f766e, right: 0xb45309, grey: 0x64748b, sib: 0x334155, skel: 0x7c3aed, wire: 0x475569 },
-  dusk: { bg: 0x2a3342, left: 0x14b8a6, right: 0xf59e0b, grey: 0x9fb3c8, sib: 0xe2e8f0, skel: 0xa78bfa, wire: 0x94a3b8 },
+  day: { bg: 0x9aa7b8, left: 0x0f766e, right: 0xb45309, grey: 0x64748b, sib: 0x334155, skel: 0x0064e0, wire: 0xc2187a },
+  dusk: { bg: 0x2a3342, left: 0x14b8a6, right: 0xf59e0b, grey: 0x9fb3c8, sib: 0xe2e8f0, skel: 0x47a5fa, wire: 0xff6fb5 },
 };
 function cellPaint() {
   const pal = CELLC[theme()] || CELLC.day;
@@ -440,6 +497,11 @@ async function cellEnsure() {
   if (CELL.renderer) return;
   T = T || await import("three");
   CELL.OC = CELL.OC || (await import("three/addons/controls/OrbitControls.js")).OrbitControls;
+  // thick lines (WebGL draws plain lines 1 px wide, which is too faint to see)
+  if (!CELL.FL) {
+    const [a, b, c] = await Promise.all([import("three/addons/lines/LineSegments2.js"), import("three/addons/lines/LineSegmentsGeometry.js"), import("three/addons/lines/LineMaterial.js")]);
+    CELL.FL = { Seg: a.LineSegments2, Geo: b.LineSegmentsGeometry, Mat: c.LineMaterial };
+  }
   const wrap = $("cellgl");
   CELL.renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
   CELL.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
@@ -534,6 +596,7 @@ function cellFit() {
   const w = $("cellgl").clientWidth, h = $("cellgl").clientHeight;
   if (!w || !h) return;
   CELL.renderer.setSize(w, h, false);
+  for (const o of [CELL.skelLines, CELL.wireLines]) if (o && o.material.resolution) o.material.resolution.set(w, h);
   const a = w / h;
   CELL.camera.left = -CELL.halfH * a; CELL.camera.right = CELL.halfH * a;
   CELL.camera.updateProjectionMatrix();
@@ -585,13 +648,27 @@ function cellSibs(sibs) {
   CELL.sibPts = cellPoints(g, 3, (CELLC[theme()] || CELLC.day).sib, 0.85);
   CELL.scene.add(CELL.sibPts);
 }
+const SKEL_TYPES = new Set(["BM_Taste", "C2", "Dm8a", "JO-A", "KCab", "KCg-m", "L1", "L2", "L3", "LC10a", "LPLC2", "Mi1", "ORN_DM1", "ORN_V", "ORN_VA1v", "PFNa", "R1-6", "R7", "R8", "T2", "T4a", "T5a", "Tm1", "Tm2", "Tm9"]);
 async function cellSkel(name) {
-  // One traced shape per type, for the 25 most-studied types. 404 = none.
+  // One traced shape per type, for the 25 most-studied types (listed above, so no failed requests for the rest).
+  if (!SKEL_TYPES.has(name)) return null;
   try {
     const r = await fetch(`../anatomy/celltypes/skeletons/${encodeURIComponent(name)}.json?v=1`);
     if (!r.ok) return null;
     return await r.json();
   } catch { return null; }
+}
+function fatLines(arr, color, width, opacity) {
+  // arr: flat [x1,y1,z1, x2,y2,z2, ...] pairs. Drawn on top of the dots so they are never hidden.
+  if (!CELL.FL) {
+    const g = new T.BufferGeometry(); g.setAttribute("position", new T.BufferAttribute(arr, 3));
+    return new T.LineSegments(g, new T.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false, depthTest: false }));
+  }
+  const g = new CELL.FL.Geo(); g.setPositions(arr);
+  const m = new CELL.FL.Mat({ color, linewidth: width, transparent: true, opacity, depthWrite: false, depthTest: false });
+  m.resolution.set($("cellgl").clientWidth || 800, $("cellgl").clientHeight || 600);
+  const o = new CELL.FL.Seg(g, m); o.computeLineDistances(); o.renderOrder = 20;
+  return o;
 }
 function drawSkel() {
   if (CELL.skelLines) { CELL.scene.remove(CELL.skelLines); CELL.skelLines.geometry.dispose(); CELL.skelLines = null; }
@@ -603,12 +680,7 @@ function drawSkel() {
     arr.set([nodes[a][0], -nodes[a][1], nodes[a][2]], 6 * k);
     arr.set([nodes[b][0], -nodes[b][1], nodes[b][2]], 6 * k + 3);
   });
-  const g = new T.BufferGeometry();
-  g.setAttribute("position", new T.BufferAttribute(arr, 3));
-  CELL.skelLines = new T.LineSegments(g, new T.LineBasicMaterial({
-    color: (CELLC[theme()] || CELLC.day).skel ?? 0x7c3aed,
-    transparent: true, opacity: 0.9, depthWrite: false,
-  }));
+  CELL.skelLines = fatLines(arr, (CELLC[theme()] || CELLC.day).skel, 3.5, 1);
   CELL.skelLines.frustumCulled = false;
   CELL.scene.add(CELL.skelLines);
 }
@@ -632,12 +704,7 @@ function drawWire() {
     arr.set([pa, -pb, pc], 6 * k);
     arr.set([qa, -qb, qc], 6 * k + 3);
   });
-  const g = new T.BufferGeometry();
-  g.setAttribute("position", new T.BufferAttribute(arr, 3));
-  CELL.wireLines = new T.LineSegments(g, new T.LineBasicMaterial({
-    color: (CELLC[theme()] || CELLC.day).wire ?? 0x475569,
-    transparent: true, opacity: 0.55, depthWrite: false,
-  }));
+  CELL.wireLines = fatLines(arr, (CELLC[theme()] || CELLC.day).wire, 1.8, 0.75);
   CELL.wireLines.frustumCulled = false;
   CELL.scene.add(CELL.wireLines);
 }
@@ -684,7 +751,7 @@ function cellSmallPrint(t, name, cls) {
     `Front view: the fly faces you, dorsal side up. A dot is a point on the cell, not its shape.`,
     `Type label: ${name} from the Codex cell-type column` + (optic ? ` (optic-lobe types after Matsliah, Yu et al. 2024 and Schlegel et al. 2024)` : ``) + `.`,
     t.in_file
-      ? `${name}: ${t.n.toLocaleString("en-US")} neurons (${t.left} left, ${t.right} right). Predicted transmitters: ${ntFull(t.nt)}.`
+      ? `3D view: ${t.n.toLocaleString("en-US")} cells that the Codex export labels ${name}. Counts on the card come from the published FlyWire annotations where available.`
       : `${name} is not in the FlyWire file (${t.reason}); no dots, counts from the atlas sheet.`,
     ...(CELL.skel && CELL.current === name
       ? [`Traced shape: one ${name} neuron (root id ${CELL.skel.root_id}, ${CELL.skel.n_kept} branch points from ${CELL.skel.n_full.toLocaleString("en-US")} traced points, FlyWire LOD1 healed). One cell's shape, not the whole type.`]
@@ -692,10 +759,7 @@ function cellSmallPrint(t, name, cls) {
     ...(CELL.wire && CELL.current === name
       ? [`Wiring: strongest ${CELL.wire.edges.length} of ${CELL.wire.n_out_full.toLocaleString("en-US")} outgoing connections, by weight (FlyWire v783). Capped for speed; toggle above.`]
       : []),
-    `Positions: FlyWire (Dorkenwald et al. 2024; Schlegel et al. 2024) via Codex (Matsliah et al. 2023). Transmitters predicted (Eckstein, Bates et al. 2024).`,
-    SIM_TYPES[name]
-      ? `Simulated? Yes — as part of the sim's ${SIM_TYPES[name]}.`
-      : `Simulated? No. Anatomy only. Nothing here comes from the simulation.`,
+    `Positions: FlyWire (Dorkenwald et al. 2024; Schlegel et al. 2024) via Codex. Transmitters: experimentally confirmed values from the FlyWire annotations where recorded; otherwise image-based predictions (Eckstein, Bates et al. 2024).`,
   ];
   return `<details class="fine"><summary>Data sources</summary>${rows.map(r => `<p>${r}</p>`).join("")}</details>`;
 }
@@ -715,13 +779,12 @@ function fillCellPanel(e) {
   const collapsed = isCollapsed(cellTypeSpan(t.indices),
     Math.hypot(b[1][0] - b[0][0], b[1][1] - b[0][1], b[1][2] - b[0][2]), t.n);
   detail.insertAdjacentHTML("beforeend", `
-    <h2>Left / right</h2>
+    <h2>In the 3D view</h2>
     <div class="traits">
-      ${traitRow('<span class="sw" style="background:#14b8a6"></span>Left', fmt(t.left))}
-      ${traitRow('<span class="sw" style="background:#f59e0b"></span>Right', fmt(t.right))}
-      ${traitRow("Transmitter", ntSummary(t.nt, t.n).text)}
+      ${traitRow('<span class="sw" style="background:#14b8a6"></span>Left (dots)', fmt(t.left))}
+      ${traitRow('<span class="sw" style="background:#f59e0b"></span>Right (dots)', fmt(t.right))}
+      ${traitRow("Transmitter", e.nt_text || ntSummary(t.nt, t.n).text)}
     </div>
-    ${known.map(([k, v]) => `<div class="ntsub">${k}: ${v.toLocaleString("en-US")} (${Math.round(100 * v / tot)}% of predicted)</div>`).join("")}
     ${collapsed ? `<p class="fine">These dots sit close together because each dot is the type's recorded point inside its shared neuropil, not the cell body's shape.</p>` : ""}
     ${sibs.length ? `<div class="sibline"><label><input type="checkbox" class="sibtoggle" ${CELL.showSibs ? "checked" : ""}> Show related by name, not by wiring: ${sibs.join(", ")}</label></div>` : ""}
     ${CELL.skel ? `<div class="sibline"><label><input type="checkbox" class="skeltoggle" ${CELL.showSkel ? "checked" : ""}> Show one traced shape (root id ${CELL.skel.root_id})</label></div>` : ""}
@@ -741,14 +804,33 @@ function fillCellPanel(e) {
 
 // ---------- detail view ----------
 let current = null, sibs = [];
-const pillFor = e => e.level === "hub"
+const pillFor = e => e.level === "family"
+  ? ["family", `${e.members.length} regions`, e.func]
+  : e.level === "region"
+  ? [FAMNAME[e.hub] || e.hub, e.func]
+  : e.level === "hub"
   ? [e.hub + " hub", `${DATA.filter(x => x.hub === e.hub && x.level === "neuropil").length} regions`, e.func]
   : e.level === "celltype"
   ? [e.cls || "unclassified", e.flow || "", e.func].filter(Boolean)
   : [e.hub, e.level, e.func];
 function traitRow(k, v) { return `<div class="trait"><span class="k">${k}</span><span class="v">${v}</span></div>`; }
 const SIM_GROUPS = { AL: "antennal lobe PNs", LH: "lateral horn", EB: "central complex", FB: "central complex", PB: "central complex", NO: "central complex", ME: "optic lobes", LO: "optic lobes", LOP: "optic lobes", LA: "optic lobes", AME: "optic lobes", MB_CA: "mushroom body", MB_ML: "mushroom body", MB_PED: "mushroom body", MB_VL: "mushroom body" };
+const SCAN = {
+  maxime: "Maxime = BANC, a female brain-and-nerve-cord scan (Bates, Phelps et al., Nature 2026). The BANC scan does not include the lamina.",
+  hagrid: "Hagrid = the male CNS, a male brain-and-nerve-cord scan (Berg et al., Cell 2026).",
+};
 function regionSmallPrint(e) {
+  if (e.level === "region" || e.level === "family") {
+    const rows = [
+      SCAN[state.fly],
+      "Counts come from FlyWire Codex exports and include only strong connections (neuron pairs joined by 5 or more synapses), counted the same way for both flies. Full scans contain more synapses.",
+      "Maxime and Hagrid were scanned by different labs with different methods, so their numbers should not be compared as a male\u2013female difference.",
+      e.hub === "VNC" ? `Picture: ${FLYNAME[state.fly]}\u2019s own measured cell bodies (Maxime: BANC v888 release; Hagrid: male CNS v1.0 release), seen from above; pink = neurons whose synapses are mostly in this region.` :
+      e.has3d === false ? "3D: no reference picture for this region yet." : "3D: drawn on the FlyWire reference brain (female, FAFB v783), the standard map for brain regions.",
+      "Names and families: Ito et al. 2014 (brain), Court et al. 2020 (nerve cord).",
+    ];
+    return `<details class="fine"><summary>Data sources</summary>${rows.map(r => `<p>${r}</p>`).join("")}</details>`;
+  }
   const rows = [];
   if (e.level === "subset") {
     rows.push(`Dataset: male-only file (${e.name.includes("optic") ? "Male Fly Optic Nerve" : "Male Fly Connectome"}); no female counterpart.`);
@@ -767,38 +849,52 @@ function regionSmallPrint(e) {
   }
   return `<details class="fine"><summary>Data sources</summary>${rows.map(r => `<p>${r}</p>`).join("")}</details>`;
 }
+function keyNumbers(e) {
+  if (e.level !== "region" && e.level !== "family") {
+    return traitRow("Cells (FlyWire reference)", fmt(e.fn)) + (e.fs != null ? traitRow("Synapses (FlyWire reference)", fmt(e.fs)) : "");
+  }
+  const n = nums(e), who = FLYNAME[state.fly];
+  if (!n) return traitRow(who, e.name === "LA" && state.fly === "maxime" ? "not in this scan (BANC has no lamina)" : "not in this scan");
+  if (n.merged_into) return traitRow(who, `counted inside ${n.merged_into} \u2014 this scan does not label ${e.name} separately`);
+  return (n.note ? `<p class="fine" style="margin:0 0 6px">${n.note}</p>` : "") + (n.neurons != null ? traitRow(`${who}: neurons with synapses here`, fmt(n.neurons)) : "")
+    + traitRow(`${who}: synapses (strong connections)`, fmt(n.synapses))
+    + (n.left || n.right ? traitRow("Left / right", `${fmt(n.left)} / ${fmt(n.right)}`) : "")
+    + (predFor(e) ? traitRow("Lab's prediction vs real", `${predFor(e).shape_resemblance_pct}% shape resemblance`)
+        + traitRow("Typical miss", `${fmt(Math.round(predFor(e).median_distance_um))} µm (if shuffled within this region: ${fmt(Math.round(predFor(e).baseline_median_um))} µm)`)
+        + `<p class="fine" style="margin:6px 0 0">How closely the lab's earlier wiring-only guess of where these neurons sit matched ${FLYNAME[state.fly]}'s real measured anatomy. This is an overlap score, not “percent correct”: even two halves of the same real fly don’t reach 100% in small regions. <a href="../prediction/">How this was measured</a>.</p>` : "")
+    + `<p class="fine" style="margin:6px 0 0">Switch flies with the Maxime / Hagrid buttons in the library. The two scans were made and analysed by different teams, with different ways of detecting synapses, so compare patterns between the flies, not totals — and don\u2019t read the difference as a sex difference.</p>`;
+}
 function renderDetail(e) {
   current = e;
   const sibEntries = e.level === "celltype" && e.cls
     ? DATA.filter(x => x.cls === e.cls)
+    : (e.level === "region" || e.level === "family")
+    ? DATA.filter(x => x.hub === e.hub && (x.level === "region" || x.level === "family"))
     : e.level === "side"
     ? DATA.filter(x => x.name === e.base || x.name === e.base + "_L" || x.name === e.base + "_R")
     : DATA.filter(x => x.hub === e.hub);
   sibs = sibEntries.map(x => x.name);
   document.getElementById("sibNav").innerHTML =
-    `<span class="cap">${e.level === "celltype" ? e.cls : e.level === "side" ? e.base : e.hub} · ${sibEntries.length}</span>` + sibEntries.map(x =>
+    `<span class="cap">${e.level === "celltype" ? e.cls : e.level === "side" ? e.base : (FAMNAME[e.hub] || e.hub)} · ${sibEntries.length}</span>` + sibEntries.map(x =>
       `<button data-n="${x.name}" class="${x.name === e.name ? "on" : ""}">${dispName(x)}<small>${x.func}</small></button>`).join("");
   const neurons = e.fn != null || e.mn != null;
   document.getElementById("detail").innerHTML = `
-    <span class="eyebrow">${e.hub}${e.level === "hub" ? " · hub" : ""}</span>
+    <span class="eyebrow">${e.level === "family" ? "region family" : e.level === "region" ? (FAMNAME[e.hub] || e.hub) : e.hub}</span>
     <h1>${dispName(e)}</h1>
     <div class="pills">${pillFor(e).map(p => `<span>${p}</span>`).join("")}</div>
     <p class="desc">${e.desc}</p>
     <h2>Key numbers</h2>
     <div class="traits">
-      ${neurons ? traitRow("Female neurons", fmt(e.fn)) + traitRow("Male neurons", fmt(e.mn)) : ""}
-      ${traitRow("Female synapses", fmt(e.fs))}${traitRow("Male synapses", fmt(e.ms))}
-      ${traitRow("M/F ratio", e.ratio == null ? "—" : e.ratio)}
+      ${keyNumbers(e)}
     </div>
     <button class="closeup" id="closeup" aria-pressed="false">
-      <span><span class="t">Close-up Detail</span><span class="d" style="display:block">${e.level === "hub" ? "Zoom to every region in this hub" : e.level === "sense" ? "Zoom to this group in 3D" : "Zoom to this region in 3D"}</span></span>
+      <span><span class="t">Close-up Detail</span><span class="d" style="display:block">${e.level === "family" ? "Zoom to every region in this family" : e.level === "hub" ? "Zoom to every region in this hub" : e.level === "sense" ? "Zoom to this group in 3D" : "Zoom to this region in 3D"}</span></span>
       <svg class="ic"><use href="#i-chev"/></svg>
     </button>
     <button class="closeup" id="pathways" aria-pressed="false">
       <span><span class="t">Pathways</span><span class="d" style="display:block">Draw the 30 strongest between-region wires</span></span>
       <svg class="ic"><use href="#i-chev"/></svg>
     </button>
-    <a class="asklink" href="../study.html?q=${encodeURIComponent("what does " + e.name + " do (" + e.func + ")")}&region=${encodeURIComponent(e.row)}&level=${encodeURIComponent(e.level)}">Ask about this region</a>
     ${e.level === "celltype" ? "" : regionSmallPrint(e)}`;
   document.getElementById("caption").textContent = e.func;
   document.getElementById("closeup").onclick = () => {
@@ -823,7 +919,7 @@ async function openDetail(name, push = true) {
   const e = byName(name);
   if (!e || !$("detailView")) return;
   if (current && current.name === name) return; // hash echo of our own navigation: skip double load
-  fallbackMode = ["VNC", "unassigned", "nowire", "subsets"].includes(e.hub) || e.level === "side";
+  fallbackMode = e.has3d === false || ["VNC", "unassigned", "nowire", "subsets"].includes(e.hub) || e.level === "side";
   const isCell = e.hub === "celltypes"; // embedded ortho viewer, not the perspective stage
   hideCell();
   if ($("libraryView")) $("libraryView").hidden = true;
@@ -831,6 +927,7 @@ async function openDetail(name, push = true) {
   if ($("partTip")) $("partTip").hidden = true;
   renderDetail(e);
   document.getElementById("fallback").hidden = true;
+  document.getElementById("stage").classList.toggle("static", fallbackMode);  // a still picture: no turn/zoom controls
   document.getElementById("gl").style.display = (fallbackMode || isCell) ? "none" : "block";
   document.querySelector("#stage .rail").style.display = isCell ? "none" : "";
   document.getElementById("hint").style.display = isCell ? "none" : "";
@@ -844,26 +941,26 @@ async function openDetail(name, push = true) {
     } catch (err) {
       $("cellwrap").hidden = true; // positions failed: still render instead
       const fb = document.getElementById("fallback");
-      fb.src = e.img + IMGV; fb.alt = `${e.name} render`;
+      fb.src = imgFor(e) + IMGV; fb.alt = `${e.name} render`;
       fb.hidden = false;
       document.getElementById("caption").textContent = "Cell positions failed to load — still render below";
     }
     document.getElementById("loader").hidden = true;
   } else if (fallbackMode) {
     const fb = document.getElementById("fallback");
-    fb.src = e.img + IMGV; fb.alt = `${e.name} render`;
+    fb.src = imgFor(e) + IMGV; fb.alt = `${e.name} render`;
     fb.hidden = false;
     document.getElementById("caption").textContent =
       e.level === "side" ? "Side counts — render shows the whole region" :
       e.level === "subset" ? "Male-only subset file — counts only, no 3D position" :
-      e.hub === "VNC" ? `${e.func} — schematic drawing, no cord coordinates` :
+      e.hub === "VNC" ? `${e.full || e.func} — ${FLYNAME[state.fly]}\u2019s own measured cell bodies, seen from above` :
       e.hub === "nowire" ? "Absent from the wiring files — nothing to show" :
       "Scattered contacts with no consensus position";
     document.getElementById("closeup").style.display = "none";
-    document.getElementById("pathways").style.display = "";
+    document.getElementById("pathways").style.display = "none";
   } else {
     document.getElementById("closeup").style.display = "";
-    document.getElementById("pathways").style.display = "";
+    document.getElementById("pathways").style.display = "none";
     document.getElementById("loader").hidden = false;
     try {
       if (!stage.on) await initGL();
@@ -873,7 +970,7 @@ async function openDetail(name, push = true) {
     } catch (err) {
       document.getElementById("gl").style.display = "none"; // 3D failed: still render + reason, never a hung loader
       const fb = document.getElementById("fallback");
-      fb.src = e.img + IMGV; fb.alt = `${e.name} render`;
+      fb.src = imgFor(e) + IMGV; fb.alt = `${e.name} render`;
       fb.hidden = false;
       document.getElementById("caption").textContent = "3D failed to load (" + (err && err.message ? err.message : "unknown error") + ") — still render below";
     }
@@ -900,23 +997,27 @@ function stepDetail(d) {
 // NOTE: no Feather.topbar here — the site bar in #navMount already carries the
 // hubs. .top stays a slim toolbar (title + search + filter + light).
 Feather.init({ onLight: () => { if (stage.on) { stage.paintSomas(); if (current) paintLit(current.hub); } if (CELL.renderer) cellPaint(); } });
-Promise.all([fetch("data.json").then(r => r.json()), fetch("celltypes.json?v=1").then(r => r.json()).catch(() => []), fetch("sides.json").then(r => r.json()).catch(() => []), fetch("subsets.json").then(r => r.json()).catch(() => []), fetch("sensegroups.json").then(r => r.json()).catch(() => []), fetch("pathways.json").then(r => r.json()).catch(() => [])]).then(([d, ct, sd, ss, sg, pw]) => {
-  DATA = d.concat(ct, sd, ss, sg);
-  PATH.data = pw;
-  const f = d.filter(e => e.level === "hub").reduce((s, e) => s + (e.fs || 0), 0);
-  const m = d.filter(e => e.level === "hub").reduce((s, e) => s + (e.ms || 0), 0);
+Promise.all([fetch("data.json?v=4").then(r => r.json()), fetch("celltypes.json?v=3").then(r => r.json()).catch(() => []), fetch("prediction_vs_real.json?v=1").then(r => r.json()).catch(() => null)]).then(([d, ct, pv]) => {
+  PRED = pv;
+  DATA = d.concat(ct);
+  const fams = d.filter(e => e.level === "family" || e.level === "region");
+  [...new Set(fams.map(e => e.hub))].forEach(h => { if (!HUBS.includes(h)) HUBS.push(h); });
+  HUBS.push("celltypes");
+  d.filter(e => e.level === "family").forEach(e => { FAMNAME[e.hub] = e.full; });
+  d.filter(e => e.level === "region" && !FAMNAME[e.hub]).forEach(e => { FAMNAME[e.hub] = e.full; });
+  FAMNAME.celltypes = "Cell types";
+  const nReg = d.filter(e => e.level === "region" && e.hub !== "other").length;  // nerves / unassigned are not regions
   const sub = document.querySelector("#libraryView #sub");
-  if (sub) sub.textContent =
-    `${d.length} hubs and neuropils + ${ct.length} cell types + ${sd.length} sides + ${ss.length} subsets + ${sg.length} sense groups · ${(f / 1e6).toFixed(1)}M female + ${(m / 1e6).toFixed(1)}M male synapses`;
+  if (sub) sub.textContent = `${nReg} brain and nerve-cord regions in ${HUBS.filter(h => h !== "all" && h !== "other" && h !== "celltypes").length} families + ${ct.length} cell types`;
   if ($("hubs")) $("hubs").innerHTML =
-    HUBS.map(h => `<button data-v="${h}">${h === "all" ? "All" : h}</button>`).join("");
+    HUBS.map(h => `<button data-v="${h}">${h === "all" ? "All" : (FAMNAME[h] || h)}</button>`).join("");
   if ($("sex")) $("sex").innerHTML =
-    SEXES.map(([v, l]) => `<button data-v="${v}">${l}</button>`).join("");
+    FLYS.map(([v, l]) => `<button data-v="${v}">${l}</button>`).join("");
   on("q", "input", e => { state.q = e.target.value.toLowerCase(); renderLibrary(); });
   on("level", "change", e => { state.level = e.target.value; renderLibrary(); });
   on("sort", "change", e => { state.sort = e.target.value; renderLibrary(); });
   on("hubs", "click", e => { if (e.target.dataset.v) { state.hub = e.target.dataset.v; renderLibrary(); } });
-  on("sex", "click", e => { if (e.target.dataset.v) { state.sex = e.target.dataset.v; renderLibrary(); } });
+  on("sex", "click", e => { if (e.target.dataset.v) { state.fly = e.target.dataset.v; renderLibrary(); } });
   on("grid", "click", e => {
     const c = e.target.closest(".card");
     if (c) openDetail(c.dataset.name);

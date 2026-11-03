@@ -1,0 +1,87 @@
+/* Chemical Library: page-only rules. Tokens, base, top bar in ../feather.css. */
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); transition:background .6s, color .6s; }
+:root { --c-fly-bg:#e3f5e8; --c-fly:#00691a; --c-ins-bg:#e8f3ff; --c-ins:#0143b5;
+  --c-mam-bg:#fff3d6; --c-mam:#6b4a00; --c-none-bg:#ebeff3; --c-none:#5d6c7b; --tile:#ffffff; }
+:root[data-light="dusk"] { --c-fly-bg:#12391f; --c-fly:#8de3a8; --c-ins-bg:#12304f; --c-ins:#9ccbff;
+  --c-mam-bg:#3d3011; --c-mam:#ffd66b; --c-none-bg:#2f3031; --c-none:#b0b3b8; --tile:#e4e6eb; }
+
+.top { display:flex; gap:16px; align-items:center; padding:16px 22px 12px; flex-wrap:wrap; }
+.top .brand h1 { margin:0; font-size:26px; letter-spacing:-.01em; }
+.top .brand p { margin:2px 0 0; font-size:13px; color:var(--muted); }
+.topsearch { flex:1 1 280px; max-width:440px; margin-left:auto; display:flex; align-items:center; gap:8px;
+  background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:0 12px; height:38px; }
+.topsearch .ic { width:16px; height:16px; color:var(--muted); }
+.topsearch input { flex:1; min-width:0; border:none; background:none; color:var(--ink); font:inherit; font-size:14px; outline:none; }
+
+.bar { display:flex; flex-direction:column; gap:8px; padding:0 22px; }
+.chips { display:flex; flex-wrap:wrap; gap:6px; }
+.chips button { background:var(--panel); color:var(--muted); border:1px solid var(--line);
+  border-radius:999px; padding:5px 12px; font-size:12.5px; cursor:pointer; }
+.chips button:hover { color:var(--ink); border-color:var(--sage); }
+.chips button[aria-pressed="true"] { background:var(--sage); border-color:var(--sage); color:var(--sage-ink); font-weight:700; }
+.count { padding:10px 22px 0; margin:0; font-size:12.5px; color:var(--muted); }
+
+main { padding:12px 22px 40px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:14px; }
+.card { display:flex; flex-direction:column; text-align:left; background:var(--panel); border:1px solid var(--line);
+  border-radius:12px; overflow:hidden; cursor:pointer; padding:0; transition:border-color .2s, transform .2s var(--ease); }
+.card:hover { border-color:var(--sage); transform:translateY(-2px); }
+.card .pic { background:var(--tile); height:140px; display:grid; place-items:center; border-bottom:1px solid var(--line); }
+.card .pic img { max-width:88%; max-height:128px; }
+.card .pic .noimg { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-style:italic; color:#46525c; font-size:15px; }
+.card .body { padding:11px 13px 13px; display:flex; flex-direction:column; gap:6px; }
+.card h2 { margin:0; font-size:18px; }
+.card .grp { font-size:11px; color:var(--muted); letter-spacing:.02em; }
+.card .one { margin:0; font-size:13px; color:var(--ink); }
+.conf { display:inline-block; font-size:10.5px; font-weight:700; padding:2px 9px; border-radius:999px; white-space:nowrap; }
+.c-fly { background:var(--c-fly-bg); color:var(--c-fly); }
+.c-insect { background:var(--c-ins-bg); color:var(--c-ins); }
+.c-mammal { background:var(--c-mam-bg); color:var(--c-mam); }
+.c-none { background:var(--c-none-bg); color:var(--c-none); }
+.empty { color:var(--muted); padding:30px 0; text-align:center; }
+
+.cite { padding:18px 22px 30px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); line-height:2; }
+
+/* ---------- detail sheet ---------- */
+.sheet { position:fixed; inset:0; z-index:60; }
+.sheet[hidden] { display:none; }
+.scrim { position:absolute; inset:0; background:rgba(20,18,12,.38); }
+.panel { position:absolute; top:0; right:0; bottom:0; width:min(560px, 100%); overflow-y:auto;
+  background:var(--bg); color:var(--ink); border-left:1px solid var(--line); padding:22px 24px 40px;
+  box-shadow:-12px 0 32px rgba(0,0,0,.18); outline:none; }
+.panel .close { position:sticky; top:0; float:right; z-index:2; }
+.dhead { display:flex; flex-direction:column; gap:6px; margin-right:44px; }
+.dhead h2 { margin:0; font-size:30px; letter-spacing:-.01em; }
+.dhead .what { margin:0; font-size:15px; color:var(--muted); }
+.dpic { background:var(--tile); border:1px solid var(--line); border-radius:12px; margin:16px 0 6px;
+  display:grid; place-items:center; padding:10px; }
+.dpic img { width:100%; max-width:320px; max-height:220px; }
+.meta { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px; color:var(--muted); margin:8px 0 0; }
+.meta b { color:var(--ink); font-weight:600; }
+.panel h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:19px; margin:22px 0 6px; }
+.panel p { margin:0; font-size:14.5px; line-height:1.6; }
+.targets { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+.targets li { background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:8px 11px; font-size:13.5px; }
+.targets b { font-weight:700; }
+.targets span { color:var(--muted); }
+.refs { padding-left:18px; margin:0; display:flex; flex-direction:column; gap:7px; font-size:13px; }
+.refs .claim { color:var(--muted); display:block; }
+.confbox { background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:10px 12px; font-size:13px; }
+.confbox p { font-size:13px; color:var(--muted); margin-top:5px; }
+.ext { display:inline-flex; align-items:center; gap:6px; margin-top:18px; font-size:13px; color:var(--ink);
+  border:1px solid var(--line); border-radius:999px; padding:6px 12px; text-decoration:none; background:var(--panel); }
+.ext:hover { border-color:var(--sage); }
+.ext .ic { width:15px; height:15px; }
+
+@media (max-width:640px) {
+  .top { padding:12px 16px 10px; }
+  .bar, .count, main, .cite { padding-left:16px; padding-right:16px; }
+  .topsearch { max-width:none; margin-left:0; }
+  .panel { padding:18px 16px 36px; }
+  .dhead h2 { font-size:26px; }
+}
+
+/* scientific names */
+.card .sci { margin:2px 0 6px; font-size:12px; line-height:1.4; color:var(--muted); font-style:italic; overflow-wrap:anywhere; }
+.dsci { margin:2px 0 8px; font-size:14px; color:var(--muted); font-style:italic; overflow-wrap:anywhere; }
+.meta b.sci { overflow-wrap:anywhere; font-weight:500; }

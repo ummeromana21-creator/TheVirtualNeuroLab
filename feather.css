@@ -1,40 +1,45 @@
 /* Feather Atlas shared shell: tokens, base, top bar, shared components.
    Every Fly Study page links this file, then its own page CSS for page-only rules. */
 :root {
-  --bg:#f6f1e7; --panel:#fbf8f1; --line:#e7e0d1; --ink:#1b1a17; --muted:#6d685d;
-  --sage:#4d5a3d; --sage-ink:#ffffff; --sage-tint:#e9ebdc; --chip:#efeadd;
-  --teal:#0f766e; --amber:#8a6d1a; --shadow:60,48,28; --ease:cubic-bezier(.22,.8,.24,1);
-  --ok-bg:#d7e8e0; --ok-ink:#0b5f4c; --warn-bg:#f0e4c4; --warn-ink:#6d5610;
-  --err-bg:#f7dfe0; --err-ink:#8f2b2b; --info-bg:#dde7f5; --info-ink:#3b6ea5;
-  --danger:#b03a3a;
+  --bg:#f1f4f7; --panel:#ffffff; --line:#dee3e9; --ink:#1c2b33; --muted:#5d6c7b;
+  --sage:#0064e0; --sage-ink:#ffffff; --sage-tint:#e8f3ff; --chip:#ebeff3;
+  --teal:#0f766e; --amber:#8a6d1a; --shadow:28,43,51; --ease:cubic-bezier(.22,.8,.24,1);
+  --ok-bg:#e3f5e8; --ok-ink:#00691a; --warn-bg:#fff3d6; --warn-ink:#6b4a00;
+  --note-bg:#e8f3ff; --note-ink:#1c2b33; --note-edge:#0064e0;
+  --disc-bg:#6441d2; --disc-ink:#ffffff;
+  --err-bg:#fde7ea; --err-ink:#b00a26; --info-bg:#e8f3ff; --info-ink:#0143b5;
+  --danger:#c80a28; --focus:#0064e0;
 }
 :root[data-light="dusk"], .hero[data-light="dusk"] {
-  --bg:#14170f; --panel:#1b1f15; --line:#2d3324; --ink:#f2ecdf; --muted:#a8a392;
-  --sage:#a9b98a; --sage-ink:#14170f; --sage-tint:#283020; --chip:#262b1d; --shadow:0,0,0;
+  --bg:#18191a; --panel:#242526; --line:#3a3b3c; --ink:#e4e6eb; --muted:#b0b3b8;
+  --sage:#47a5fa; --sage-ink:#0b1a2c; --sage-tint:#1b3350; --chip:#2f3031; --shadow:0,0,0;
   --teal:#2ee6c8; --amber:#ffd23f;
-  --ok-bg:#1f5c3a; --ok-ink:#9af0c0; --warn-bg:#5a4a1a; --warn-ink:#ffe58a;
-  --err-bg:#5c2626; --err-ink:#ffb3b3; --info-bg:#274a73; --info-ink:#bcd6f5;
-  --danger:#ff9d9d;
+  --ok-bg:#12391f; --ok-ink:#8de3a8; --warn-bg:#3d3011; --warn-ink:#ffd66b;
+  --note-bg:#14283f; --note-ink:#e4e6eb; --note-edge:#47a5fa;
+  --disc-bg:#b9a6ff; --disc-ink:#1a1033;
+  --err-bg:#4a1720; --err-ink:#ffa3b0; --info-bg:#12304f; --info-ink:#9ccbff;
+  --danger:#ff8a9a; --focus:#47a5fa;
 }
 * { box-sizing:border-box; }
 html, body { margin:0; }
 body { background:var(--bg); color:var(--ink);
-  font-family:"Nunito Sans","Segoe UI",system-ui,sans-serif; font-size:14px; line-height:1.45;
+  font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:14px; line-height:1.45;
   -webkit-font-smoothing:antialiased; }
-.serif { font-family:Newsreader,"Iowan Old Style",Georgia,serif; }
-h1, h2 { font-family:Newsreader,"Iowan Old Style",Georgia,serif; font-weight:500; }
-:focus-visible { outline:2px solid var(--sage); outline-offset:2px; }
+.serif { font-family:Inter,"Segoe UI",system-ui,sans-serif; }
+h1, h2 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; }
+:focus-visible { outline:3px solid var(--focus); outline-offset:2px; border-radius:4px; }
 button { font:inherit; color:inherit; }
 .ic { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.5;
   stroke-linecap:round; stroke-linejoin:round; flex:none; }
 .dim, .note { color:var(--muted); font-size:12px; }
-.eyebrow { font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+.eyebrow { font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); font-weight:600; }
 
 /* ---------- shared top bar ---------- */
 .shell-top { display:flex; align-items:center; gap:18px; padding:10px 22px;
   border-bottom:1px solid var(--line); background:var(--bg); }
 .shell-brand { display:flex; flex-direction:column; line-height:1.2; }
-.shell-name { font-family:Newsreader,"Iowan Old Style",Georgia,serif; font-size:22px; letter-spacing:-.01em; }
+.shell-brand { white-space:nowrap; }
+.shell-name { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:22px; letter-spacing:-.01em; }
 .shell-sub { font-size:11.5px; color:var(--muted); }
 .shell-nav { display:flex; gap:2px; }
 .shell-nav a, .shell-nav .cur { display:flex; gap:10px; align-items:center; padding:7px 10px;
@@ -43,12 +48,12 @@ button { font:inherit; color:inherit; }
 .shell-nav .cur { background:var(--sage-tint); }
 .shell-nav small { display:block; font-size:11px; color:var(--muted); margin-top:1px; }
 .shell-extra { margin-left:auto; display:flex; gap:10px; align-items:center; min-width:0; }
-.shell-menubtn { display:none; }
+.shell-top .shell-menubtn { display:none; }
 .shell-top { position:relative; }
 
 /* ---------- shared buttons / pills ---------- */
 .go { border:1px solid var(--sage); background:var(--sage); color:var(--sage-ink);
-  font-weight:700; border-radius:8px; padding:8px 16px; cursor:pointer; }
+  font-weight:700; border-radius:100px; padding:9px 18px; cursor:pointer; }
 .go:disabled { opacity:.45; cursor:default; }
 .iconbtn { width:34px; height:34px; flex:none; display:grid; place-items:center; cursor:pointer;
   background:var(--panel); border:1px solid var(--line); border-radius:50%; }
@@ -88,8 +93,8 @@ html, body { overflow-x:clip; }
 @supports not (overflow:clip) {
   html, body { overflow-x:hidden; }
 }
-@media (max-width:700px) {
-  .shell-menubtn { display:grid; }
+@media (max-width:1180px) {
+  .shell-top .shell-menubtn { display:grid; }
   .shell-top { flex-wrap:nowrap; }
   .shell-top .shell-brand { margin-right:auto; }
   .shell-top .shell-extra { margin-left:0; }
@@ -106,3 +111,15 @@ html, body { overflow-x:clip; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
+
+/* ---------- accessibility helpers ---------- */
+.skiplink { position:absolute; left:12px; top:-60px; z-index:100; background:var(--sage); color:var(--sage-ink);
+  padding:10px 16px; border-radius:100px; font-weight:700; text-decoration:none; transition:top .15s; }
+.skiplink:focus { top:10px; }
+main:focus, [role="main"]:focus { outline:none; }
+h1, h2, .shell-name { letter-spacing:-.02em; }
+a { color:inherit; }
+
+/* many sections: drop the small captions in the top bar before it runs out of room */
+@media (max-width:1800px) { .shell-nav small { display:none; } .shell-nav a, .shell-nav .cur { padding:8px 10px; } }
+@media (max-width:1640px) and (min-width:1181px) { .shell-nav .ic { display:none; } .shell-nav a, .shell-nav .cur { padding:8px 8px; font-size:13.5px; } }

@@ -3,3 +3,8 @@ __pycache__/
 .env
 *.sqlite3
 .duo-secret
+
+# Finder / iCloud duplicates and Mac clutter
+* 2.*
+* 2
+.DS_Store

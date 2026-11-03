@@ -1,0 +1,66 @@
+{
+ "title": "FlyWire experiments, round 1 (and the calibration of the FlyWire v783 brain they run on)",
+ "written": "2026-11-03T14:26Z, before any run on the FlyWire v783 brain and before any of these experiments was run by the lab.",
+ "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+ "calibration": {
+  "rules": "Exactly the calibration rules C1-C5 already used (sugar->MN9, more sugar more MN9, bitter alone silent, bitter halves sugar, water extra), plus the rule added after test 1a for every future test:",
+  "C6": "Activity stays contained: fewer than 2,000 neurons fire for sugar at 100 per second and for bitter at 200 per second.",
+  "pass_rule": "C1-C4 and C6 must pass. If this brain fails, no experiment below is reported as a result.",
+  "neurons": "The 2024 study's own lists (v630 IDs that still exist in v783: sugar 20 of 21, bitter 20 of 21, water 18 of 18). MN9 = 720575940660219265 and 720575940618238523 (both labelled MN9 in FlyWire v783)."
+ },
+ "selection_rule": "Every result in Shiu et al. 2024 (Nature 634:210) that (1) was tested in living flies, (2) names the neurons involved and states the real outcome in the text, and (3) uses neurons listed in the authors' public code. All qualifying results are run, including ones the authors say their own model got wrong. Excluded, with reason: the 106-type activation screen and the five unnamed water-pathway neurons (names are only in a supplementary table we could not access).",
+ "settings_fixed": "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code).",
+ "experiments": [
+  {
+   "id": "E1",
+   "title": "Does bitter beat even strong sugar?",
+   "real": "Activating bitter neurons stopped proboscis extension to weak sugar (50 mM sucrose) and stopped drinking even of strong sugar (1 M).",
+   "ref": "Shiu et al. 2024, optogenetics",
+   "rule": "Bitter cuts MN9 firing by at least half for weak sugar AND for strong sugar."
+  },
+  {
+   "id": "E2",
+   "title": "Ir94e: a brake that only works on weak sugar",
+   "real": "Activating Ir94e taste neurons reduced proboscis extension to weak sugar (50 mM) but failed to stop it for strong sugar (1 M).",
+   "ref": "Shiu et al. 2024, optogenetics",
+   "rule": "Ir94e cuts MN9 by at least half for weak sugar, AND MN9 keeps at least a quarter of its sugar-only firing for strong sugar."
+  },
+  {
+   "id": "E3",
+   "title": "Usnea: water neuron or sugar neuron?",
+   "real": "Usnea responds to water but not to sugar (calcium imaging). The 2024 study reports its own model got this wrong.",
+   "ref": "Shiu et al. 2024 (citing earlier imaging)",
+   "rule": "Usnea fires 5+ per second for water AND under 1 per second for sugar (100 per second)."
+  },
+  {
+   "id": "E4",
+   "title": "Can Usnea or Phantom alone make the fly extend its proboscis?",
+   "real": "Activating either Usnea or Phantom drives proboscis extension. The 2024 study's model did not predict this.",
+   "ref": "Shiu et al. 2024",
+   "rule": "Activating Usnea (both cells) makes MN9 fire 10+ per second; same for Phantom. Scored separately."
+  },
+  {
+   "id": "E5",
+   "title": "Fudog responds to water",
+   "real": "Fudog responds to water (calcium imaging).",
+   "ref": "Shiu et al. 2024",
+   "rule": "Fudog fires 5+ per second for water."
+  },
+  {
+   "id": "E6",
+   "title": "Which neurons does water drinking need?",
+   "real": "Silencing Usnea, Bract or Roundup reduced proboscis extension to water; silencing G2N-1 did not.",
+   "ref": "Shiu et al. 2024, optogenetic silencing (GtACR1)",
+   "rule": "Using the study's own threshold: a neuron is 'needed' if silencing it lowers MN9's response to water by more than 20%. Pass for each neuron if the model's answer matches the real one (Usnea, Bract, Roundup: needed; G2N-1: not needed). Scored separately."
+  },
+  {
+   "id": "E7",
+   "title": "Antenna touch: which sensors trigger grooming?",
+   "real": "Activating Johnston's organ neurons of type JO-CE strongly activated the grooming neuron aBN1; JO-F neurons did not, despite having almost as many synapses onto it.",
+   "ref": "Shiu et al. 2024, optogenetics + calcium imaging",
+   "rule": "JO-CE (100 per second) makes aBN1 fire 5+ per second, AND JO-F (100 per second) leaves aBN1 under 1 per second. Scored separately."
+  }
+ ],
+ "reporting": "Every experiment is reported, pass or miss. No setting is changed after a run. A miss is explained only by what the data show.",
+ "not_claimed": "Model firing rates are not measurements; '50 mM' and '1 M' sucrose are represented by weak and strong sugar-neuron activity, a stated assumption. Only the direction of each effect is compared with real flies."
+}

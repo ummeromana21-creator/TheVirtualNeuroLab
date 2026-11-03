@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chemicals · Fly Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
+<link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  </defs>
+</svg>
+
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+
+  <div class="top" role="region" aria-label="Chemical search">
+    <div class="brand">
+      <h1>Chemical Library</h1>
+      <p id="sub">What each substance does in a real fruit fly, with the papers behind it.</p>
+    </div>
+    <div class="topsearch">
+      <svg class="ic"><use href="#i-search"/></svg>
+      <input id="q" type="search" placeholder="Search: caffeine, sugar, DEET, dopamine…" autocomplete="off" aria-label="Search chemicals">
+    </div>
+  </div>
+
+  <div class="bar" role="region" aria-label="Filters">
+    <div class="chips" id="groups" role="group" aria-label="Filter by group"></div>
+    <div class="chips" id="confs" role="group" aria-label="Filter by how sure we are"></div>
+  </div>
+  <p id="count" class="count" aria-live="polite"></p>
+
+  <main>
+    <div id="grid" class="grid"></div>
+  </main>
+
+  <footer class="cite">
+    <strong>How sure are we?</strong> Every entry carries one label:
+    <span class="conf c-fly">Shown in fruit flies</span>
+    <span class="conf c-insect">Shown in other insects</span>
+    <span class="conf c-mammal">Borrowed from mammals</span>
+    <span class="conf c-none">No fly target known</span>.
+    Structures are drawn from PubChem / Guide to Pharmacology records. Papers are listed on each card.
+  </footer>
+</div>
+
+<div id="sheet" class="sheet" hidden>
+  <div class="scrim" data-close></div>
+  <article class="panel" role="dialog" aria-modal="true" aria-labelledby="dName" tabindex="-1">
+    <button class="iconbtn close" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+    <div id="detail"></div>
+  </article>
+</div>
+
+<script src="../feather.js?v=8"></script>
+<script>Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Chemicals', base: '../', current: 'chemicals', profile: false }); Feather.init();</script>
+<script src="app.js?v=2"></script>
+</body>
+</html>

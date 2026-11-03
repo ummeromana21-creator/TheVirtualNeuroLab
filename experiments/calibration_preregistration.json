@@ -1,0 +1,35 @@
+{
+ "title": "Calibration test 1: does sugar taste make the fly stick out its tongue?",
+ "written": "2026-11-03T02:09Z, before any run on Maxime or Hagrid (only the engine check against the published code had been run)",
+ "question": "When the sugar-sensing taste neurons on the fly's mouthparts fire, does the simulated brain activate MN9, the motor neuron that extends the proboscis (the fly's tongue)? And does bitter taste hold it back?",
+ "why_this_test": "It is the best-documented taste-to-movement pathway in the fly, it has been tested in living flies, and the published brain model (Shiu et al. 2024) was checked against it. If our flies cannot do this, no later experiment should be trusted.",
+ "real_fly_evidence": [
+  {"claim": "Activating sugar taste neurons (Gr5a) makes flies extend the proboscis; activating bitter neurons (Gr66a) does not, and suppresses extension.", "ref": "Marella et al. 2006, Neuron 49:285"},
+  {"claim": "MN9 is a motor neuron that drives proboscis extension and responds to sugar.", "ref": "Gordon & Scott 2009, Neuron 61:373"},
+  {"claim": "Water-sensing neurons (ppk28) drive drinking / proboscis extension to water.", "ref": "Cameron et al. 2010, Nature 465:91"},
+  {"claim": "The same leaky integrate-and-fire model on the FlyWire brain: sugar neurons at 100 Hz drive MN9 strongly; bitter co-activation suppresses it; 91% of 164 tested predictions held in real flies.", "ref": "Shiu et al. 2024, Nature 634:210"}
+ ],
+ "engine": "tools/lif_engine.py: the published model's equations and numbers, unchanged (w_syn 0.275 mV, 30 trials x 1 s). Checked against the published code (Brian2) on the published FlyWire v630 wiring: MN9 66.6 vs 67.0 Hz and 49.5 vs 48.6 Hz; top-200 neuron rates correlate r = 0.999.",
+ "flies": {
+  "flywire_paper": "FlyWire v630 wiring exactly as published (all synapses), the paper's own neuron lists. Expected to pass: this is the replication.",
+  "flywire_strong": "Same, but keeping only neuron pairs joined by 5 or more synapses - the rule the lab uses for every fly. Shows what that rule alone changes.",
+  "maxime": "BANC (female brain + nerve cord), Codex export, pairs with 5+ synapses.",
+  "hagrid": "Male CNS, Codex export, pairs with 5+ synapses."
+ },
+ "neurons": {
+  "sugar": "Right-side labellar sugar neurons. FlyWire: the paper's 21. Maxime/Hagrid: cell types LB3b + LB3c (BANC annotates them Gr64f / sugar); the male CNS uses the same type names, so the same types are used for Hagrid (assumption, stated).",
+  "bitter": "Right-side labellar bitter neurons. FlyWire: the paper's 21. Maxime/Hagrid: LB1a, LB1b, LB1c, LB1d (BANC: Gr33a / bitter).",
+  "water": "Right-side labellar water neurons. FlyWire: the paper's 18. Maxime/Hagrid: LB2d + LB3a (BANC: ppk28 / water).",
+  "readout": "MN9, both copies (left and right); the stronger of the two is scored (the paper reports the opposite-side MN9 responds more)."
+ },
+ "signs": "Neurons predicted to release GABA, glutamate or histamine inhibit; all others excite. Neurons with no transmitter prediction are treated as excitatory (most such neurons in FlyWire were excitatory in the paper's own data). Stated assumption.",
+ "criteria": {
+  "C1": "Sugar neurons at 100 Hz make MN9 fire at 10 Hz or more.",
+  "C2": "More sugar, more MN9: across sugar rates 10, 20, 40, 60, 80, 100, 150, 200 Hz, MN9 firing rises (Spearman rank correlation 0.9 or more) and is higher at 200 Hz than at 20 Hz.",
+  "C3": "Bitter alone (200 Hz) does not make MN9 fire (under 1 Hz).",
+  "C4": "Bitter (200 Hz) added to sugar (100 Hz) cuts MN9 firing by at least half.",
+  "C5 (extra)": "Water neurons at 200 Hz make MN9 fire at 5 Hz or more."
+ },
+ "pass_rule": "A fly passes calibration if C1-C4 all pass. C5 is reported but not required. Nothing in the model is changed after seeing results; a failure is reported as a failure, with its likely reason.",
+ "not_claimed": "Firing rates are model numbers, not measured millivolts or real Hz in a living fly. Only the direction and shape of each effect is compared with real flies."
+}

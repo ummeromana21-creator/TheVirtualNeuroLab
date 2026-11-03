@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Virtual Neuro Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="feather.css?v=8">
+<style>
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); transition:background .6s, color .6s; display:flex; flex-direction:column; }
+.intro { max-width:880px; margin:0 auto; padding:56px 22px 20px; }
+.intro h1 { font-size:clamp(34px, 5vw, 52px); line-height:1.05; letter-spacing:-.015em; margin:10px 0 14px; }
+.intro p { font-size:16px; line-height:1.6; color:var(--muted); margin:0; max-width:640px; }
+.tiles { max-width:880px; width:100%; margin:0 auto; padding:18px 22px 40px;
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; }
+.tile { display:flex; flex-direction:column; gap:10px; padding:22px 20px 20px; border-radius:14px;
+  background:var(--panel); border:1px solid var(--line); text-decoration:none; color:var(--ink);
+  transition:border-color .2s, transform .25s var(--ease); }
+.tile:hover { border-color:var(--sage); transform:translateY(-3px); }
+.tile .ic { width:30px; height:30px; color:var(--sage); stroke-width:1.3; }
+.tile h2 { margin:0; font-size:24px; }
+.tile p { margin:0; font-size:14px; line-height:1.5; color:var(--muted); }
+.tile .num { margin-top:auto; padding-top:8px; font-size:12.5px; color:var(--ink); border-top:1px solid var(--line); }
+.cta { display:inline-block; margin-top:22px; background:var(--sage); color:var(--sage-ink); text-decoration:none; font-weight:700; font-size:16px; padding:13px 20px; border-radius:12px; }
+.facts { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.facts span { font-size:12.5px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:4px 11px; }
+.next { max-width:880px; width:100%; margin:0 auto; padding:0 22px 50px; }
+.next div { border:1px dashed var(--line); border-radius:12px; padding:14px 16px; font-size:13.5px; color:var(--muted); }
+.next b { color:var(--ink); }
+@media (max-width:640px) { .intro { padding:36px 16px 14px; } .tiles, .next { padding-left:16px; padding-right:16px; } }
+</style>
+</head>
+<body>
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+
+  <main id="main">
+  <section class="intro">
+    <span class="eyebrow">The Virtual Neuro Lab</span>
+    <h1 class="serif">Experiments on a real fly brain that no living fly has had yet.</h1>
+    <p>A fruit fly brain, wired neuron by neuron from a real microscope scan, running a published brain model. Switch off any
+      neuron and watch the electrical signal travel, reroute or fizzle out. Every result is saved with its rules before the run,
+      checked against real flies where that's possible, and kept on the page when it misses.</p>
+    <a class="cta" href="discover/">Open the Knockout Lab →</a>
+    <div class="facts"><span id="fact1">Calibrated against real flies</span><span>Predictions dated and public</span><span>Ask Muse anything, bottom right</span></div>
+  </section>
+
+  <nav class="tiles" aria-label="Sections">
+    <a class="tile" href="experiments/">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M10 3h4M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 18l-5-9V3"/></svg>
+      <h2 class="serif">Experiments</h2>
+      <p>The Taste Bench, the calibration test, and Round 1: how often the untouched wiring matches real flies.</p>
+      <span class="num">10 of 15 known results matched · misses shown</span>
+    </a>
+    <a class="tile" href="flies/">
+      <svg class="ic" viewBox="0 0 24 24"><ellipse cx="12" cy="13" rx="3" ry="5"/><path d="M9 11C5 8 3 5 3 5s4-1 7 3M15 11c4-3 6-6 6-6s-4-1-7 3"/></svg>
+      <h2 class="serif">Vivarium</h2>
+      <p>Maxime (female) and Hagrid (male) in 3D: body, brain cloud and key traits. Spin them, zoom in, see inside.</p>
+      <span class="num">2 flies · Maxime from BANC, Hagrid from the male CNS</span>
+    </a>
+    <a class="tile" href="library/">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>
+      <h2 class="serif">Fly Atlas</h2>
+      <p>The brain and nerve cord region by region, one fly at a time: what each area does and how much wiring it holds in Maxime's or Hagrid's own scan.</p>
+      <span class="num">54 regions in 13 standard families · 236 cell types</span>
+    </a>
+    <a class="tile" href="chemicals/">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M10 3h4M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 18l-5-9V3"/></svg>
+      <h2 class="serif">Chemicals</h2>
+      <p>Stimulants, insecticides, repellents, food and the fly's own brain signals — what each one really does to a fly.</p>
+      <span class="num" id="chemCount">substance library</span>
+    </a>
+  </nav>
+
+  <section class="next" style="padding-bottom:18px">
+    <div><b>Prediction check.</b> Before the real 3D data arrived, the lab predicted each fly's anatomy from its wiring alone.
+      <a href="prediction/">See how closely that prediction resembled the real flies</a>, with the full method.</div>
+  </section>
+  <section class="next">
+    <div><b>Experiments.</b> Put tastes on a real fly brain's tongue and watch what it does, then see how often its untouched
+      wiring matches real flies. <a href="experiments/">Open the Taste Bench and Round 1</a>. Every experiment runs on the FlyWire brain,
+      which first passed a <a href="experiments/calibration.html">calibration test</a>. Experiments on Maxime and Hagrid: in progress.</div>
+  </section>
+  </main>
+</div>
+<script src="feather.js?v=8"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Skeleton', base: './', current: 'home', profile: false });
+Feather.init();
+fetch('chemicals/data.json').then(r => r.json()).then(d => {
+  document.getElementById('chemCount').textContent = d.chemicals.length + ' substances · fly targets · papers';
+}).catch(() => {});
+</script>
+</body>
+</html>

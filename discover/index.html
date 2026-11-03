@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knockout Lab · Fly Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
+<style>
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); }
+.wrap { max-width:1320px; margin:0 auto; padding:28px 22px 60px; }
+h1 { font-size:clamp(30px,4.2vw,46px); line-height:1.06; margin:8px 0 10px; letter-spacing:-.01em; }
+h2 { font-size:28px; margin:44px 0 8px; }
+.lead { font-size:16px; line-height:1.6; color:var(--muted); max-width:860px; margin:0; }
+.lab { display:grid; grid-template-columns:290px minmax(0,1fr); gap:14px; margin-top:20px; }
+.side, .panel { background:var(--panel); border:1px solid var(--line); border-radius:16px; }
+.side { padding:14px; display:flex; flex-direction:column; gap:10px; max-height:860px; }
+.side input { border:1px solid var(--line); border-radius:10px; padding:8px 10px; background:var(--bg); color:var(--ink); font:inherit; }
+.filt { display:flex; gap:6px; flex-wrap:wrap; }
+.filt button, .taste button { background:var(--chip); border:1px solid var(--line); border-radius:999px; padding:5px 11px; font-size:12.5px; cursor:pointer; }
+.filt button[aria-pressed="true"] { background:var(--sage); color:var(--sage-ink); border-color:transparent; font-weight:700; }
+.taste button { font-size:14px; padding:7px 16px; }
+.taste button[aria-pressed="true"] { color:#fff; border-color:transparent; font-weight:700; }
+.taste button[data-c="sugar"][aria-pressed="true"] { background:#a35d00; } .taste button[data-c="water"][aria-pressed="true"] { background:#2f6fb0; }
+#list { overflow:auto; display:flex; flex-direction:column; gap:4px; padding-right:4px; flex:1; }
+#list button { text-align:left; background:var(--bg); border:1px solid transparent; border-radius:10px; padding:7px 9px; cursor:pointer; display:flex; justify-content:space-between; gap:8px; align-items:center; font-size:13px; }
+#list button[aria-pressed="true"] { border-color:var(--sage); background:var(--sage-tint); }
+#list .nm b { display:block; font-size:13.5px; } #list .nm small { color:var(--muted); font-size:11.5px; }
+.tags { display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
+.tag { font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.t-need { background:var(--err-bg); color:var(--err-ink); } .t-new { background:var(--disc-bg); color:var(--disc-ink); } .t-no { background:var(--chip); color:var(--muted); } .t-other { background:var(--info-bg); color:var(--info-ink); }
+/* the two brains (3D) */
+.duo { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:10px; }
+.view { position:relative; height:430px; border-radius:14px; overflow:hidden; background:#0d0f0b; }
+.view canvas { display:block; width:100%; height:100%; }
+.vt { position:absolute; left:12px; top:10px; color:#e9e4d6; font-size:13px; font-weight:700; pointer-events:none; }
+.vt small { display:block; font-weight:400; color:#a8a392; font-size:11.5px; }
+.lbl { position:absolute; transform:translate(-50%, -100%); pointer-events:none; font-size:11.5px; color:#fff; background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.25); border-radius:6px; padding:2px 6px; white-space:nowrap; }
+.lbl.mn9 { border-color:#ffd23f; color:#ffd23f; } .lbl.in { border-color:#ffb547; color:#ffd8a0; } .lbl.ko { border-color:#ff5b5b; color:#ffb3b3; }
+.inset { position:absolute; right:8px; bottom:8px; width:150px; height:96px; border:1px solid rgba(255,255,255,.18); border-radius:8px; background:rgba(0,0,0,.35); }
+.inset span { position:absolute; left:6px; top:3px; font-size:10px; color:#a8a392; pointer-events:none; }
+.ctrl { display:flex; gap:10px; align-items:center; margin:10px 0 0; }
+.ctrl button { background:var(--sage); color:var(--sage-ink); border:none; border-radius:10px; padding:9px 16px; font-weight:700; cursor:pointer; }
+.ctrl input[type=range] { flex:1; accent-color:#c27c0e; }
+.ctrl .clock { font-family:ui-monospace,Menlo,monospace; font-size:15px; min-width:86px; }
+.ctrl small { color:var(--muted); font-size:12px; }
+.legend { display:flex; flex-wrap:wrap; gap:12px; font-size:12px; color:var(--muted); margin-top:8px; }
+.legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:-1px; }
+.legend i.ln { width:16px; height:3px; border-radius:2px; vertical-align:2px; }
+/* route diagram */
+.routes { padding:6px 14px 10px; }
+.rrow { padding:10px 0; } .rrow + .rrow { border-top:1px solid var(--line); }
+.rhead { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+.rhead b { font-size:15px; } .rhead small { display:block; color:var(--muted); font-size:12px; }
+.meter { display:flex; align-items:center; gap:8px; min-width:320px; }
+.meter .k { font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.meter .track { flex:1; height:10px; border-radius:99px; background:var(--chip); overflow:hidden; min-width:90px; }
+.meter .fill { height:100%; width:0; background:linear-gradient(90deg,#e8b04a,#c2187a); transition:width .8s var(--ease); }
+.meter .v { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:19px; min-width:70px; text-align:right; }
+.meter .s { font-size:12px; color:var(--muted); }
+.diag { width:100%; height:auto; display:block; margin-top:6px; }
+.diag text { font-family:Inter,"Segoe UI",system-ui,sans-serif; }
+.three { margin-top:12px; } .three summary { cursor:pointer; font-weight:700; padding:8px 0; }
+/* the story */
+.story { margin-top:12px; padding:14px 16px; }
+.story .sth { margin:0 0 8px; font-size:15px; font-weight:700; font-family:inherit; letter-spacing:0; }
+.story ol { margin:0; padding-left:20px; display:flex; flex-direction:column; gap:6px; }
+.story li { font-size:14.5px; line-height:1.55; color:var(--muted); transition:color .3s; }
+.story li.on { color:var(--ink); }
+.story li b { color:inherit; }
+.story .sum { margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14.5px; line-height:1.6; }
+.howto { margin-top:12px; padding:12px 16px; font-size:13.5px; line-height:1.6; color:var(--muted); }
+.tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--panel); margin-top:12px; }
+table { border-collapse:collapse; width:100%; font-size:13.5px; min-width:760px; }
+th, td { padding:8px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+th { font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; background:var(--bg); }
+td.n { text-align:right; white-space:nowrap; }
+.note { background:var(--note-bg); color:var(--note-ink); border-left:4px solid var(--note-edge); border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.55; margin-top:14px; }
+.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:30px; border-top:1px solid var(--line); padding-top:14px; }
+.mono { font-family:ui-monospace,Menlo,monospace; font-size:12px; }
+@media (max-width:1000px) { .lab { grid-template-columns:1fr; } .side { max-height:340px; } }
+@media (max-width:700px) { .duo { grid-template-columns:1fr; } .view { height:340px; } .wrap { padding:22px 16px 50px; } }
+.infer { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+.infer > div { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
+.infer h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:20px; margin:0 0 8px; }
+.infer ol, .infer ul { margin:0; padding-left:20px; display:flex; flex-direction:column; gap:9px; font-size:14.5px; line-height:1.55; }
+.infer .limits { grid-column:1 / -1; background:var(--bg); }
+.infer a { color:inherit; text-decoration:underline; }
+@media (max-width:820px) { .infer { grid-template-columns:1fr; } }
+.cbars { display:inline-flex; gap:2px; vertical-align:middle; } .cbars i { width:10px; height:7px; border-radius:2px; background:var(--line); display:inline-block; } .cbars i.on { background:var(--sage); }
+</style>
+</head>
+<body>
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+  <main class="wrap">
+    <span class="eyebrow">Knockout Lab · Discovery Screen 1</span>
+    <h1 class="serif">Switch off a neuron. Watch the signal find its way, or not.</h1>
+    <p class="lead">A real fly brain, wired neuron by neuron. Put sugar or water on its tongue and watch the electrical signal travel
+      along real connections to <b>MN9</b>, the neuron that makes the fly stick out its tongue. Then switch off one neuron and compare
+      side by side: can the fly still eat or drink? As far as we know, most of these neurons have never been tested in a living fly:
+      these are the lab's predictions.</p>
+
+    <div class="lab">
+      <div class="side">
+        <div class="taste" role="group" aria-label="Taste"><button data-c="sugar" aria-pressed="true">Sugar</button> <button data-c="water" aria-pressed="false">Water</button></div>
+        <input id="q" placeholder="Search neurons (e.g. Roundup, Bract)…" aria-label="Search neurons">
+        <div class="filt" id="filt"></div>
+        <div id="list"></div>
+      </div>
+      <div>
+        <div class="panel routes">
+          <div class="rrow">
+            <div class="rhead"><div><b>Normal brain</b><small id="vAsub"></small></div>
+              <div class="meter"><span class="k">Tongue signal</span><div class="track"><div class="fill" id="fA"></div></div><span class="v" id="mA">—</span><span class="s" id="sA"></span></div></div>
+            <svg id="dA" class="diag" viewBox="0 0 1100 300" role="img" aria-label="Route of the signal in the normal brain"></svg>
+          </div>
+          <div class="rrow">
+            <div class="rhead"><div><b id="vBt">Pick a neuron to switch off</b><small id="vBsub">from the list on the left</small></div>
+              <div class="meter"><span class="k">Tongue signal</span><div class="track"><div class="fill" id="fB"></div></div><span class="v" id="mB">—</span><span class="s" id="sB"></span></div></div>
+            <svg id="dB" class="diag" viewBox="0 0 1100 300" role="img" aria-label="Route of the signal with the neuron switched off"></svg>
+          </div>
+        </div>
+        <div class="ctrl"><button id="play">▶ Play</button><span class="clock" id="clock">0.0 ms</span><input type="range" id="scrub" min="0" max="100" step="0.1" value="0" aria-label="Simulated time"><small>100 ms of brain time shown over 10 s</small></div>
+        <div class="legend">
+          <span><i style="background:#c27c0e"></i>taste neurons on the tongue</span>
+          <span><i style="background:#0064e0"></i>a neuron fires</span>
+          <span><i class="ln" style="background:#d4a017"></i>signal passed along this connection</span>
+          <span><i class="ln" style="background:#c0392b"></i>connection that went silent after the switch-off</span>
+          <span><i style="background:#ffd23f;box-shadow:0 0 0 2px #b8860b"></i>MN9: the tongue</span>
+          <span><i style="background:#c0392b"></i>switched off</span>
+        </div>
+        <div class="panel story" aria-live="polite"><h2 class="sth">What's happening</h2><ol id="steps"></ol><div class="sum" id="sum"></div></div>
+        <details class="three" id="three"><summary>See it inside the real brain (3D)</summary>
+          <div class="duo">
+            <div class="view" id="vA"><div class="vt">Normal brain</div><div class="inset" id="mapA"><span>where we are in the brain</span></div></div>
+            <div class="view" id="vB"><div class="vt" id="vBt3">Switched off</div></div>
+          </div>
+          <div class="legend"><span><i style="background:#ffb547"></i>taste neurons</span><span><i class="ln" style="background:#ffd166"></i>route that reached MN9</span>
+            <span><i class="ln" style="background:#ff5b5b"></i>route lost</span><span><i class="ln" style="background:#7fd3ff"></i>other spread</span><span><i style="background:#ffd23f"></i>MN9</span></div>
+        </details>
+        <div class="panel howto"><b>How to read the map.</b> The signal travels left to right: from the taste neurons on the tongue,
+          through relay neurons in the feeding centre, to MN9, the motor neuron that sticks the tongue out. Each dot is a neuron and turns
+          green when it fires; each line is a real connection, drawn when the signal crosses it, with a bright pulse riding along. Thicker lines
+          carry more of the signal. The top map is the normal brain; the bottom one has your neuron switched off. Pick <b>Sugar</b> (eating)
+          or <b>Water</b> (drinking), pick a neuron on the left, and press <b>Play</b>. Hover a dot to see its name and when it fires. The filters show the neurons the lab predicts are <b>needed</b>, the <b>new discoveries</b>
+          (needed, and no living-fly test that we know of: a real lab could test these next), or <b>all 286</b>.</div>
+      </div>
+    </div>
+
+    <h2 class="serif" id="pred">The predictions</h2>
+    <p class="lead" style="font-size:15px" id="predlead"></p>
+    <div class="tablewrap"><table id="ptab"></table></div>
+    <div class="note" id="caveat"></div>
+
+    <h2 class="serif" id="infer">What we infer, and why it matters</h2>
+    <div class="infer">
+      <div>
+        <h3>What these results tell us</h3>
+        <ol>
+          <li><b>The feeding circuit has backups.</b> Of 286 neurons switched off one at a time, only 8 lowered the tongue signal by more than 20%.
+            For most neurons the signal simply finds another way to the tongue. That kind of redundancy is how a brain stays
+            working when single cells fail.</li>
+          <li><b>Drinking has more bottlenecks than eating.</b> 7 of the 8 "needed" neurons matter for water, only 2 for sugar.
+            In this brain, the sugar signal travels on many parallel roads; the water signal leans on a few key cells.</li>
+          <li><b>A few cells are true chokepoints.</b> Switching off "Roundup" #2 nearly silences drinking (98% drop) and
+            "Clavicle" cuts it by 84%. In the map you can see the route collapse.</li>
+          <li><b>Three new candidates.</b> CB0192, CB0051 and CB0501 are predicted to be needed for drinking, and we found no
+            living-fly test of them. These are new, testable predictions.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>How this can help in the real world</h3>
+        <ul>
+          <li><b>Where to look first.</b> Testing every neuron in a living fly takes years. A screen like this narrows 286
+            candidates down to 3 untested ones a lab could check next, saving time and animals.</li>
+          <li><b>A method that scales.</b> The same switch-off-and-watch approach works for any behaviour with a known motor
+            neuron, and for any other brain once it has been mapped.</li>
+          <li><b>Understanding thirst.</b> Knowing which few cells carry the "drink" signal helps explain how brains control
+            fluid intake, a basic survival system every animal shares in some form.</li>
+        </ul>
+      </div>
+      <div class="limits"><b>What it doesn't tell us.</b> These are predictions, not facts. When we checked this brain against
+        known results it scored 10 of 15, and its misses were exactly this kind of single-neuron question. Each of the 8 is a
+        strong lead that still needs a living-fly experiment.</div>
+    </div>
+
+    <p class="fine">Brain: FlyWire v783 (Dorkenwald et al. 2024; Schlegel et al. 2024), published wiring and settings of Shiu et al. 2024.
+      Lines: a line from neuron A to neuron B appears when B fires and A, which is wired to B with an exciting connection, fired 1.8–7 ms
+      before. The map shows the neurons on the normal brain's route to MN9 (up to six per step; the rest are grouped as "+ more");
+      links between neurons in the same step are left out for clarity. "Route lost" = connections on the normal brain's route to MN9 that carried no signal after the switch-off. One recorded run per
+      picture, first 100 ms; the paths and timing are from the simulation, the colours and glow are styling, and the step-by-step text is
+      written from those same numbers. Tongue-signal numbers are averages over many runs (30 for every "needed" neuron).
+      Rules: <a href="screen_preregistration.json">screen_preregistration.json</a>. Data: <a href="screen.json">screen.json</a>.
+      Names: FlyWire cell types; names in quotes are from Shiu et al. 2024.</p>
+  </main>
+</div>
+<script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
+<script src="../feather.js?v=8"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Knockout Lab', base: '../', current: 'discover', profile: false });
+Feather.init();
+</script>
+<script type="module">
+import * as T from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+const $ = id => document.getElementById(id);
+const f1 = x => x == null ? '—' : (Math.round(x * 10) / 10).toLocaleString('en-US');
+const D = await (await fetch('screen.json?v=3')).json();
+const NAMES = await (await fetch('names.json?v=1')).json();
+const pos = new Float32Array(await (await fetch('../anatomy/celltypes/positions.bin')).arrayBuffer());
+const N = pos.length / 3;
+const P = (i, out, k) => { out[k] = pos[3 * i]; out[k + 1] = -pos[3 * i + 1]; out[k + 2] = pos[3 * i + 2]; };
+const BY = Object.fromEntries(D.neurons.map(n => [n.id, n]));
+const LBL = Object.fromEntries(D.neurons.map(n => [n.idx, n.label]));
+const nameOf = i => LBL[i] || NAMES[i] || 'unnamed';
+const DUR = 10000, MAXT = 100;                         // 100 ms of brain time over 10 s
+
+// ---------- shared drawing pieces ----------
+const dot = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+  const r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.35, 'rgba(255,255,255,.8)'); r.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = r; g.fillRect(0, 0, 64, 64); return new T.CanvasTexture(c); })();
+const brainGeo = (() => { const n = Math.floor(N / 2), a = new Float32Array(3 * n); for (let j = 0; j < n; j++) P(2 * j, a, 3 * j);
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(a, 3)); return g; })();
+const cam = new T.PerspectiveCamera(32, 1, 1, 6000);
+function makeView(el) {
+  const r = new T.WebGLRenderer({ antialias: true }); r.setPixelRatio(Math.min(2, devicePixelRatio)); r.setClearColor(0x0d0f0b);
+  el.prepend(r.domElement);
+  const scene = new T.Scene();
+  scene.add(new T.Points(brainGeo, new T.PointsMaterial({ size: 2.2, map: dot, transparent: true, opacity: .13, depthWrite: false, color: 0x8f9a80 })));
+  const layer = new T.Group(); scene.add(layer);
+  const ctl = new OrbitControls(cam, r.domElement); ctl.enableDamping = false;
+  return { el, r, scene, layer, ctl, labels: [] };
+}
+const A = makeView($('vA')), B = makeView($('vB'));
+// keep both controls aimed at the same point
+const target = new T.Vector3(); A.ctl.target = target; B.ctl.target = target;
+// inset map: the whole brain, front view, with a marker where the action is
+const map = (() => { const el = $('mapA'); const r = new T.WebGLRenderer({ antialias: true, alpha: true }); r.setPixelRatio(Math.min(2, devicePixelRatio));
+  el.prepend(r.domElement); r.setSize(150, 96, false); r.domElement.style.width = '150px'; r.domElement.style.height = '96px';
+  const s = new T.Scene(); s.add(new T.Points(brainGeo, new T.PointsMaterial({ size: 1, color: 0x9aa58c, transparent: true, opacity: .35 })));
+  const c = new T.OrthographicCamera(-460, 460, 290, -290, -2000, 2000); c.position.set(0, 0, 1000); c.lookAt(0, 0, 0);
+  const mk = new T.Mesh(new T.RingGeometry(26, 34, 32), new T.MeshBasicMaterial({ color: 0xffd23f })); mk.position.z = 200; s.add(mk);
+  return { r, s, c, mk }; })();
+function fit() { for (const v of [A, B]) { const w = v.el.clientWidth, h = v.el.clientHeight; v.r.setSize(w, h, false); }
+  cam.aspect = A.el.clientWidth / A.el.clientHeight; cam.updateProjectionMatrix(); }
+new ResizeObserver(fit).observe(A.el); fit();
+document.getElementById('three').addEventListener('toggle', fit);
+
+// ---------- one replay in one view ----------
+function routeOf(run) {         // connections on the way to MN9: walk back from MN9 along links that fired in time
+  const into = new Map(); run.s.forEach(([x, y, t], j) => { if (!into.has(y)) into.set(y, []); into.get(y).push(j); });
+  const first = new Map(run.f.map(([i, t]) => [i, t])), on = new Uint8Array(run.s.length), seen = new Set();
+  const stack = D.mn9.filter(i => first.has(i)).map(i => [i, first.get(i)]);
+  while (stack.length) { const [node, t] = stack.pop(); for (const j of (into.get(node) || [])) { const [x, , tj] = run.s[j];
+    if (tj <= t && !on[j]) { on[j] = 1; const k = x + ':' + tj; if (!seen.has(k)) { seen.add(k); stack.push([x, first.has(x) ? Math.min(first.get(x), tj) : tj]); } } } }
+  return on;
+}
+function lineSet(segs, color) { const m = segs.length, la = new Float32Array(6 * m), lt = new Float32Array(m);
+  segs.forEach(([x, y, t], j) => { P(x, la, 6 * j); P(y, la, 6 * j + 3); lt[j] = t / 10; });
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(la, 3)); g.setAttribute('color', new T.BufferAttribute(new Float32Array(6 * m), 3));
+  const L = new T.LineSegments(g, new T.LineBasicMaterial({ vertexColors: true, transparent: true, blending: T.AdditiveBlending, depthWrite: false }));
+  L.userData = { lt, color }; return L; }
+function fill(v, run, ko, lost) {
+  v.layer.clear(); v.layer.userData = {}; v.labels.forEach(l => l.remove()); v.labels = [];
+  if (!run) return;
+  const inputs = new Set(D.inputs[cond]);
+  const n = run.f.length, a = new Float32Array(3 * n), col = new Float32Array(3 * n), bt = new Float32Array(n);
+  run.f.forEach(([i, t], j) => { P(i, a, 3 * j); bt[j] = t / 10; col.set(inputs.has(i) ? [1, .71, .28] : [1, .37, .64], 3 * j); });
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(a, 3)); g.setAttribute('color', new T.BufferAttribute(col, 3));
+  const pts = new T.Points(g, new T.PointsMaterial({ size: 8, map: dot, transparent: true, depthWrite: false, blending: T.AdditiveBlending, vertexColors: true }));
+  pts.userData = { bt }; v.layer.add(pts);
+  const on = routeOf(run);
+  const route = run.s.filter((_, j) => on[j]), other = run.s.filter((_, j) => !on[j]);
+  v.layer.add(lineSet(route, 'gold')); v.layer.add(lineSet(other, 'blue'));
+  if (lost) v.layer.add(lineSet(lost, 'red'));
+  const mp = new Float32Array(3 * D.mn9.length); D.mn9.forEach((i, j) => P(i, mp, 3 * j));
+  const mg = new T.BufferGeometry(); mg.setAttribute('position', new T.BufferAttribute(mp, 3));
+  const mn = new T.Points(mg, new T.PointsMaterial({ size: 30, map: dot, transparent: true, depthWrite: false, blending: T.AdditiveBlending, color: 0x5a5230 }));
+  v.layer.add(mn); v.layer.userData = { pts, mn, run, routeCount: route.length };
+  // labels: where taste enters, MN9, the switched-off neuron
+  const cen = ids => { const c = new T.Vector3(); ids.forEach(i => { const q = [0, 0, 0]; P(i, q, 0); c.add(new T.Vector3(...q)); }); return c.multiplyScalar(1 / ids.length); };
+  const L = (txt, cls, p) => { const d = document.createElement('div'); d.className = 'lbl ' + cls; d.textContent = txt; v.el.appendChild(d); v.labels.push(Object.assign(d, { p })); };
+  L(cond === 'sugar' ? 'sugar enters here' : 'water enters here', 'in', cen(D.inputs[cond]));
+  L('MN9 · tongue', 'mn9', cen(D.mn9));
+  if (ko != null) { const kp = cen([BY[ko].idx]); L('switched off', 'ko', kp);
+    const kg = new T.BufferGeometry(); kg.setAttribute('position', new T.BufferAttribute(new Float32Array([kp.x, kp.y, kp.z]), 3));
+    v.layer.add(new T.Points(kg, new T.PointsMaterial({ size: 34, map: dot, transparent: true, depthWrite: false, color: 0xff3b3b }))); }
+}
+function paintView(v, tNow) {
+  const u = v.layer.userData; if (!u || !u.pts) return;
+  const bt = u.pts.userData.bt; let k = 0; while (k < bt.length && bt[k] <= tNow) k++; u.pts.geometry.setDrawRange(0, k);
+  for (const L of v.layer.children) { if (!L.isLineSegments) continue; const { lt, color } = L.userData, c = L.geometry.attributes.color.array; let e = 0;
+    for (let j = 0; j < lt.length; j++) { if (lt[j] > tNow) break; e = j + 1; const age = tNow - lt[j]; let rgb;
+      if (color === 'gold') { const b = Math.max(.35, .95 - age / 25); rgb = [b, .78 * b, .3 * b]; }
+      else if (color === 'red') { const b = Math.max(.45, .95 - age / 25); rgb = [b, .22 * b, .22 * b]; }
+      else { const b = Math.max(0, .28 - age / 20); rgb = [.3 * b, .62 * b, b]; }
+      c.set(rgb, 6 * j); c.set(rgb, 6 * j + 3); }
+    L.geometry.attributes.color.needsUpdate = true; L.geometry.setDrawRange(0, 2 * e); }
+  const fired = u.run.mn9.some(t => t != null && t / 10 <= tNow);
+  u.mn.material.color.set(fired ? 0xffd23f : 0x5a5230); u.mn.material.size = fired ? 40 : 30;
+  const w = v.el.clientWidth, h = v.el.clientHeight;
+  for (const d of v.labels) { const q = d.p.clone().project(cam); d.style.left = ((q.x + 1) / 2 * w) + 'px'; d.style.top = ((1 - q.y) / 2 * h - 8) + 'px'; d.style.display = q.z < 1 ? '' : 'none'; }
+}
+
+// ---------- state, loading, the story ----------
+let DA = null, DB = null;
+let cond = 'sugar', sel = null, filt = 'needed', runA = null, runB = null, tNow = 0, playing = false, last = performance.now(), framed = false;
+const getRun = async key => { try { const r = await fetch(`runs/${key}.json?v=2`); return r.ok ? r.json() : null; } catch { return null; } };
+function events(run) {
+  const inputs = new Set(D.inputs[cond]);
+  const tIn = Math.min(...run.f.filter(([i]) => inputs.has(i)).map(([, t]) => t / 10));
+  const rest = run.f.filter(([i]) => !inputs.has(i)).map(([, t]) => t / 10).sort((a, b) => a - b);
+  const mn9 = run.mn9.filter(t => t != null).map(t => t / 10).sort((a, b) => a - b)[0];
+  const by = t => rest.filter(x => x <= t).length;
+  return { tIn, tFirst: rest[0], mn9, n10: by(10), nM: mn9 != null ? by(mn9) : null, n100: rest.length };
+}
+function story() {
+  const taste = cond === 'sugar' ? 'sugar' : 'water', act = cond === 'sugar' ? 'eat' : 'drink';
+  const eA = runA && events(runA), eB = runB && events(runB);
+  const s = [];
+  if (eA) {
+    s.push([eA.tIn, `<b>${f1(eA.tIn)} ms</b> · ${taste[0].toUpperCase() + taste.slice(1)} touches the tongue. The ${D.inputs[cond].length} ${taste}-sensing neurons start firing (orange).`]);
+    if (eA.tFirst != null) s.push([eA.tFirst, `<b>${f1(eA.tFirst)} ms</b> · The first neuron in the brain answers: the signal has crossed its first connection.`]);
+    s.push([Math.min(10, eA.mn9 || 10), `<b>10 ms</b> · ${eA.n10} neurons in the feeding centre are firing. Each line on the map is a real connection the signal has crossed.`]);
+    if (eA.mn9 != null) s.push([eA.mn9, `<b>${f1(eA.mn9)} ms</b> · Normal brain: the signal reaches <b>MN9</b> (gold). The tongue command goes out, after passing through ${eA.nM} neurons along ${runA && fillA.routeCount} connections.`]);
+  }
+  if (eB && sel) {
+    const n = BY[sel];
+    if (eB.mn9 != null) s.push([eB.mn9, `<b>${f1(eB.mn9)} ms</b> · With <b>${n.label}</b> switched off, the signal still reaches MN9${eA && eA.mn9 != null ? (eB.mn9 > eA.mn9 + 0.5 ? `, ${f1(eB.mn9 - eA.mn9)} ms later than normal` : '') : ''}. Red dashed lines are connections on the normal route that went silent.`]);
+    else s.push([Math.max(30, (eA && eA.mn9 != null ? eA.mn9 : 0) + 0.2), `<b>by 100 ms</b> · With <b>${n.label}</b> switched off, the signal never reaches MN9 in this run: the tongue stays in. Red dashed lines are the connections that went silent.`]);
+  }
+  s.sort((a, b) => a[0] - b[0]);
+  $('steps').innerHTML = s.map(([t, h]) => `<li data-t="${t}">${h}</li>`).join('');
+  // the summary sentence: from the averages, not the single replay
+  const base = sel ? BY[sel][cond + '_base'] : D.baseline[cond];
+  let sum = `On average the normal brain fires MN9 <b>${f1(base)}</b> times a second for ${taste}: the fly would stick out its tongue to ${act}.`;
+  if (sel) { const n = BY[sel], v = n[cond], drop = n[cond + '_drop'], need = n[cond + '_needed'];
+    const other = cond === 'sugar' ? 'water' : 'sugar', oNeed = n[other + '_needed'];
+    sum += ` Without <b>${n.label}</b> it fires <b>${f1(v)}</b> (${drop >= 0 ? Math.round(100 * drop) + '% weaker' : Math.round(-100 * drop) + '% stronger'}). `
+      + (need ? `That's a big enough drop for the lab to predict a real fly <b>needs this neuron to ${act}</b>${n.tested ? ' (the 2024 study names it)' : ', a prediction no living-fly test has checked yet as far as we know'}.`
+              : `That's too small to matter, so the lab predicts this neuron is <b>not needed to ${act}</b>${oNeed ? `, but it is predicted to be needed to ${other === 'sugar' ? 'eat' : 'drink'}: switch to ${other[0].toUpperCase() + other.slice(1)} to see it` : ''}.`);
+  } else sum += ' Pick a neuron on the left to switch it off and compare.';
+  $('sum').innerHTML = sum;
+}
+let fillA = {};
+function meters() {
+  const base = sel ? BY[sel][cond + '_base'] : D.baseline[cond], scale = cond === 'sugar' ? 80 : 40;
+  $('mA').textContent = f1(base) + ' / s'; $('fA').style.width = Math.min(100, 100 * base / scale) + '%';
+  $('sA').textContent = base >= 10 ? 'Tongue out' : 'Tongue stays in';
+  if (sel) { const v = BY[sel][cond]; $('mB').textContent = f1(v) + ' / s'; $('fB').style.width = Math.min(100, 100 * v / scale) + '%';
+    $('sB').textContent = (v >= 10 ? 'Tongue out' : 'Tongue stays in') + ` · ${Math.round(100 * BY[sel][cond + '_drop'])}% weaker`; }
+  else { $('mB').textContent = '—'; $('fB').style.width = '0%'; $('sB').textContent = ''; }
+}
+async function load() {
+  runA = await getRun(`none_${cond}`); runB = sel ? await getRun(`${sel}_${cond}`) : null;
+  let lost = null;
+  if (runA && runB) { const onA = routeOf(runA), carried = new Set(runB.s.map(([x, y]) => x + '-' + y));
+    lost = runA.s.filter((s, j) => onA[j] && !carried.has(s[0] + '-' + s[1])); }
+  fill(A, runA, null, null); fillA = A.layer.userData; fill(B, runB, sel, lost);
+  $('vAsub').textContent = `${cond === 'sugar' ? 'sugar' : 'water'} on the tongue`;
+  $('vBt').textContent = sel ? `${BY[sel].label} switched off` : 'Pick a neuron to switch off';
+  $('vBsub').textContent = sel ? `${cond === 'sugar' ? 'sugar' : 'water'} on the tongue` : 'from the list on the left';
+  $('vBt3').textContent = sel ? `${BY[sel].label} switched off` : 'Nothing switched off';
+  drawRoutes();
+  if (!framed && runA) { const c = new T.Vector3(); runA.f.forEach(([i]) => { const q = [0, 0, 0]; P(i, q, 0); c.add(new T.Vector3(...q)); }); c.multiplyScalar(1 / runA.f.length);
+    target.copy(c); cam.position.set(c.x + 120, c.y + 60, c.z + 560); map.mk.position.set(c.x, c.y, 200); framed = true; }
+  meters(); story(); tNow = 0; playing = true; last = performance.now(); $('play').textContent = '❚❚ Pause';
+}
+(function loop(now) {
+  if (playing) { tNow = Math.min(MAXT, tNow + (now - last) * MAXT / DUR); if (tNow >= MAXT) { playing = false; $('play').textContent = '↺ Replay'; } }
+  last = now;
+  if ($('three').open) { A.ctl.update(); B.ctl.update(); paintView(A, tNow); paintView(B, tNow);
+    A.r.render(A.scene, cam); B.r.render(B.scene, cam); map.r.render(map.s, map.c); }
+  paintRoutes(tNow);
+  $('clock').textContent = tNow.toFixed(1) + ' ms'; $('scrub').value = tNow;
+  document.querySelectorAll('#steps li').forEach(li => li.classList.toggle('on', +li.dataset.t <= tNow));
+  requestAnimationFrame(loop);
+})(performance.now());
+$('play').onclick = () => { if (tNow >= MAXT) tNow = 0; playing = !playing; $('play').textContent = playing ? '❚❚ Pause' : '▶ Play'; last = performance.now(); };
+$('scrub').oninput = e => { tNow = +e.target.value; playing = false; $('play').textContent = '▶ Play'; };
+
+
+// ---------- the route diagram: a left-to-right map of the signal's path ----------
+const SVGNS = 'http://www.w3.org/2000/svg', KEEP = 6, W = 1100;
+let RT = null;
+function routeSegs(run) { if (!run) return []; const on = routeOf(run); return run.s.filter((_, j) => on[j]); }
+function layoutRoutes() {
+  const inputs = new Set(D.inputs[cond]), mn9 = new Set(D.mn9);
+  const segA = routeSegs(runA), segB = routeSegs(runB), all = segA.concat(segB);
+  const adj = new Map(); all.forEach(([a, b]) => { if (!adj.has(a)) adj.set(a, new Set()); adj.get(a).add(b); });
+  // hops from the taste neurons
+  const hop = new Map(); let fr = [...inputs].filter(i => adj.has(i)); fr.forEach(i => hop.set(i, 0));
+  for (let h = 1; fr.length && h < 12; h++) { const nx = []; for (const a of fr) for (const b of (adj.get(a) || [])) if (!hop.has(b)) { hop.set(b, h); nx.push(b); } fr = nx; }
+  const deg = new Map(); segA.forEach(([a, b]) => { deg.set(a, (deg.get(a) || 0) + 1); deg.set(b, (deg.get(b) || 0) + 1); });
+  segB.forEach(([a, b]) => { deg.set(a, (deg.get(a) || 0) + .5); deg.set(b, (deg.get(b) || 0) + .5); });
+  const mids = [...hop.keys()].filter(i => !inputs.has(i) && !mn9.has(i));
+  const maxH = Math.max(1, ...mids.map(i => hop.get(i)));
+  const ko = sel ? BY[sel].idx : null;
+  const cols = []; for (let h = 1; h <= maxH; h++) cols.push(mids.filter(i => hop.get(i) === h).sort((x, y) => (deg.get(y) || 0) - (deg.get(x) || 0)));
+  const shown = new Map();               // neuron -> display node id
+  const nodes = [{ id: 'IN', col: 0, label: `${D.inputs[cond].length} ${cond}-taste neurons`, sub: 'on the tongue', members: [...inputs] }];
+  [...inputs].forEach(i => shown.set(i, 'IN'));
+  cols.forEach((c, k) => {
+    let keep = c.slice(0, KEEP); if (ko != null && c.includes(ko) && !keep.includes(ko)) keep = keep.slice(0, KEEP - 1).concat([ko]);
+    keep.forEach(i => { nodes.push({ id: 'n' + i, col: k + 1, label: nameOf(i), members: [i], ko: i === ko }); shown.set(i, 'n' + i); });
+    const rest = c.filter(i => !keep.includes(i));
+    if (rest.length) { nodes.push({ id: 'g' + k, col: k + 1, label: `+ ${rest.length} more`, members: rest, group: true }); rest.forEach(i => shown.set(i, 'g' + k)); }
+  });
+  nodes.push({ id: 'MN9', col: maxH + 1, label: 'MN9', sub: 'tongue', members: [...mn9] }); [...mn9].forEach(i => shown.set(i, 'MN9'));
+  if (ko != null && !shown.has(ko)) nodes.push({ id: 'n' + ko, col: -1, label: nameOf(ko), members: [ko], ko: true, off: true });
+  // place
+  const nc = maxH + 2, X = c => 70 + c * (W - 140) / Math.max(1, nc - 1);
+  const byCol = {}; nodes.forEach(n => { (byCol[n.col] = byCol[n.col] || []).push(n); });
+  let H = 70 + 50 * Math.max(...Object.values(byCol).map(a => a.length)); H = Math.max(H, 220);
+  for (const [c, arr] of Object.entries(byCol)) arr.forEach((n, j) => { n.x = +c < 0 ? W - 90 : X(+c); n.y = +c < 0 ? H - 30 : 52 + (j + .5) * (H - 70) / arr.length; });
+  const N = Object.fromEntries(nodes.map(n => [n.id, n]));
+  const colOf = {}; nodes.forEach(n => { colOf[n.id] = n.col; });
+  // lines = every connection that carried the signal between the neurons on the map (same-column links left out for clarity)
+  const edges = (segs) => { const m = new Map(); segs.forEach(([a, b, t]) => { const u = shown.get(a), v = shown.get(b); if (!u || !v || u === v || colOf[u] === colOf[v]) return;
+      const k = u + '>' + v, e = m.get(k); if (!e) m.set(k, { u, v, t: t / 10, n: 1 }); else { e.n++; e.t = Math.min(e.t, t / 10); } }); return m; };
+  RT = { nodes, N, H, nc, X, eA: edges(runA ? runA.s : []), eB: edges(runB ? runB.s : []), shown, ko };
+}
+function el(tag, attrs, parent) { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+function drawOne(svg, run, mine, other, isB) {
+  svg.innerHTML = ''; if (!RT) return; const { nodes, N, H, nc, X } = RT;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const caps = ['Tongue'].concat(Array.from({ length: nc - 2 }, (_, k) => k === 0 ? '1st relay' : k === 1 ? '2nd relay' : k === 2 ? '3rd relay' : `${k + 1}th relay`), ['Motor neuron']);
+  caps.forEach((c, k) => { el('text', { x: X(k), y: 18, 'text-anchor': 'middle', 'font-size': 12, fill: 'var(--muted)' }, svg).textContent = c; });
+  const first = new Map(); if (run) run.f.forEach(([i, t]) => { if (!first.has(i)) first.set(i, t / 10); });
+  const gE = el('g', {}, svg), gP = el('g', {}, svg), gN = el('g', {}, svg);
+  const path = (a, b) => { const mx = (a.x + b.x) / 2; return `M${a.x + 14} ${a.y} C${mx} ${a.y}, ${mx} ${b.y}, ${b.x - 14} ${b.y}`; };
+  const live = [];
+  for (const e of mine.values()) { const a = N[e.u], b = N[e.v]; const p = el('path', { d: path(a, b), fill: 'none', stroke: '#d4a017', 'stroke-width': Math.min(6, 1.2 + Math.log2(1 + e.n)), 'stroke-linecap': 'round', opacity: 0 }, gE);
+    const dotc = el('circle', { r: 4.5, fill: '#ffcf33', opacity: 0 }, gP); live.push({ e, p, dotc, len: 0 }); }
+  if (isB && other) for (const [k, e] of other) if (!mine.has(k)) { const a = N[e.u], b = N[e.v];
+    live.push({ e, p: el('path', { d: path(a, b), fill: 'none', stroke: '#c0392b', 'stroke-width': 2, 'stroke-dasharray': '5 4', opacity: 0 }, gE), lost: true }); }
+  const nodeEls = nodes.map(n => { const g = el('g', {}, gN);
+    const big = n.id === 'MN9' || n.id === 'IN';
+    const c = el('circle', { cx: n.x, cy: n.y, r: big ? 14 : n.group ? 9 : 10, fill: n.id === 'IN' ? '#c27c0e' : 'var(--chip)', stroke: n.ko ? '#c0392b' : 'var(--line)', 'stroke-width': n.ko ? 3 : 1.2 }, g);
+    if (n.ko) { el('path', { d: `M${n.x - 6} ${n.y - 6}L${n.x + 6} ${n.y + 6}M${n.x + 6} ${n.y - 6}L${n.x - 6} ${n.y + 6}`, stroke: '#c0392b', 'stroke-width': 2.5 }, g); }
+    const t = el('text', { x: n.x, y: n.y + (big ? 30 : 24), 'text-anchor': 'middle', 'font-size': n.group ? 11 : 12, fill: n.group ? 'var(--muted)' : 'var(--ink)', 'font-weight': big ? 700 : 400 }, g);
+    t.textContent = n.label + (n.ko ? ' (off)' : '');
+    if (n.sub) { const s2 = el('text', { x: n.x, y: n.y + 44, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--muted)' }, g); s2.textContent = n.sub; }
+    if (n.off) { const s3 = el('text', { x: n.x, y: n.y + 38, 'text-anchor': 'middle', 'font-size': 11, fill: '#c0392b' }, g); s3.textContent = 'not on this route'; }
+    const tt = Math.min(...n.members.map(i => first.has(i) ? first.get(i) : Infinity));
+    const ti = el('title', {}, g); ti.textContent = `${n.label}${isFinite(tt) ? ` · first fires at ${tt.toFixed(1)} ms` : ' · does not fire in this run'}`;
+    return { n, c, t: tt }; });
+  live.forEach(l => { if (l.dotc) l.len = l.p.getTotalLength(); });
+  return { live, nodeEls };
+}
+function drawRoutes() {
+  layoutRoutes();
+  DA = drawOne($('dA'), runA, RT.eA, null, false);
+  DB = sel && runB ? drawOne($('dB'), runB, RT.eB, RT.eA, true) : (($('dB').innerHTML = `<text x="550" y="120" text-anchor="middle" font-size="15" fill="var(--muted)">Pick a neuron on the left to switch it off and compare.</text>`), null);
+}
+function paintRoutes(t) {
+  for (const d of [DA, DB]) { if (!d) continue;
+    for (const { n, c, t: tt } of d.nodeEls) { const on = tt <= t;
+      if (n.id === 'MN9') { c.setAttribute('fill', on ? '#ffd23f' : 'var(--chip)'); c.setAttribute('stroke', on ? '#b8860b' : 'var(--line)'); c.setAttribute('stroke-width', on ? 3 : 1.2); }
+      else if (n.id !== 'IN' && !n.ko) c.setAttribute('fill', on ? '#0064e0' : 'var(--chip)'); }
+    for (const l of d.live) { const st = l.e.t;
+      if (l.lost) { l.p.setAttribute('opacity', t >= st ? .9 : 0); continue; }
+      l.p.setAttribute('opacity', t >= st ? .85 : 0);
+      const f = (t - (st - 2)) / 2;                  // a pulse rides the connection in the 2 ms before it arrives
+      if (f >= 0 && f <= 1 && l.len) { const q = l.p.getPointAtLength(f * l.len); l.dotc.setAttribute('cx', q.x); l.dotc.setAttribute('cy', q.y); l.dotc.setAttribute('opacity', 1); }
+      else l.dotc.setAttribute('opacity', 0); } }
+}
+
+// ---------- the list ----------
+function list() {
+  const q = $('q').value.trim().toLowerCase(), act = cond === 'sugar' ? 'eat' : 'drink';
+  const rows = D.neurons.filter(n => (filt === 'all' || (filt === 'needed' && (n.sugar_needed || n.water_needed)) || (filt === 'open' && (n.sugar_needed || n.water_needed) && !n.tested))
+      && (!q || n.label.toLowerCase().includes(q) || (n.type || '').toLowerCase().includes(q) || n.id.includes(q)))
+    .sort((a, b) => (b[cond + '_needed'] - a[cond + '_needed']) || ((b[cond + '_drop'] || 0) - (a[cond + '_drop'] || 0)));
+  $('list').innerHTML = `<button data-id="" aria-pressed="${sel === null}"><span class="nm"><b>Normal brain only</b><small>nothing switched off</small></span></button>`
+    + rows.map(n => { const tags = [];
+        if (n[cond + '_needed']) tags.push(`<span class="tag t-need">needed to ${act}</span>`);
+        else tags.push(`<span class="tag t-no">no effect on ${cond === 'sugar' ? 'eating' : 'drinking'}</span>`);
+        const o = cond === 'sugar' ? 'water' : 'sugar'; if (n[o + '_needed']) tags.push(`<span class="tag t-other">needed to ${o === 'sugar' ? 'eat' : 'drink'}</span>`);
+        if ((n.sugar_needed || n.water_needed) && !n.tested) tags.unshift(`<span class="tag t-new">new discovery</span>`);
+        return `<button data-id="${n.id}" aria-pressed="${sel === n.id}"><span class="nm"><b>${n.label}</b><small>MN9 ${f1(n[cond + '_base'])} → ${f1(n[cond])}/s</small></span><span class="tags">${tags.join('')}</span></button>`; }).join('');
+}
+$('filt').innerHTML = [['needed', 'Needed'], ['open', 'New discoveries'], ['all', 'All ' + D.neurons.length]].map(([k, l]) => `<button data-f="${k}" aria-pressed="${k === filt}">${l}</button>`).join('');
+$('filt').onclick = e => { const b = e.target.closest('button'); if (!b) return; filt = b.dataset.f; $('filt').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); list(); };
+$('q').oninput = list;
+$('list').onclick = e => { const b = e.target.closest('button'); if (!b) return; sel = b.dataset.id || null; list(); load(); };
+document.querySelector('.taste').onclick = e => { const b = e.target.closest('button'); if (!b) return; cond = b.dataset.c;
+  document.querySelectorAll('.taste button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); list(); load(); };
+
+// ---------- predictions table ----------
+const need = D.neurons.filter(n => n.sugar_needed || n.water_needed).sort((a, b) => Math.max(b.sugar_drop, b.water_drop) - Math.max(a.sugar_drop, a.water_drop));
+const nNew = need.filter(n => !n.tested).length;
+const when = D.written.split(',')[0].replace('T', ' at ').replace('Z', ' UTC');
+$('predlead').innerHTML = `Rules saved ${when}, before the screen ran. Of ${D.neurons.length} neurons switched off one at a time, <b>${need.length}</b> are predicted to be
+  needed for eating or drinking. <b>${nNew}</b> of those are <b>new discoveries</b>: no living-fly test that we know of, so a real lab could check them next.
+  <br><small>Numbers re-checked with 30 runs are compared with the 30-run normal brain (sugar ${f1(D.baseline.sugar)}, water ${f1(D.baseline.water)});
+  the rest are from the 10-run screen, compared with its own normal-brain run.</small>`;
+const rng = (n, c) => n[c + '_ci'] && n[c + '_needed'] ? `<br><small style="color:var(--muted)">95% range ${Math.round(-100 * n[c + '_ci'][1])} to ${Math.round(-100 * n[c + '_ci'][0])}%</small>` : '';
+const bars = k => `<span class="cbars" aria-hidden="true">${[1, 2, 3].map(i => `<i class="${i <= k ? 'on' : ''}"></i>`).join('')}</span>`;
+const LIVE = { new: '<b>new discovery</b>: no test known to us', known: 'agrees with real flies (drinking, Shiu et al. 2024)', open: 'named in the 2024 study; this effect not tested as far as we know' };
+$('ptab').innerHTML = `<thead><tr><th>Neuron</th><th>Cell type</th><th style="text-align:right">Eating (MN9 to sugar)</th><th style="text-align:right">Drinking (MN9 to water)</th><th>Prediction</th><th>How sure</th><th>Living-fly test</th></tr></thead><tbody>`
+  + need.map(n => `<tr><td><b>${n.label}</b><br><span class="mono">${n.id}</span></td><td>${n.type || '—'}</td>
+    <td class="n">${f1(n.sugar_base)} → ${f1(n.sugar)} (${Math.round(-100 * n.sugar_drop)}%)${rng(n, 'sugar')}</td><td class="n">${f1(n.water_base)} → ${f1(n.water)} (${Math.round(-100 * n.water_drop)}%)${rng(n, 'water')}</td>
+    <td>${[n.sugar_needed && 'needed to eat', n.water_needed && 'needed to drink'].filter(Boolean).join(', ')}</td>
+    <td style="white-space:nowrap">${n.conf ? bars(n.conf.score) + ' ' + n.conf.level : '—'}</td>
+    <td>${LIVE[n.status] || (n.tested ? 'named in the 2024 study' : '<b>new discovery</b>: none known to us')}</td></tr>`).join('') + '</tbody>';
+$('predlead').innerHTML += `<br><small>"How sure" comes from 30 repeated runs of each prediction and the model's track record; see <a href="../experiments/notebook.html#how-sure">how we judge it</a>. Every run is written up in the <a href="../experiments/notebook.html#DS1">lab notebook</a>; what a real lab could test next is on <a href="../next/#waiting">What's next</a>.</small>`;
+$('caveat').innerHTML = D.caveat_html;
+sel = need.find(n => n.sugar_needed)?.id || null;
+list(); load();
+</script>
+</body>
+</html>

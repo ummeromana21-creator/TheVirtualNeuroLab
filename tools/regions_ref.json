@@ -1,0 +1,471 @@
+{
+ "about": "Curated region reference for the Fly Atlas. Families follow the standard supercategories of Ito et al. (2014) Neuron 81:755 (brain) and Court et al. (2020) Neuron 108:1 (nerve cord), as used by FlyWire. Functions are kept to what is well established; where little is known, the text says so.",
+ "families": [
+  {
+   "id": "optic",
+   "name": "Optic lobe",
+   "func": "vision",
+   "desc": "The two big visual centres behind the eyes. Signals from the photoreceptors pass layer by layer through the lamina, medulla, lobula and lobula plate, which pull out contrast, colour, motion and object features before sending them on to the central brain.",
+   "members": [
+    "LA",
+    "ME",
+    "AME",
+    "LO",
+    "LOP"
+   ]
+  },
+  {
+   "id": "AL",
+   "name": "Antennal lobe",
+   "func": "smell, first stop",
+   "desc": "",
+   "members": [
+    "AL"
+   ]
+  },
+  {
+   "id": "LH",
+   "name": "Lateral horn",
+   "func": "inborn smell responses",
+   "desc": "",
+   "members": [
+    "LH"
+   ]
+  },
+  {
+   "id": "MB",
+   "name": "Mushroom body",
+   "func": "learning and memory",
+   "desc": "The fly's learning centre. Kenyon cells receive smell (and some visual and taste) information in the calyx and send long axons through the pedunculus into the lobes. There, dopamine neurons signal reward or punishment and output neurons read out the learned value.",
+   "members": [
+    "MB_CA",
+    "MB_PED",
+    "MB_VL",
+    "MB_ML"
+   ]
+  },
+  {
+   "id": "CX",
+   "name": "Central complex",
+   "func": "navigation and heading",
+   "desc": "A chain of midline structures that keep track of which way the fly is facing and help it steer toward goals. It holds the fly's internal compass.",
+   "members": [
+    "EB",
+    "PB",
+    "FB",
+    "NO",
+    "AB"
+   ]
+  },
+  {
+   "id": "LX",
+   "name": "Lateral complex",
+   "func": "steering; compass input",
+   "desc": "Paired regions next to the central complex. The bulb feeds visual cues into the compass, the gall links to compass neurons, and the lateral accessory lobe sends steering signals to descending neurons.",
+   "members": [
+    "LAL",
+    "BU",
+    "GA"
+   ]
+  },
+  {
+   "id": "SNP",
+   "name": "Superior neuropils",
+   "func": "senses meet internal state",
+   "desc": "The top of the central brain, where smell, taste and other senses are combined with hunger, thirst and learned value. Many mushroom-body output and dopamine neurons connect here.",
+   "members": [
+    "SLP",
+    "SIP",
+    "SMP"
+   ]
+  },
+  {
+   "id": "INP",
+   "name": "Inferior neuropils",
+   "func": "integration; largely uncharted",
+   "desc": "Regions around the mushroom-body lobes and the midline. They are heavily wired but their jobs are still poorly understood.",
+   "members": [
+    "CRE",
+    "SCL",
+    "ICL",
+    "IB",
+    "ATL"
+   ]
+  },
+  {
+   "id": "VLNP",
+   "name": "Ventrolateral neuropils",
+   "func": "visual and hearing features",
+   "desc": "The sides of the central brain, where visual projection neurons from the optic lobe and hearing/wind neurons from the antenna arrive and are processed into features like looming objects or courtship song.",
+   "members": [
+    "AOTU",
+    "AVLP",
+    "PVLP",
+    "PLP",
+    "WED"
+   ]
+  },
+  {
+   "id": "VMNP",
+   "name": "Ventromedial neuropils",
+   "func": "routes to descending neurons",
+   "desc": "The lower middle of the central brain. Many descending neurons, which carry commands to the nerve cord, pick up their inputs here, including visual motion signals used for flight and head control.",
+   "members": [
+    "VES",
+    "EPA",
+    "GOR",
+    "SPS",
+    "IPS"
+   ]
+  },
+  {
+   "id": "PENP",
+   "name": "Periesophageal neuropils",
+   "func": "antenna sensing, feeding, hormones",
+   "desc": "The regions wrapped around the oesophagus: hearing, wind and gravity sensing from the antenna, and feeding- and hormone-related neurons.",
+   "members": [
+    "SAD",
+    "AMMC",
+    "FLA",
+    "CAN",
+    "PRW"
+   ]
+  },
+  {
+   "id": "GNG",
+   "name": "Gnathal ganglia",
+   "func": "taste, feeding, descending output",
+   "desc": "",
+   "members": [
+    "GNG"
+   ]
+  },
+  {
+   "id": "VNC",
+   "name": "Ventral nerve cord",
+   "func": "legs, wings, neck, abdomen",
+   "desc": "The fly's equivalent of a spinal cord, in the thorax. It holds the motor circuits for walking and flight and receives touch and position sense from the body. In the BANC and male CNS scans it is wired to the brain.",
+   "members": [
+    "ProNm",
+    "MesoNm",
+    "MetaNm",
+    "ANm",
+    "NTct",
+    "WTct",
+    "HTct",
+    "IntTct",
+    "LTct",
+    "AMNp",
+    "mVAC"
+   ]
+  },
+  {
+   "id": "other",
+   "name": "Not a brain region",
+   "func": "nerves and unlabelled contacts",
+   "desc": "Synapses that sit in peripheral nerves or could not be assigned to any named region.",
+   "members": [
+    "nerves",
+    "unassigned"
+   ]
+  }
+ ],
+ "regions": {
+  "LA": {
+   "full": "Lamina",
+   "func": "first visual layer",
+   "desc": "The first layer behind the eye. Each of about 800 'cartridges' collects input from the R1–6 photoreceptors that look at one point in space and passes it to lamina neurons L1–L5."
+  },
+  "ME": {
+   "full": "Medulla",
+   "func": "early vision: contrast, colour, motion",
+   "desc": "The largest visual region, built of about 800 columns and ten layers. Colour photoreceptors R7 and R8 end here, and its circuits start computing contrast, colour and the direction of motion."
+  },
+  "AME": {
+   "full": "Accessory medulla",
+   "func": "small optic region; clock-neuron hub",
+   "desc": "A small region at the front edge of the medulla. Clock neurons that make the neuropeptide PDF branch here and receive light information that helps reset the daily clock. The clock itself is a network of about 240 neurons spread across the brain (the count from the FlyWire connectome; older textbooks say about 150)."
+  },
+  "LO": {
+   "full": "Lobula",
+   "func": "visual features and objects",
+   "desc": "A deeper visual region that detects features such as small moving objects and looming. Its lobula columnar (LC) neurons carry these features to glomeruli in the central brain."
+  },
+  "LOP": {
+   "full": "Lobula plate",
+   "func": "direction of motion",
+   "desc": "Receives direction-selective motion signals from T4 and T5 cells, one layer per direction. Large tangential cells here sense whole-field motion (optic flow) used to keep the fly on course."
+  },
+  "AL": {
+   "full": "Antennal lobe",
+   "func": "smell, first stop",
+   "desc": "The first smell centre, with about 50 glomeruli. Each glomerulus collects the smell neurons that carry one type of odour receptor; projection neurons then carry the signal to the mushroom body and lateral horn."
+  },
+  "LH": {
+   "full": "Lateral horn",
+   "func": "inborn smell responses",
+   "desc": "Receives smell information from the antennal lobe and drives built-in (unlearned) reactions, such as attraction to food odours or avoidance of danger smells."
+  },
+  "MB_CA": {
+   "full": "Mushroom body calyx",
+   "func": "learning centre input",
+   "desc": "Where projection neurons carrying smell (and some visual and taste) information connect to the Kenyon cells of the mushroom body."
+  },
+  "MB_PED": {
+   "full": "Mushroom body pedunculus",
+   "func": "Kenyon cell axon bundle",
+   "desc": "The stalk of Kenyon cell axons running from the calyx to the lobes."
+  },
+  "MB_VL": {
+   "full": "Mushroom body vertical lobe",
+   "func": "learning output",
+   "desc": "One of the output lobes. Dopamine neurons here signal reward or punishment, changing how Kenyon cells talk to mushroom-body output neurons."
+  },
+  "MB_ML": {
+   "full": "Mushroom body medial lobe",
+   "func": "learning output",
+   "desc": "The other output lobe, organised like the vertical lobe into compartments, each with its own dopamine and output neurons."
+  },
+  "EB": {
+   "full": "Ellipsoid body",
+   "func": "heading compass",
+   "desc": "A ring-shaped structure where E-PG neurons keep a 'bump' of activity that tracks the fly's heading, like an internal compass. Ring neurons bring in visual landmarks."
+  },
+  "PB": {
+   "full": "Protocerebral bridge",
+   "func": "heading map relay",
+   "desc": "A bar-shaped structure where the heading signal from the ellipsoid body is laid out left-to-right and passed to other central-complex neurons."
+  },
+  "FB": {
+   "full": "Fan-shaped body",
+   "func": "goal-directed steering; sleep",
+   "desc": "The largest central-complex structure. It combines heading with travel direction and goals to guide steering, and some of its layers help control sleep."
+  },
+  "NO": {
+   "full": "Noduli",
+   "func": "self-motion input",
+   "desc": "Small paired structures under the fan-shaped body that bring self-motion (speed and turning) signals into the central complex."
+  },
+  "AB": {
+   "full": "Asymmetrical body",
+   "func": "small, one-sided structure",
+   "desc": "A small structure near the fan-shaped body, usually larger on one side. It has been linked to long-term memory, but its role is not well understood."
+  },
+  "LAL": {
+   "full": "Lateral accessory lobe",
+   "func": "steering commands",
+   "desc": "Receives central-complex output and connects to descending neurons that turn the fly while walking or flying."
+  },
+  "BU": {
+   "full": "Bulb",
+   "func": "visual cues into the compass",
+   "desc": "Relays visual information such as landmarks, the sun and polarised light from the anterior optic tubercle to the ring neurons of the ellipsoid body."
+  },
+  "GA": {
+   "full": "Gall",
+   "func": "compass-circuit partner",
+   "desc": "A small region where certain ellipsoid-body/protocerebral-bridge columnar neurons connect; part of the navigation loop."
+  },
+  "SLP": {
+   "full": "Superior lateral protocerebrum",
+   "func": "smell and metabolic state",
+   "desc": "Next to the lateral horn. Receives smell information and links it with signals about the body's nutritional state."
+  },
+  "SIP": {
+   "full": "Superior intermediate protocerebrum",
+   "func": "learned value",
+   "desc": "A zone where mushroom-body output neurons and dopamine neurons connect, linking learned value to behaviour."
+  },
+  "SMP": {
+   "full": "Superior medial protocerebrum",
+   "func": "internal state and feeding",
+   "desc": "A large midline region that integrates hunger, thirst and other internal states with learned and sensory information; many neurosecretory and mushroom-body-related neurons connect here."
+  },
+  "CRE": {
+   "full": "Crepine",
+   "func": "around the mushroom-body lobes",
+   "desc": "Wraps the mushroom-body lobes and holds many mushroom-body output and dopamine neuron branches."
+  },
+  "SCL": {
+   "full": "Superior clamp",
+   "func": "function poorly understood",
+   "desc": "A densely wired region that clamps around the mushroom-body pedunculus. Its specific role is still poorly understood."
+  },
+  "ICL": {
+   "full": "Inferior clamp",
+   "func": "function poorly understood",
+   "desc": "Lies below the superior clamp. It receives visual projections among other inputs, but its role is still poorly understood."
+  },
+  "IB": {
+   "full": "Inferior bridge",
+   "func": "midline link; poorly understood",
+   "desc": "A midline region joining the two hemispheres. Its function is still poorly understood."
+  },
+  "ATL": {
+   "full": "Antler",
+   "func": "function poorly understood",
+   "desc": "A small region next to the inferior bridge. Its function is still poorly understood. (It is not part of the central complex.)"
+  },
+  "AOTU": {
+   "full": "Anterior optic tubercle",
+   "func": "visual features to the compass",
+   "desc": "Receives visual features such as colour and polarised light from the optic lobe and passes them on, via the bulb, toward the central-complex compass."
+  },
+  "AVLP": {
+   "full": "Anterior ventrolateral protocerebrum",
+   "func": "hearing and vision",
+   "desc": "A large region processing auditory information (including courtship song) and visual features."
+  },
+  "PVLP": {
+   "full": "Posterior ventrolateral protocerebrum",
+   "func": "visual objects and looming",
+   "desc": "Where many lobula columnar neurons end in glomeruli, each signalling a visual feature such as a looming object."
+  },
+  "PLP": {
+   "full": "Posterior lateral protocerebrum",
+   "func": "visual features",
+   "desc": "Another major target of visual projection neurons from the optic lobe."
+  },
+  "WED": {
+   "full": "Wedge",
+   "func": "hearing and wind",
+   "desc": "Secondary processing of hearing and wind signals coming from the antenna (Johnston's organ)."
+  },
+  "VES": {
+   "full": "Vest",
+   "func": "inputs to descending neurons",
+   "desc": "A ventromedial region where many descending neurons collect input; its exact roles are still being mapped."
+  },
+  "EPA": {
+   "full": "Epaulette",
+   "func": "function poorly understood",
+   "desc": "A small ventromedial region near the vest. Its function is still poorly understood."
+  },
+  "GOR": {
+   "full": "Gorget",
+   "func": "function poorly understood",
+   "desc": "A small ventromedial region near the vest and epaulette. Its function is still poorly understood."
+  },
+  "SPS": {
+   "full": "Superior posterior slope",
+   "func": "motion signals to descending neurons",
+   "desc": "Receives visual motion information (for example from lobula-plate tangential cells) and passes it to descending neurons for flight and head control."
+  },
+  "IPS": {
+   "full": "Inferior posterior slope",
+   "func": "motion signals to descending neurons",
+   "desc": "Like the superior posterior slope, links visual motion and other signals to descending neurons."
+  },
+  "SAD": {
+   "full": "Saddle",
+   "func": "hearing, wind, gravity",
+   "desc": "Surrounds the AMMC and processes mechanosensory signals from the antenna's Johnston's organ: sound, wind and gravity."
+  },
+  "AMMC": {
+   "full": "Antennal mechanosensory and motor centre",
+   "func": "hearing, wind, gravity",
+   "desc": "Where Johnston's organ neurons in the antenna deliver sound, wind and gravity information; it also contains antenna motor neurons."
+  },
+  "FLA": {
+   "full": "Flange",
+   "func": "hormones and feeding",
+   "desc": "A region where neurosecretory (hormone-releasing) neurons of the pars intercerebralis and feeding-related neurons project. It also holds many sex-specific (doublesex) neurons."
+  },
+  "CAN": {
+   "full": "Cantle",
+   "func": "function poorly understood",
+   "desc": "A small region near the flange. Its function is still poorly understood."
+  },
+  "PRW": {
+   "full": "Prow",
+   "func": "pharyngeal taste and feeding",
+   "desc": "The midline region that receives taste input from the pharynx and contains feeding-related neurons."
+  },
+  "GNG": {
+   "full": "Gnathal ganglia",
+   "func": "taste, feeding, descending output",
+   "desc": "Receives taste input from the mouthparts and legs, contains motor neurons for feeding, and is a major source and target of descending neurons."
+  },
+  "ProNm": {
+   "full": "Prothoracic neuromere",
+   "func": "front legs",
+   "desc": "Holds the walking circuits and motor neurons for the front legs and receives their touch and position sense."
+  },
+  "MesoNm": {
+   "full": "Mesothoracic neuromere",
+   "func": "middle legs",
+   "desc": "Holds the walking circuits and motor neurons for the middle legs."
+  },
+  "MetaNm": {
+   "full": "Metathoracic neuromere",
+   "func": "hind legs",
+   "desc": "Holds the walking circuits and motor neurons for the hind legs."
+  },
+  "ANm": {
+   "full": "Abdominal neuromeres",
+   "func": "abdomen",
+   "desc": "Controls the abdomen, including mating, egg-laying and gut-related functions."
+  },
+  "NTct": {
+   "full": "Neck tectulum",
+   "func": "neck and head movement",
+   "desc": "Part of the dorsal 'tectulum' that controls the neck muscles and head movement."
+  },
+  "WTct": {
+   "full": "Wing tectulum",
+   "func": "wings and flight",
+   "desc": "Contains the flight motor circuits and wing motor neurons."
+  },
+  "HTct": {
+   "full": "Haltere tectulum",
+   "func": "halteres (flight balance)",
+   "desc": "Receives input from and controls the halteres, the small knobbed organs that act as gyroscopes during flight."
+  },
+  "IntTct": {
+   "full": "Intermediate tectulum",
+   "func": "between flight and leg areas",
+   "desc": "A band of neuropil between the dorsal flight regions and the leg neuromeres. Its function is only partly understood."
+  },
+  "LTct": {
+   "full": "Lower tectulum",
+   "func": "function partly understood",
+   "desc": "The lower part of the tectulum, thought to help coordinate legs and wings; its function is only partly understood."
+  },
+  "AMNp": {
+   "full": "Accessory mesothoracic neuropil (ovoid)",
+   "func": "wing and back sensory input",
+   "desc": "A dense region where the front and middle segments of the cord meet. It mostly receives sensory nerves from the wing and the notum (the back of the thorax). The male CNS scan calls it the ovoid (Ov); it is the same region."
+  },
+  "mVAC": {
+   "full": "Medial ventral association centre",
+   "func": "vibration and leg-position sense",
+   "desc": "Receives the endings of chordotonal sensory neurons in the legs, which sense vibration and leg position; it resembles the 'auditory' neuropil of other insects."
+  },
+  "nerves": {
+   "full": "Nerves",
+   "func": "peripheral nerves",
+   "desc": "Synapses found inside the nerves that enter and leave the nerve cord, outside any neuropil."
+  },
+  "unassigned": {
+   "full": "Unassigned",
+   "func": "no named region",
+   "desc": "Synapses the scan could not assign to a named region. In Maxime's scan most of these were labelled only as 'tectulum' without saying which part."
+  }
+ },
+ "merged": {
+  "hagrid": {
+   "GA": "LAL",
+   "AMMC": "SAD"
+  },
+  "maxime": {
+   "AB": "FB"
+  }
+ },
+ "notes": {
+  "maxime": {
+   "MB_ML": "Maxime's export assigns very few synapses to the mushroom-body lobes compared with the calyx; this is probably how the BANC export labels these regions, not biology.",
+   "MB_PED": "Maxime's export assigns very few synapses to the mushroom-body lobes compared with the calyx; this is probably how the BANC export labels these regions, not biology.",
+   "MB_VL": "Maxime's export assigns very few synapses to the mushroom-body lobes compared with the calyx; this is probably how the BANC export labels these regions, not biology."
+  }
+ }
+}

@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fly Atlas · Fly Lab</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234d5a3d'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=1">
-<link rel="stylesheet" href="../feather.css">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -26,37 +26,31 @@
   <header id="navMount"></header>
   <!-- ============ LIBRARY VIEW ============ -->
   <section id="libraryView">
-    <header class="top">
+    <div class="top" role="region" aria-label="Fly Atlas search">
       <div class="brand"><h1>Fly Atlas</h1><p id="sub">Region library</p></div>
       <div class="topsearch">
         <svg class="ic"><use href="#i-search"/></svg>
-        <input id="q" type="text" placeholder="Search regions, hubs, functions…" autocomplete="off" aria-label="Search regions">
+        <input id="q" type="text" placeholder="Search regions, families, functions, cell types…" autocomplete="off" aria-label="Search regions">
       </div>
       <button id="filterBtn" class="iconbtn" aria-label="Toggle filters"><svg class="ic"><use href="#i-filter"/></svg></button>
       <button id="lightBtn" class="iconbtn" data-light-toggle aria-label="Toggle day and dusk" aria-pressed="false"><svg class="ic"><use href="#i-sun"/></svg></button>
-    </header>
+    </div>
     <div class="wrap">
       <aside class="filters" id="filterPanel" aria-label="filters">
-        <div class="grp"><span class="cap">Hub</span><div id="hubs" class="chips"></div></div>
+        <div class="grp"><span class="cap">Fly</span><div id="sex" class="chips"></div></div>
+        <div class="grp"><span class="cap">Region family</span><div id="hubs" class="chips"></div></div>
         <div class="grp"><span class="cap">Show</span>
           <select id="level" aria-label="Entry type">
-            <option value="all">Hubs + neuropils</option>
-            <option value="hub">Hubs only</option>
-            <option value="neuropil">Neuropils only</option>
-            <option value="celltype">Cell types only</option>
-            <option value="side">Sides only</option>
-            <option value="subset">Subsets only</option>
-            <option value="sense">Sense groups only</option>
+            <option value="all">Families + regions</option>
+            <option value="family">Families only</option>
+            <option value="region">Regions only</option>
+            <option value="celltype">Cell types</option>
           </select>
         </div>
-        <div class="grp"><span class="cap">Sex</span><div id="sex" class="chips"></div></div>
         <div class="grp"><span class="cap">Sort by</span>
           <select id="sort" aria-label="Sort entries">
-            <option value="syn">Total synapses</option>
-            <option value="fsyn">Female synapses</option>
-            <option value="msyn">Male synapses</option>
-            <option value="neu">Total neurons</option>
-            <option value="ratio">M/F ratio</option>
+            <option value="syn">Synapses</option>
+            <option value="neu">Neurons</option>
             <option value="name">Name A–Z</option>
           </select>
         </div>
@@ -109,20 +103,22 @@
   </section>
 
   <footer class="cite">
-    <strong>Data &amp; citation.</strong> Numbers derive from
-    <a href="https://codex.flywire.ai">FlyWire Codex</a> exports (FAFB v783, BANC, Male CNS);
-    the 3D cloud shows all 139,255 FlyWire cell bodies with the region's real synapses lit.
+    <strong>Data &amp; citation.</strong> Each fly's region numbers come only from its own scan,
+    exported from <a href="https://codex.flywire.ai">FlyWire Codex</a>: Maxime = BANC (Bates, Phelps et al., <i>Nature</i> 2026),
+    Hagrid = male CNS (Berg et al., <i>Cell</i> 2026); only neuron pairs joined by 5+ synapses are counted, the same way for both.
+    The two scans were made by different labs, so don't read their numbers as a sex difference.
+    Region names and families follow Ito et al. 2014 and Court et al. 2020. 3D pictures and cell-type counts use the
+    FlyWire reference brain (FAFB v783; Dorkenwald et al. 2024, Schlegel et al. 2024).
     Cite Codex: <a href="http://dx.doi.org/10.13140/RG.2.2.35928.67844">doi:10.13140/RG.2.2.35928.67844</a>;
     FlyWire papers per <a href="https://docs.google.com/spreadsheets/d/1eOPxOYoalArVDIhzVis3CsKjETzkdFkRtXSHHY3XdSU">their citation table</a>;
     use subject to the <a href="https://flywire.ai/tos">FlyWire Terms</a>.
-    VNC rows are schematic drawings; unassigned rows have no position.
+    Nerve-cord pictures show each fly's own measured cell bodies (BANC v888 release; male CNS v1.0 release).
   </footer>
 </div>
 
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
-<script src="../duo/auth.js"></script>
-<script src="../feather.js?v=2"></script>
-<script>Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Fly Atlas', base: '../', current: 'atlas' });</script>
-<script type="module" src="app.js?v=20"></script>
+<script src="../feather.js?v=8"></script>
+<script>Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Fly Atlas', base: '../', current: 'atlas', profile: false });</script>
+<script type="module" src="app.js?v=27"></script>
 </body>
 </html>

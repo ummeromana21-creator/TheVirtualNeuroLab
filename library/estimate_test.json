@@ -1,0 +1,604 @@
+{
+ "method": "cns_fly.py position estimate tested on FlyWire FAFB v783",
+ "truth": "mean synapse position per neuron",
+ "thresholds_um": [
+  10,
+  20,
+  30
+ ],
+ "overall": {
+  "neurons": 134178,
+  "median_um": 76.5,
+  "within_10um": 0.2,
+  "within_20um": 1.8,
+  "within_30um": 5.6,
+  "median_um_no_scatter": 49.3
+ },
+ "overall_shape_overlap": 65.9,
+ "regions": {
+  "AL": {
+   "neurons": 3110,
+   "median_um": 56.6,
+   "within_10um": 0.6,
+   "within_20um": 3.8,
+   "within_30um": 12.0,
+   "median_um_no_scatter": 31.2,
+   "shape_overlap": 34.2
+  },
+  "AMMC": {
+   "neurons": 582,
+   "median_um": 80.4,
+   "within_10um": 0.3,
+   "within_20um": 1.4,
+   "within_30um": 3.4,
+   "median_um_no_scatter": 36.0,
+   "shape_overlap": 6.5
+  },
+  "AOTU": {
+   "neurons": 1041,
+   "median_um": 68.9,
+   "within_10um": 0.1,
+   "within_20um": 1.6,
+   "within_30um": 6.1,
+   "median_um_no_scatter": 26.4,
+   "shape_overlap": 10.7
+  },
+  "ATL": {
+   "neurons": 54,
+   "median_um": 85.5,
+   "within_10um": 0.0,
+   "within_20um": 1.9,
+   "within_30um": 5.6,
+   "median_um_no_scatter": 23.1,
+   "shape_overlap": 2.0
+  },
+  "AVLP": {
+   "neurons": 3794,
+   "median_um": 71.8,
+   "within_10um": 0.2,
+   "within_20um": 2.0,
+   "within_30um": 6.5,
+   "median_um_no_scatter": 30.4,
+   "shape_overlap": 28.8
+  },
+  "CRE": {
+   "neurons": 727,
+   "median_um": 75.3,
+   "within_10um": 0.0,
+   "within_20um": 1.7,
+   "within_30um": 4.4,
+   "median_um_no_scatter": 38.6,
+   "shape_overlap": 12.8
+  },
+  "EB": {
+   "neurons": 399,
+   "median_um": 69.8,
+   "within_10um": 0.3,
+   "within_20um": 1.3,
+   "within_30um": 5.3,
+   "median_um_no_scatter": 31.3,
+   "shape_overlap": 7.9
+  },
+  "FB": {
+   "neurons": 1843,
+   "median_um": 70.6,
+   "within_10um": 0.1,
+   "within_20um": 2.6,
+   "within_30um": 6.9,
+   "median_um_no_scatter": 40.0,
+   "shape_overlap": 17.8
+  },
+  "FLA": {
+   "neurons": 321,
+   "median_um": 78.5,
+   "within_10um": 0.0,
+   "within_20um": 2.2,
+   "within_30um": 6.5,
+   "median_um_no_scatter": 29.9,
+   "shape_overlap": 6.6
+  },
+  "GNG": {
+   "neurons": 5350,
+   "median_um": 84.4,
+   "within_10um": 0.1,
+   "within_20um": 1.6,
+   "within_30um": 4.5,
+   "median_um_no_scatter": 46.6,
+   "shape_overlap": 40.2
+  },
+  "GOR": {
+   "neurons": 58,
+   "median_um": 69.6,
+   "within_10um": 0.0,
+   "within_20um": 0.0,
+   "within_30um": 8.6,
+   "median_um_no_scatter": 21.1,
+   "shape_overlap": 1.9
+  },
+  "IB": {
+   "neurons": 227,
+   "median_um": 72.2,
+   "within_10um": 0.4,
+   "within_20um": 2.2,
+   "within_30um": 5.3,
+   "median_um_no_scatter": 18.7,
+   "shape_overlap": 4.7
+  },
+  "ICL": {
+   "neurons": 880,
+   "median_um": 72.7,
+   "within_10um": 0.5,
+   "within_20um": 2.8,
+   "within_30um": 6.4,
+   "median_um_no_scatter": 24.2,
+   "shape_overlap": 12.1
+  },
+  "IPS": {
+   "neurons": 1499,
+   "median_um": 79.3,
+   "within_10um": 0.3,
+   "within_20um": 1.7,
+   "within_30um": 4.6,
+   "median_um_no_scatter": 38.8,
+   "shape_overlap": 16.4
+  },
+  "LA": {
+   "neurons": 6705,
+   "median_um": 82.8,
+   "within_10um": 0.2,
+   "within_20um": 1.4,
+   "within_30um": 4.6,
+   "median_um_no_scatter": 68.8,
+   "shape_overlap": 37.3
+  },
+  "LAL": {
+   "neurons": 950,
+   "median_um": 69.4,
+   "within_10um": 0.0,
+   "within_20um": 1.9,
+   "within_30um": 7.3,
+   "median_um_no_scatter": 21.3,
+   "shape_overlap": 14.9
+  },
+  "LH": {
+   "neurons": 2361,
+   "median_um": 64.3,
+   "within_10um": 0.3,
+   "within_20um": 2.3,
+   "within_30um": 7.9,
+   "median_um_no_scatter": 34.8,
+   "shape_overlap": 24.0
+  },
+  "LO": {
+   "neurons": 14358,
+   "median_um": 70.8,
+   "within_10um": 0.3,
+   "within_20um": 2.2,
+   "within_30um": 6.8,
+   "median_um_no_scatter": 45.7,
+   "shape_overlap": 48.3
+  },
+  "LOP": {
+   "neurons": 10318,
+   "median_um": 70.8,
+   "within_10um": 0.3,
+   "within_20um": 1.9,
+   "within_30um": 6.7,
+   "median_um_no_scatter": 51.1,
+   "shape_overlap": 40.5
+  },
+  "MB_CA": {
+   "neurons": 3604,
+   "median_um": 52.1,
+   "within_10um": 0.7,
+   "within_20um": 4.8,
+   "within_30um": 14.3,
+   "median_um_no_scatter": 22.1,
+   "shape_overlap": 15.2
+  },
+  "MB_ML": {
+   "neurons": 1297,
+   "median_um": 72.1,
+   "within_10um": 0.4,
+   "within_20um": 2.2,
+   "within_30um": 7.0,
+   "median_um_no_scatter": 40.8,
+   "shape_overlap": 8.9
+  },
+  "MB_PED": {
+   "neurons": 144,
+   "median_um": 63.8,
+   "within_10um": 0.0,
+   "within_20um": 2.1,
+   "within_30um": 8.3,
+   "median_um_no_scatter": 26.4,
+   "shape_overlap": 4.5
+  },
+  "MB_VL": {
+   "neurons": 198,
+   "median_um": 71.3,
+   "within_10um": 0.5,
+   "within_20um": 2.0,
+   "within_30um": 6.6,
+   "median_um_no_scatter": 43.6,
+   "shape_overlap": 0.8
+  },
+  "ME": {
+   "neurons": 59049,
+   "median_um": 83.4,
+   "within_10um": 0.2,
+   "within_20um": 1.3,
+   "within_30um": 4.2,
+   "median_um_no_scatter": 64.4,
+   "shape_overlap": 59.8
+  },
+  "NO": {
+   "neurons": 402,
+   "median_um": 80.0,
+   "within_10um": 0.5,
+   "within_20um": 1.5,
+   "within_30um": 4.2,
+   "median_um_no_scatter": 56.6,
+   "shape_overlap": 2.9
+  },
+  "OCG": {
+   "neurons": 275,
+   "median_um": 63.4,
+   "within_10um": 0.7,
+   "within_20um": 3.3,
+   "within_30um": 8.0,
+   "median_um_no_scatter": 48.7,
+   "shape_overlap": 8.0
+  },
+  "PB": {
+   "neurons": 111,
+   "median_um": 69.8,
+   "within_10um": 0.0,
+   "within_20um": 5.4,
+   "within_30um": 10.8,
+   "median_um_no_scatter": 27.3,
+   "shape_overlap": 3.3
+  },
+  "PLP": {
+   "neurons": 1914,
+   "median_um": 68.1,
+   "within_10um": 0.3,
+   "within_20um": 3.0,
+   "within_30um": 7.9,
+   "median_um_no_scatter": 23.7,
+   "shape_overlap": 21.8
+  },
+  "PRW": {
+   "neurons": 560,
+   "median_um": 74.6,
+   "within_10um": 0.5,
+   "within_20um": 1.8,
+   "within_30um": 5.9,
+   "median_um_no_scatter": 26.2,
+   "shape_overlap": 10.4
+  },
+  "PVLP": {
+   "neurons": 1693,
+   "median_um": 64.6,
+   "within_10um": 0.4,
+   "within_20um": 3.3,
+   "within_30um": 8.7,
+   "median_um_no_scatter": 24.3,
+   "shape_overlap": 19.2
+  },
+  "SAD": {
+   "neurons": 975,
+   "median_um": 85.9,
+   "within_10um": 0.1,
+   "within_20um": 0.4,
+   "within_30um": 3.2,
+   "median_um_no_scatter": 47.1,
+   "shape_overlap": 9.4
+  },
+  "SCL": {
+   "neurons": 309,
+   "median_um": 70.0,
+   "within_10um": 0.3,
+   "within_20um": 2.9,
+   "within_30um": 6.5,
+   "median_um_no_scatter": 24.0,
+   "shape_overlap": 10.2
+  },
+  "SIP": {
+   "neurons": 350,
+   "median_um": 73.0,
+   "within_10um": 0.3,
+   "within_20um": 2.9,
+   "within_30um": 7.7,
+   "median_um_no_scatter": 36.6,
+   "shape_overlap": 8.3
+  },
+  "SLP": {
+   "neurons": 2996,
+   "median_um": 76.4,
+   "within_10um": 0.3,
+   "within_20um": 1.7,
+   "within_30um": 5.1,
+   "median_um_no_scatter": 43.9,
+   "shape_overlap": 21.3
+  },
+  "SMP": {
+   "neurons": 3546,
+   "median_um": 78.9,
+   "within_10um": 0.4,
+   "within_20um": 1.7,
+   "within_30um": 4.8,
+   "median_um_no_scatter": 43.5,
+   "shape_overlap": 30.5
+  },
+  "SPS": {
+   "neurons": 1379,
+   "median_um": 76.8,
+   "within_10um": 0.1,
+   "within_20um": 1.2,
+   "within_30um": 3.2,
+   "median_um_no_scatter": 26.4,
+   "shape_overlap": 17.8
+  },
+  "VES": {
+   "neurons": 421,
+   "median_um": 76.3,
+   "within_10um": 0.0,
+   "within_20um": 1.4,
+   "within_30um": 5.2,
+   "median_um_no_scatter": 16.1,
+   "shape_overlap": 7.4
+  },
+  "WED": {
+   "neurons": 311,
+   "median_um": 73.9,
+   "within_10um": 0.6,
+   "within_20um": 2.6,
+   "within_30um": 5.1,
+   "median_um_no_scatter": 27.9,
+   "shape_overlap": 7.1
+  }
+ },
+ "unplaced": 671,
+ "brain_neurons": 139255,
+ "method_B": {
+  "neurons": 133901,
+  "median_um": 80.2,
+  "within_10um": 0.2,
+  "within_20um": 1.2,
+  "within_30um": 4.2,
+  "shape_overlap": 60.2,
+  "regions": {
+   "AL": {
+    "median_um": 73.0,
+    "within_20um": 1.4,
+    "shape_overlap": 20.8
+   },
+   "AMMC": {
+    "median_um": 49.5,
+    "within_20um": 4.3,
+    "shape_overlap": 15.9
+   },
+   "AOTU": {
+    "median_um": 43.8,
+    "within_20um": 9.1,
+    "shape_overlap": 21.1
+   },
+   "ATL": {
+    "median_um": 54.6,
+    "within_20um": 0.0,
+    "shape_overlap": 0.0
+   },
+   "AVLP": {
+    "median_um": 71.5,
+    "within_20um": 1.6,
+    "shape_overlap": 26.4
+   },
+   "CRE": {
+    "median_um": 56.9,
+    "within_20um": 2.5,
+    "shape_overlap": 17.6
+   },
+   "EB": {
+    "median_um": 49.9,
+    "within_20um": 1.5,
+    "shape_overlap": 4.7
+   },
+   "FB": {
+    "median_um": 59.4,
+    "within_20um": 0.4,
+    "shape_overlap": 5.1
+   },
+   "FLA": {
+    "median_um": 75.8,
+    "within_20um": 2.8,
+    "shape_overlap": 5.8
+   },
+   "GNG": {
+    "median_um": 81.6,
+    "within_20um": 1.7,
+    "shape_overlap": 35.7
+   },
+   "GOR": {
+    "median_um": 50.8,
+    "within_20um": 0.0,
+    "shape_overlap": 0.0
+   },
+   "IB": {
+    "median_um": 53.7,
+    "within_20um": 1.8,
+    "shape_overlap": 1.6
+   },
+   "ICL": {
+    "median_um": 55.8,
+    "within_20um": 3.0,
+    "shape_overlap": 12.7
+   },
+   "IPS": {
+    "median_um": 61.2,
+    "within_20um": 2.3,
+    "shape_overlap": 14.0
+   },
+   "LA": {
+    "median_um": 99.6,
+    "within_20um": 0.8,
+    "shape_overlap": 20.0
+   },
+   "LAL": {
+    "median_um": 56.8,
+    "within_20um": 5.1,
+    "shape_overlap": 29.1
+   },
+   "LH": {
+    "median_um": 61.6,
+    "within_20um": 0.6,
+    "shape_overlap": 6.3
+   },
+   "LO": {
+    "median_um": 78.3,
+    "within_20um": 1.1,
+    "shape_overlap": 30.7
+   },
+   "LOP": {
+    "median_um": 75.1,
+    "within_20um": 0.2,
+    "shape_overlap": 5.5
+   },
+   "MB_CA": {
+    "median_um": 83.8,
+    "within_20um": 0.0,
+    "shape_overlap": 0.4
+   },
+   "MB_ML": {
+    "median_um": 57.4,
+    "within_20um": 0.2,
+    "shape_overlap": 1.9
+   },
+   "MB_PED": {
+    "median_um": 59.3,
+    "within_20um": 0.0,
+    "shape_overlap": 0.0
+   },
+   "MB_VL": {
+    "median_um": 47.8,
+    "within_20um": 2.0,
+    "shape_overlap": 1.5
+   },
+   "ME": {
+    "median_um": 95.9,
+    "within_20um": 0.9,
+    "shape_overlap": 46.8
+   },
+   "NO": {
+    "median_um": 42.4,
+    "within_20um": 0.5,
+    "shape_overlap": 0.0
+   },
+   "PB": {
+    "median_um": 67.3,
+    "within_20um": 0.9,
+    "shape_overlap": 3.3
+   },
+   "PLP": {
+    "median_um": 70.8,
+    "within_20um": 0.6,
+    "shape_overlap": 11.6
+   },
+   "PRW": {
+    "median_um": 61.0,
+    "within_20um": 1.2,
+    "shape_overlap": 5.0
+   },
+   "PVLP": {
+    "median_um": 55.5,
+    "within_20um": 4.3,
+    "shape_overlap": 24.5
+   },
+   "SAD": {
+    "median_um": 82.2,
+    "within_20um": 1.9,
+    "shape_overlap": 17.9
+   },
+   "SCL": {
+    "median_um": 53.4,
+    "within_20um": 3.2,
+    "shape_overlap": 7.3
+   },
+   "SIP": {
+    "median_um": 57.8,
+    "within_20um": 1.1,
+    "shape_overlap": 2.0
+   },
+   "SLP": {
+    "median_um": 60.2,
+    "within_20um": 2.0,
+    "shape_overlap": 22.2
+   },
+   "SMP": {
+    "median_um": 60.0,
+    "within_20um": 2.6,
+    "shape_overlap": 39.5
+   },
+   "SPS": {
+    "median_um": 59.4,
+    "within_20um": 2.0,
+    "shape_overlap": 19.4
+   },
+   "VES": {
+    "median_um": 51.3,
+    "within_20um": 3.8,
+    "shape_overlap": 11.1
+   },
+   "WED": {
+    "median_um": 57.6,
+    "within_20um": 1.3,
+    "shape_overlap": 6.1
+   }
+  }
+ },
+ "region_level": {
+  "neurons": 134178,
+  "same_region_pct": 34.8,
+  "same_region_pct_no_scatter": 60.5,
+  "regions": {
+   "AL": 37.7,
+   "AMMC": 14.1,
+   "AOTU": 14.2,
+   "ATL": 11.1,
+   "AVLP": 12.0,
+   "CRE": 8.4,
+   "EB": 14.0,
+   "FB": 7.0,
+   "FLA": 7.8,
+   "GNG": 21.4,
+   "GOR": 0.0,
+   "IB": 5.3,
+   "ICL": 4.2,
+   "IPS": 9.8,
+   "LA": 89.9,
+   "LAL": 6.9,
+   "LH": 24.7,
+   "LO": 26.4,
+   "LOP": 44.4,
+   "MB_CA": 6.9,
+   "MB_ML": 6.2,
+   "MB_PED": 2.8,
+   "MB_VL": 3.0,
+   "ME": 44.3,
+   "NO": 4.0,
+   "OCG": 46.5,
+   "PB": 17.1,
+   "PLP": 10.3,
+   "PRW": 22.1,
+   "PVLP": 11.3,
+   "SAD": 7.3,
+   "SCL": 3.9,
+   "SIP": 12.3,
+   "SLP": 11.9,
+   "SMP": 9.8,
+   "SPS": 6.2,
+   "VES": 5.5,
+   "WED": 6.8
+  }
+ }
+}

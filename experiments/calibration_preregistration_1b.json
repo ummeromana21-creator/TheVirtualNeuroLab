@@ -1,0 +1,16 @@
+{
+ "title": "Calibration test 1b: same test, after correcting for how each scan counts synapses",
+ "written": "2026-11-03T02:25Z, AFTER seeing test 1a (Maxime: MN9 almost silent; Hagrid: runaway activity) and BEFORE any 1b run. This is a new, stated hypothesis, not a re-run until it passes.",
+ "hypothesis": "Test 1a used the published strength per synapse (0.275 mV), which was set on the FlyWire brain. The three scans count synapses very differently: a typical neuron receives a median of 104 synapses (strong connections) in FlyWire, 38 in Maxime's scan and 206 in Hagrid's. If that counting difference is why 1a failed, then giving each synapse a strength scaled to make a typical neuron's total input match FlyWire should make both flies pass.",
+ "rule": "Strength per synapse = 0.275 mV x (FlyWire median input per neuron / this fly's median input per neuron), counting connections of 5+ synapses in each. Fixed from anatomy alone, before any run; never adjusted to the MN9 result.",
+ "scale": {
+  "maxime": 2.737,
+  "hagrid": 0.505
+ },
+ "w_syn_mV": {
+  "maxime": 0.7526,
+  "hagrid": 0.1388
+ },
+ "criteria": "Exactly the same rules C1-C5 and pass rule as test 1a.",
+ "if_it_fails": "Then synapse counting alone does not explain the failure, and that fly's taste-to-tongue wiring is reported as not reproducing the real fly."
+}

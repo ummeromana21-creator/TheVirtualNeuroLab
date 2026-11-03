@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Worm · Fly Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
+<style>
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); }
+.wrap { max-width:1240px; margin:0 auto; padding:34px 22px 60px; }
+h1 { font-size:clamp(30px,4.4vw,46px); line-height:1.06; margin:8px 0 12px; }
+h2 { font-size:26px; margin:42px 0 8px; }
+.lead { font-size:16px; line-height:1.6; color:var(--muted); max-width:780px; margin:0; }
+p, li { font-size:15px; line-height:1.6; }
+.lab { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:16px; margin-top:22px; }
+.stage { position:relative; height:560px; background:var(--panel); border:1px solid var(--line); border-radius:20px; overflow:hidden; touch-action:none; }
+#gl { position:absolute; inset:0; }
+#gl canvas { display:block; width:100%; height:100%; }
+.hint { position:absolute; left:50%; transform:translateX(-50%); top:12px; font-size:12px; color:var(--muted); pointer-events:none; }
+.ends { position:absolute; left:14px; right:14px; top:12px; display:flex; justify-content:space-between; font-size:12px; color:var(--muted); pointer-events:none; }
+.legend { position:absolute; left:12px; bottom:12px; display:flex; flex-wrap:wrap; gap:6px; }
+.legend button { display:flex; align-items:center; gap:6px; font-size:12.5px; padding:5px 11px; border-radius:100px; border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer; }
+.legend button[aria-pressed="false"] { opacity:.45; }
+.legend i { width:10px; height:10px; border-radius:50%; display:inline-block; }
+.tip { position:absolute; pointer-events:none; background:var(--ink); color:var(--bg); font-size:12.5px; font-weight:700; padding:4px 10px; border-radius:100px; transform:translate(-50%,-140%); white-space:nowrap; }
+.side { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:12px; min-height:0; max-height:560px; overflow:auto; }
+.side input { width:100%; border:1px solid var(--line); background:var(--bg); color:var(--ink); border-radius:100px; padding:9px 14px; font:inherit; }
+.presets { display:flex; flex-wrap:wrap; gap:6px; }
+.presets button, .chip { border:1px solid var(--line); background:var(--bg); color:var(--ink); border-radius:100px; padding:6px 12px; font-size:13px; cursor:pointer; }
+.presets button[aria-pressed="true"] { background:var(--sage); color:var(--sage-ink); border-color:var(--sage); }
+.info h3 { font-size:24px; margin:0; letter-spacing:-.02em; }
+.info .cls { display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 9px; border-radius:100px; margin:6px 0 8px; }
+.info p { margin:0 0 8px; font-size:14px; color:var(--muted); }
+.plist { display:flex; flex-wrap:wrap; gap:5px; margin:4px 0 10px; }
+.plist .chip { font-size:12.5px; padding:4px 10px; }
+.plist .chip b { font-weight:700; margin-left:3px; }
+.k { font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:6px; }
+.k i { width:18px; height:3px; border-radius:2px; display:inline-block; }
+.note { background:var(--note-bg); color:var(--note-ink); border-left:4px solid var(--note-edge); border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.55; margin-top:16px; }
+.cols { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+.cols > div { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
+.cols h3 { font-size:19px; margin:0 0 8px; }
+.cols ul { margin:0; padding-left:20px; display:flex; flex-direction:column; gap:7px; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:18px; }
+.stat { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px 14px; }
+.stat b { display:block; font-size:28px; letter-spacing:-.02em; }
+.stat span { font-size:13px; color:var(--muted); }
+.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:34px; border-top:1px solid var(--line); padding-top:14px; }
+.fine a { color:inherit; }
+@media (max-width:900px) { .lab { grid-template-columns:1fr; } .side { max-height:none; } .stage { height:440px; } .cols { grid-template-columns:1fr; } .ends span:last-child { margin-right:0; } .hint { display:none; } }
+@media (max-width:640px) { .wrap { padding:24px 16px 50px; } .stage { height:380px; } }
+</style>
+</head>
+<body>
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+  <main class="wrap" id="main">
+    <span class="eyebrow">Second organism · <i>Caenorhabditis elegans</i></span>
+    <h1>The worm: a whole nervous system you can hold in one view</h1>
+    <p class="lead"><i>C. elegans</i> is a tiny roundworm, about 1 mm long. It was the first animal whose complete wiring diagram was
+      mapped, and every adult hermaphrodite has the same 302 neurons with the same names. Here they are in 3D, wired with every
+      known connection. Click any neuron to see who it talks to.</p>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="lab">
+      <div class="stage" id="stage" role="region" aria-label="3D view of all 302 neurons of the worm C. elegans">
+        <div id="gl"></div>
+        <div class="ends" aria-hidden="true"><span>◀ head</span><span>tail ▶</span></div>
+        <div class="hint">drag to turn · scroll to zoom · click a neuron</div>
+        <div class="legend" id="legend" role="group" aria-label="Show neuron groups"></div>
+        <div class="tip" id="tip" hidden></div>
+      </div>
+      <aside class="side" aria-label="Neuron details">
+        <input id="q" type="search" placeholder="Find a neuron (e.g. AVAL, ASEL)…" aria-label="Find a neuron by name" list="names" autocomplete="off">
+        <datalist id="names"></datalist>
+        <div>
+          <div class="k" style="margin-bottom:6px">Famous circuits</div>
+          <div class="presets" id="presets"></div>
+        </div>
+        <div class="info" id="info" aria-live="polite"></div>
+      </aside>
+    </div>
+
+    <h2>What you're looking at</h2>
+    <div class="cols">
+      <div>
+        <h3>The neurons</h3>
+        <ul>
+          <li><b style="color:var(--c-sen)">Sensory neurons</b> feel touch, taste, smell and temperature. Many sit in the head.</li>
+          <li><b style="color:var(--c-int)">Interneurons</b> sit in between and make decisions. Most cluster in the <b>nerve ring</b>, the worm's "brain", a loop of wiring around its throat.</li>
+          <li><b style="color:var(--c-mot)">Motor neurons</b> run along the belly and back and make the body wave, so the worm crawls forward or backs away.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>The connections</h3>
+        <ul>
+          <li><b>Chemical connections</b> pass a signal one way, from sender to receiver.</li>
+          <li><b>Electrical connections</b> (gap junctions) are direct channels between two cells, so signals can pass both ways.</li>
+          <li>The number on each partner is how many connections were counted between the two cells in the electron-microscope reconstruction.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note"><b>Experiments on the worm: in progress.</b> For now this page shows the worm's real anatomy and wiring. Running
+      experiments on it, like the Knockout Lab does for the fly, needs its own calibration test against real-worm results first.</div>
+
+    <p class="fine"><b>Data.</b> Neuron shapes and positions: the Virtual Worm 3D model by Christian Grove and Paul Sternberg (WormBase,
+      Caltech), released into the public domain and converted to NeuroML by the <a href="https://github.com/openworm/c302">OpenWorm project</a>
+      (MIT licence). The shapes are a hand-built model drawn to match the worm's known anatomy, not traced from one microscope scan, so
+      fine detail is approximate. Wiring: the adult hermaphrodite connectome of Cook et al. 2019 (<i>Nature</i> 571:63), as packaged by
+      OpenWorm c302 (<span style="font-family:ui-monospace,Menlo,monospace">herm_full_edgelist.csv</span>); only neuron-to-neuron
+      connections are shown. Gentle-touch circuit: Chalfie et al. 1985 (<i>J Neurosci</i> 5:956). The model worm lies in a crawling pose, head on the left.</p>
+  </main>
+</div>
+<script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
+<script src="../feather.js?v=8"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'The worm', base: '../', current: 'worm', profile: false });
+</script>
+<script type="module">
+import * as T from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { LineSegments2 } from 'three/addons/lines/LineSegments2.js';
+import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const W = await (await fetch('worm.json?v=1')).json();
+const C = W.cells, N = C.length, byName = Object.fromEntries(C.map((c, i) => [c.n, i]));
+
+// ---------- colours (light / dark) ----------
+const PAL = {
+  day:  { sensory: '#0064e0', inter: '#a35d00', motor: '#c2187a', other: '#5d6c7b', dim: '#c9d1da', body: '#0064e0', out: '#c2187a', in: '#0064e0', gap: '#0b8a77', sel: '#1c2b33' },
+  dusk: { sensory: '#47a5fa', inter: '#ffb547', motor: '#ff6fb5', other: '#b0b3b8', dim: '#3a3f46', body: '#47a5fa', out: '#ff6fb5', in: '#47a5fa', gap: '#2ee6c8', sel: '#ffffff' },
+};
+const theme = () => document.documentElement.dataset.light === 'dusk' ? 'dusk' : 'day';
+const NAMES = { sensory: 'Sensory neuron', inter: 'Interneuron', motor: 'Motor neuron', other: 'Role not yet known' };
+const LEG = { sensory: 'Sensory', inter: 'Interneurons', motor: 'Motor neurons', other: 'Role unknown' };
+function cssVars() { const p = PAL[theme()]; const r = document.documentElement.style;
+  r.setProperty('--c-sen', p.sensory); r.setProperty('--c-int', p.inter); r.setProperty('--c-mot', p.motor); }
+
+// ---------- connections ----------
+const OUT = Array.from({ length: N }, () => []), IN = Array.from({ length: N }, () => []), GAP = Array.from({ length: N }, () => new Map());
+for (const [a, b, w, t] of W.edges) {
+  if (t === 0) { OUT[a].push([b, w]); IN[b].push([a, w]); }
+  else { GAP[a].set(b, (GAP[a].get(b) || 0) + w); GAP[b].set(a, Math.max(GAP[b].get(a) || 0, w)); }
+}
+const nChem = W.edges.filter(e => e[3] === 0).length;
+const gapPairs = new Set(W.edges.filter(e => e[3] === 1).map(([a, b]) => a < b ? a + '-' + b : b + '-' + a)).size;
+$('stats').innerHTML = [[N, 'neurons'], [nChem.toLocaleString('en-US'), 'chemical links between neurons'], [gapPairs.toLocaleString('en-US'), 'pairs joined by electrical links'], ['~1 mm', 'body length']]
+  .map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+
+// ---------- scene ----------
+const wrap = $('gl'), stage = $('stage');
+const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(2, devicePixelRatio)); wrap.appendChild(renderer.domElement);
+const scene = new T.Scene();
+const cam = new T.PerspectiveCamera(30, 1, 1, 20000);
+const ctl = new OrbitControls(cam, renderer.domElement); ctl.enableDamping = true; ctl.autoRotate = false;
+// worm coordinates: y = head(-) to tail(+). Screen: x = along the body, y = up, z = left/right
+const P = (x, y, z) => [y, z, -x];
+const midX = 50; ctl.target.set(midX, 0, 0); cam.position.set(midX, 140, 1300);
+
+// neuron shapes: one thick-line object for all 13,567 segments
+const segPos = new Float32Array(W.segs.length);
+for (let i = 0; i < W.segs.length; i += 3) { const q = P(W.segs[i], W.segs[i + 1], W.segs[i + 2]); segPos[i] = q[0]; segPos[i + 1] = q[1]; segPos[i + 2] = q[2]; }
+const segCell = new Int32Array(W.segs.length / 6); C.forEach((c, i) => segCell.fill(i, c.a, c.a + c.k));
+const lg = new LineSegmentsGeometry(); lg.setPositions(segPos);
+const lm = new LineMaterial({ linewidth: 1.6, vertexColors: true, transparent: true, opacity: 0.9, depthWrite: false });
+const lines = new LineSegments2(lg, lm); scene.add(lines);
+
+// cell bodies
+const somaPos = new Float32Array(3 * N); C.forEach((c, i) => somaPos.set(P(...c.s), 3 * i));
+const dot = (() => { const cv = document.createElement('canvas'); cv.width = cv.height = 64; const g = cv.getContext('2d');
+  g.beginPath(); g.arc(32, 32, 28, 0, 7); g.fillStyle = '#fff'; g.fill(); return new T.CanvasTexture(cv); })();
+const sg = new T.BufferGeometry(); sg.setAttribute('position', new T.BufferAttribute(somaPos, 3));
+let somaIdx = [];
+const somas = new T.Points(sg, new T.PointsMaterial({ size: 9, sizeAttenuation: false, map: dot, vertexColors: true, transparent: true, alphaTest: 0.5 }));
+scene.add(somas);
+
+// links for the selected neuron(s)
+let linkObj = null;
+function drawLinks(list) {   // list: [[a, b, kind]] kind: out | in | gap
+  if (linkObj) { scene.remove(linkObj); linkObj.geometry.dispose(); linkObj.material.dispose(); linkObj = null; }
+  if (!list.length) return;
+  const p = PAL[theme()], pos = [], col = [], c = new T.Color();
+  for (const [a, b, kind] of list) {
+    const A = somaPos.subarray(3 * a, 3 * a + 3), B = somaPos.subarray(3 * b, 3 * b + 3);
+    const lift = 18 + 0.06 * Math.abs(A[0] - B[0]);   // bow the link upwards so it doesn't hide inside the body
+    const steps = 12;
+    for (let s = 0; s < steps; s++) for (const u of [s / steps, (s + 1) / steps]) {
+      const h = 4 * u * (1 - u) * lift;
+      pos.push(A[0] + (B[0] - A[0]) * u, A[1] + (B[1] - A[1]) * u + h, A[2] + (B[2] - A[2]) * u);
+      c.set(p[kind]); col.push(c.r, c.g, c.b);
+    }
+  }
+  const g = new LineSegmentsGeometry(); g.setPositions(pos); g.setColors(col);
+  const m = new LineMaterial({ linewidth: 2.6, vertexColors: true, transparent: true, opacity: 0.95, depthTest: false, depthWrite: false });
+  m.resolution.set(stage.clientWidth, stage.clientHeight);
+  linkObj = new LineSegments2(g, m); linkObj.renderOrder = 5; scene.add(linkObj);
+}
+
+// ---------- state & painting ----------
+const show = { sensory: true, inter: true, motor: true, other: true };
+let sel = null, focus = null;   // focus: Set of highlighted cells (selection + partners, or a circuit)
+function paint() {
+  const p = PAL[theme()], c = new T.Color(), dim = new T.Color(p.dim);
+  const colOf = i => {
+    const cell = C[i];
+    if (!show[cell.c] && !(focus && focus.has(i))) return null;
+    if (focus && !focus.has(i)) return dim;
+    if (sel === i) return c.set(p.sel);
+    return c.set(p[cell.c]);
+  };
+  // rebuild the visible segments (hidden groups are left out entirely)
+  const pos = [], col = [];
+  for (let s = 0; s < segCell.length; s++) {
+    const cc = colOf(segCell[s]); if (!cc) continue;
+    for (let k = 0; k < 6; k++) pos.push(segPos[6 * s + k]);
+    col.push(cc.r, cc.g, cc.b, cc.r, cc.g, cc.b);
+  }
+  lg.setPositions(pos.length ? pos : [0, 0, 0, 0, 0, 0]); lg.setColors(col.length ? col : [0, 0, 0, 0, 0, 0]);
+  lines.visible = pos.length > 0;
+  const vis = [], vcol = []; somaIdx = [];
+  for (let i = 0; i < N; i++) { const cc = colOf(i); if (!cc) continue; vis.push(somaPos[3 * i], somaPos[3 * i + 1], somaPos[3 * i + 2]); vcol.push(cc.r, cc.g, cc.b); somaIdx.push(i); }
+  sg.setAttribute('position', new T.BufferAttribute(new Float32Array(vis), 3)); sg.setAttribute('color', new T.BufferAttribute(new Float32Array(vcol), 3)); sg.computeBoundingSphere();
+  cssVars();
+}
+function legend() {
+  $('legend').innerHTML = ['sensory', 'inter', 'motor', 'other'].map(k => `<button data-k="${k}" aria-pressed="${show[k]}"><i style="background:${PAL[theme()][k]}"></i>${LEG[k]}</button>`).join('');
+}
+$('legend').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; show[b.dataset.k] = !show[b.dataset.k]; legend(); paint(); });
+
+const chips = (arr, kind) => arr.length ? `<div class="plist">${arr.slice(0, 14).map(([j, w]) => `<button class="chip" data-n="${C[j].n}" title="${w} connection${w > 1 ? 's' : ''}">${C[j].n}<b>${w}</b></button>`).join('')}${arr.length > 14 ? `<span class="chip" style="cursor:default">+${arr.length - 14} more</span>` : ''}</div>` : '<p>None recorded.</p>';
+function select(i) {
+  activePreset(null);
+  sel = i;
+  if (i == null) { focus = null; drawLinks([]); paint(); intro(); return; }
+  const outs = [...OUT[i]].sort((a, b) => b[1] - a[1]), ins = [...IN[i]].sort((a, b) => b[1] - a[1]), gaps = [...GAP[i].entries()].sort((a, b) => b[1] - a[1]);
+  focus = new Set([i, ...outs.map(x => x[0]), ...ins.map(x => x[0]), ...gaps.map(x => x[0])]);
+  drawLinks([...outs.map(([j]) => [i, j, 'out']), ...ins.map(([j]) => [j, i, 'in']), ...gaps.map(([j]) => [i, j, 'gap'])]);
+  paint();
+  const c = C[i], p = PAL[theme()];
+  $('info').innerHTML = `<h3>${esc(c.n)}</h3><span class="cls" style="background:${p[c.c]};color:#fff">${NAMES[c.c]}</span>
+    <p>Connected to ${focus.size - 1} other neurons. Click a name to jump to it.</p>
+    <div class="k"><i style="background:${p.out}"></i>Sends to (${outs.length})</div>${chips(outs)}
+    <div class="k"><i style="background:${p.in}"></i>Receives from (${ins.length})</div>${chips(ins)}
+    <div class="k"><i style="background:${p.gap}"></i>Electrical links (${gaps.length})</div>${chips(gaps)}
+    <button class="chip" data-clear>Show all neurons</button>`;
+}
+function intro() {
+  $('info').innerHTML = `<p style="color:var(--ink);font-size:15px">Click any neuron in the worm, search for one by name, or pick a famous circuit above.</p>
+    <p>The colours show what each neuron does. Use the buttons at the bottom of the view to hide a group.</p>`;
+}
+$('info').addEventListener('click', e => { const b = e.target.closest('[data-n]'); if (b) select(byName[b.dataset.n]); if (e.target.closest('[data-clear]')) select(null); });
+$('names').innerHTML = C.map(c => `<option value="${c.n}">`).join('');
+$('q').addEventListener('change', () => { const v = $('q').value.trim().toUpperCase(); if (v in byName) select(byName[v]); });
+
+// ---------- famous circuits ----------
+const PRESETS = [
+  { id: 'touch', label: 'Gentle touch', cells: ['ALML', 'ALMR', 'AVM', 'PLML', 'PLMR', 'AVDL', 'AVDR', 'AVAL', 'AVAR', 'PVCL', 'PVCR', 'AVBL', 'AVBR'],
+    text: `Touch the worm's head and it backs away; touch its tail and it speeds forward. In 1985 Chalfie and colleagues found the circuit by removing
+      single cells with a laser. <b>Touch neurons at the front</b> (ALM, AVM) feed the command neurons <b>AVD</b> and <b>AVA</b>, which drive backing up.
+      <b>Touch neurons at the back</b> (PLM) feed <b>PVC</b> and <b>AVB</b>, which drive moving forward. The lines show every connection between these cells in the wiring data.` },
+  { id: 'ring', label: 'Nerve ring hubs', cells: ['AIBL', 'AIBR', 'AIYL', 'AIYR', 'AIZL', 'AIZR', 'RIAL', 'RIAR', 'RIML', 'RIMR', 'AVAL', 'AVAR', 'AVBL', 'AVBR'],
+    text: `The nerve ring is the worm's brain: a loop of wiring around its throat. These interneurons (AIB, AIY, AIZ, RIA, RIM) gather what the sensory
+      neurons report and pass decisions to the command neurons (AVA, AVB) that choose between going forward and backing up. The lines show the connections among them.` },
+];
+$('presets').innerHTML = PRESETS.map(p => `<button data-p="${p.id}" aria-pressed="false">${p.label}</button>`).join('');
+function activePreset(id) { document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === id))); }
+$('presets').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const pr = PRESETS.find(p => p.id === b.dataset.p);
+  if (b.getAttribute('aria-pressed') === 'true') { select(null); return; }
+  sel = null; const set = new Set(pr.cells.map(n => byName[n]).filter(i => i != null)); focus = set;
+  const L = [];
+  for (const a of set) { for (const [j] of OUT[a]) if (set.has(j)) L.push([a, j, 'out']); for (const [j] of GAP[a]) if (set.has(j) && a < j) L.push([a, j, 'gap']); }
+  drawLinks(L); paint(); activePreset(pr.id);
+  const p = PAL[theme()];
+  $('info').innerHTML = `<h3>${pr.label}</h3><p style="color:var(--ink)">${pr.text}</p>
+    <div class="k"><i style="background:${p.out}"></i>Chemical connection</div><div class="k" style="margin:4px 0 10px"><i style="background:${p.gap}"></i>Electrical link</div>
+    <div class="plist">${pr.cells.filter(n => n in byName).map(n => `<button class="chip" data-n="${n}">${n}</button>`).join('')}</div>
+    <button class="chip" data-clear>Show all neurons</button>`;
+});
+
+// ---------- hover & click ----------
+const ray = new T.Raycaster(); ray.params.Points.threshold = 6; const m2 = new T.Vector2();
+function pick(ev) {
+  const r = renderer.domElement.getBoundingClientRect();
+  m2.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(m2, cam);
+  const hit = ray.intersectObject(somas)[0];
+  return hit ? somaIdx[hit.index] : null;
+}
+let down = null;
+renderer.domElement.addEventListener('pointerdown', e => { down = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => { if (down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 5) { const i = pick(e); select(i); } down = null; });
+renderer.domElement.addEventListener('pointermove', e => {
+  const i = pick(e), tip = $('tip');
+  if (i == null) { tip.hidden = true; renderer.domElement.style.cursor = ''; return; }
+  const r = stage.getBoundingClientRect(); tip.hidden = false; tip.textContent = `${C[i].n} · ${NAMES[C[i].c]}`;
+  tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top) + 'px'; renderer.domElement.style.cursor = 'pointer';
+});
+renderer.domElement.addEventListener('pointerleave', () => { $('tip').hidden = true; });
+
+// ---------- render loop ----------
+function fit() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h;
+  // frame the whole 800-micrometre body with a little margin
+  const t = Math.tan(T.MathUtils.degToRad(cam.fov / 2));
+  cam.position.set(midX, 120, Math.max(430 / t / cam.aspect, 90 / t)); cam.updateProjectionMatrix();
+  lm.resolution.set(w, h); if (linkObj) linkObj.material.resolution.set(w, h); }
+new ResizeObserver(fit).observe(stage); fit();
+(function loop() { ctl.update(); renderer.render(scene, cam); requestAnimationFrame(loop); })();
+
+Feather.init({ onLight: () => { legend(); if (sel != null) select(sel); else paint(); } });
+legend(); paint(); intro();
+</script>
+</body>
+</html>

@@ -205,11 +205,13 @@ function buildFly(male) {
       // so +X is its left.
       rig.legs.push({ hip: hipG, knee: kneeG, ankle: ankleG,
         phase: ((pi + (sx > 0 ? 1 : 0)) % 2) * Math.PI });
-      if (male && pi === 0) {  // foreleg sex comb, rides the hip joint
-        const comb = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.16, 0.03), dark);
-        comb.position.set(sx * 0.18, -0.19, 0.10);
-        comb.rotation.z = sx * 0.7;
-        hipG.add(comb);
+      if (male && pi === 0) {  // sex comb: a row of dark bristles on the first tarsal segment of the foreleg
+        const tar = foot.clone().sub(ankle);
+        const comb = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.10, 0.03), dark);
+        comb.position.copy(tar.clone().multiplyScalar(0.22)).add(V3(sx * 0.02, 0, 0.02));
+        comb.lookAt(comb.position.clone().add(tar));
+        comb.rotateX(Math.PI / 2);
+        ankleG.add(comb);
       }
     }
   });

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prediction Check · Fly Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
+<style>
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); transition:background .6s, color .6s; }
+.wrap { max-width:980px; margin:0 auto; padding:34px 22px 60px; }
+h1 { font-size:clamp(30px,4.4vw,44px); line-height:1.08; margin:8px 0 12px; letter-spacing:-.01em; }
+.lead { font-size:16px; line-height:1.6; color:var(--muted); max-width:720px; margin:0; }
+.tabs { display:flex; gap:8px; margin:26px 0 16px; }
+.tabs button { background:var(--panel); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:7px 16px; font-size:14px; cursor:pointer; }
+.tabs button[aria-pressed="true"] { background:var(--sage); border-color:var(--sage); color:var(--sage-ink); font-weight:700; }
+.big { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+.stat { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 18px 16px; }
+.stat .k { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+.stat .v { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:44px; line-height:1.05; margin:6px 0 4px; }
+.stat .s { font-size:13.5px; line-height:1.5; color:var(--ink); }
+.stat .s small { display:block; color:var(--muted); margin-top:4px; font-size:12.5px; }
+.bar { height:8px; border-radius:99px; background:var(--chip); overflow:hidden; margin:10px 0 2px; }
+.bar i { display:block; height:100%; background:var(--sage); }
+figure { margin:22px 0 6px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:10px; }
+figure img { width:100%; display:block; border-radius:8px; }
+figcaption { font-size:12.5px; color:var(--muted); padding:8px 6px 2px; }
+h2 { font-size:26px; margin:38px 0 10px; }
+ol.steps { padding-left:20px; margin:0; display:flex; flex-direction:column; gap:12px; font-size:15px; line-height:1.6; }
+ol.steps b { font-weight:700; }
+.note { background:var(--note-bg); color:var(--note-ink); border-left:4px solid var(--note-edge); border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.55; margin-top:14px; }
+.tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+table { border-collapse:collapse; width:100%; font-size:13.5px; min-width:600px; }
+th, td { padding:8px 12px; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap; }
+th:first-child, td:first-child { text-align:left; }
+th { font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; background:var(--bg); position:sticky; top:0; cursor:pointer; }
+tr:last-child td { border-bottom:none; }
+.mini { display:inline-block; width:60px; height:6px; background:var(--chip); border-radius:99px; vertical-align:middle; margin-left:8px; overflow:hidden; }
+.mini i { display:block; height:100%; background:var(--sage); }
+ul.plain { padding-left:18px; font-size:14.5px; line-height:1.6; margin:0; display:flex; flex-direction:column; gap:6px; }
+.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:30px; border-top:1px solid var(--line); padding-top:14px; }
+@media (max-width:640px) { .wrap { padding:24px 16px 50px; } .stat .v { font-size:38px; } }
+</style>
+</head>
+<body>
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+  <main class="wrap">
+    <span class="eyebrow">Prediction check</span>
+    <h1 class="serif">How closely did the lab's predicted anatomy resemble the real flies?</h1>
+    <p class="lead">Before we had each fly's measured cell positions, the lab <em>predicted</em> where every neuron sits,
+      using only how it is wired. Now the real positions are known, so the prediction can be graded honestly.
+      These numbers are the lab's report card, good and bad.</p>
+
+    <div class="tabs" role="group" aria-label="Choose a fly">
+      <button data-fly="maxime" aria-pressed="true">Maxime ♀ · BANC</button>
+      <button data-fly="hagrid" aria-pressed="false">Hagrid ♂ · male CNS</button>
+    </div>
+
+    <div class="big" id="big"></div>
+    <figure><img id="overlay" alt="Real cell bodies (grey) overlaid with the earlier prediction (pink)"><figcaption id="figcap"></figcaption></figure>
+
+    <h2 class="serif">How we came to these numbers</h2>
+    <ol class="steps">
+      <li><b>What was predicted.</b> For each neuron, the lab took the brain regions its synapses are in and placed a dot
+        at the average centre of those regions (centres measured on a different fly, the FlyWire reference), plus a small random
+        scatter. Nerve-cord regions had no measured centres, so they were laid out by hand.</li>
+      <li><b>What it is compared with.</b> The real cell-body positions recorded in each fly's own scan
+        (Maxime: BANC v888 release; Hagrid: male CNS v1.0 release). Only neurons with both a prediction and a real cell body
+        are compared: <span id="nmatched"></span>.</li>
+      <li><b>Same ruler, same pose.</b> Both are converted to micrometres. The prediction was made in another fly's
+        coordinates, so we turn, move and resize it (one rotation, one shift, one size change, no bending) until it lines up
+        as well as possible with the real <em>brain</em>. That gives the prediction its fairest chance. The nerve cord is
+        not used for lining up; it is simply carried along with the brain. The hand-drawn cord pointed straight down,
+        while the real cord runs backwards under the body, so after this step the predicted cord sits in the wrong place
+        (that is why it scores 0%).</li>
+      <li><b>Shape resemblance %.</b> We cut space into tiny boxes, 20 micrometres on a side (about a quarter of a hair's
+        width), and mark which boxes hold real cell bodies and which hold predicted dots. The resemblance is how
+        much the two sets of boxes overlap: 100% means the same shape, 0% means no overlap at all
+        (statisticians call this the Dice score). It is an overlap score, not "percent correct": the prediction
+        is penalised both for missing real boxes and for spilling into empty ones, and even two random halves of the
+        <em>same</em> real fly do not reach 100% in small regions.</li>
+      <li><b>Neuron placement.</b> For every neuron we measure the distance from its predicted dot to its real cell body.</li>
+      <li><b>A "no knowledge" yardstick.</b> We shuffle which dot belongs to which neuron and measure again. In the
+        headline cards the shuffle is across the whole brain (like putting each neuron at a random spot in the brain);
+        in the region table it is only within that region, which is a much harder test. If the prediction were no
+        better than the shuffle, the two scores would match.</li>
+    </ol>
+    <div class="note"><b>Read with care.</b> The rule aimed at where a neuron is <em>wired</em>; the scans record where its
+      <em>cell body</em> sits, in the brain's outer layer. Part of every distance is that built-in gap. The comparison is also
+      only as good as the alignment in step 3, which cannot undo real differences in how the two tissues were prepared.
+      For example, Maxime's scanned brain is about half as deep (front to back and top to bottom) as Hagrid's while
+      being about as wide, most likely from how that tissue was prepared; a fit without bending cannot correct that.</div>
+
+    <h2 class="serif">Region by region</h2>
+    <p class="lead" style="font-size:14.5px;margin-bottom:12px">Regions are where each neuron's synapses mostly are (at least 50 neurons per row). Click a heading to sort.</p>
+    <div class="tablewrap"><table id="tbl"></table></div>
+    <p id="zeronote" class="lead" style="font-size:13px;margin-top:10px"></p>
+
+    <h2 class="serif">What this tells the lab</h2>
+    <ul class="plain" id="lessons"></ul>
+
+    <p class="fine">Built by <span class="mono">tools/compare_estimate_vs_real.py</span> from the lab's earlier predictions
+      (exported as <span class="mono">est_banc.csv.gz</span> and <span class="mono">est_malecns.csv.gz</span> from the original lab's
+      <span class="mono">Fly Brain</span> folder, where <span class="mono">cns_fly.py</span> made them) and the measured
+      positions in <span class="mono">library/points/</span> (built by <span class="mono">tools/build_fly_brains.py</span>).
+      Full numbers: <a href="../library/prediction_vs_real.json">prediction_vs_real.json</a>.</p>
+  </main>
+</div>
+<script src="../feather.js?v=8"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Prediction check', base: '../', current: 'prediction', profile: false });
+Feather.init();
+(async () => {
+  const $ = id => document.getElementById(id);
+  const D = await (await fetch('../library/prediction_vs_real.json')).json();
+  const NAME = { maxime: 'Maxime', hagrid: 'Hagrid' };
+  const CORD = new Set(['ProNm', 'MesoNm', 'MetaNm', 'ANm', 'NTct', 'WTct', 'HTct', 'IntTct', 'LTct', 'AMNp', 'mVAC', 'Tct (unsplit)', 'VNC', 'Nerves', 'nerves']);
+  const f = n => n.toLocaleString('en-US');
+  let fly = 'maxime', sortKey = 'shape_resemblance_pct', sortDir = -1;
+  const stat = (k, v, pct, s) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div>
+      ${pct != null ? `<div class="bar"><i style="width:${Math.max(1, pct)}%"></i></div>` : ''}<div class="s">${s}</div></div>`;
+  function paint() {
+    const r = D[fly], who = NAME[fly];
+    $('big').innerHTML =
+      stat('Brain', `${r.brain.shape_resemblance_pct}%`, r.brain.shape_resemblance_pct,
+        `resemblance to ${who}'s real brain shape.<small>Half of the predicted dots landed within ${f(Math.round(r.brain.median_distance_um))} µm of the real cell body; at a random spot in the brain it would be ${f(Math.round(r.brain.baseline_median_um))} µm.</small>`) +
+      stat('Whole nervous system', `${r.whole.shape_resemblance_pct}%`, r.whole.shape_resemblance_pct,
+        `resemblance overall, brain and nerve cord together.<small>${r.whole.within_100um_pct}% of all neurons were placed within 100 µm of their real cell body, against ${r.whole.baseline_within_100um_pct}% at a random spot in the nervous system.</small>`);
+    $('overlay').src = `../library/img/prediction/${fly}_overlay.png?v=2`;
+    $('figcap').textContent = `${who}: grey = real measured cell bodies; pink = where the lab had predicted them, after lining up as fairly as possible.`;
+    $('nmatched').textContent = `${f(r.matched)} neurons for ${who}`;
+    const cols = [['region', 'Region'], ['shape_resemblance_pct', 'Shape resemblance'], ['median_distance_um', 'Median distance (µm)'],
+                  ['within_100um_pct', 'Within 100 µm'], ['baseline_within_100um_pct', '…if shuffled within the region'], ['neurons', 'Neurons']];
+    const all = Object.entries(r.regions).map(([k, v]) => ({ region: k, ...v }));
+    const zero = all.filter(x => !(x.shape_resemblance_pct > 0)).map(x => x.region).sort();
+    const zeroBrain = all.filter(x => !(x.shape_resemblance_pct > 0) && !CORD.has(x.region));
+    $('zeronote').textContent = zero.length
+      ? `Not shown: ${zero.length} region${zero.length > 1 ? 's' : ''} where the prediction did not overlap the real shape at all (${zero.join(', ')}). Their numbers are kept in the data file.`
+      : '';
+    const rows = all.filter(x => x.shape_resemblance_pct > 0)
+      .sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : a[sortKey] < b[sortKey] ? -1 : 0) * sortDir);
+    $('tbl').innerHTML = `<thead><tr>${cols.map(([k, l]) => `<th data-k="${k}">${l}${k === sortKey ? (sortDir < 0 ? ' ↓' : ' ↑') : ''}</th>`).join('')}</tr></thead><tbody>` +
+      rows.map(x => `<tr><td>${x.region}</td><td>${x.shape_resemblance_pct}%<span class="mini"><i style="width:${x.shape_resemblance_pct}%"></i></span></td>
+        <td>${f(Math.round(x.median_distance_um))}</td><td>${x.within_100um_pct}%</td><td>${x.baseline_within_100um_pct}%</td><td>${f(x.neurons)}</td></tr>`).join('') + '</tbody>';
+    const best = rows.slice().sort((a, b) => b.shape_resemblance_pct - a.shape_resemblance_pct).slice(0, 3).map(x => x.region).join(', ');
+    $('lessons').innerHTML = [
+      `<li><b>Better than chance, but rough.</b> Using wiring alone, the lab got the overall brain shape about half right (${r.brain.shape_resemblance_pct}%) and put neurons two to three times closer to their real spot than a random spot in the brain would. Most of that gain comes from knowing the right region: against a random spot <em>inside</em> the right region it is only about 1.6 to 1.7 times closer.</li>`,
+      `<li><b>Best where regions are large and layered</b> (${best}): knowing which region a neuron is wired into says a lot when that region is big and has a fixed place.</li>`,
+      `<li><b>It cannot say where a neuron sits inside its region.</b> Typical misses of about ${f(Math.round(r.brain.median_distance_um))} µm are close to the size of a whole brain region.</li>`,
+      `<li><b>The nerve-cord guesses missed.</b> They were hand-drawn without data, pointing down instead of backwards, and did not overlap the real cord, so they are left out of the table above.</li>`,
+      ...zeroBrain.map(x => `<li><b>${x.region} also missed.</b> It is a brain region, but its predicted dots landed about ${f(Math.round(x.centre_offset_um))} µm from the real ones, below the brain. That points to a fault in the old prediction for this region, not in the scan.</li>`),
+      `<li><b>So the lab now uses the real measured positions everywhere</b>, and keeps this page as a record of how good its predictions were.</li>`].join('');
+    document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.fly === fly)));
+  }
+  document.querySelector('.tabs').addEventListener('click', e => { const b = e.target.closest('[data-fly]'); if (b) { fly = b.dataset.fly; paint(); } });
+  $('tbl').addEventListener('click', e => { const th = e.target.closest('th'); if (!th) return;
+    if (sortKey === th.dataset.k) sortDir = -sortDir; else { sortKey = th.dataset.k; sortDir = th.dataset.k === 'region' ? 1 : -1; } paint(); });
+  paint();
+})();
+</script>
+</body>
+</html>

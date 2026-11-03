@@ -1,1058 +1,1565 @@
 [
  {
-  "row": 4,
-  "level": "hub",
+  "row": 1,
+  "level": "family",
   "hub": "optic",
   "name": "optic",
-  "fn": 88151,
-  "mn": 101034,
-  "fe": 1165412,
-  "me": 3064822,
-  "fs": 6585163,
-  "ms": 31411837,
-  "ratio": 4.77,
-  "func": "vision, motion",
-  "desc": "In a real fly, first vision: photoreceptors feed lamina and medulla columns splitting motion, color and form, projecting to AVLP/PLP and navigation. Simulated version: The sim's vision lives here: light assays drive the photoreceptors and their direct visual targets, and knocking those out blinds the fly. Finer cell types are mapped, not modeled.",
-  "img": "img/row04_optic.jpg"
+  "full": "Optic lobe",
+  "func": "vision",
+  "desc": "The two big visual centres behind the eyes. Signals from the photoreceptors pass layer by layer through the lamina, medulla, lobula and lobula plate, which pull out contrast, colour, motion and object features before sending them on to the central brain.",
+  "members": [
+   "LA",
+   "ME",
+   "AME",
+   "LO",
+   "LOP"
+  ],
+  "maxime": {
+   "synapses": 4463630
+  },
+  "hagrid": {
+   "synapses": 31411837
+  },
+  "img": "img/regions/optic.jpg",
+  "has3d": true
+ },
+ {
+  "row": 2,
+  "level": "region",
+  "hub": "optic",
+  "name": "LA",
+  "full": "Lamina",
+  "func": "first visual layer",
+  "desc": "The first layer behind the eye. Each of about 800 'cartridges' collects input from the R1–6 photoreceptors that look at one point in space and passes it to lamina neurons L1–L5.",
+  "maxime": null,
+  "hagrid": {
+   "synapses": 318834,
+   "neurons": 10762,
+   "left": 117415,
+   "right": 201419
+  },
+  "img": "img/regions/LA.jpg",
+  "has3d": true
+ },
+ {
+  "row": 3,
+  "level": "region",
+  "hub": "optic",
+  "name": "ME",
+  "full": "Medulla",
+  "func": "early vision: contrast, colour, motion",
+  "desc": "The largest visual region, built of about 800 columns and ten layers. Colour photoreceptors R7 and R8 end here, and its circuits start computing contrast, colour and the direction of motion.",
+  "maxime": {
+   "synapses": 2928364,
+   "neurons": 67228,
+   "left": 1184834,
+   "right": 1743530
+  },
+  "hagrid": {
+   "synapses": 18681783,
+   "neurons": 85152,
+   "left": 8358660,
+   "right": 10323123
+  },
+  "img": "img/regions/ME.jpg",
+  "has3d": true
+ },
+ {
+  "row": 4,
+  "level": "region",
+  "hub": "optic",
+  "name": "AME",
+  "full": "Accessory medulla",
+  "func": "small optic region; clock-neuron hub",
+  "desc": "A small region at the front edge of the medulla. Clock neurons that make the neuropeptide PDF branch here and receive light information that helps reset the daily clock. The clock itself is a network of about 240 neurons spread across the brain (the count from the FlyWire connectome; older textbooks say about 150).",
+  "maxime": {
+   "synapses": 4139,
+   "neurons": 376,
+   "left": 1852,
+   "right": 2287
+  },
+  "hagrid": {
+   "synapses": 27481,
+   "neurons": 505,
+   "left": 5703,
+   "right": 21778
+  },
+  "img": "img/regions/AME.jpg",
+  "has3d": true
  },
  {
   "row": 5,
-  "level": "neuropil",
+  "level": "region",
   "hub": "optic",
-  "name": "ME",
-  "fn": null,
-  "mn": null,
-  "fe": 678157,
-  "me": 1688442,
-  "fs": 4143835,
-  "ms": 18681783,
-  "ratio": 4.51,
-  "func": "early vision",
-  "desc": "In a real fly, main visual relay; motion, color and form columns (Mi, Tm, T4/T5 dendrites). It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as medulla.",
-  "img": "img/row05_ME.jpg"
+  "name": "LO",
+  "full": "Lobula",
+  "func": "visual features and objects",
+  "desc": "A deeper visual region that detects features such as small moving objects and looming. Its lobula columnar (LC) neurons carry these features to glomeruli in the central brain.",
+  "maxime": {
+   "synapses": 831538,
+   "neurons": 37016,
+   "left": 360616,
+   "right": 470922
+  },
+  "hagrid": {
+   "synapses": 8041134,
+   "neurons": 51998,
+   "left": 3481644,
+   "right": 4559490
+  },
+  "img": "img/regions/LO.jpg",
+  "has3d": true
  },
  {
   "row": 6,
-  "level": "neuropil",
+  "level": "region",
   "hub": "optic",
-  "name": "LO",
-  "fn": null,
-  "mn": null,
-  "fe": 290725,
-  "me": 902562,
-  "fs": 1390361,
-  "ms": 8041134,
-  "ratio": 5.78,
-  "func": "visual features",
-  "desc": "In a real fly, feature detection; lobula columnar output to AVLP/PLP (escape, object vision). It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as lobula.",
-  "img": "img/row06_LO.jpg"
+  "name": "LOP",
+  "full": "Lobula plate",
+  "func": "direction of motion",
+  "desc": "Receives direction-selective motion signals from T4 and T5 cells, one layer per direction. Large tangential cells here sense whole-field motion (optic flow) used to keep the fly on course.",
+  "maxime": {
+   "synapses": 699589,
+   "neurons": 21326,
+   "left": 296254,
+   "right": 403335
+  },
+  "hagrid": {
+   "synapses": 4342605,
+   "neurons": 27083,
+   "left": 1850091,
+   "right": 2492514
+  },
+  "img": "img/regions/LOP.jpg",
+  "has3d": true
  },
  {
   "row": 7,
-  "level": "neuropil",
-  "hub": "optic",
-  "name": "LOP",
-  "fn": null,
-  "mn": null,
-  "fe": 194940,
-  "me": 448975,
-  "fs": 1045556,
-  "ms": 4342605,
-  "ratio": 4.15,
-  "func": "optic flow",
-  "desc": "In a real fly, optic flow; wide-field motion (HS/VS) steadies flight. It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as lobula plate.",
-  "img": "img/row07_LOP.jpg"
+  "level": "region",
+  "hub": "AL",
+  "name": "AL",
+  "full": "Antennal lobe",
+  "func": "smell, first stop",
+  "desc": "The first smell centre, with about 50 glomeruli. Each glomerulus collects the smell neurons that carry one type of odour receptor; projection neurons then carry the signal to the mushroom body and lateral horn.",
+  "maxime": {
+   "synapses": 990557,
+   "neurons": 5683,
+   "left": 503736,
+   "right": 486821
+  },
+  "hagrid": {
+   "synapses": 2918760,
+   "neurons": 4767,
+   "left": 1340846,
+   "right": 1577914
+  },
+  "img": "img/regions/AL.jpg",
+  "has3d": true
  },
  {
   "row": 8,
-  "level": "neuropil",
-  "hub": "optic",
-  "name": "AME",
-  "fn": null,
-  "mn": null,
-  "fe": 1590,
-  "me": 3157,
-  "fs": 5411,
-  "ms": 27481,
-  "ratio": 5.08,
-  "func": "clock",
-  "desc": "In a real fly, circadian clock; PDF neurons time daily activity. It sits in the optic system. Simulated version: modeled with the optic lobes; the sim's vision runs through the photoreceptors and their direct visual targets, and light assays move those.",
-  "img": "img/row08_AME.jpg"
+  "level": "region",
+  "hub": "LH",
+  "name": "LH",
+  "full": "Lateral horn",
+  "func": "inborn smell responses",
+  "desc": "Receives smell information from the antennal lobe and drives built-in (unlearned) reactions, such as attraction to food odours or avoidance of danger smells.",
+  "maxime": {
+   "synapses": 151180,
+   "neurons": 5085,
+   "left": 63964,
+   "right": 87216
+  },
+  "hagrid": {
+   "synapses": 1032499,
+   "neurons": 6457,
+   "left": 451992,
+   "right": 580507
+  },
+  "img": "img/regions/LH.jpg",
+  "has3d": true
  },
  {
   "row": 9,
-  "level": "neuropil",
-  "hub": "optic",
-  "name": "LA",
-  "fn": null,
-  "mn": null,
-  "fe": 0,
-  "me": 21686,
-  "fs": 0,
-  "ms": 318834,
-  "ratio": "M-only",
-  "func": "first vision",
-  "desc": "In a real fly, first visual synapse; photoreceptor to monopolar contrast split. Male-only label; tissue exists in both. It sits in the optic system. Simulated version: part of the optic-lobes group; the sim's vision runs through the photoreceptors and their direct visual targets instead, and light assays move those. On effect maps it reports as lamina.",
-  "img": "img/row09_LA.jpg"
+  "level": "family",
+  "hub": "MB",
+  "name": "MB",
+  "full": "Mushroom body",
+  "func": "learning and memory",
+  "desc": "The fly's learning centre. Kenyon cells receive smell (and some visual and taste) information in the calyx and send long axons through the pedunculus into the lobes. There, dopamine neurons signal reward or punishment and output neurons read out the learned value.",
+  "members": [
+   "MB_CA",
+   "MB_PED",
+   "MB_VL",
+   "MB_ML"
+  ],
+  "maxime": {
+   "synapses": 220993
+  },
+  "hagrid": {
+   "synapses": 1713757
+  },
+  "img": "img/regions/MB.jpg",
+  "has3d": true
  },
  {
   "row": 10,
-  "level": "hub",
-  "hub": "VNC",
-  "name": "VNC",
-  "fn": 24474,
-  "mn": 22241,
-  "fe": 1114167,
-  "me": 1557562,
-  "fs": 7597612,
-  "ms": 18678163,
-  "ratio": 2.46,
-  "func": "legs, wings",
-  "desc": "In a real fly, body control: three leg neuromeres plus wing and haltere tectula drive walking, flight and grooming, with local reflexes and ascending feedback. Simulated version: The motor cord and legs: every walk the fly takes runs through here, and toxins that freeze the body show up in its firing.",
-  "img": "img/row10_VNC.jpg"
+  "level": "region",
+  "hub": "MB",
+  "name": "MB_CA",
+  "full": "Mushroom body calyx",
+  "func": "learning centre input",
+  "desc": "Where projection neurons carrying smell (and some visual and taste) information connect to the Kenyon cells of the mushroom body.",
+  "maxime": {
+   "synapses": 180575,
+   "neurons": 5347,
+   "left": 86376,
+   "right": 94199
+  },
+  "hagrid": {
+   "synapses": 456939,
+   "neurons": 4700,
+   "left": 209202,
+   "right": 247737
+  },
+  "img": "img/regions/MB_CA.jpg",
+  "has3d": true
  },
  {
   "row": 11,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "MesoNm",
-  "fn": null,
-  "mn": null,
-  "fe": 225267,
-  "me": 251042,
-  "fs": 1928187,
-  "ms": 3917636,
-  "ratio": 2.03,
-  "func": "mid legs",
-  "desc": "In a real fly, middle legs plus wings; flight motors live here. BANC VNC_T2_MesoNm = Male LegNp_T2. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row11_MesoNm.jpg"
+  "level": "region",
+  "hub": "MB",
+  "name": "MB_PED",
+  "full": "Mushroom body pedunculus",
+  "func": "Kenyon cell axon bundle",
+  "desc": "The stalk of Kenyon cell axons running from the calyx to the lobes.",
+  "maxime": {
+   "synapses": 11509,
+   "neurons": 2957,
+   "left": 4523,
+   "right": 6986,
+   "note": "Maxime's export assigns very few synapses to the mushroom-body lobes compared with the calyx; this is probably how the BANC export labels these regions, not biology."
+  },
+  "hagrid": {
+   "synapses": 104512,
+   "neurons": 5218,
+   "left": 48277,
+   "right": 56235
+  },
+  "img": "img/regions/MB_PED.jpg",
+  "has3d": true
  },
  {
   "row": 12,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "ProNm",
-  "fn": null,
-  "mn": null,
-  "fe": 199584,
-  "me": 194921,
-  "fs": 1724271,
-  "ms": 2458020,
-  "ratio": 1.43,
-  "func": "front legs",
-  "desc": "In a real fly, front legs; reaching and grooming. BANC VNC_T1_ProNm = Male LegNp_T1. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row12_ProNm.jpg"
+  "level": "region",
+  "hub": "MB",
+  "name": "MB_VL",
+  "full": "Mushroom body vertical lobe",
+  "func": "learning output",
+  "desc": "One of the output lobes. Dopamine neurons here signal reward or punishment, changing how Kenyon cells talk to mushroom-body output neurons.",
+  "maxime": {
+   "synapses": 20892,
+   "neurons": 3076,
+   "left": 11810,
+   "right": 9082,
+   "note": "Maxime's export assigns very few synapses to the mushroom-body lobes compared with the calyx; this is probably how the BANC export labels these regions, not biology."
+  },
+  "hagrid": {
+   "synapses": 297677,
+   "neurons": 4693,
+   "left": 142687,
+   "right": 154990
+  },
+  "img": "img/regions/MB_VL.jpg",
+  "has3d": true
  },
  {
   "row": 13,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "MetaNm",
-  "fn": null,
-  "mn": null,
-  "fe": 176040,
-  "me": 285212,
-  "fs": 1470954,
-  "ms": 4449339,
-  "ratio": 3.02,
-  "func": "hind legs",
-  "desc": "In a real fly, hind legs; walking thrust. BANC VNC_T3_MetaNm = Male LegNp_T3. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row13_MetaNm.jpg"
+  "level": "region",
+  "hub": "MB",
+  "name": "MB_ML",
+  "full": "Mushroom body medial lobe",
+  "func": "learning output",
+  "desc": "The other output lobe, organised like the vertical lobe into compartments, each with its own dopamine and output neurons.",
+  "maxime": {
+   "synapses": 8017,
+   "neurons": 2018,
+   "left": 2979,
+   "right": 5038,
+   "note": "Maxime's export assigns very few synapses to the mushroom-body lobes compared with the calyx; this is probably how the BANC export labels these regions, not biology."
+  },
+  "hagrid": {
+   "synapses": 854629,
+   "neurons": 6129,
+   "left": 460479,
+   "right": 394150
+  },
+  "img": "img/regions/MB_ML.jpg",
+  "has3d": true
  },
  {
   "row": 14,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "Abdomen",
-  "fn": null,
-  "mn": null,
-  "fe": 122996,
-  "me": 198599,
-  "fs": 713296,
-  "ms": 2884530,
-  "ratio": 4.04,
-  "func": "abdomen",
-  "desc": "In a real fly, abdomen; mating, egg-laying, gut control. BANC ABDNM = Male ANm. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row14_Abdomen.jpg"
+  "level": "family",
+  "hub": "CX",
+  "name": "CX",
+  "full": "Central complex",
+  "func": "navigation and heading",
+  "desc": "A chain of midline structures that keep track of which way the fly is facing and help it steer toward goals. It holds the fly's internal compass.",
+  "members": [
+   "EB",
+   "PB",
+   "FB",
+   "NO",
+   "AB"
+  ],
+  "maxime": {
+   "synapses": 415870
+  },
+  "hagrid": {
+   "synapses": 2180852
+  },
+  "img": "img/regions/CX.jpg",
+  "has3d": true
  },
  {
   "row": 15,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "IntTct",
-  "fn": null,
-  "mn": null,
-  "fe": 103567,
-  "me": 104313,
-  "fs": 501532,
-  "ms": 646417,
-  "ratio": 1.29,
-  "func": "VNC highway",
-  "desc": "In a real fly, cord highway; ascending and descending trunk. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row15_IntTct.jpg"
+  "level": "region",
+  "hub": "CX",
+  "name": "EB",
+  "full": "Ellipsoid body",
+  "func": "heading compass",
+  "desc": "A ring-shaped structure where E-PG neurons keep a 'bump' of activity that tracks the fly's heading, like an internal compass. Ring neurons bring in visual landmarks.",
+  "maxime": {
+   "synapses": 112554,
+   "neurons": 690,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 652120,
+   "neurons": 590,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/EB.jpg",
+  "has3d": true
  },
  {
   "row": 16,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "HTct",
-  "fn": null,
-  "mn": null,
-  "fe": 73202,
-  "me": 55211,
-  "fs": 353238,
-  "ms": 444643,
-  "ratio": 1.26,
-  "func": "haltere, wing",
-  "desc": "In a real fly, haltere plus wing; balance organs meet wing drive. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row16_HTct.jpg"
+  "level": "region",
+  "hub": "CX",
+  "name": "PB",
+  "full": "Protocerebral bridge",
+  "func": "heading map relay",
+  "desc": "A bar-shaped structure where the heading signal from the ellipsoid body is laid out left-to-right and passed to other central-complex neurons.",
+  "maxime": {
+   "synapses": 62377,
+   "neurons": 634,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 158924,
+   "neurons": 770,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/PB.jpg",
+  "has3d": true
  },
  {
   "row": 17,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "WTct",
-  "fn": null,
-  "mn": null,
-  "fe": 59178,
-  "me": 125126,
-  "fs": 281846,
-  "ms": 1304295,
-  "ratio": 4.63,
-  "func": "wing drive",
-  "desc": "In a real fly, wing drive; power and steering muscles. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row17_WTct.jpg"
+  "level": "region",
+  "hub": "CX",
+  "name": "FB",
+  "full": "Fan-shaped body",
+  "func": "goal-directed steering; sleep",
+  "desc": "The largest central-complex structure. It combines heading with travel direction and goals to guide steering, and some of its layers help control sleep.",
+  "maxime": {
+   "synapses": 208450,
+   "neurons": 2895,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 1201153,
+   "neurons": 2677,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/FB.jpg",
+  "has3d": true
  },
  {
   "row": 18,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "AMNp",
-  "fn": null,
-  "mn": null,
-  "fe": 55052,
-  "me": 0,
-  "fs": 232017,
-  "ms": 0,
-  "ratio": "F-only",
-  "func": "flight relay",
-  "desc": "In a real fly, accessory flight relay. Female-only label; tissue exists in both. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row18_AMNp.jpg"
+  "level": "region",
+  "hub": "CX",
+  "name": "NO",
+  "full": "Noduli",
+  "func": "self-motion input",
+  "desc": "Small paired structures under the fan-shaped body that bring self-motion (speed and turning) signals into the central complex.",
+  "maxime": {
+   "synapses": 32489,
+   "neurons": 529,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 163428,
+   "neurons": 589,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/NO.jpg",
+  "has3d": true
  },
  {
   "row": 19,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "NTct",
-  "fn": null,
-  "mn": null,
-  "fe": 34021,
-  "me": 30024,
-  "fs": 166503,
-  "ms": 188264,
-  "ratio": 1.13,
-  "func": "neck relay",
-  "desc": "In a real fly, neck relay for head movement commands. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row19_NTct.jpg"
+  "level": "region",
+  "hub": "CX",
+  "name": "AB",
+  "full": "Asymmetrical body",
+  "func": "small, one-sided structure",
+  "desc": "A small structure near the fan-shaped body, usually larger on one side. It has been linked to long-term memory, but its role is not well understood.",
+  "maxime": {
+   "merged_into": "FB"
+  },
+  "hagrid": {
+   "synapses": 5227,
+   "neurons": 205,
+   "left": 943,
+   "right": 4284
+  },
+  "img": "img/regions/AB.jpg",
+  "has3d": false
  },
  {
   "row": 20,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "LTct",
-  "fn": null,
-  "mn": null,
-  "fe": 40553,
-  "me": 105409,
-  "fs": 139480,
-  "ms": 789023,
-  "ratio": 5.66,
-  "func": "leg highway",
-  "desc": "In a real fly, leg highway coordinating all legs. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row20_LTct.jpg"
+  "level": "family",
+  "hub": "LX",
+  "name": "LX",
+  "full": "Lateral complex",
+  "func": "steering; compass input",
+  "desc": "Paired regions next to the central complex. The bulb feeds visual cues into the compass, the gall links to compass neurons, and the lateral accessory lobe sends steering signals to descending neurons.",
+  "members": [
+   "LAL",
+   "BU",
+   "GA"
+  ],
+  "maxime": {
+   "synapses": 378708
+  },
+  "hagrid": {
+   "synapses": 1411129
+  },
+  "img": "img/regions/LX.jpg",
+  "has3d": true
  },
  {
   "row": 21,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "mVAC",
-  "fn": null,
-  "mn": null,
-  "fe": 24609,
-  "me": 61986,
-  "fs": 86105,
-  "ms": 411405,
-  "ratio": 4.78,
-  "func": "leg reflex",
-  "desc": "In a real fly, leg reflex; local sensorimotor loops. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row21_mVAC.jpg"
+  "level": "region",
+  "hub": "LX",
+  "name": "LAL",
+  "full": "Lateral accessory lobe",
+  "func": "steering commands",
+  "desc": "Receives central-complex output and connects to descending neurons that turn the fly while walking or flying.",
+  "maxime": {
+   "synapses": 360381,
+   "neurons": 3949,
+   "left": 176652,
+   "right": 183729
+  },
+  "hagrid": {
+   "synapses": 1375008,
+   "neurons": 5516,
+   "left": 727487,
+   "right": 647521
+  },
+  "img": "img/regions/LAL.jpg",
+  "has3d": true
  },
  {
   "row": 22,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "nerves",
-  "fn": null,
-  "mn": null,
-  "fe": 98,
-  "me": 19466,
-  "fs": 183,
-  "ms": 57078,
-  "ratio": 311.9,
-  "func": "nerve exit",
-  "desc": "In a real fly, motor axons and nerve branches leaving the cord. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row22_nerves.jpg"
+  "level": "region",
+  "hub": "LX",
+  "name": "BU",
+  "full": "Bulb",
+  "func": "visual cues into the compass",
+  "desc": "Relays visual information such as landmarks, the sun and polarised light from the anterior optic tubercle to the ring neurons of the ellipsoid body.",
+  "maxime": {
+   "synapses": 5343,
+   "neurons": 449,
+   "left": 2448,
+   "right": 2895
+  },
+  "hagrid": {
+   "synapses": 36121,
+   "neurons": 589,
+   "left": 18003,
+   "right": 18118
+  },
+  "img": "img/regions/BU.jpg",
+  "has3d": true
  },
  {
   "row": 23,
-  "level": "neuropil",
-  "hub": "VNC",
-  "name": "Ov",
-  "fn": null,
-  "mn": null,
-  "fe": 0,
-  "me": 126253,
-  "fs": 0,
-  "ms": 1127513,
-  "ratio": "M-only",
-  "func": "male-only tag",
-  "desc": "In a real fly, ovoid; wing-sensory mesothoracic neuropil (MANC). Male-only label in these exports. It sits in the VNC system. Simulated version: part of the nerve-cord group \u2014 the fly's spinal cord \u2014 feeding the leg motor pools. On effect maps it reports as nerve cord.",
-  "img": "img/row23_Ov.jpg"
+  "level": "region",
+  "hub": "LX",
+  "name": "GA",
+  "full": "Gall",
+  "func": "compass-circuit partner",
+  "desc": "A small region where certain ellipsoid-body/protocerebral-bridge columnar neurons connect; part of the navigation loop.",
+  "maxime": {
+   "synapses": 12984,
+   "neurons": 509,
+   "left": 5729,
+   "right": 7255
+  },
+  "hagrid": {
+   "merged_into": "LAL"
+  },
+  "img": "img/regions/GA.jpg",
+  "has3d": true
  },
  {
   "row": 24,
-  "level": "hub",
-  "hub": "lateral",
-  "name": "lateral",
-  "fn": 21422,
-  "mn": 24162,
-  "fe": 1032084,
-  "me": 2538373,
-  "fs": 5036119,
-  "ms": 22551487,
-  "ratio": 4.48,
-  "func": "action choice",
-  "desc": "In a real fly, association and premotor zone: blends vision, smell and state into action choice and steering for descending neurons. Simulated version: Premotor country: no dedicated groups, but its regions light up on effect maps whenever drive shifts \u2014 disinhibition hits here hardest.",
-  "img": "img/row24_lateral.jpg"
+  "level": "family",
+  "hub": "SNP",
+  "name": "SNP",
+  "full": "Superior neuropils",
+  "func": "senses meet internal state",
+  "desc": "The top of the central brain, where smell, taste and other senses are combined with hunger, thirst and learned value. Many mushroom-body output and dopamine neurons connect here.",
+  "members": [
+   "SLP",
+   "SIP",
+   "SMP"
+  ],
+  "maxime": {
+   "synapses": 407816
+  },
+  "hagrid": {
+   "synapses": 4487271
+  },
+  "img": "img/regions/SNP.jpg",
+  "has3d": true
  },
  {
   "row": 25,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "AVLP",
-  "fn": null,
-  "mn": null,
-  "fe": 194546,
-  "me": 386406,
-  "fs": 1268845,
-  "ms": 4895038,
-  "ratio": 3.86,
-  "func": "multisensory mix",
-  "desc": "In a real fly, multisensory mixer; vision meets mechanosensation. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network \u2014 its neurons fire in every run and count toward whole-brain measures. On effect maps it reports as AVLP.",
-  "img": "img/row25_AVLP.jpg"
+  "level": "region",
+  "hub": "SNP",
+  "name": "SLP",
+  "full": "Superior lateral protocerebrum",
+  "func": "smell and metabolic state",
+  "desc": "Next to the lateral horn. Receives smell information and links it with signals about the body's nutritional state.",
+  "maxime": {
+   "synapses": 78770,
+   "neurons": 5410,
+   "left": 37358,
+   "right": 41412
+  },
+  "hagrid": {
+   "synapses": 1763004,
+   "neurons": 11985,
+   "left": 815835,
+   "right": 947169
+  },
+  "img": "img/regions/SLP.jpg",
+  "has3d": true
  },
  {
   "row": 26,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "SPS",
-  "fn": null,
-  "mn": null,
-  "fe": 96679,
-  "me": 164630,
-  "fs": 500038,
-  "ms": 1241043,
-  "ratio": 2.48,
-  "func": "premotor out",
-  "desc": "In a real fly, premotor output toward descending neurons. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row26_SPS.jpg"
+  "level": "region",
+  "hub": "SNP",
+  "name": "SIP",
+  "full": "Superior intermediate protocerebrum",
+  "func": "learned value",
+  "desc": "A zone where mushroom-body output neurons and dopamine neurons connect, linking learned value to behaviour.",
+  "maxime": {
+   "synapses": 55428,
+   "neurons": 3958,
+   "left": 22161,
+   "right": 33267
+  },
+  "hagrid": {
+   "synapses": 863759,
+   "neurons": 7619,
+   "left": 432009,
+   "right": 431750
+  },
+  "img": "img/regions/SIP.jpg",
+  "has3d": true
  },
  {
   "row": 27,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "IPS",
-  "fn": null,
-  "mn": null,
-  "fe": 84616,
-  "me": 78769,
-  "fs": 479805,
-  "ms": 746105,
-  "ratio": 1.56,
-  "func": "motor relay",
-  "desc": "In a real fly, motor relay linking brain to neck and cord. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row27_IPS.jpg"
+  "level": "region",
+  "hub": "SNP",
+  "name": "SMP",
+  "full": "Superior medial protocerebrum",
+  "func": "internal state and feeding",
+  "desc": "A large midline region that integrates hunger, thirst and other internal states with learned and sensory information; many neurosecretory and mushroom-body-related neurons connect here.",
+  "maxime": {
+   "synapses": 273618,
+   "neurons": 6046,
+   "left": 132039,
+   "right": 141579
+  },
+  "hagrid": {
+   "synapses": 1860508,
+   "neurons": 9125,
+   "left": 950400,
+   "right": 910108
+  },
+  "img": "img/regions/SMP.jpg",
+  "has3d": true
  },
  {
   "row": 28,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "PLP",
-  "fn": null,
-  "mn": null,
-  "fe": 97676,
-  "me": 227413,
-  "fs": 438918,
-  "ms": 1787080,
-  "ratio": 4.07,
-  "func": "visual output",
-  "desc": "In a real fly, visual output from lobula toward action. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network \u2014 its neurons fire in every run and count toward whole-brain measures. On effect maps it reports as PLP.",
-  "img": "img/row28_PLP.jpg"
+  "level": "family",
+  "hub": "INP",
+  "name": "INP",
+  "full": "Inferior neuropils",
+  "func": "integration; largely uncharted",
+  "desc": "Regions around the mushroom-body lobes and the midline. They are heavily wired but their jobs are still poorly understood.",
+  "members": [
+   "CRE",
+   "SCL",
+   "ICL",
+   "IB",
+   "ATL"
+  ],
+  "maxime": {
+   "synapses": 693816
+  },
+  "hagrid": {
+   "synapses": 2880543
+  },
+  "img": "img/regions/INP.jpg",
+  "has3d": true
  },
  {
   "row": 29,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "LAL",
-  "fn": null,
-  "mn": null,
-  "fe": 59212,
-  "me": 111433,
-  "fs": 409521,
-  "ms": 1375008,
-  "ratio": 3.36,
-  "func": "steering",
-  "desc": "In a real fly, steering; turning and walking direction commands. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network \u2014 its neurons fire in every run and count toward whole-brain measures. On effect maps it reports as LAL.",
-  "img": "img/row29_LAL.jpg"
+  "level": "region",
+  "hub": "INP",
+  "name": "CRE",
+  "full": "Crepine",
+  "func": "around the mushroom-body lobes",
+  "desc": "Wraps the mushroom-body lobes and holds many mushroom-body output and dopamine neuron branches.",
+  "maxime": {
+   "synapses": 222702,
+   "neurons": 6413,
+   "left": 97917,
+   "right": 124785
+  },
+  "hagrid": {
+   "synapses": 711339,
+   "neurons": 6343,
+   "left": 387548,
+   "right": 323791
+  },
+  "img": "img/regions/CRE.jpg",
+  "has3d": true
  },
  {
   "row": 30,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "SMP",
-  "fn": null,
-  "mn": null,
-  "fe": 82139,
-  "me": 215753,
-  "fs": 380978,
-  "ms": 1860508,
-  "ratio": 4.88,
-  "func": "goal state",
-  "desc": "In a real fly, goal state; holds context for decisions. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row30_SMP.jpg"
+  "level": "region",
+  "hub": "INP",
+  "name": "SCL",
+  "full": "Superior clamp",
+  "func": "function poorly understood",
+  "desc": "A densely wired region that clamps around the mushroom-body pedunculus. Its specific role is still poorly understood.",
+  "maxime": {
+   "synapses": 86047,
+   "neurons": 5630,
+   "left": 39686,
+   "right": 46361
+  },
+  "hagrid": {
+   "synapses": 761150,
+   "neurons": 10767,
+   "left": 360582,
+   "right": 400568
+  },
+  "img": "img/regions/SCL.jpg",
+  "has3d": true
  },
  {
   "row": 31,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "CRE",
-  "fn": null,
-  "mn": null,
-  "fe": 67849,
-  "me": 98209,
-  "fs": 292510,
-  "ms": 711339,
-  "ratio": 2.43,
-  "func": "premotor",
-  "desc": "In a real fly, premotor; crepine interneurons pre-shape motor commands. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row31_CRE.jpg"
+  "level": "region",
+  "hub": "INP",
+  "name": "ICL",
+  "full": "Inferior clamp",
+  "func": "function poorly understood",
+  "desc": "Lies below the superior clamp. It receives visual projections among other inputs, but its role is still poorly understood.",
+  "maxime": {
+   "synapses": 205214,
+   "neurons": 6227,
+   "left": 100132,
+   "right": 105082
+  },
+  "hagrid": {
+   "synapses": 912595,
+   "neurons": 7826,
+   "left": 482768,
+   "right": 429827
+  },
+  "img": "img/regions/ICL.jpg",
+  "has3d": true
  },
  {
   "row": 32,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "ICL",
-  "fn": null,
-  "mn": null,
-  "fe": 68821,
-  "me": 150001,
-  "fs": 272821,
-  "ms": 912595,
-  "ratio": 3.35,
-  "func": "relay",
-  "desc": "In a real fly, relay between upper and lower brain. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row32_ICL.jpg"
+  "level": "region",
+  "hub": "INP",
+  "name": "IB",
+  "full": "Inferior bridge",
+  "func": "midline link; poorly understood",
+  "desc": "A midline region joining the two hemispheres. Its function is still poorly understood.",
+  "maxime": {
+   "synapses": 125622,
+   "neurons": 3478,
+   "left": 59954,
+   "right": 65668
+  },
+  "hagrid": {
+   "synapses": 425368,
+   "neurons": 4339,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/IB.jpg",
+  "has3d": true
  },
  {
   "row": 33,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "PVLP",
-  "fn": null,
-  "mn": null,
-  "fe": 64598,
-  "me": 294866,
-  "fs": 210934,
-  "ms": 3039498,
-  "ratio": 14.41,
-  "func": "escape",
-  "desc": "In a real fly, escape; looming detectors trigger takeoff and avoidance. High ratio is a split difference. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row33_PVLP.jpg"
+  "level": "region",
+  "hub": "INP",
+  "name": "ATL",
+  "full": "Antler",
+  "func": "function poorly understood",
+  "desc": "A small region next to the inferior bridge. Its function is still poorly understood. (It is not part of the central complex.)",
+  "maxime": {
+   "synapses": 54231,
+   "neurons": 1775,
+   "left": 27595,
+   "right": 26636
+  },
+  "hagrid": {
+   "synapses": 70091,
+   "neurons": 1567,
+   "left": 39836,
+   "right": 30255
+  },
+  "img": "img/regions/ATL.jpg",
+  "has3d": true
  },
  {
   "row": 34,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "WED",
-  "fn": null,
-  "mn": null,
-  "fe": 41208,
-  "me": 147547,
-  "fs": 159570,
-  "ms": 1222722,
-  "ratio": 7.66,
-  "func": "visual-mechano",
-  "desc": "In a real fly, visual-mechano; wedge blends optic flow with wind. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row34_WED.jpg"
+  "level": "family",
+  "hub": "VLNP",
+  "name": "VLNP",
+  "full": "Ventrolateral neuropils",
+  "func": "visual and hearing features",
+  "desc": "The sides of the central brain, where visual projection neurons from the optic lobe and hearing/wind neurons from the antenna arrive and are processed into features like looming objects or courtship song.",
+  "members": [
+   "AOTU",
+   "AVLP",
+   "PVLP",
+   "PLP",
+   "WED"
+  ],
+  "maxime": {
+   "synapses": 1722475
+  },
+  "hagrid": {
+   "synapses": 11825397
+  },
+  "img": "img/regions/VLNP.jpg",
+  "has3d": true
  },
  {
   "row": 35,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "IB",
-  "fn": null,
-  "mn": null,
-  "fe": 43250,
-  "me": 65158,
-  "fs": 157714,
-  "ms": 425368,
-  "ratio": 2.7,
-  "func": "coordination",
-  "desc": "In a real fly, coordination; inferior bridge couples hemispheres. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row35_IB.jpg"
+  "level": "region",
+  "hub": "VLNP",
+  "name": "AOTU",
+  "full": "Anterior optic tubercle",
+  "func": "visual features to the compass",
+  "desc": "Receives visual features such as colour and polarised light from the optic lobe and passes them on, via the bulb, toward the central-complex compass.",
+  "maxime": {
+   "synapses": 82332,
+   "neurons": 2290,
+   "left": 44669,
+   "right": 37663
+  },
+  "hagrid": {
+   "synapses": 881059,
+   "neurons": 3300,
+   "left": 413926,
+   "right": 467133
+  },
+  "img": "img/regions/AOTU.jpg",
+  "has3d": true
  },
  {
   "row": 36,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "SLP",
-  "fn": null,
-  "mn": null,
-  "fe": 37801,
-  "me": 221284,
-  "fs": 131290,
-  "ms": 1763004,
-  "ratio": 13.43,
-  "func": "learned output",
-  "desc": "In a real fly, learned output; mushroom-body signals reach action. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row36_SLP.jpg"
+  "level": "region",
+  "hub": "VLNP",
+  "name": "AVLP",
+  "full": "Anterior ventrolateral protocerebrum",
+  "func": "hearing and vision",
+  "desc": "A large region processing auditory information (including courtship song) and visual features.",
+  "maxime": {
+   "synapses": 1009975,
+   "neurons": 8594,
+   "left": 431974,
+   "right": 578001
+  },
+  "hagrid": {
+   "synapses": 4895038,
+   "neurons": 9272,
+   "left": 2172676,
+   "right": 2722362
+  },
+  "img": "img/regions/AVLP.jpg",
+  "has3d": true
  },
  {
   "row": 37,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "SCL",
-  "fn": null,
-  "mn": null,
-  "fe": 40092,
-  "me": 163375,
-  "fs": 119667,
-  "ms": 761150,
-  "ratio": 6.36,
-  "func": "relay",
-  "desc": "In a real fly, relay and distribution node. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row37_SCL.jpg"
+  "level": "region",
+  "hub": "VLNP",
+  "name": "PVLP",
+  "full": "Posterior ventrolateral protocerebrum",
+  "func": "visual objects and looming",
+  "desc": "Where many lobula columnar neurons end in glomeruli, each signalling a visual feature such as a looming object.",
+  "maxime": {
+   "synapses": 157096,
+   "neurons": 6757,
+   "left": 46584,
+   "right": 110512
+  },
+  "hagrid": {
+   "synapses": 3039498,
+   "neurons": 9993,
+   "left": 1424673,
+   "right": 1614825
+  },
+  "img": "img/regions/PVLP.jpg",
+  "has3d": true
  },
  {
   "row": 38,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "AOTU",
-  "fn": null,
-  "mn": null,
-  "fe": 19150,
-  "me": 60218,
-  "fs": 108571,
-  "ms": 881059,
-  "ratio": 8.12,
-  "func": "sky compass",
-  "desc": "In a real fly, sky compass; polarized-light heading cues. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row38_AOTU.jpg"
+  "level": "region",
+  "hub": "VLNP",
+  "name": "PLP",
+  "full": "Posterior lateral protocerebrum",
+  "func": "visual features",
+  "desc": "Another major target of visual projection neurons from the optic lobe.",
+  "maxime": {
+   "synapses": 338855,
+   "neurons": 10385,
+   "left": 146680,
+   "right": 192175
+  },
+  "hagrid": {
+   "synapses": 1787080,
+   "neurons": 14396,
+   "left": 796885,
+   "right": 990195
+  },
+  "img": "img/regions/PLP.jpg",
+  "has3d": true
  },
  {
   "row": 39,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "SIP",
-  "fn": null,
-  "mn": null,
-  "fe": 25951,
-  "me": 137271,
-  "fs": 81211,
-  "ms": 863759,
-  "ratio": 10.64,
-  "func": "sleep, hunger",
-  "desc": "In a real fly, drive; sleep pressure and hunger signals. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row39_SIP.jpg"
+  "level": "region",
+  "hub": "VLNP",
+  "name": "WED",
+  "full": "Wedge",
+  "func": "hearing and wind",
+  "desc": "Secondary processing of hearing and wind signals coming from the antenna (Johnston's organ).",
+  "maxime": {
+   "synapses": 134217,
+   "neurons": 4358,
+   "left": 72991,
+   "right": 61226
+  },
+  "hagrid": {
+   "synapses": 1222722,
+   "neurons": 7995,
+   "left": 572371,
+   "right": 650351
+  },
+  "img": "img/regions/WED.jpg",
+  "has3d": true
  },
  {
   "row": 40,
-  "level": "neuropil",
-  "hub": "lateral",
-  "name": "CAN",
-  "fn": null,
-  "mn": null,
-  "fe": 8496,
-  "me": 16040,
-  "fs": 23726,
-  "ms": 66211,
-  "ratio": 2.79,
-  "func": "relay",
-  "desc": "In a real fly, relay and distribution node. It sits in the lateral system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row40_CAN.jpg"
+  "level": "family",
+  "hub": "VMNP",
+  "name": "VMNP",
+  "full": "Ventromedial neuropils",
+  "func": "routes to descending neurons",
+  "desc": "The lower middle of the central brain. Many descending neurons, which carry commands to the nerve cord, pick up their inputs here, including visual motion signals used for flight and head control.",
+  "members": [
+   "VES",
+   "EPA",
+   "GOR",
+   "SPS",
+   "IPS"
+  ],
+  "maxime": {
+   "synapses": 1219394
+  },
+  "hagrid": {
+   "synapses": 3384117
+  },
+  "img": "img/regions/VMNP.jpg",
+  "has3d": true
  },
  {
   "row": 41,
-  "level": "hub",
-  "hub": "olfactory",
-  "name": "olfactory",
-  "fn": 10313,
-  "mn": 9579,
-  "fe": 212062,
-  "me": 489545,
-  "fs": 1605092,
-  "ms": 5665016,
-  "ratio": 3.53,
-  "func": "smell, memory",
-  "desc": "In a real fly, smell learning and instinct: antennal-lobe glomeruli split into mushroom-body Kenyon cells for learned value and lateral-horn neurons for innate responses. Simulated version: The sim's smell lives here: banana finding, repellent effects fading stage by stage, and anosmia when the nose neurons are silenced.",
-  "img": "img/row41_olfactory.jpg"
+  "level": "region",
+  "hub": "VMNP",
+  "name": "VES",
+  "full": "Vest",
+  "func": "inputs to descending neurons",
+  "desc": "A ventromedial region where many descending neurons collect input; its exact roles are still being mapped.",
+  "maxime": {
+   "synapses": 299535,
+   "neurons": 3650,
+   "left": 148771,
+   "right": 150764
+  },
+  "hagrid": {
+   "synapses": 1089464,
+   "neurons": 5021,
+   "left": 556830,
+   "right": 532634
+  },
+  "img": "img/regions/VES.jpg",
+  "has3d": true
  },
  {
   "row": 42,
-  "level": "neuropil",
-  "hub": "olfactory",
-  "name": "AL",
-  "fn": null,
-  "mn": null,
-  "fe": 112844,
-  "me": 162887,
-  "fs": 1122739,
-  "ms": 2918760,
-  "ratio": 2.6,
-  "func": "first smell",
-  "desc": "In a real fly, first smell; one glomerulus per receptor type, PNs relay onward. It sits in the olfactory system. Simulated version: the first smell relay is a measured stage \u2014 cards read its projection neurons live, and a repellent's effect lands here first. On effect maps it reports as antennal lobe.",
-  "img": "img/row42_AL.jpg"
+  "level": "region",
+  "hub": "VMNP",
+  "name": "EPA",
+  "full": "Epaulette",
+  "func": "function poorly understood",
+  "desc": "A small ventromedial region near the vest. Its function is still poorly understood.",
+  "maxime": {
+   "synapses": 43977,
+   "neurons": 2035,
+   "left": 18995,
+   "right": 24982
+  },
+  "hagrid": {
+   "synapses": 141923,
+   "neurons": 2866,
+   "left": 80434,
+   "right": 61489
+  },
+  "img": "img/regions/EPA.jpg",
+  "has3d": true
  },
  {
   "row": 43,
-  "level": "neuropil",
-  "hub": "olfactory",
-  "name": "LH",
-  "fn": null,
-  "mn": null,
-  "fe": 45253,
-  "me": 108235,
-  "fs": 217840,
-  "ms": 1032499,
-  "ratio": 4.74,
-  "func": "innate smell",
-  "desc": "In a real fly, innate odor responses; hardwired approach and avoidance. It sits in the olfactory system. Simulated version: the instinctive-smell group, measured live on the nose-to-legs path. On effect maps it reports as lateral horn.",
-  "img": "img/row43_LH.jpg"
+  "level": "region",
+  "hub": "VMNP",
+  "name": "GOR",
+  "full": "Gorget",
+  "func": "function poorly understood",
+  "desc": "A small ventromedial region near the vest and epaulette. Its function is still poorly understood.",
+  "maxime": {
+   "synapses": 39059,
+   "neurons": 2322,
+   "left": 18309,
+   "right": 20750
+  },
+  "hagrid": {
+   "synapses": 165582,
+   "neurons": 3278,
+   "left": 80626,
+   "right": 84956
+  },
+  "img": "img/regions/GOR.jpg",
+  "has3d": true
  },
  {
   "row": 44,
-  "level": "neuropil",
-  "hub": "olfactory",
-  "name": "MB_CA",
-  "fn": null,
-  "mn": null,
-  "fe": 28158,
-  "me": 36047,
-  "fs": 203809,
-  "ms": 456939,
-  "ratio": 2.24,
-  "func": "memory input",
-  "desc": "In a real fly, memory input; PNs spread odors across Kenyon cells. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
-  "img": "img/row44_MB_CA.jpg"
+  "level": "region",
+  "hub": "VMNP",
+  "name": "SPS",
+  "full": "Superior posterior slope",
+  "func": "motion signals to descending neurons",
+  "desc": "Receives visual motion information (for example from lobula-plate tangential cells) and passes it to descending neurons for flight and head control.",
+  "maxime": {
+   "synapses": 426303,
+   "neurons": 6413,
+   "left": 211521,
+   "right": 214782
+  },
+  "hagrid": {
+   "synapses": 1241043,
+   "neurons": 7832,
+   "left": 621321,
+   "right": 619722
+  },
+  "img": "img/regions/SPS.jpg",
+  "has3d": true
  },
  {
   "row": 45,
-  "level": "neuropil",
-  "hub": "olfactory",
-  "name": "MB_VL",
-  "fn": null,
-  "mn": null,
-  "fe": 12079,
-  "me": 51129,
-  "fs": 30546,
-  "ms": 297677,
-  "ratio": 9.75,
-  "func": "memory output",
-  "desc": "In a real fly, learned output; vertical-lobe MBONs report odor value. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
-  "img": "img/row45_MB_VL.jpg"
+  "level": "region",
+  "hub": "VMNP",
+  "name": "IPS",
+  "full": "Inferior posterior slope",
+  "func": "motion signals to descending neurons",
+  "desc": "Like the superior posterior slope, links visual motion and other signals to descending neurons.",
+  "maxime": {
+   "synapses": 410520,
+   "neurons": 6310,
+   "left": 162815,
+   "right": 247705
+  },
+  "hagrid": {
+   "synapses": 746105,
+   "neurons": 4593,
+   "left": 363891,
+   "right": 382214
+  },
+  "img": "img/regions/IPS.jpg",
+  "has3d": true
  },
  {
   "row": 46,
-  "level": "neuropil",
-  "hub": "olfactory",
-  "name": "MB_PED",
-  "fn": null,
-  "mn": null,
-  "fe": 7719,
-  "me": 31716,
-  "fs": 18030,
-  "ms": 104512,
-  "ratio": 5.8,
-  "func": "memory stalk",
-  "desc": "In a real fly, kenyon axon stalk; conduit, not a processing layer. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
-  "img": "img/row46_MB_PED.jpg"
+  "level": "family",
+  "hub": "PENP",
+  "name": "PENP",
+  "full": "Periesophageal neuropils",
+  "func": "antenna sensing, feeding, hormones",
+  "desc": "The regions wrapped around the oesophagus: hearing, wind and gravity sensing from the antenna, and feeding- and hormone-related neurons.",
+  "members": [
+   "SAD",
+   "AMMC",
+   "FLA",
+   "CAN",
+   "PRW"
+  ],
+  "maxime": {
+   "synapses": 374115
+  },
+  "hagrid": {
+   "synapses": 1868274
+  },
+  "img": "img/regions/PENP.jpg",
+  "has3d": true
  },
  {
   "row": 47,
-  "level": "neuropil",
-  "hub": "olfactory",
-  "name": "MB_ML",
-  "fn": null,
-  "mn": null,
-  "fe": 6009,
-  "me": 99531,
-  "fs": 12128,
-  "ms": 854629,
-  "ratio": 70.47,
-  "func": "memory output",
-  "desc": "In a real fly, learned output; medial-lobe MBONs drive approach and avoidance. Extreme ratio is a female under-split, not missing tissue. It sits in the olfactory system. Simulated version: part of the mushroom-body group, the learning center. The sim's mushroom body records its slope every run \u2014 though steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as mushroom body.",
-  "img": "img/row47_MB_ML.jpg"
+  "level": "region",
+  "hub": "PENP",
+  "name": "SAD",
+  "full": "Saddle",
+  "func": "hearing, wind, gravity",
+  "desc": "Surrounds the AMMC and processes mechanosensory signals from the antenna's Johnston's organ: sound, wind and gravity.",
+  "maxime": {
+   "synapses": 52806,
+   "neurons": 3993,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 1163080,
+   "neurons": 6759,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/SAD.jpg",
+  "has3d": true
  },
  {
   "row": 48,
-  "level": "hub",
-  "hub": "GNG",
-  "name": "GNG",
-  "fn": 6830,
-  "mn": 6011,
-  "fe": 373321,
-  "me": 683908,
-  "fs": 2132667,
-  "ms": 7122875,
-  "ratio": 3.34,
-  "func": "feeding, taste",
-  "desc": "In a real fly, mouth and neck: feeding, taste, proboscis, grooming, plus hearing and wind input and head and neck relays. Simulated version: The sim's taste and feeding hub: sweet and bitter drive the taste neurons, and Gr66a/Gr5a mutants lose one arm each. Taste has no feedback onto walking, so it moves firing only.",
-  "img": "img/row48_GNG.jpg"
+  "level": "region",
+  "hub": "PENP",
+  "name": "AMMC",
+  "full": "Antennal mechanosensory and motor centre",
+  "func": "hearing, wind, gravity",
+  "desc": "Where Johnston's organ neurons in the antenna deliver sound, wind and gravity information; it also contains antenna motor neurons.",
+  "maxime": {
+   "synapses": 99649,
+   "neurons": 2825,
+   "left": 53396,
+   "right": 46253
+  },
+  "hagrid": {
+   "merged_into": "SAD"
+  },
+  "img": "img/regions/AMMC.jpg",
+  "has3d": true
  },
  {
   "row": 49,
-  "level": "neuropil",
-  "hub": "GNG",
-  "name": "GNG",
-  "fn": null,
-  "mn": null,
-  "fe": 170033,
-  "me": 265590,
-  "fs": 1265336,
-  "ms": 3923843,
-  "ratio": 3.1,
-  "func": "feeding control",
-  "desc": "In a real fly, feeding control; taste in, proboscis and ingestion out. It sits in the GNG system. Simulated version: the feeding and taste hub; taste firing projects here, and the GNG leads the taste effect maps. On effect maps it reports as GNG.",
-  "img": "img/row49_GNG.jpg"
+  "level": "region",
+  "hub": "PENP",
+  "name": "FLA",
+  "full": "Flange",
+  "func": "hormones and feeding",
+  "desc": "A region where neurosecretory (hormone-releasing) neurons of the pars intercerebralis and feeding-related neurons project. It also holds many sex-specific (doublesex) neurons.",
+  "maxime": {
+   "synapses": 140590,
+   "neurons": 3044,
+   "left": 76998,
+   "right": 63592
+  },
+  "hagrid": {
+   "synapses": 319881,
+   "neurons": 3811,
+   "left": 161607,
+   "right": 158274
+  },
+  "img": "img/regions/FLA.jpg",
+  "has3d": true
  },
  {
   "row": 50,
-  "level": "neuropil",
-  "hub": "GNG",
-  "name": "VES",
-  "fn": null,
-  "mn": null,
-  "fe": 58243,
-  "me": 114122,
-  "fs": 336344,
-  "ms": 1089464,
-  "ratio": 3.24,
-  "func": "balance relay",
-  "desc": "In a real fly, balance relay for posture. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row50_VES.jpg"
+  "level": "region",
+  "hub": "PENP",
+  "name": "CAN",
+  "full": "Cantle",
+  "func": "function poorly understood",
+  "desc": "A small region near the flange. Its function is still poorly understood.",
+  "maxime": {
+   "synapses": 20495,
+   "neurons": 1204,
+   "left": 12385,
+   "right": 8110
+  },
+  "hagrid": {
+   "synapses": 66211,
+   "neurons": 1733,
+   "left": 33735,
+   "right": 32476
+  },
+  "img": "img/regions/CAN.jpg",
+  "has3d": true
  },
  {
   "row": 51,
-  "level": "neuropil",
-  "hub": "GNG",
-  "name": "FLA",
-  "fn": null,
-  "mn": null,
-  "fe": 39993,
-  "me": 61130,
-  "fs": 165525,
-  "ms": 319881,
-  "ratio": 1.93,
-  "func": "head, neck",
-  "desc": "In a real fly, head movement via neck muscles. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row51_FLA.jpg"
+  "level": "region",
+  "hub": "PENP",
+  "name": "PRW",
+  "full": "Prow",
+  "func": "pharyngeal taste and feeding",
+  "desc": "The midline region that receives taste input from the pharynx and contains feeding-related neurons.",
+  "maxime": {
+   "synapses": 60575,
+   "neurons": 1614,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 319102,
+   "neurons": 2090,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/PRW.jpg",
+  "has3d": true
  },
  {
   "row": 52,
-  "level": "neuropil",
+  "level": "region",
   "hub": "GNG",
-  "name": "AMMC",
-  "fn": null,
-  "mn": null,
-  "fe": 28106,
-  "me": 0,
-  "fs": 128998,
-  "ms": 0,
-  "ratio": "F-only",
-  "func": "hearing, wind",
-  "desc": "In a real fly, hearing and wind from Johnston's organ. Female-only label; tissue exists in both. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row52_AMMC.jpg"
+  "name": "GNG",
+  "full": "Gnathal ganglia",
+  "func": "taste, feeding, descending output",
+  "desc": "Receives taste input from the mouthparts and legs, contains motor neurons for feeding, and is a major source and target of descending neurons.",
+  "maxime": {
+   "synapses": 1077570,
+   "neurons": 9774,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 3923843,
+   "neurons": 10357,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/GNG.jpg",
+  "has3d": true
  },
  {
   "row": 53,
-  "level": "neuropil",
-  "hub": "GNG",
-  "name": "PRW",
-  "fn": null,
-  "mn": null,
-  "fe": 18688,
-  "me": 35635,
-  "fs": 71858,
-  "ms": 319102,
-  "ratio": 4.44,
-  "func": "taste relay",
-  "desc": "In a real fly, taste relay from pharynx to GNG. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row53_PRW.jpg"
+  "level": "family",
+  "hub": "VNC",
+  "name": "VNC",
+  "full": "Ventral nerve cord",
+  "func": "legs, wings, neck, abdomen",
+  "desc": "The fly's equivalent of a spinal cord, in the thorax. It holds the motor circuits for walking and flight and receives touch and position sense from the body. In the BANC and male CNS scans it is wired to the brain.",
+  "members": [
+   "ProNm",
+   "MesoNm",
+   "MetaNm",
+   "ANm",
+   "NTct",
+   "WTct",
+   "HTct",
+   "IntTct",
+   "LTct",
+   "AMNp",
+   "mVAC"
+  ],
+  "maxime": {
+   "synapses": 6370796
+  },
+  "hagrid": {
+   "synapses": 18621085
+  },
+  "img": "img/regions/VNC.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/VNC_maxime.jpg",
+  "img_hagrid": "img/regions/VNC_hagrid.jpg"
  },
  {
   "row": 54,
-  "level": "neuropil",
-  "hub": "GNG",
-  "name": "SAD",
-  "fn": null,
-  "mn": null,
-  "fe": 24965,
-  "me": 131235,
-  "fs": 63692,
-  "ms": 1163080,
-  "ratio": 18.26,
-  "func": "flight steer",
-  "desc": "In a real fly, flight steering; saddle couples vision to wing commands. High ratio is a split difference. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row54_SAD.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "ProNm",
+  "full": "Prothoracic neuromere",
+  "func": "front legs",
+  "desc": "Holds the walking circuits and motor neurons for the front legs and receives their touch and position sense.",
+  "maxime": {
+   "synapses": 1476438,
+   "neurons": 8150,
+   "left": 840996,
+   "right": 635442
+  },
+  "hagrid": {
+   "synapses": 2458020,
+   "neurons": 8012,
+   "left": 1444854,
+   "right": 1013166
+  },
+  "img": "img/regions/ProNm.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/ProNm_maxime.jpg",
+  "img_hagrid": "img/regions/ProNm_hagrid.jpg"
  },
  {
   "row": 55,
-  "level": "neuropil",
-  "hub": "GNG",
-  "name": "EPA",
-  "fn": null,
-  "mn": null,
-  "fe": 15441,
-  "me": 36313,
-  "fs": 51021,
-  "ms": 141923,
-  "ratio": 2.78,
-  "func": "relay",
-  "desc": "In a real fly, relay and distribution node. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row55_EPA.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "MesoNm",
+  "full": "Mesothoracic neuromere",
+  "func": "middle legs",
+  "desc": "Holds the walking circuits and motor neurons for the middle legs.",
+  "maxime": {
+   "synapses": 1650602,
+   "neurons": 8093,
+   "left": 771769,
+   "right": 878833
+  },
+  "hagrid": {
+   "synapses": 3917636,
+   "neurons": 7385,
+   "left": 2101893,
+   "right": 1815743
+  },
+  "img": "img/regions/MesoNm.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/MesoNm_maxime.jpg",
+  "img_hagrid": "img/regions/MesoNm_hagrid.jpg"
  },
  {
   "row": 56,
-  "level": "neuropil",
-  "hub": "GNG",
-  "name": "GOR",
-  "fn": null,
-  "mn": null,
-  "fe": 17852,
-  "me": 39883,
-  "fs": 49893,
-  "ms": 165582,
-  "ratio": 3.32,
-  "func": "relay",
-  "desc": "In a real fly, relay and distribution node. It sits in the GNG system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row56_GOR.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "MetaNm",
+  "full": "Metathoracic neuromere",
+  "func": "hind legs",
+  "desc": "Holds the walking circuits and motor neurons for the hind legs.",
+  "maxime": {
+   "synapses": 1234181,
+   "neurons": 7589,
+   "left": 656211,
+   "right": 577970
+  },
+  "hagrid": {
+   "synapses": 4449339,
+   "neurons": 7978,
+   "left": 2190882,
+   "right": 2258457
+  },
+  "img": "img/regions/MetaNm.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/MetaNm_maxime.jpg",
+  "img_hagrid": "img/regions/MetaNm_hagrid.jpg"
  },
  {
   "row": 57,
-  "level": "hub",
-  "hub": "CX",
-  "name": "CX",
-  "fn": 2772,
-  "mn": 2797,
-  "fe": 92993,
-  "me": 159478,
-  "fs": 599561,
-  "ms": 2281837,
-  "ratio": 3.81,
-  "func": "heading, sleep",
-  "desc": "In a real fly, compass and sleep: the ellipsoid-body ring holds head direction while the fan-shaped body and bridge steer and gate sleep and arousal. Simulated version: Navigation and sleep, honestly bounded: the compass circuitry fires, but steering from it was tested and rejected \u2014 and sleep is a quiet-brain proxy, as the per01 record shows.",
-  "img": "img/row57_CX.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "ANm",
+  "full": "Abdominal neuromeres",
+  "func": "abdomen",
+  "desc": "Controls the abdomen, including mating, egg-laying and gut-related functions.",
+  "maxime": {
+   "synapses": 563981,
+   "neurons": 6048,
+   "left": 269196,
+   "right": 292466
+  },
+  "hagrid": {
+   "synapses": 2884530,
+   "neurons": 7390,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/ANm.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/ANm_maxime.jpg",
+  "img_hagrid": "img/regions/ANm_hagrid.jpg"
  },
  {
   "row": 58,
-  "level": "neuropil",
-  "hub": "CX",
-  "name": "FB",
-  "fn": null,
-  "mn": null,
-  "fe": 45567,
-  "me": 88511,
-  "fs": 278926,
-  "ms": 1201153,
-  "ratio": 4.31,
-  "func": "heading, sleep",
-  "desc": "In a real fly, heading and sleep; tangential inputs steer the compass. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
-  "img": "img/row58_FB.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "NTct",
+  "full": "Neck tectulum",
+  "func": "neck and head movement",
+  "desc": "Part of the dorsal 'tectulum' that controls the neck muscles and head movement.",
+  "maxime": {
+   "synapses": 145223,
+   "neurons": 3757,
+   "left": 79100,
+   "right": 66123
+  },
+  "hagrid": {
+   "synapses": 188264,
+   "neurons": 3069,
+   "left": 103026,
+   "right": 85238
+  },
+  "img": "img/regions/NTct.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/NTct_maxime.jpg",
+  "img_hagrid": "img/regions/NTct_hagrid.jpg"
  },
  {
   "row": 59,
-  "level": "neuropil",
-  "hub": "CX",
-  "name": "EB",
-  "fn": null,
-  "mn": null,
-  "fe": 16377,
-  "me": 34447,
-  "fs": 130451,
-  "ms": 652120,
-  "ratio": 5,
-  "func": "compass",
-  "desc": "In a real fly, compass; ring bump tracks head direction. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
-  "img": "img/row59_EB.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "WTct",
+  "full": "Wing tectulum",
+  "func": "wings and flight",
+  "desc": "Contains the flight motor circuits and wing motor neurons.",
+  "maxime": {
+   "synapses": 239233,
+   "neurons": 3876,
+   "left": 120407,
+   "right": 118826
+  },
+  "hagrid": {
+   "synapses": 1304295,
+   "neurons": 4778,
+   "left": 681001,
+   "right": 623294
+  },
+  "img": "img/regions/WTct.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/WTct_maxime.jpg",
+  "img_hagrid": "img/regions/WTct_hagrid.jpg"
  },
  {
   "row": 60,
-  "level": "neuropil",
-  "hub": "CX",
-  "name": "PB",
-  "fn": null,
-  "mn": null,
-  "fe": 8181,
-  "me": 9316,
-  "fs": 69104,
-  "ms": 158924,
-  "ratio": 2.3,
-  "func": "heading math",
-  "desc": "In a real fly, heading math; columnar bridge across hemispheres. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
-  "img": "img/row60_PB.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "HTct",
+  "full": "Haltere tectulum",
+  "func": "halteres (flight balance)",
+  "desc": "Receives input from and controls the halteres, the small knobbed organs that act as gyroscopes during flight.",
+  "maxime": {
+   "synapses": 284319,
+   "neurons": 4918,
+   "left": 136575,
+   "right": 147744
+  },
+  "hagrid": {
+   "synapses": 444643,
+   "neurons": 4120,
+   "left": 230871,
+   "right": 213772
+  },
+  "img": "img/regions/HTct.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/HTct_maxime.jpg",
+  "img_hagrid": "img/regions/HTct_hagrid.jpg"
  },
  {
   "row": 61,
-  "level": "neuropil",
-  "hub": "CX",
-  "name": "ATL",
-  "fn": null,
-  "mn": null,
-  "fe": 15328,
-  "me": 15582,
-  "fs": 63672,
-  "ms": 70091,
-  "ratio": 1.1,
-  "func": "CX input",
-  "desc": "In a real fly, cX input; antler relays novelty signals. It sits in the CX system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row61_ATL.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "IntTct",
+  "full": "Intermediate tectulum",
+  "func": "between flight and leg areas",
+  "desc": "A band of neuropil between the dorsal flight regions and the leg neuromeres. Its function is only partly understood.",
+  "maxime": {
+   "synapses": 412523,
+   "neurons": 7703,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 646417,
+   "neurons": 7086,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/IntTct.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/IntTct_maxime.jpg",
+  "img_hagrid": "img/regions/IntTct_hagrid.jpg"
  },
  {
   "row": 62,
-  "level": "neuropil",
-  "hub": "CX",
-  "name": "NO",
-  "fn": null,
-  "mn": null,
-  "fe": 3699,
-  "me": 8671,
-  "fs": 36634,
-  "ms": 163428,
-  "ratio": 4.46,
-  "func": "turn gain",
-  "desc": "In a real fly, turn gain; noduli tune rotational sensitivity. It sits in the CX system. Simulated version: part of the central-complex group (navigation and steering). Steering from it was tested and rejected, so it fires without driving turns. On effect maps it reports as central complex.",
-  "img": "img/row62_NO.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "LTct",
+  "full": "Lower tectulum",
+  "func": "function partly understood",
+  "desc": "The lower part of the tectulum, thought to help coordinate legs and wings; its function is only partly understood.",
+  "maxime": {
+   "synapses": 111609,
+   "neurons": 3330,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 789023,
+   "neurons": 5971,
+   "left": 0,
+   "right": 0
+  },
+  "img": "img/regions/LTct.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/LTct_maxime.jpg",
+  "img_hagrid": "img/regions/LTct_hagrid.jpg"
  },
  {
   "row": 63,
-  "level": "neuropil",
-  "hub": "CX",
-  "name": "GA",
-  "fn": null,
-  "mn": null,
-  "fe": 2738,
-  "me": 0,
-  "fs": 14558,
-  "ms": 0,
-  "ratio": "F-only",
-  "func": "CX input",
-  "desc": "In a real fly, cX input; gall relays visual landmarks. Female-only label; tissue exists in both. It sits in the CX system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row63_GA.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "AMNp",
+  "full": "Accessory mesothoracic neuropil (ovoid)",
+  "func": "wing and back sensory input",
+  "desc": "A dense region where the front and middle segments of the cord meet. It mostly receives sensory nerves from the wing and the notum (the back of the thorax). The male CNS scan calls it the ovoid (Ov); it is the same region.",
+  "maxime": {
+   "synapses": 182182,
+   "neurons": 4414,
+   "left": 104675,
+   "right": 77507
+  },
+  "hagrid": {
+   "synapses": 1127513,
+   "neurons": 4932,
+   "left": 631009,
+   "right": 496504
+  },
+  "img": "img/regions/AMNp.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/AMNp_maxime.jpg",
+  "img_hagrid": "img/regions/AMNp_hagrid.jpg"
  },
  {
   "row": 64,
-  "level": "neuropil",
-  "hub": "CX",
-  "name": "BU",
-  "fn": null,
-  "mn": null,
-  "fe": 1103,
-  "me": 2951,
-  "fs": 6216,
-  "ms": 36121,
-  "ratio": 5.81,
-  "func": "compass input",
-  "desc": "In a real fly, compass input; bulb feeds heading signals to EB. It sits in the CX system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row64_BU.jpg"
+  "level": "region",
+  "hub": "VNC",
+  "name": "mVAC",
+  "full": "Medial ventral association centre",
+  "func": "vibration and leg-position sense",
+  "desc": "Receives the endings of chordotonal sensory neurons in the legs, which sense vibration and leg position; it resembles the 'auditory' neuropil of other insects.",
+  "maxime": {
+   "synapses": 70505,
+   "neurons": 2739,
+   "left": 33677,
+   "right": 36828
+  },
+  "hagrid": {
+   "synapses": 411405,
+   "neurons": 3545,
+   "left": 210546,
+   "right": 200859
+  },
+  "img": "img/regions/mVAC.jpg",
+  "has3d": false,
+  "img_maxime": "img/regions/mVAC_maxime.jpg",
+  "img_hagrid": "img/regions/mVAC_hagrid.jpg"
  },
  {
   "row": 65,
-  "level": "hub",
-  "hub": "unassigned",
-  "name": "unassigned",
-  "fn": 0,
-  "mn": 12,
-  "fe": 0,
-  "me": 545920,
-  "fs": 0,
-  "ms": 2149065,
-  "ratio": "M-only",
-  "func": "unassigned",
-  "desc": "In a real fly, contacts the male export left outside any neuropil. The female export assigns everything. Simulated version: Contacts without a home region: counted, shown, and modeled only as part of the whole-brain network.",
-  "img": "img/row65_unassigned.jpg"
+  "level": "family",
+  "hub": "other",
+  "name": "other",
+  "full": "Not a brain region",
+  "func": "nerves and unlabelled contacts",
+  "desc": "Synapses that sit in peripheral nerves or could not be assigned to any named region.",
+  "members": [
+   "nerves",
+   "unassigned"
+  ],
+  "maxime": {
+   "synapses": 166
+  },
+  "hagrid": {
+   "synapses": 2200916
+  },
+  "img": "img/regions/other.jpg",
+  "has3d": false
  },
  {
   "row": 66,
-  "level": "neuropil",
-  "hub": "unassigned",
-  "name": "CB_UNASGD",
-  "fn": null,
-  "mn": null,
-  "fe": 0,
-  "me": 315762,
-  "fs": 0,
-  "ms": 1263143,
-  "ratio": "M-only",
-  "func": "unassigned",
-  "desc": "In a real fly, brain contacts the male export left unassigned. It sits in the unassigned system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row66_CB_UNASGD.jpg"
+  "level": "region",
+  "hub": "other",
+  "name": "nerves",
+  "full": "Nerves",
+  "func": "peripheral nerves",
+  "desc": "Synapses found inside the nerves that enter and leave the nerve cord, outside any neuropil.",
+  "maxime": {
+   "synapses": 54,
+   "neurons": 13,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 51851,
+   "neurons": 5162,
+   "left": 21265,
+   "right": 30586
+  },
+  "img": "img/regions/nerves.jpg",
+  "has3d": false
  },
  {
   "row": 67,
-  "level": "neuropil",
-  "hub": "unassigned",
-  "name": "OL_UNASGD",
-  "fn": null,
-  "mn": null,
-  "fe": 0,
-  "me": 103157,
-  "fs": 0,
-  "ms": 386334,
-  "ratio": "M-only",
-  "func": "unassigned",
-  "desc": "In a real fly, optic contacts the male export left unassigned. It sits in the unassigned system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row67_OL_UNASGD.jpg"
- },
- {
-  "row": 68,
-  "level": "neuropil",
-  "hub": "unassigned",
-  "name": "VNC_UNASGD",
-  "fn": null,
-  "mn": null,
-  "fe": 0,
-  "me": 127001,
-  "fs": 0,
-  "ms": 499588,
-  "ratio": "M-only",
-  "func": "unassigned",
-  "desc": "In a real fly, cord contacts the male export left unassigned (includes tiny CV/UNASGD rows). It sits in the unassigned system. Simulated version: modeled as part of the whole-brain network with no dedicated group \u2014 its neurons fire in every run and count toward whole-brain measures.",
-  "img": "img/row68_VNC_UNASGD.jpg"
- },
- {
-  "row": 69,
-  "level": "hub",
-  "hub": "nowire",
-  "name": "nowire",
-  "fn": 4300,
-  "mn": 864,
-  "fe": 0,
-  "me": 0,
-  "fs": 0,
-  "ms": 0,
-  "ratio": null,
-  "func": "no wiring",
-  "desc": "In a real fly, neurons absent from the connections files: fragments without consensus wiring, kept out of hub assignment. Simulated version: Neurons with no wiring in the export: counted and shown, but the sim cannot drive what has no connections.",
-  "img": "img/row69_nowire.jpg"
+  "level": "region",
+  "hub": "other",
+  "name": "unassigned",
+  "full": "Unassigned",
+  "func": "no named region",
+  "desc": "Synapses the scan could not assign to a named region. In Maxime's scan most of these were labelled only as 'tectulum' without saying which part.",
+  "maxime": {
+   "synapses": 112,
+   "neurons": 23,
+   "left": 0,
+   "right": 0
+  },
+  "hagrid": {
+   "synapses": 2149065,
+   "neurons": 85343,
+   "left": 284756,
+   "right": 101578
+  },
+  "img": "img/regions/unassigned.jpg",
+  "has3d": false
  }
 ]

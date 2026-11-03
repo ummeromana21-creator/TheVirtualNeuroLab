@@ -1,0 +1,392 @@
+{
+ "sugar_rates": [
+  10,
+  20,
+  40,
+  60,
+  80,
+  100,
+  150,
+  200
+ ],
+ "tests": {
+  "1a": {
+   "maxime": {
+    "label": "Maxime ♀",
+    "short": "Maxime",
+    "about": "BANC scan (female brain and nerve cord), connections of 5+ synapses. Sugar = labellar types LB3b + LB3c, bitter = LB1a–d, water = LB2d + LB3a (right side).",
+    "counts": {
+     "sugar": 45,
+     "bitter": 24,
+     "water": 15,
+     "mn9": 2
+    },
+    "n_run": 30,
+    "w_syn_scale": 1.0,
+    "mn9": {
+     "sugar_10": 0.0,
+     "sugar_20": 0.0,
+     "sugar_40": 0.0,
+     "sugar_60": 0.0,
+     "sugar_80": 0.0,
+     "sugar_100": 0.0,
+     "sugar_150": 0.03,
+     "sugar_200": 0.53,
+     "bitter_200": 0.0,
+     "sugar_100_bitter_200": 0.0,
+     "water_200": 0.0,
+     "nothing": 0.0
+    },
+    "neurons_active": {
+     "sugar_10": 50,
+     "sugar_20": 54,
+     "sugar_40": 66,
+     "sugar_60": 101,
+     "sugar_80": 107,
+     "sugar_100": 114,
+     "sugar_150": 131,
+     "sugar_200": 133,
+     "bitter_200": 53,
+     "sugar_100_bitter_200": 159,
+     "water_200": 30,
+     "nothing": 0
+    },
+    "criteria": {
+     "C1": false,
+     "C2": false,
+     "C3": true,
+     "C4": false,
+     "C5": false
+    },
+    "spearman": 0.764,
+    "passed": false,
+    "passed_count": 1,
+    "c5": false,
+    "contained": true,
+    "ready": false
+   },
+   "hagrid": {
+    "label": "Hagrid ♂",
+    "short": "Hagrid",
+    "about": "Male CNS scan (male brain and nerve cord), connections of 5+ synapses. Same cell types as Maxime (the male CNS uses the same type names).",
+    "counts": {
+     "sugar": 17,
+     "bitter": 19,
+     "water": 10,
+     "mn9": 2
+    },
+    "n_run": 10,
+    "w_syn_scale": 1.0,
+    "mn9": {
+     "sugar_10": 18.7,
+     "sugar_20": 26.3,
+     "sugar_40": 56.5,
+     "sugar_60": 69.8,
+     "sugar_80": 75.1,
+     "sugar_100": 109.2,
+     "sugar_150": 123.4,
+     "sugar_200": 135.5,
+     "bitter_200": 0.1,
+     "sugar_100_bitter_200": 0.1,
+     "water_200": 37.2,
+     "nothing": 0.0
+    },
+    "neurons_active": {
+     "sugar_10": 16785,
+     "sugar_20": 16497,
+     "sugar_40": 16703,
+     "sugar_60": 16968,
+     "sugar_80": 16628,
+     "sugar_100": 16336,
+     "sugar_150": 16301,
+     "sugar_200": 15943,
+     "bitter_200": 15427,
+     "sugar_100_bitter_200": 15498,
+     "water_200": 16487,
+     "nothing": 0
+    },
+    "criteria": {
+     "C1": true,
+     "C2": true,
+     "C3": true,
+     "C4": true,
+     "C5": true
+    },
+    "spearman": 1.0,
+    "passed": true,
+    "passed_count": 4,
+    "c5": true,
+    "contained": false,
+    "ready": false
+   },
+   "flywire_paper": {
+    "label": "FlyWire, as published",
+    "short": "FlyWire (paper)",
+    "about": "The FlyWire female brain exactly as the 2024 study used it (all synapses), with the study’s own neuron lists. This is the replication: it should pass.",
+    "counts": {
+     "sugar": 21,
+     "bitter": 21,
+     "water": 18,
+     "mn9": 2
+    },
+    "n_run": 30,
+    "w_syn_scale": 1.0,
+    "mn9": {
+     "sugar_10": 0.0,
+     "sugar_20": 0.0,
+     "sugar_40": 5.6,
+     "sugar_60": 38.0,
+     "sugar_80": 57.43,
+     "sugar_100": 67.6,
+     "sugar_150": 83.1,
+     "sugar_200": 92.47,
+     "bitter_200": 0.0,
+     "sugar_100_bitter_200": 0.03,
+     "water_200": 32.13,
+     "nothing": 0.0
+    },
+    "neurons_active": {
+     "sugar_10": 41,
+     "sugar_20": 64,
+     "sugar_40": 297,
+     "sugar_60": 400,
+     "sugar_80": 393,
+     "sugar_100": 414,
+     "sugar_150": 444,
+     "sugar_200": 449,
+     "bitter_200": 93,
+     "sugar_100_bitter_200": 292,
+     "water_200": 366,
+     "nothing": 0
+    },
+    "criteria": {
+     "C1": true,
+     "C2": true,
+     "C3": true,
+     "C4": true,
+     "C5": true
+    },
+    "spearman": 0.994,
+    "passed": true,
+    "passed_count": 4,
+    "c5": true,
+    "contained": true,
+    "ready": true
+   },
+   "flywire_strong": {
+    "label": "FlyWire, strong links only",
+    "short": "FlyWire (5+)",
+    "about": "The same FlyWire brain, but keeping only links of 5+ synapses, the rule the lab uses for its own flies. Shows what that rule alone changes.",
+    "counts": {
+     "sugar": 21,
+     "bitter": 21,
+     "water": 18,
+     "mn9": 2
+    },
+    "n_run": 30,
+    "w_syn_scale": 1.0,
+    "mn9": {
+     "sugar_10": 0.0,
+     "sugar_20": 0.03,
+     "sugar_40": 1.3,
+     "sugar_60": 21.37,
+     "sugar_80": 47.7,
+     "sugar_100": 63.33,
+     "sugar_150": 80.4,
+     "sugar_200": 90.3,
+     "bitter_200": 0.0,
+     "sugar_100_bitter_200": 0.2,
+     "water_200": 15.57,
+     "nothing": 0.0
+    },
+    "neurons_active": {
+     "sugar_10": 32,
+     "sugar_20": 66,
+     "sugar_40": 205,
+     "sugar_60": 322,
+     "sugar_80": 371,
+     "sugar_100": 380,
+     "sugar_150": 397,
+     "sugar_200": 421,
+     "bitter_200": 68,
+     "sugar_100_bitter_200": 284,
+     "water_200": 232,
+     "nothing": 0
+    },
+    "criteria": {
+     "C1": true,
+     "C2": true,
+     "C3": true,
+     "C4": true,
+     "C5": true
+    },
+    "spearman": 1.0,
+    "passed": true,
+    "passed_count": 4,
+    "c5": true,
+    "contained": true,
+    "ready": true
+   }
+  },
+  "1b": {
+   "maxime": {
+    "label": "Maxime ♀",
+    "short": "Maxime",
+    "about": "BANC scan (female brain and nerve cord), connections of 5+ synapses. Sugar = labellar types LB3b + LB3c, bitter = LB1a–d, water = LB2d + LB3a (right side).",
+    "counts": {
+     "sugar": 45,
+     "bitter": 24,
+     "water": 15,
+     "mn9": 2
+    },
+    "n_run": 30,
+    "w_syn_scale": 2.737,
+    "mn9": {
+     "sugar_10": 4.2,
+     "sugar_20": 11.73,
+     "sugar_40": 29.5,
+     "sugar_60": 37.6,
+     "sugar_80": 43.63,
+     "sugar_100": 49.63,
+     "sugar_150": 56.7,
+     "sugar_200": 60.87,
+     "bitter_200": 1.23,
+     "sugar_100_bitter_200": 11.07,
+     "water_200": 16.3,
+     "nothing": 0.0
+    },
+    "neurons_active": {
+     "sugar_10": 9207,
+     "sugar_20": 9413,
+     "sugar_40": 9333,
+     "sugar_60": 9222,
+     "sugar_80": 9147,
+     "sugar_100": 9192,
+     "sugar_150": 9249,
+     "sugar_200": 9246,
+     "bitter_200": 9376,
+     "sugar_100_bitter_200": 9404,
+     "water_200": 9402,
+     "nothing": 0
+    },
+    "criteria": {
+     "C1": true,
+     "C2": true,
+     "C3": false,
+     "C4": true,
+     "C5": true
+    },
+    "spearman": 1.0,
+    "passed": false,
+    "passed_count": 3,
+    "c5": true,
+    "contained": false,
+    "ready": false
+   },
+   "hagrid": {
+    "label": "Hagrid ♂",
+    "short": "Hagrid",
+    "about": "Male CNS scan (male brain and nerve cord), connections of 5+ synapses. Same cell types as Maxime (the male CNS uses the same type names).",
+    "counts": {
+     "sugar": 17,
+     "bitter": 19,
+     "water": 10,
+     "mn9": 2
+    },
+    "n_run": 30,
+    "w_syn_scale": 0.505,
+    "mn9": {
+     "sugar_10": 0.0,
+     "sugar_20": 0.0,
+     "sugar_40": 0.0,
+     "sugar_60": 0.1,
+     "sugar_80": 0.53,
+     "sugar_100": 0.7,
+     "sugar_150": 4.33,
+     "sugar_200": 17.73,
+     "bitter_200": 0.0,
+     "sugar_100_bitter_200": 0.0,
+     "water_200": 0.0,
+     "nothing": 0.0
+    },
+    "neurons_active": {
+     "sugar_10": 21,
+     "sugar_20": 27,
+     "sugar_40": 63,
+     "sugar_60": 91,
+     "sugar_80": 108,
+     "sugar_100": 122,
+     "sugar_150": 161,
+     "sugar_200": 237,
+     "bitter_200": 458,
+     "sugar_100_bitter_200": 529,
+     "water_200": 35,
+     "nothing": 0
+    },
+    "criteria": {
+     "C1": false,
+     "C2": true,
+     "C3": true,
+     "C4": true,
+     "C5": false
+    },
+    "spearman": 0.976,
+    "passed": false,
+    "passed_count": 3,
+    "c5": false,
+    "contained": true,
+    "ready": false
+   }
+  }
+ },
+ "synapse_density": {
+  "flywire": {
+   "median_strong_input_per_neuron": 104.0,
+   "sugar_output_per_neuron": 353.8,
+   "mn9_input": 5732
+  },
+  "maxime": {
+   "median_strong_input_per_neuron": 38.0,
+   "sugar_output_per_neuron": 101.6,
+   "mn9_input": 2175
+  },
+  "hagrid": {
+   "median_strong_input_per_neuron": 206.0,
+   "sugar_output_per_neuron": 386.1,
+   "mn9_input": 3042
+  }
+ },
+ "engine_check": {
+  "mn9_ours": [
+   66.6,
+   49.5
+  ],
+  "mn9_published": [
+   67.0,
+   48.6
+  ],
+  "top200_r": 0.999,
+  "neurons_active_ours": 413,
+  "neurons_active_published": 404
+ },
+ "final": {
+  "maxime": {
+   "ready": false
+  },
+  "hagrid": {
+   "ready": false
+  }
+ },
+ "headline": "<b>Result: the original FlyWire brain passes; Maxime and Hagrid are not ready for experiments yet.</b> With the published settings, Maxime's tongue neuron barely fires, and Hagrid's whole brain sets off a chain reaction (about 16,336 neurons fire, against about 414 in FlyWire). A simple correction for how each scan counts synapses (test 1b) did not fix either fly. This is exactly what a calibration test is for: it stops the lab from running experiments on brains that can't yet reproduce a known result.",
+ "text_1a": "<p>The published strength per synapse (0.275 mV), set on the FlyWire brain, used unchanged on all four brains.</p>",
+ "why_html": "<p>The three scans were made by different teams, and their machines count synapses differently. A typical neuron receives a median of <b>104</b> synapses in FlyWire, <b>38</b> in Maxime's scan and <b>206</b> in Hagrid's (counting links of 5+ synapses). Each sugar neuron makes about 353.8 output synapses in FlyWire but only 101.6 in Maxime's scan. The model turns every synapse into the same small push, so in Maxime's scan the sugar signal fades out, and in Hagrid's the pushes add up until the brain ignites.</p><p>Two things we checked and ruled out: the 5+-synapse rule itself (FlyWire with that rule still passes, dashed line) and the balance of excitatory to inhibitory synapses (about 40% inhibitory in all three).</p><div class=\"note\"><b>Hagrid passed the four written rules in test 1a, but we don't count that as a pass.</b> His MN9 behaved correctly, yet about 15,427 neurons fired even for bitter alone; in FlyWire about 93 do. A brain where every taste lights up thousands of neurons is not behaving like a fly, so its correct answer can't be trusted. We should have written \"activity stays contained\" as a rule; it is added for every future test. (Hagrid's test 1a used 10 repeats instead of 30, because the chain reaction made each run very slow; the effect is far larger than the run-to-run wobble.)</div>",
+ "text_1b": "<p>Saved before running, and labelled as written after seeing 1a: give each synapse a strength scaled so a typical neuron's total input matches FlyWire (Maxime x2.74, Hagrid x0.51). <b>Neither fly passed.</b> Maxime swung to the other extreme: a chain reaction (about 9,192 neurons) and her MN9 fired a little even for bitter alone (1.2 per second), breaking rule C3. Hagrid calmed down (about 122 neurons, like FlyWire) but became too quiet: sugar at 100 per second gave MN9 only 0.7 per second, breaking rule C1. One global number per fly is not enough to make these scans behave like the FlyWire brain.</p>",
+ "lessons": [
+  "The engine is right: on the published brain it reproduces the published numbers almost exactly.",
+  "The lab's 5+-synapse rule is fine: the FlyWire brain still passes with it.",
+  "Maxime's and Hagrid's scans can't use the FlyWire settings as they are: one scan is too weak, the other ignites.",
+  "A simple fix based only on anatomy (test 1b) did not work for either fly.",
+  "So, for now, the lab should not report experiments on Maxime or Hagrid. Any experiment would have to run on the FlyWire brain, which passed, until the two flies pass a calibration of their own."
+ ],
+ "engine_check_html": "<p>The 2024 study's own code and wiring are public, so we ran both on the same test (sugar neurons at 100 per second). MN9 fired <b>66.6</b> vs <b>67.0</b> times per second (ours vs published) for one MN9 and <b>49.5</b> vs <b>48.6</b> for the other; 413 vs 404 neurons fired; the firing of the 200 most active neurons matches with a correlation of 0.999 (1 = identical). One detail had to be matched exactly: in the published code, input that arrives while a neuron is recovering from a spike is lost.</p>"
+}

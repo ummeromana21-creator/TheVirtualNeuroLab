@@ -1,0 +1,1148 @@
+{
+ "rule": "connections = neuron pairs joined by >= 5 synapses; synapses counted only within those",
+ "maxime": {
+  "name": "Maxime",
+  "sex": "female",
+  "dataset": "BANC (brain and nerve cord)",
+  "folder": "BANC",
+  "neurons_in_file": 158262,
+  "neurons": 157789,
+  "connections": 1528585,
+  "synapses": 18487086,
+  "export_rows": 3990039,
+  "export_pairs": 3037361,
+  "regions": {
+   "AL": {
+    "synapses": 990557,
+    "neurons": 5683,
+    "left": 503736,
+    "right": 486821,
+    "labels": [
+     "AL_L",
+     "AL_R"
+    ]
+   },
+   "AME": {
+    "synapses": 4139,
+    "neurons": 376,
+    "left": 1852,
+    "right": 2287,
+    "labels": [
+     "AME_L",
+     "AME_R"
+    ]
+   },
+   "AMMC": {
+    "synapses": 99649,
+    "neurons": 2825,
+    "left": 53396,
+    "right": 46253,
+    "labels": [
+     "AMMC_L",
+     "AMMC_R"
+    ]
+   },
+   "AMNp": {
+    "synapses": 182182,
+    "neurons": 4414,
+    "left": 104675,
+    "right": 77507,
+    "labels": [
+     "VNC_AMNp_L",
+     "VNC_AMNp_R"
+    ]
+   },
+   "ANm": {
+    "synapses": 563981,
+    "neurons": 6048,
+    "left": 269196,
+    "right": 292466,
+    "labels": [
+     "ABDNM_L",
+     "ABDNM_R",
+     "ANm"
+    ]
+   },
+   "AOTU": {
+    "synapses": 82332,
+    "neurons": 2290,
+    "left": 44669,
+    "right": 37663,
+    "labels": [
+     "AOTU_L",
+     "AOTU_R"
+    ]
+   },
+   "ATL": {
+    "synapses": 54231,
+    "neurons": 1775,
+    "left": 27595,
+    "right": 26636,
+    "labels": [
+     "ATL_L",
+     "ATL_R"
+    ]
+   },
+   "AVLP": {
+    "synapses": 1009975,
+    "neurons": 8594,
+    "left": 431974,
+    "right": 578001,
+    "labels": [
+     "AVLP_L",
+     "AVLP_R"
+    ]
+   },
+   "BU": {
+    "synapses": 5343,
+    "neurons": 449,
+    "left": 2448,
+    "right": 2895,
+    "labels": [
+     "BU_L",
+     "BU_R"
+    ]
+   },
+   "CAN": {
+    "synapses": 20495,
+    "neurons": 1204,
+    "left": 12385,
+    "right": 8110,
+    "labels": [
+     "CAN_L",
+     "CAN_R"
+    ]
+   },
+   "CRE": {
+    "synapses": 222702,
+    "neurons": 6413,
+    "left": 97917,
+    "right": 124785,
+    "labels": [
+     "CRE_L",
+     "CRE_R"
+    ]
+   },
+   "EB": {
+    "synapses": 112554,
+    "neurons": 690,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "EB"
+    ]
+   },
+   "EPA": {
+    "synapses": 43977,
+    "neurons": 2035,
+    "left": 18995,
+    "right": 24982,
+    "labels": [
+     "EPA_L",
+     "EPA_R"
+    ]
+   },
+   "FB": {
+    "synapses": 208450,
+    "neurons": 2895,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "FB"
+    ]
+   },
+   "FLA": {
+    "synapses": 140590,
+    "neurons": 3044,
+    "left": 76998,
+    "right": 63592,
+    "labels": [
+     "FLA_L",
+     "FLA_R"
+    ]
+   },
+   "GA": {
+    "synapses": 12984,
+    "neurons": 509,
+    "left": 5729,
+    "right": 7255,
+    "labels": [
+     "GA_L",
+     "GA_R"
+    ]
+   },
+   "GNG": {
+    "synapses": 1077570,
+    "neurons": 9774,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "GNG"
+    ]
+   },
+   "GOR": {
+    "synapses": 39059,
+    "neurons": 2322,
+    "left": 18309,
+    "right": 20750,
+    "labels": [
+     "GOR_L",
+     "GOR_R"
+    ]
+   },
+   "HTct": {
+    "synapses": 284319,
+    "neurons": 4918,
+    "left": 136575,
+    "right": 147744,
+    "labels": [
+     "HTct_UTct_T3_L",
+     "HTct_UTct_T3_R",
+     "VNC_HTct_L",
+     "VNC_HTct_R"
+    ]
+   },
+   "IB": {
+    "synapses": 125622,
+    "neurons": 3478,
+    "left": 59954,
+    "right": 65668,
+    "labels": [
+     "IB_L",
+     "IB_R"
+    ]
+   },
+   "ICL": {
+    "synapses": 205214,
+    "neurons": 6227,
+    "left": 100132,
+    "right": 105082,
+    "labels": [
+     "ICL_L",
+     "ICL_R"
+    ]
+   },
+   "IPS": {
+    "synapses": 410520,
+    "neurons": 6310,
+    "left": 162815,
+    "right": 247705,
+    "labels": [
+     "IPS_L",
+     "IPS_R"
+    ]
+   },
+   "IntTct": {
+    "synapses": 412523,
+    "neurons": 7703,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "IntTct"
+    ]
+   },
+   "LAL": {
+    "synapses": 360381,
+    "neurons": 3949,
+    "left": 176652,
+    "right": 183729,
+    "labels": [
+     "LAL_L",
+     "LAL_R"
+    ]
+   },
+   "LH": {
+    "synapses": 151180,
+    "neurons": 5085,
+    "left": 63964,
+    "right": 87216,
+    "labels": [
+     "LH_L",
+     "LH_R"
+    ]
+   },
+   "LO": {
+    "synapses": 831538,
+    "neurons": 37016,
+    "left": 360616,
+    "right": 470922,
+    "labels": [
+     "LO_L",
+     "LO_R"
+    ]
+   },
+   "LOP": {
+    "synapses": 699589,
+    "neurons": 21326,
+    "left": 296254,
+    "right": 403335,
+    "labels": [
+     "LOP_L",
+     "LOP_R"
+    ]
+   },
+   "LTct": {
+    "synapses": 111609,
+    "neurons": 3330,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "LTct"
+    ]
+   },
+   "MB_CA": {
+    "synapses": 180575,
+    "neurons": 5347,
+    "left": 86376,
+    "right": 94199,
+    "labels": [
+     "MB_CA_L",
+     "MB_CA_R"
+    ]
+   },
+   "MB_ML": {
+    "synapses": 8017,
+    "neurons": 2018,
+    "left": 2979,
+    "right": 5038,
+    "labels": [
+     "MB_ML_L",
+     "MB_ML_R"
+    ]
+   },
+   "MB_PED": {
+    "synapses": 11509,
+    "neurons": 2957,
+    "left": 4523,
+    "right": 6986,
+    "labels": [
+     "MB_PED_L",
+     "MB_PED_R"
+    ]
+   },
+   "MB_VL": {
+    "synapses": 20892,
+    "neurons": 3076,
+    "left": 11810,
+    "right": 9082,
+    "labels": [
+     "MB_VL_L",
+     "MB_VL_R"
+    ]
+   },
+   "ME": {
+    "synapses": 2928364,
+    "neurons": 67228,
+    "left": 1184834,
+    "right": 1743530,
+    "labels": [
+     "ME_L",
+     "ME_R"
+    ]
+   },
+   "MesoNm": {
+    "synapses": 1650602,
+    "neurons": 8093,
+    "left": 771769,
+    "right": 878833,
+    "labels": [
+     "LegNp_T2_L",
+     "LegNp_T2_R",
+     "VNC_T2_MesoNm_L",
+     "VNC_T2_MesoNm_R"
+    ]
+   },
+   "MetaNm": {
+    "synapses": 1234181,
+    "neurons": 7589,
+    "left": 656211,
+    "right": 577970,
+    "labels": [
+     "LegNp_T3_L",
+     "LegNp_T3_R",
+     "VNC_T3_MetaNm_L",
+     "VNC_T3_MetaNm_R"
+    ]
+   },
+   "NO": {
+    "synapses": 32489,
+    "neurons": 529,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "NO"
+    ]
+   },
+   "NTct": {
+    "synapses": 145223,
+    "neurons": 3757,
+    "left": 79100,
+    "right": 66123,
+    "labels": [
+     "NTct_UTct_T1_L",
+     "NTct_UTct_T1_R",
+     "VNC_NTct_L",
+     "VNC_NTct_R"
+    ]
+   },
+   "PB": {
+    "synapses": 62377,
+    "neurons": 634,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "PB"
+    ]
+   },
+   "PLP": {
+    "synapses": 338855,
+    "neurons": 10385,
+    "left": 146680,
+    "right": 192175,
+    "labels": [
+     "PLP_L",
+     "PLP_R"
+    ]
+   },
+   "PRW": {
+    "synapses": 60575,
+    "neurons": 1614,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "PRW"
+    ]
+   },
+   "PVLP": {
+    "synapses": 157096,
+    "neurons": 6757,
+    "left": 46584,
+    "right": 110512,
+    "labels": [
+     "PVLP_L",
+     "PVLP_R"
+    ]
+   },
+   "ProNm": {
+    "synapses": 1476438,
+    "neurons": 8150,
+    "left": 840996,
+    "right": 635442,
+    "labels": [
+     "LegNp_T1_L",
+     "LegNp_T1_R",
+     "VNC_T1_ProNm_L",
+     "VNC_T1_ProNm_R"
+    ]
+   },
+   "SAD": {
+    "synapses": 52806,
+    "neurons": 3993,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "SAD"
+    ]
+   },
+   "SCL": {
+    "synapses": 86047,
+    "neurons": 5630,
+    "left": 39686,
+    "right": 46361,
+    "labels": [
+     "SCL_L",
+     "SCL_R"
+    ]
+   },
+   "SIP": {
+    "synapses": 55428,
+    "neurons": 3958,
+    "left": 22161,
+    "right": 33267,
+    "labels": [
+     "SIP_L",
+     "SIP_R"
+    ]
+   },
+   "SLP": {
+    "synapses": 78770,
+    "neurons": 5410,
+    "left": 37358,
+    "right": 41412,
+    "labels": [
+     "SLP_L",
+     "SLP_R"
+    ]
+   },
+   "SMP": {
+    "synapses": 273618,
+    "neurons": 6046,
+    "left": 132039,
+    "right": 141579,
+    "labels": [
+     "SMP_L",
+     "SMP_R"
+    ]
+   },
+   "SPS": {
+    "synapses": 426303,
+    "neurons": 6413,
+    "left": 211521,
+    "right": 214782,
+    "labels": [
+     "SPS_L",
+     "SPS_R"
+    ]
+   },
+   "Tct (unsplit)": {
+    "synapses": 83,
+    "neurons": 52,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "Tct"
+    ]
+   },
+   "VES": {
+    "synapses": 299535,
+    "neurons": 3650,
+    "left": 148771,
+    "right": 150764,
+    "labels": [
+     "VES_L",
+     "VES_R"
+    ]
+   },
+   "WED": {
+    "synapses": 134217,
+    "neurons": 4358,
+    "left": 72991,
+    "right": 61226,
+    "labels": [
+     "WED_L",
+     "WED_R"
+    ]
+   },
+   "WTct": {
+    "synapses": 239233,
+    "neurons": 3876,
+    "left": 120407,
+    "right": 118826,
+    "labels": [
+     "VNC_WTct_L",
+     "VNC_WTct_R",
+     "WTct_UTct_T2_L",
+     "WTct_UTct_T2_R"
+    ]
+   },
+   "mVAC": {
+    "synapses": 70505,
+    "neurons": 2739,
+    "left": 33677,
+    "right": 36828,
+    "labels": [
+     "VNC_T2_mVAC_L",
+     "VNC_T2_mVAC_R"
+    ]
+   },
+   "nerves": {
+    "synapses": 54,
+    "neurons": 13,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "Xnerve"
+    ]
+   },
+   "unassigned": {
+    "synapses": 29,
+    "neurons": 23,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "cervical_connective"
+    ]
+   }
+  }
+ },
+ "hagrid": {
+  "name": "Hagrid",
+  "sex": "male",
+  "dataset": "male CNS (brain and nerve cord)",
+  "folder": "Male CNS",
+  "neurons_in_file": 166700,
+  "neurons": 166700,
+  "connections": 6242118,
+  "synapses": 89860280,
+  "export_rows": 9039608,
+  "export_pairs": 6242118,
+  "regions": {
+   "AB": {
+    "synapses": 5227,
+    "neurons": 205,
+    "left": 943,
+    "right": 4284,
+    "labels": [
+     "AB_L",
+     "AB_R"
+    ]
+   },
+   "AL": {
+    "synapses": 2918760,
+    "neurons": 4767,
+    "left": 1340846,
+    "right": 1577914,
+    "labels": [
+     "AL_L",
+     "AL_R"
+    ]
+   },
+   "AME": {
+    "synapses": 27481,
+    "neurons": 505,
+    "left": 5703,
+    "right": 21778,
+    "labels": [
+     "AME_L",
+     "AME_R"
+    ]
+   },
+   "AMNp": {
+    "synapses": 1127513,
+    "neurons": 4932,
+    "left": 631009,
+    "right": 496504,
+    "labels": [
+     "Ov_L",
+     "Ov_R"
+    ]
+   },
+   "ANm": {
+    "synapses": 2884530,
+    "neurons": 7390,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "ANm"
+    ]
+   },
+   "AOTU": {
+    "synapses": 881059,
+    "neurons": 3300,
+    "left": 413926,
+    "right": 467133,
+    "labels": [
+     "AOTU_L",
+     "AOTU_R"
+    ]
+   },
+   "ATL": {
+    "synapses": 70091,
+    "neurons": 1567,
+    "left": 39836,
+    "right": 30255,
+    "labels": [
+     "ATL_L",
+     "ATL_R"
+    ]
+   },
+   "AVLP": {
+    "synapses": 4895038,
+    "neurons": 9272,
+    "left": 2172676,
+    "right": 2722362,
+    "labels": [
+     "AVLP_L",
+     "AVLP_R"
+    ]
+   },
+   "BU": {
+    "synapses": 36121,
+    "neurons": 589,
+    "left": 18003,
+    "right": 18118,
+    "labels": [
+     "BU_L",
+     "BU_R"
+    ]
+   },
+   "CAN": {
+    "synapses": 66211,
+    "neurons": 1733,
+    "left": 33735,
+    "right": 32476,
+    "labels": [
+     "CAN_L",
+     "CAN_R"
+    ]
+   },
+   "CRE": {
+    "synapses": 711339,
+    "neurons": 6343,
+    "left": 387548,
+    "right": 323791,
+    "labels": [
+     "CRE_L",
+     "CRE_R"
+    ]
+   },
+   "EB": {
+    "synapses": 652120,
+    "neurons": 590,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "EB"
+    ]
+   },
+   "EPA": {
+    "synapses": 141923,
+    "neurons": 2866,
+    "left": 80434,
+    "right": 61489,
+    "labels": [
+     "EPA_L",
+     "EPA_R"
+    ]
+   },
+   "FB": {
+    "synapses": 1201153,
+    "neurons": 2677,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "FB"
+    ]
+   },
+   "FLA": {
+    "synapses": 319881,
+    "neurons": 3811,
+    "left": 161607,
+    "right": 158274,
+    "labels": [
+     "FLA_L",
+     "FLA_R"
+    ]
+   },
+   "GNG": {
+    "synapses": 3923843,
+    "neurons": 10357,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "GNG"
+    ]
+   },
+   "GOR": {
+    "synapses": 165582,
+    "neurons": 3278,
+    "left": 80626,
+    "right": 84956,
+    "labels": [
+     "GOR_L",
+     "GOR_R"
+    ]
+   },
+   "HTct": {
+    "synapses": 444643,
+    "neurons": 4120,
+    "left": 230871,
+    "right": 213772,
+    "labels": [
+     "HTct_UTct_T3_L",
+     "HTct_UTct_T3_R"
+    ]
+   },
+   "IB": {
+    "synapses": 425368,
+    "neurons": 4339,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "IB"
+    ]
+   },
+   "ICL": {
+    "synapses": 912595,
+    "neurons": 7826,
+    "left": 482768,
+    "right": 429827,
+    "labels": [
+     "ICL_L",
+     "ICL_R"
+    ]
+   },
+   "IPS": {
+    "synapses": 746105,
+    "neurons": 4593,
+    "left": 363891,
+    "right": 382214,
+    "labels": [
+     "IPS_L",
+     "IPS_R"
+    ]
+   },
+   "IntTct": {
+    "synapses": 646417,
+    "neurons": 7086,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "IntTct"
+    ]
+   },
+   "LA": {
+    "synapses": 318834,
+    "neurons": 10762,
+    "left": 117415,
+    "right": 201419,
+    "labels": [
+     "LA_L",
+     "LA_R"
+    ]
+   },
+   "LAL": {
+    "synapses": 1375008,
+    "neurons": 5516,
+    "left": 727487,
+    "right": 647521,
+    "labels": [
+     "LAL_L",
+     "LAL_R"
+    ]
+   },
+   "LH": {
+    "synapses": 1032499,
+    "neurons": 6457,
+    "left": 451992,
+    "right": 580507,
+    "labels": [
+     "LH_L",
+     "LH_R"
+    ]
+   },
+   "LO": {
+    "synapses": 8041134,
+    "neurons": 51998,
+    "left": 3481644,
+    "right": 4559490,
+    "labels": [
+     "LO_L",
+     "LO_R"
+    ]
+   },
+   "LOP": {
+    "synapses": 4342605,
+    "neurons": 27083,
+    "left": 1850091,
+    "right": 2492514,
+    "labels": [
+     "LOP_L",
+     "LOP_R"
+    ]
+   },
+   "LTct": {
+    "synapses": 789023,
+    "neurons": 5971,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "LTct"
+    ]
+   },
+   "MB_CA": {
+    "synapses": 456939,
+    "neurons": 4700,
+    "left": 209202,
+    "right": 247737,
+    "labels": [
+     "MB_CA_L",
+     "MB_CA_R"
+    ]
+   },
+   "MB_ML": {
+    "synapses": 854629,
+    "neurons": 6129,
+    "left": 460479,
+    "right": 394150,
+    "labels": [
+     "MB_ML_L",
+     "MB_ML_R"
+    ]
+   },
+   "MB_PED": {
+    "synapses": 104512,
+    "neurons": 5218,
+    "left": 48277,
+    "right": 56235,
+    "labels": [
+     "MB_PED_L",
+     "MB_PED_R"
+    ]
+   },
+   "MB_VL": {
+    "synapses": 297677,
+    "neurons": 4693,
+    "left": 142687,
+    "right": 154990,
+    "labels": [
+     "MB_VL_L",
+     "MB_VL_R"
+    ]
+   },
+   "ME": {
+    "synapses": 18681783,
+    "neurons": 85152,
+    "left": 8358660,
+    "right": 10323123,
+    "labels": [
+     "ME_L",
+     "ME_R"
+    ]
+   },
+   "MesoNm": {
+    "synapses": 3917636,
+    "neurons": 7385,
+    "left": 2101893,
+    "right": 1815743,
+    "labels": [
+     "LegNp_T2_L",
+     "LegNp_T2_R"
+    ]
+   },
+   "MetaNm": {
+    "synapses": 4449339,
+    "neurons": 7978,
+    "left": 2190882,
+    "right": 2258457,
+    "labels": [
+     "LegNp_T3_L",
+     "LegNp_T3_R"
+    ]
+   },
+   "NO": {
+    "synapses": 163428,
+    "neurons": 589,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "NO"
+    ]
+   },
+   "NTct": {
+    "synapses": 188264,
+    "neurons": 3069,
+    "left": 103026,
+    "right": 85238,
+    "labels": [
+     "NTct_UTct_T1_L",
+     "NTct_UTct_T1_R"
+    ]
+   },
+   "PB": {
+    "synapses": 158924,
+    "neurons": 770,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "PB"
+    ]
+   },
+   "PLP": {
+    "synapses": 1787080,
+    "neurons": 14396,
+    "left": 796885,
+    "right": 990195,
+    "labels": [
+     "PLP_L",
+     "PLP_R"
+    ]
+   },
+   "PRW": {
+    "synapses": 319102,
+    "neurons": 2090,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "PRW"
+    ]
+   },
+   "PVLP": {
+    "synapses": 3039498,
+    "neurons": 9993,
+    "left": 1424673,
+    "right": 1614825,
+    "labels": [
+     "PVLP_L",
+     "PVLP_R"
+    ]
+   },
+   "ProNm": {
+    "synapses": 2458020,
+    "neurons": 8012,
+    "left": 1444854,
+    "right": 1013166,
+    "labels": [
+     "LegNp_T1_L",
+     "LegNp_T1_R"
+    ]
+   },
+   "SAD": {
+    "synapses": 1163080,
+    "neurons": 6759,
+    "left": 0,
+    "right": 0,
+    "labels": [
+     "SAD"
+    ]
+   },
+   "SCL": {
+    "synapses": 761150,
+    "neurons": 10767,
+    "left": 360582,
+    "right": 400568,
+    "labels": [
+     "SCL_L",
+     "SCL_R"
+    ]
+   },
+   "SIP": {
+    "synapses": 863759,
+    "neurons": 7619,
+    "left": 432009,
+    "right": 431750,
+    "labels": [
+     "SIP_L",
+     "SIP_R"
+    ]
+   },
+   "SLP": {
+    "synapses": 1763004,
+    "neurons": 11985,
+    "left": 815835,
+    "right": 947169,
+    "labels": [
+     "SLP_L",
+     "SLP_R"
+    ]
+   },
+   "SMP": {
+    "synapses": 1860508,
+    "neurons": 9125,
+    "left": 950400,
+    "right": 910108,
+    "labels": [
+     "SMP_L",
+     "SMP_R"
+    ]
+   },
+   "SPS": {
+    "synapses": 1241043,
+    "neurons": 7832,
+    "left": 621321,
+    "right": 619722,
+    "labels": [
+     "SPS_L",
+     "SPS_R"
+    ]
+   },
+   "VES": {
+    "synapses": 1089464,
+    "neurons": 5021,
+    "left": 556830,
+    "right": 532634,
+    "labels": [
+     "VES_L",
+     "VES_R"
+    ]
+   },
+   "WED": {
+    "synapses": 1222722,
+    "neurons": 7995,
+    "left": 572371,
+    "right": 650351,
+    "labels": [
+     "WED_L",
+     "WED_R"
+    ]
+   },
+   "WTct": {
+    "synapses": 1304295,
+    "neurons": 4778,
+    "left": 681001,
+    "right": 623294,
+    "labels": [
+     "WTct_UTct_T2_L",
+     "WTct_UTct_T2_R"
+    ]
+   },
+   "mVAC": {
+    "synapses": 411405,
+    "neurons": 3545,
+    "left": 210546,
+    "right": 200859,
+    "labels": [
+     "mVAC_T1_L",
+     "mVAC_T1_R",
+     "mVAC_T2_L",
+     "mVAC_T2_R",
+     "mVAC_T3_L",
+     "mVAC_T3_R"
+    ]
+   },
+   "nerves": {
+    "synapses": 51851,
+    "neurons": 5162,
+    "left": 21265,
+    "right": 30586,
+    "labels": [
+     "ADMN_L",
+     "ADMN_R",
+     "AbN1_R",
+     "AbN2_L",
+     "AbN2_R",
+     "AbN3_L",
+     "AbN3_R",
+     "AbN4_L",
+     "AbN4_R",
+     "AbNT_L",
+     "AbNT_R",
+     "CvN_R",
+     "DMetaN_L",
+     "DMetaN_R",
+     "DProN_L",
+     "DProN_R",
+     "MesoAN_L",
+     "MesoAN_R",
+     "MesoLN_L",
+     "MesoLN_R",
+     "MetaLN_L",
+     "MetaLN_R",
+     "PDMN_L",
+     "PDMN_R",
+     "PrN_L",
+     "ProAN_L",
+     "ProAN_R",
+     "ProLN_L",
+     "ProLN_R",
+     "VProN_L",
+     "VProN_R"
+    ]
+   },
+   "unassigned": {
+    "synapses": 2149065,
+    "neurons": 85343,
+    "left": 284756,
+    "right": 101578,
+    "labels": [
+     "CB_UNASGD",
+     "CV_UNASGD",
+     "OL_UNASGD_L",
+     "OL_UNASGD_R",
+     "UNASGD",
+     "VNC_UNASGD"
+    ]
+   }
+  }
+ }
+}

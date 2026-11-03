@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vivarium · Fly Lab</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234d5a3d'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=1">
-<link rel="stylesheet" href="../feather.css?v=2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
 <style>
 :root{
-  --bg:#f6f1e7; --panel:#fbf8f1; --line:#e7e0d1; --ink:#1b1a17; --muted:#6d685d;
-  --sage:#4d5a3d; --sage-ink:#ffffff; --sage-tint:#e9ebdc; --chip:#efeadd;
-  --shadow:60,48,28; --ease:cubic-bezier(.22,.8,.24,1);
-  --serif:"Newsreader","Iowan Old Style",Georgia,serif;
-  --sans:"Nunito Sans","Segoe UI",system-ui,sans-serif;
+  --bg:#f1f4f7; --panel:#ffffff; --line:#dee3e9; --ink:#1c2b33; --muted:#5d6c7b;
+  --sage:#0064e0; --sage-ink:#ffffff; --sage-tint:#e8f3ff; --chip:#ebeff3;
+  --shadow:28,43,51; --ease:cubic-bezier(.22,.8,.24,1);
+  --serif:Inter,"Segoe UI",system-ui,sans-serif;
+  --sans:Inter,"Segoe UI",system-ui,sans-serif;
 }
 .hero[data-light="dusk"]{
-  --bg:#14170f; --panel:#1b1f15; --line:#2d3324; --ink:#f2ecdf; --muted:#a8a392;
-  --sage:#a9b98a; --sage-ink:#14170f; --sage-tint:#283020; --chip:#262b1d;
+  --bg:#18191a; --panel:#242526; --line:#3a3b3c; --ink:#e4e6eb; --muted:#b0b3b8;
+  --sage:#47a5fa; --sage-ink:#0b1a2c; --sage-tint:#1b3350; --chip:#2f3031;
   --shadow:0,0,0;
 }
 *{box-sizing:border-box}
@@ -146,6 +146,8 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
   padding:10px; border:1px solid var(--line); border-radius:8px; background:none; cursor:pointer;
   text-align:left; width:100%; transition:border-color .2s, background .2s; color:inherit; margin-bottom:0}
 .card article > .closeup{margin-top:auto}
+.calib{display:block;margin:10px 0 4px;padding:9px 12px;border-radius:10px;background:var(--chip);color:var(--muted);font-size:13px;line-height:1.45;text-decoration:none}
+.calib b{margin-right:4px}
 .closeup:hover{border-color:var(--sage); background:var(--sage-tint)}
 .closeup .lens{display:block; width:76px; height:76px; border-radius:50%; border:1px solid var(--line);
   background-size:520%}
@@ -170,6 +172,7 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
   .main{padding-left:20px}
 }
 /* ---------- phone ---------- */
+@media (min-width:761px){ .ground{bottom:24%} }
 @media (max-width:760px){
   .hero{display:flex; flex-direction:column; height:100dvh}
   .phonetop{display:flex; align-items:center; gap:10px; padding:10px 14px 0}
@@ -251,28 +254,26 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
 </svg>
 
 <div class="hero" id="hero" data-light="day">
-  <canvas id="gl"></canvas>
+  <canvas id="gl" aria-hidden="true"></canvas>
 
   <header id="navMount"></header>
 
   <div class="phonetop">
     <p class="brand">Fly Guide</p>
     <button id="phoneSearchBtn" class="iconbtn" aria-label="Search flies"><svg class="ic"><use href="#i-search"/></svg></button>
-    <button class="iconbtn" aria-label="Notifications"><svg class="ic"><use href="#i-bell"/></svg></button>
-    <button class="iconbtn avatar" aria-label="Account"><svg class="ic"><use href="#i-user"/></svg></button>
     <div class="psearch" id="phoneSearchWrap">
       <svg class="ic" style="width:15px;height:15px;color:var(--muted)"><use href="#i-search"/></svg>
       <input id="phoneSearchInput" type="text" placeholder="Try “maxime” or “hagrid”…" aria-label="Search flies">
     </div>
   </div>
 
-  <section class="main" aria-label="Specimen stage">
+  <section class="main" id="main" role="main" aria-label="Specimen stage">
     <ul class="tabs" id="tablist" role="tablist" aria-label="Flies">
-      <li><button class="tab" id="tab-maxime" role="tab" aria-selected="false" data-fly="0">
+      <li role="presentation"><button class="tab" id="tab-maxime" role="tab" aria-selected="false" data-fly="0">
         <svg aria-hidden="true"><use href="#flyglyph"/></svg>
         <span class="nm">Maxime</span><span class="lt">D. melanogaster ♀</span>
       </button></li>
-      <li><button class="tab" id="tab-hagrid" role="tab" aria-selected="true" data-fly="1">
+      <li role="presentation"><button class="tab" id="tab-hagrid" role="tab" aria-selected="true" data-fly="1">
         <svg aria-hidden="true"><use href="#flyglyph"/></svg>
         <span class="nm">Hagrid</span><span class="lt">D. melanogaster ♂</span>
       </button></li>
@@ -308,17 +309,14 @@ h2{font-family:var(--serif); font-weight:400; font-size:21px; margin:20px 0 4px;
       <label class="search"><svg class="ic"><use href="#i-search"/></svg>
         <input id="searchInput" type="text" placeholder="Search species, habitats, or regions…" autocomplete="off" aria-label="Search flies">
       </label>
-      <button class="iconbtn" aria-label="Notifications"><svg class="ic"><use href="#i-bell"/></svg></button>
-      <button class="iconbtn avatar" aria-label="Account"><svg class="ic"><use href="#i-user"/></svg></button>
     </div>
     <div class="card"><article id="detail" aria-live="polite"></article></div>
   </section>
 </div>
 
-<script src="../duo/auth.js?v=3"></script>
-<script src="../feather.js?v=2"></script>
+<script src="../feather.js?v=8"></script>
 <script>
-Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Vivarium', base: '../', current: 'flies' });
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Vivarium', base: '../', current: 'flies', profile: false });
 Feather.init();
 </script>
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js" } }</script>
@@ -346,11 +344,11 @@ const FLIES = [
     tax: [['Order', 'Diptera'], ['Family', 'Drosophilidae'], ['Genus', 'Drosophila'], ['Species', 'melanogaster']],
     lineage: 'Animalia › Arthropoda › Insecta › Diptera',
     tags: ['Female', 'BANC brain', 'Keen forager'],
-    desc: 'Maxime is our female fly, wired from the BANC connectome — every one of her 157,789 neurons mapped, joined by 3.0 million connections. Larger than Hagrid, with a pale striped abdomen tapering to a point, she walks open ground probing for yeast with her sponge-like proboscis, watching it all through two brick-red compound eyes.',
+    desc: 'Maxime is our female fly, wired from the BANC brain-and-nerve-cord connectome: 157,789 neurons in her scan (it has no lamina, the first layer behind the eye), joined by 1.5 million strong connections. Larger than Hagrid, with a pale striped abdomen tapering to a point, she walks open ground probing for yeast with her sponge-like proboscis, watching it all through two brick-red compound eyes.',
     traits: [
-      ['i-nodes', 'Neurons', '157,789 mapped'],
-      ['i-pulse', 'Synapses', '23.6 million'],
-      ['i-grid', 'Brain regions', '66 entries · 8 hubs · 58 neuropils'],
+      ['i-nodes', 'Neurons', '157,789 in her scan'],
+      ['i-pulse', 'Synapses', '18.5 million in strong connections'],
+      ['i-grid', 'Regions', '52 named brain and nerve-cord regions'],
       ['i-ruler', 'Body length', '≈ 2.5 mm · ≈ 1 mg'],
     ],
     home: 'A glass jar on the bench — her wild cousins haunt every orchard and compost heap.',
@@ -364,23 +362,23 @@ const FLIES = [
     tax: [['Order', 'Diptera'], ['Family', 'Drosophilidae'], ['Genus', 'Drosophila'], ['Species', 'melanogaster']],
     lineage: 'Animalia › Arthropoda › Insecta › Diptera',
     tags: ['Male', 'Male-CNS brain', 'Wing singer'],
-    desc: 'Hagrid is our male fly, wired from the Male CNS connectome — about 166,700 neurons and 9.0 million connections, the fullest map in the lab. Smaller and darker than Maxime, with a blunt soot-tipped abdomen and a comb of black bristles on each foreleg, he courts by vibrating one wing into song.',
+    desc: 'Hagrid is our male fly, wired from the male CNS brain-and-nerve-cord connectome: 166,700 neurons in his scan, joined by 6.2 million strong connections. Smaller and darker than Maxime, with a blunt soot-tipped abdomen and a comb of black bristles on each foreleg, he courts by vibrating one wing into song.',
     traits: [
-      ['i-nodes', 'Neurons', '166,700 mapped'],
-      ['i-pulse', 'Synapses', '89.9 million'],
-      ['i-grid', 'Brain regions', '66 entries · 8 hubs · 58 neuropils'],
+      ['i-nodes', 'Neurons', '166,700 in his scan'],
+      ['i-pulse', 'Synapses', '89.9 million in strong connections'],
+      ['i-grid', 'Regions', '52 named brain and nerve-cord regions'],
       ['i-ruler', 'Body length', '≈ 2.0 mm · under 1 mg'],
     ],
     home: 'The same glass jar — he guards his corner of the banana.',
     caption: 'He sings his courtship with one wing.',
-    closeup: 'The foreleg sex comb — a row of dark bristles found only on males, used to hold the female during courtship.',
+    closeup: 'The foreleg sex comb — a row of dark bristles found only on males, used to grip the female when he mounts her to mate.',
     lensPos: '62% 30%',
   },
 ];
 const SPECIES_ROWS = [
-  ['i-dna', 'Genome', '4 chromosome pairs · ≈ 13,600 genes'],
+  ['i-dna', 'Genome', '4 chromosome pairs · ≈ 14,000 protein-coding genes'],
   ['i-cycle', 'Life cycle', 'Egg to adult in ≈ 10 days at 25 °C'],
-  ['i-eye', 'Senses', 'Tastes with its feet · smells with its antennae'],
+  ['i-eye', 'Senses', 'Tastes with its feet · smells with antennae and palps'],
 ];
 // Hex-facet tile for the close-up lens (inline SVG, no assets).
 const FACET = 'url("data:image/svg+xml,' +
@@ -550,7 +548,7 @@ function agarTex() {
     stages.push(st);
   }
 }
-scene.fog = new THREE.Fog(0xf6f1e7, 9, 22);
+scene.fog = new THREE.Fog(0xf1f4f7, 9, 22);
 const camera = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
 camera.position.set(0, 0, 5);
 camera.lookAt(0, 0, 0);
@@ -561,8 +559,8 @@ key.position.set(2.5, 4, 5);
 const rim = new THREE.DirectionalLight(0xbfd8ff, 0.7);
 rim.position.set(-4, 2, -3);
 scene.add(hemi, key, rim);
-const DAY = { hemi: 0.8, key: 1.6, keyC: new THREE.Color(0xfff4e2), rim: 0.7, exp: 1.05, fog: new THREE.Color(0xf6f1e7) };
-const DUSK = { hemi: 0.25, key: 2.6, keyC: new THREE.Color(0xffc98a), rim: 1.9, exp: 1.0, fog: new THREE.Color(0x14170f) };
+const DAY = { hemi: 0.8, key: 1.6, keyC: new THREE.Color(0xfff4e2), rim: 0.7, exp: 1.05, fog: new THREE.Color(0xf1f4f7) };
+const DUSK = { hemi: 0.25, key: 2.6, keyC: new THREE.Color(0xffc98a), rim: 1.9, exp: 1.0, fog: new THREE.Color(0x18191a) };
 let duskW = 0, duskTarget = 0, brainSide = false;  // eased 0..1
 
 const HOME_Q = new THREE.Quaternion()
@@ -609,7 +607,7 @@ function buildRig(i) {
   pivot.position.x = i === 0 ? -SPREAD : SPREAD;
   pivot.visible = true;  // vivarium: both specimens on stage together
   const gait = -(i * 2.1);  // per-fly walk phase so they don't step in sync
-  rigs[i] = { pivot, spin, holder, model, proxies, gait, stride: 0, zoomK: 1, brain: null };
+  rigs[i] = { pivot, spin, holder, model, proxies, gait, stride: 0, zoomK: 1, brain: null, fly: i === 0 ? 'maxime' : 'hagrid' };
   buildBrain(rigs[i]);  // async; the fly stands without it until it lands
   return rigs[i];
 }
@@ -617,17 +615,18 @@ function buildRig(i) {
 // Real brain cloud seated in the stylized head (imagery: ../library/points).
 // Positions come from the data; the seating itself is placed by eye.
 const SOMAC_VIV = {
-  day: { optic: 0x2f5da3, central: 0x8a6d1a, sensory: 0x1e7d4f, visual_projection: 0x6a4fb3, descending: 0xb03a3a, ascending: 0xc26a8a, visual_centrifugal: 0x2a7f9e, motor: 0x555555, endocrine: 0x888888 },
-  dusk: { optic: 0x4c9be8, central: 0xf2b134, sensory: 0x3ec28f, visual_projection: 0x9b7bea, descending: 0xef5b5b, ascending: 0xff8fb1, visual_centrifugal: 0x7fd4e8, motor: 0xffffff, endocrine: 0xc0c0c0 },
+  day: { nerve_cord: 0x0e7490, optic: 0x2f5da3, central: 0x8a6d1a, sensory: 0x1e7d4f, visual_projection: 0x6a4fb3, descending: 0xb03a3a, ascending: 0xc26a8a, visual_centrifugal: 0x2a7f9e, motor: 0x555555, endocrine: 0x888888 },
+  dusk: { nerve_cord: 0x22d3ee, optic: 0x4c9be8, central: 0xf2b134, sensory: 0x3ec28f, visual_projection: 0x9b7bea, descending: 0xef5b5b, ascending: 0xff8fb1, visual_centrifugal: 0x7fd4e8, motor: 0xffffff, endocrine: 0xc0c0c0 },
 };
 async function buildBrain(rig) {
   try {
-    const [P, C, idx, PH] = await Promise.all([
-      fetch('../library/points/somas.bin').then(r => r.arrayBuffer()).then(b => new Float32Array(b)),
-      fetch('../library/points/classes.bin').then(r => r.arrayBuffer()).then(b => new Uint8Array(b)),
-      fetch('../library/points/index.json').then(r => r.json()),
-      fetch('../library/points/photoreceptors.bin').then(r => r.arrayBuffer()).then(b => new Float32Array(b)).catch(() => null),
+    // Each fly's OWN measured nervous system (brain + nerve cord): Maxime from BANC, Hagrid from the male CNS.
+    const [P, C, idx] = await Promise.all([
+      fetch(`../library/points/${rig.fly}_somas.bin`).then(r => r.arrayBuffer()).then(b => new Float32Array(b)),
+      fetch(`../library/points/${rig.fly}_classes.bin`).then(r => r.arrayBuffer()).then(b => new Uint8Array(b)),
+      fetch('../library/points/flies_index.json').then(r => r.json()),
     ]);
+    const PH = null;
     for (let i = 1; i < P.length; i += 3) P[i] = -P[i];  // FAFB +y runs down
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(P, 3));
@@ -715,11 +714,15 @@ function measure() {
   stageL = sb.left - hb.left; stageT = sb.top - hb.top;
   stageW = sb.width; stageH = sb.height;
   // Two specimens share the width: fit ~2.3 units of fly per half-stage.
-  const focus = hero.classList.contains('focus');
+  const focus = hero.classList.contains('focus'), wide = innerWidth > 760;
   tPx = focus
     ? Math.min(heroW * 0.30, heroH * 0.62) * 1.16
+    : wide ? Math.min(stageW * 0.125, stageH * 0.40) * 1.16
     : Math.min(stageW * 0.24, stageH * 0.62) * 1.16;
   retarget();
+  // keep the 3D scene inside the stage box (not under the info panel)
+  canvas.style.clipPath = (focus || !wide) ? 'none'
+    : `inset(${stageT}px ${Math.max(0, heroW - stageL - stageW)}px ${Math.max(0, heroH - stageT - stageH)}px ${stageL}px round 10px)`;
   renderer.setSize(heroW, heroH, false);
   camera.aspect = heroW / heroH;
   camera.updateProjectionMatrix();
@@ -731,7 +734,7 @@ function retarget() {
   const w = focus ? heroW : stageW;
   tCx = (focus ? heroW / 2 : stageL + stageW / 2) +
     (zoomTarget > 1.8 ? (active ? 1 : -1) * w * 0.20 : 0);
-  tCy = focus ? heroH * 0.5 : stageT + stageH * 0.44;
+  tCy = focus ? heroH * 0.5 : stageT + stageH * (innerWidth > 760 ? 0.50 : 0.44);
 }
 new ResizeObserver(measure).observe(hero);
 new ResizeObserver(measure).observe(stage);
@@ -1080,7 +1083,7 @@ labelBtn.addEventListener('click', () => {
 $('lightBtn').addEventListener('click', () => {
   const dusk = hero.dataset.light !== 'dusk';
   hero.dataset.light = dusk ? 'dusk' : 'day';
-  document.body.style.background = dusk ? '#14170f' : '';
+  document.body.style.background = dusk ? '#18191a' : '';
   duskTarget = dusk ? 1 : 0;
   $('lightBtn').setAttribute('aria-pressed', String(dusk));
   interact();
@@ -1152,6 +1155,7 @@ function infoHTML(i) {
     `<p class="lineage">${f.lineage}</p>` +
     `<div class="tags">` + f.tags.map((t) => `<span>${t}</span>`).join('') + `</div>` +
     `<p class="desc">${f.desc}</p>` +
+    `<p class="calib"><b>Experiments on this fly:</b> in progress. Today's experiments run on the FlyWire brain.</p>` +
     `<h2>Key traits</h2>` + rows(f.traits) +
     `<h2>The species</h2>` + rows(SPECIES_ROWS) +
     `<h2>Home</h2>` +
@@ -1160,16 +1164,16 @@ function infoHTML(i) {
     `<span class="lens" aria-hidden="true"></span>` +
     `<span><span class="ct">Close-up Detail</span><p>${f.closeup}</p></span>` +
     `<svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></button>` +
-    `<h2>Vivarium</h2>` +
-    `<div class="vivrow"><span id="vivDot" class="dot"></span><span id="vivStatus">Illustrated rest — lab offline.</span></div>` +
-    `<div class="vivrow dim" id="vivBoxes">Maxime · control box · Hagrid · treatment box</div>` +
+    `<h2>View</h2>` +
     `<div class="vivrow seg" role="group" aria-label="Cuticle">` +
     `<button data-cut="0" aria-pressed="true">Solid</button>` +
     `<button data-cut="1" aria-pressed="false">Ghost</button>` +
     `<button data-cut="2" aria-pressed="false">Hidden</button></div>` +
-    `<p class="fine">Real brain clouds seated by eye in stylized bodies, greatly magnified; ` +
-    `positions true. Movement and glow follow live sim numbers — or a resting guess when ` +
-    `the lab is offline. Not tracked motion. The jars, agar, bananas and sprigs are set-dressing.</p>`;
+    `<p class="fine">Brain and nerve cord: each fly\'s own measured cell bodies \u2014 Maxime from the BANC scan, Hagrid from the male CNS scan ` +
+    `(neurons without a recorded cell body, mostly sensory neurons whose bodies sit outside the brain, are not drawn). ` +
+    `Each scan is scaled to the same brain width; the two tissues were prepared and imaged differently, so compare shapes, not sizes. The two teams also detected and counted synapses differently, so compare patterns between the flies, not connection or synapse totals. ` +
+    `Strong connections = neuron pairs joined by 5 or more synapses. Bodies are stylized and the nervous system is greatly magnified; ` +
+    `the jars, agar, bananas and sprigs are set-dressing.</p>`;
 }
 
 function renderInfo(i) {
@@ -1216,8 +1220,8 @@ function boot() {
     showFallback('This specimen could not be prepared: ' + (err && err.message ? err.message : err));
     return;
   }
-  vivConnect();
-  tick();
+  tick();  // skeleton: no live link to the experiment sim
+
 }
 boot();
 </script>

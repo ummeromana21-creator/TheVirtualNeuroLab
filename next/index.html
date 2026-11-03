@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What's Next · Fly Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
+<style>
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); }
+.wrap { max-width:1080px; margin:0 auto; padding:34px 22px 60px; }
+h1 { font-size:clamp(30px,4.4vw,46px); line-height:1.06; margin:8px 0 12px; }
+h2 { font-size:26px; margin:46px 0 8px; }
+.lead { font-size:16px; line-height:1.6; color:var(--muted); max-width:780px; margin:0; }
+p, li { font-size:15px; line-height:1.6; }
+.sec-lead { color:var(--muted); max-width:780px; margin:0 0 14px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:18px; display:flex; flex-direction:column; gap:8px; }
+.card h3 { font-size:19px; margin:0; letter-spacing:-.01em; }
+.card p { margin:0; font-size:14.5px; }
+.card .meta { font-size:13px; color:var(--muted); }
+.tag { align-self:flex-start; font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:100px; }
+.t-new { background:var(--disc-bg); color:var(--disc-ink); } .t-known { background:var(--ok-bg); color:var(--ok-ink); } .t-open { background:var(--info-bg); color:var(--info-ink); }
+.t-prog { background:var(--sage-tint); color:var(--sage); } .t-plan { background:var(--chip); color:var(--muted); }
+.conf { display:flex; align-items:center; gap:8px; font-size:13.5px; }
+.bars { display:inline-flex; gap:3px; } .bars i { width:14px; height:8px; border-radius:3px; background:var(--line); display:inline-block; } .bars i.on { background:var(--sage); }
+.how { background:var(--note-bg); color:var(--note-ink); border-left:4px solid var(--note-edge); border-radius:12px; padding:14px 16px; font-size:14.5px; line-height:1.6; margin-top:14px; }
+.how ol { margin:6px 0 0; padding-left:20px; }
+a { color:inherit; }
+.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:34px; border-top:1px solid var(--line); padding-top:14px; }
+@media (max-width:640px) { .wrap { padding:24px 16px 50px; } }
+</style>
+</head>
+<body>
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+  <main class="wrap" id="main">
+    <span class="eyebrow">What's next</span>
+    <h1>Where the lab goes from here</h1>
+    <p class="lead">The lab has made its first predictions about a real fly brain. Some can only be settled in a real fly. Some of the
+      next steps are already under way, and some are plans. Each item below says which it is.</p>
+
+    <h2 id="waiting">Predictions waiting for a real-fly test</h2>
+    <p class="sec-lead">The Knockout Lab predicts that the fly needs these neurons to eat or drink. A simulation can't prove that; only an
+      experiment on living flies can. Each card says how sure we are and why. Full details of every run are in the
+      <a href="../experiments/notebook.html">lab notebook</a>.</p>
+    <div class="grid" id="preds"></div>
+    <div class="how"><b>How a fly lab could test one.</b>
+      <ol>
+        <li>Switch the neuron off in living flies, using a genetic tool that targets just that cell type.</li>
+        <li>Offer the flies water (or sugar) and count how often they extend their proboscis to drink.</li>
+        <li>Compare with flies whose neuron still works. If drinking drops, the prediction holds; if not, the model has missed something, and that's worth knowing too.</li>
+      </ol>
+      Whether a tool exists today that reaches only one of these cell types is something a fly lab would need to check.</div>
+
+    <h2>In progress</h2>
+    <div class="grid">
+      <div class="card"><span class="tag t-prog">In progress</span><h3>Experiments on Maxime and Hagrid</h3>
+        <p>Running the same tests on the lab's own two flies, a female (Maxime) and a male (Hagrid), each wired from its own scan. Both must pass the calibration test first, as the FlyWire brain did.</p></div>
+      <div class="card"><span class="tag t-prog">In progress</span><h3>Experiments on the worm</h3>
+        <p>The <a href="../worm/">worm</a> is in the lab with all 302 neurons and every known connection. Before any experiment, its simulated nervous system needs its own calibration test, for example the gentle-touch reflex mapped in living worms in 1985.</p></div>
+    </div>
+
+    <h2>Next experiments on the fly</h2>
+    <div class="grid">
+      <div class="card"><span class="tag t-plan">Planned</span><h3>More behaviours</h3>
+        <p>The same switch-off approach works for any behaviour with a known motor or command neuron: grooming the antennae (round 1 already checks its trigger), escaping, walking, and the male's courtship song.</p></div>
+      <div class="card"><span class="tag t-plan">Planned</span><h3>Switching neurons on, not just off</h3>
+        <p>Screen which single neurons can start a behaviour by themselves, then compare with real flies where results exist.</p></div>
+      <div class="card"><span class="tag t-plan">Planned</span><h3>Chemicals inside the simulation</h3>
+        <p>Today the model has wiring but no chemical messengers such as dopamine or the signals for hunger and thirst. Adding them would let the lab test what a substance does, not only what wiring does.</p></div>
+    </div>
+
+    <h2>More organisms</h2>
+    <p class="sec-lead">Wiring maps now exist for parts of several animals. Each would join the lab the way the worm did: anatomy first, then a calibration test, then experiments.</p>
+    <div class="grid">
+      <div class="card"><span class="tag t-prog">In the lab</span><h3>The worm <i>C. elegans</i></h3><p>All 302 neurons, the complete adult wiring map (Cook et al. 2019).</p></div>
+      <div class="card"><span class="tag t-plan">Candidate</span><h3>The fruit fly larva</h3><p>A complete map of the larval brain's wiring (Winding et al. 2023, <i>Science</i>).</p></div>
+      <div class="card"><span class="tag t-plan">Candidate</span><h3>The mouse</h3><p>A cubic millimetre of visual cortex mapped in full (MICrONS Consortium 2025, <i>Nature</i>).</p></div>
+      <div class="card"><span class="tag t-plan">Candidate</span><h3>A piece of human brain</h3><p>A cubic millimetre of human cortex mapped at synapse level (Shapson-Coe et al. 2024, <i>Science</i>).</p></div>
+    </div>
+
+    <p class="fine">Predictions come from <a href="../discover/screen.json">screen.json</a> and their uncertainty from 30 repeated runs each; the
+      confidence rule is explained in the <a href="../experiments/notebook.html#how-sure">lab notebook</a>. "No real-fly test known to us"
+      means we didn't find one; it doesn't mean no one has ever tested it.</p>
+  </main>
+</div>
+<script src="../feather.js?v=8"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: "What's next", base: '../', current: 'next', profile: false });
+Feather.init();
+(async () => {
+  const D = await (await fetch('../discover/screen.json?v=3')).json();
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const needed = D.neurons.filter(n => n.sugar_needed || n.water_needed);
+  const order = { 'new': 0, 'open': 1, 'known': 2 };
+  needed.sort((a, b) => order[a.status] - order[b.status] || (b.conf?.score || 0) - (a.conf?.score || 0));
+  const TAG = { new: ['t-new', 'New discovery candidate'], open: ['t-open', 'Known neuron, new prediction'], known: ['t-known', 'Agrees with a real-fly result'] };
+  document.getElementById('preds').innerHTML = needed.map(n => {
+    const what = [n.sugar_needed ? `eating (tongue signal ${Math.round(100 * n.sugar_drop)}% lower)` : '', n.water_needed ? `drinking (${Math.round(100 * n.water_drop)}% lower)` : ''].filter(Boolean).join(' and ');
+    const c = n.conf || {}; const [cls, word] = TAG[n.status] || TAG.open;
+    return `<div class="card"><span class="tag ${cls}">${word}</span><h3>${esc(n.label)}</h3>
+      <p>Predicted to be needed for ${what}.</p>
+      <div class="conf"><span class="bars" aria-hidden="true">${[1, 2, 3].map(k => `<i class="${k <= (c.score || 0) ? 'on' : ''}"></i>`).join('')}</span><b>${esc(c.level || '')}</b></div>
+      <p class="meta">${esc(c.why || '')}</p>
+      <p class="meta">${esc(n.status_text || '')}</p></div>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>

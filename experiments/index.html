@@ -3,86 +3,363 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Experiment Atlas · Fly Lab</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234d5a3d'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=1">
-<link rel="stylesheet" href="../feather.css">
-<link rel="stylesheet" href="style.css?v=1">
+<title>Taste Experiments · Fly Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=8">
+<style>
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); transition:background .6s, color .6s; }
+.wrap { max-width:1080px; margin:0 auto; padding:34px 22px 60px; }
+h1 { font-size:clamp(30px,4.4vw,46px); line-height:1.06; margin:8px 0 12px; letter-spacing:-.01em; }
+h2 { font-size:28px; margin:46px 0 8px; }
+.lead { font-size:16px; line-height:1.6; color:var(--muted); max-width:760px; margin:0; }
+p, li { font-size:15px; line-height:1.6; }
+.status { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:24px; }
+.st { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; text-decoration:none; color:inherit; }
+.st .dot { width:12px; height:12px; border-radius:50%; margin-top:6px; flex:none; }
+.st b { display:block; font-size:15px; }
+.st span { font-size:13px; color:var(--muted); line-height:1.45; }
+.ok .dot { background:#2f8a4e; } .no .dot { background:#c08a1e; }
+/* bench */
+.bench { display:grid; grid-template-columns:340px 1fr; gap:16px; margin-top:16px; }
+.ctrl, .stage { background:var(--panel); border:1px solid var(--line); border-radius:16px; }
+.ctrl { padding:18px; display:flex; flex-direction:column; gap:16px; }
+.knob .lab { display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:6px; }
+.knob .lab small { font-weight:400; color:var(--muted); }
+.seg { display:flex; gap:6px; flex-wrap:wrap; }
+.seg button { flex:1; min-width:52px; background:var(--chip); border:1px solid var(--line); border-radius:10px; padding:8px 0; cursor:pointer; font-size:13.5px; }
+.seg button[aria-pressed="true"] { border-color:transparent; color:#fff; font-weight:700; }
+.k-sugar .seg button[aria-pressed="true"] { background:#a35d00; }
+.k-bitter .seg button[aria-pressed="true"] { background:#6b4fa3; }
+.k-water .seg button[aria-pressed="true"] { background:#2f6fb0; }
+.presets { display:flex; flex-wrap:wrap; gap:6px; }
+.presets button { background:none; border:1px dashed var(--line); border-radius:999px; padding:5px 11px; font-size:12.5px; cursor:pointer; color:var(--muted); }
+.run { background:var(--sage); color:var(--sage-ink); border:none; border-radius:12px; padding:12px; font-size:16px; font-weight:700; cursor:pointer; }
+.meter { border-top:1px solid var(--line); padding-top:14px; }
+.meter .big { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:28px; line-height:1.1; margin:2px 0 8px; }
+.meter .track { height:14px; border-radius:99px; background:var(--chip); overflow:hidden; }
+.meter .fill { height:100%; width:0; background:linear-gradient(90deg,#e8b04a,#c2187a); transition:width .9s var(--ease); }
+.meter .sub { font-size:12.5px; color:var(--muted); margin-top:6px; line-height:1.5; }
+.spark { margin-top:10px; font-size:13.5px; line-height:1.55; background:var(--info-bg); color:var(--info-ink); border-radius:10px; padding:9px 11px; }
+.spark small { display:block; font-size:11px; opacity:.8; margin-top:4px; }
+.stage { position:relative; min-height:520px; overflow:hidden; }
+#gl { position:absolute; inset:0; }
+#gl canvas { display:block; width:100%; height:100%; }
+.legend { position:absolute; left:12px; bottom:10px; display:flex; flex-wrap:wrap; gap:10px; font-size:12px; color:var(--muted); background:color-mix(in srgb,var(--panel) 85%,transparent); padding:6px 10px; border-radius:10px; }
+.legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:-1px; }
+.hint { position:absolute; right:12px; top:10px; font-size:12px; color:var(--muted); }
+.story { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:14px; }
+.story h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:21px; margin:0 0 10px; }
+.story ol { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+.story li { display:grid; grid-template-columns:28px 1fr; gap:10px; align-items:start; font-size:14.5px; line-height:1.55; opacity:.35; transition:opacity .5s; }
+.story li.on { opacity:1; }
+.story li .k { width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:12.5px; font-weight:700; color:#fff; background:var(--muted); }
+.story .sum { margin-top:12px; font-size:14.5px; line-height:1.55; border-top:1px solid var(--line); padding-top:10px; }
+.why { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:14px; font-size:14.5px; line-height:1.6; }
+.why b { font-weight:700; }
+.why a { color:inherit; text-decoration:underline; }
+.why ul { margin:8px 0 0; padding-left:20px; display:flex; flex-direction:column; gap:6px; }
+.cap { font-size:12.5px; color:var(--muted); margin-top:8px; line-height:1.55; }
+/* cards */
+.score { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-top:8px; }
+.score .n { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:52px; line-height:1; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px; margin-top:18px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:18px; display:flex; flex-direction:column; gap:10px; }
+.card .top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+.card h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:21px; margin:0; line-height:1.2; }
+.card .id { font-size:11.5px; letter-spacing:.12em; color:var(--muted); font-weight:700; }
+.badge { font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap; }
+.b-ok { background:var(--ok-bg); color:var(--ok-ink); } .b-miss { background:var(--err-bg); color:var(--err-ink); } .b-mix { background:var(--warn-bg); color:var(--warn-ink); }
+.row { font-size:14px; line-height:1.55; }
+.row .t { display:block; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:2px; }
+.parts { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+.parts li { font-size:13.5px; line-height:1.5; padding:7px 10px; border-radius:10px; background:var(--bg); }
+.parts li b { margin-right:6px; }
+.parts .y b { color:#2f8a4e; } .parts .x b { color:#b03a3a; }
+.fp { font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--muted); }
+.note2 { background:var(--note-bg); color:var(--note-ink); border-left:4px solid var(--note-edge); border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.55; margin-top:16px; }
+.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:34px; border-top:1px solid var(--line); padding-top:14px; }
+.mono { font-family:ui-monospace,Menlo,monospace; font-size:12px; }
+@media (max-width:820px) { .bench { grid-template-columns:1fr; } .stage { min-height:380px; } }
+@media (max-width:640px) { .wrap { padding:24px 16px 50px; } .cards { grid-template-columns:1fr; } }
+.infer { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+.infer > div { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
+.infer h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:20px; margin:0 0 8px; }
+.infer ol, .infer ul { margin:0; padding-left:20px; display:flex; flex-direction:column; gap:9px; font-size:14.5px; line-height:1.55; }
+.infer .limits { grid-column:1 / -1; background:var(--bg); }
+.infer a { color:inherit; text-decoration:underline; }
+@media (max-width:820px) { .infer { grid-template-columns:1fr; } }
+</style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
-    <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
-    <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4"/><path d="M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/></symbol>
-    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
-  </defs>
-</svg>
-
 <div class="hero" id="hero" data-light="day">
   <header id="navMount"></header>
-  <section id="atlasView">
-    <header class="top">
-      <div class="brand"><h1>Experiment Atlas</h1><p id="sub">Every experiment the lab can run — nothing invented.</p></div>
-      <div class="topsearch">
-        <svg class="ic"><use href="#i-search"/></svg>
-        <input id="q" type="text" placeholder="Search experiments, drugs, measures…" autocomplete="off" aria-label="Search experiments">
-      </div>
-      <button id="filterBtn" class="iconbtn" aria-label="Toggle filters"><svg class="ic"><use href="#i-filter"/></svg></button>
-      <button id="lightBtn" class="iconbtn" data-light-toggle aria-label="Toggle day and dusk" aria-pressed="false"><svg class="ic"><use href="#i-sun"/></svg></button>
-    </header>
-    <p id="counts" class="counts" aria-live="polite"></p>
-    <div class="wrap">
-      <aside class="filters" id="filterPanel" aria-label="filters">
-        <div class="grp"><span class="cap">Kind</span><div id="kinds" class="chips"></div></div>
-        <div class="grp"><span class="cap">Real flies</span><div id="reals" class="chips"></div></div>
-        <div class="grp"><span class="cap">Our lab</span><div id="labs" class="chips"></div></div>
-        <div class="grp"><span class="cap">Sort by</span>
-          <select id="sort" aria-label="Sort experiments">
-            <option value="name">Name A–Z</option>
-            <option value="kind">Kind, then name</option>
-            <option value="lab">Lab status, then name</option>
-          </select>
+  <main class="wrap">
+    <span class="eyebrow">Experiments</span>
+    <h1 class="serif">Taste experiments on a real fly brain</h1>
+    <p class="lead">Every experiment here runs on the FlyWire brain: all 139,000 neurons of a real female fruit fly, wired
+      exactly as they were mapped under the microscope, firing under the rules of a published brain model. Nothing is tuned to get the
+      "right" answer. The rules for passing were saved before each run, and misses stay on the page. Every experiment is written up in full in the <a href="notebook.html">lab notebook</a>.</p>
+
+    <div class="status" id="status"></div>
+
+    <h2 class="serif">The Taste Bench</h2>
+    <p class="lead" style="font-size:15px">Put tastes on the fly's tongue and see what its brain does. The fly sticks out its tongue
+      (its proboscis) when one motor neuron, <b>MN9</b>, fires. Each combination is a real simulation run, recorded in advance.</p>
+    <div class="bench">
+      <div class="ctrl">
+        <div class="knob k-sugar"><div class="lab">Sugar <small>signal per second</small></div><div class="seg" data-k="s"></div></div>
+        <div class="knob k-bitter"><div class="lab">Bitter <small>e.g. caffeine</small></div><div class="seg" data-k="b"></div></div>
+        <div class="knob k-water"><div class="lab">Water <small>signal per second</small></div><div class="seg" data-k="w"></div></div>
+        <div class="presets" id="presets"></div>
+        <button class="run" id="run">Run</button>
+        <div class="meter" aria-live="polite">
+          <div class="dim">Tongue motor neuron (MN9)</div>
+          <div class="big" id="verdict">Pick some tastes and press Run</div>
+          <div class="track"><div class="fill" id="fill"></div></div>
+          <div class="sub" id="msub">&nbsp;</div>
+          <div class="spark" id="spark" hidden></div>
         </div>
-        <p id="count" class="note"></p>
-      </aside>
-      <main><div id="grid" class="grid"></div></main>
-    </div>
-  </section>
-
-  <!-- ============ DETAIL VIEW ============ -->
-  <section id="detailView" hidden>
-    <div class="dtop">
-      <button id="backBtn" class="pillbtn"><svg class="ic"><use href="#i-back"/></svg>Atlas &amp; filters</button>
-      <div class="dtopright">
-        <button id="prevBtn" class="pillbtn" aria-label="Previous experiment">‹ Prev</button>
-        <button id="nextBtn" class="pillbtn" aria-label="Next experiment">Next ›</button>
+      </div>
+      <div class="stage">
+        <div id="gl"></div>
+        <div class="hint">drag to turn · scroll to zoom</div>
+        <div class="legend">
+          <span><i style="background:#c27c0e"></i>sugar neurons</span><span><i style="background:#6b4fa3"></i>bitter neurons</span>
+          <span><i style="background:#2f6fb0"></i>water neurons</span><span><i style="background:#c2187a"></i>other neurons that fired</span>
+          <span><i style="background:#111;box-shadow:0 0 0 2px #ffd23f"></i>MN9</span>
+        </div>
       </div>
     </div>
-    <div class="dwrap">
-      <nav id="sibNav" class="sibs" aria-label="Experiments in this filter"></nav>
-      <div class="stagecol">
-        <figure id="dfig" class="dfig"></figure>
-        <p id="dcap" class="dcap"></p>
-      </div>
-      <aside class="info"><div class="card"><article id="detail" aria-live="polite"></article></div></aside>
+    <div class="story" aria-live="polite">
+      <h3>What's happening in the brain</h3>
+      <ol id="steps"></ol>
+      <div class="sum" id="ssum"></div>
     </div>
-  </section>
+    <p class="cap" id="bcap"></p>
 
-  <footer class="cite">
-    <strong>Data &amp; honesty.</strong> Every card is built from files in the lab:
-    the drug library (<span class="mono">substances.py</span>), the validation claims
-    (<span class="mono">validation.md</span> P1–P7), saved runs (<span class="mono">notebook/*.json</span>),
-    and the connectome comparison (<span class="mono">comparative/FINDINGS.md</span>).
-    Structures come from the Guide to Pharmacology (offline copy) and PubChem;
-    “structure not found” means neither had it. Rebuilt with
-    <span class="mono">experiments/build.py</span> — <span id="gen"></span>.
-  </footer>
+    <h2 class="serif" id="r1">Round 1: an exam on things already known</h2>
+    <div class="why">
+      <b>Why test results that are already known?</b> These are not discoveries. Each one was found in living flies years ago.
+      We use them as an exam for the simulated brain, the way you'd test a new thermometer in water you already know is 100&nbsp;°C.
+      <ul>
+        <li><b>The brain was not adjusted to pass.</b> The wiring comes straight from the microscope scan and the settings are
+          exactly the ones published in 2024. We didn't change a single number to make it match.</li>
+        <li><b>The pass mark was written down before the run</b>, with a timestamp, so we couldn't move the goalposts once we saw the answer.
+          The fingerprint on each card would change if anything were edited later.</li>
+        <li><b>Why it matters:</b> the score tells you how far to trust the brain when it predicts things nobody has tested yet,
+          which is what the <a href="../discover/">Knockout Lab</a> does. The misses matter too: they show where it's weaker.</li>
+      </ul>
+    </div>
+    <p class="lead" style="font-size:15px" id="r1lead"></p>
+    <div class="score" id="score"></div>
+    <div class="cards" id="cards"></div>
+    <div class="note2" id="r1note"></div>
+
+
+    <h2 class="serif" id="infer">What we infer, and why it matters</h2>
+    <div class="infer">
+      <div>
+        <h3>What these results tell us</h3>
+        <ol>
+          <li><b>Much of taste behaviour is written in the wiring.</b> With nothing but the scanned connections and one simple
+            rule for how neurons fire, the brain gets the basics right: sugar brings the tongue out, more sugar pushes harder,
+            bitter alone does nothing, and water works through its own neurons.</li>
+          <li><b>Bitter is built to win.</b> In the bench, bitter cuts the sugar response from 65 to 0.1 firings a second, and
+            with strong bitter, even double-strength sugar barely gets through (11 a second). A "safety first" design, which makes sense: tasting
+            poison should overrule wanting food.</li>
+          <li><b>Signals add up.</b> Sugar and water together push the tongue neuron harder than either alone (83 vs 65 for sugar).</li>
+          <li><b>Wiring isn't the whole story.</b> The brain passed 10 of 15 checks. Results driven by whole groups of sensory
+            neurons came out right; the misses all involve single named neurons. Something beyond the wiring, such as chemical
+            signals for hunger or thirst, seems to shape those.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>How this can help in the real world</h3>
+        <ul>
+          <li><b>Fewer animal experiments.</b> A brain that passes known checks can be used to try ideas first, so real labs
+            only test the most promising ones. The <a href="../discover/">Knockout Lab</a> does exactly this.</li>
+          <li><b>Trust, measured.</b> Brain simulations are becoming a common research tool. Scoring one honestly against
+            known results, misses included, shows when its predictions are worth acting on.</li>
+          <li><b>How brains weigh reward against danger.</b> The bitter-beats-sugar rule is a simple, fully mapped example of
+            a decision every animal makes. Flies are widely used to study how brains work because so much of
+            their biology is shared with ours: most genes linked to human disease have a counterpart in the fly (Reiter et al. 2001, <i>Genome Research</i>).</li>
+          <li><b>Insect feeding.</b> Knowing which taste signals stop an insect from eating is the basis of feeding deterrents.
+            Whether this fly's wiring carries over to pest species would need testing in those species.</li>
+        </ul>
+      </div>
+      <div class="limits"><b>What it doesn't tell us.</b> This is a model of one female fly's brain, with no body, no hunger or
+        thirst state and no chemical messengers. It shows what the wiring <i>can</i> do, not everything a living fly does.</div>
+    </div>
+    <h2 class="serif">How to read this</h2>
+    <ul>
+      <li><b>Who chose these experiments?</b> A rule written before any run: every result in the 2024 brain-model study
+        (Shiu et al., <i>Nature</i>) that was tested in living flies, names its neurons, and uses neurons listed in the authors'
+        public code. That rule includes results the original model got wrong, so we can't pick only the easy ones.</li>
+      <li><b>Can the lab bend itself to match?</b> No. The brain uses the published settings and never sees the real-fly answer.
+        The fingerprint on each card would change if the engine, the wiring or the saved rules were edited.</li>
+      <li><b>What a miss means:</b> wiring plus this simple neuron model isn't enough to explain that behaviour. That's useful:
+        it points to what the model is missing (for example, chemical signals that aren't in the wiring diagram).</li>
+      <li><b>Which brain?</b> Every experiment here runs on the FlyWire brain, which passed the <a href="calibration.html">calibration test</a> first. Experiments on Maxime and Hagrid: in progress.</li>
+    </ul>
+
+    <p class="fine">Brain: FlyWire v783 (Dorkenwald et al. 2024; Schlegel et al. 2024), wiring as released with Shiu et al. 2024.
+      Engine: <span class="mono">tools/lif_engine.py</span>, checked against the authors' own code. Runs: <span class="mono">tools/run_flywire_round1.py</span>,
+      <span class="mono">tools/run_bench.py</span>. Rules: <a href="round1_preregistration.json">round1_preregistration.json</a>.
+      Results: <a href="round1.json">round1.json</a>. Caffeine is tasted by the fly's bitter neurons (Moon et al. 2006, <i>Curr Biol</i> 16:1812);
+      the model switches those neurons on, it does not simulate the chemical itself.</p>
+  </main>
 </div>
+<script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
+<script src="../feather.js?v=8"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Experiments', base: '../', current: 'experiments', profile: false });
+Feather.init();
+</script>
+<script type="module">
+import * as T from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+const $ = id => document.getElementById(id);
+const f1 = x => (Math.round(x * 10) / 10).toLocaleString('en-US');
+const [R1, BENCH, SPARK] = await Promise.all([fetch('round1.json?v=1').then(r => r.json()), fetch('bench.json?v=1').then(r => r.json()),
+  fetch('bench_narration.json?v=1').then(r => r.ok ? r.json() : null).catch(() => null)]);
 
-<script src="../duo/auth.js"></script>
-<script src="../feather.js?v=2"></script>
-<script>Feather.topbar(document.getElementById('navMount'), { brand: 'Fly Lab', sub: 'Experiment Atlas', base: '../', current: 'experiments' }); Feather.init();</script>
-<script src="app.js?v=3"></script>
+// ---------- status strip ----------
+const cal = R1.calibration;
+$('status').innerHTML = `
+  <a class="st ${cal.passed ? 'ok' : 'no'}" href="#r1"><span class="dot"></span><div><b>FlyWire brain · ${cal.passed ? 'calibrated ✓' : 'did not pass calibration'}</b>
+    <span>Sugar → MN9 ${f1(cal.mn9.sugar_100)}/s, bitter alone ${f1(cal.mn9.bitter_200)}/s, bitter + sugar ${f1(cal.mn9.sugar_100_bitter_200)}/s;
+    ${cal.active.sugar_100} neurons fired. All calibration rules met: ${Object.values(cal.criteria).every(Boolean) ? 'yes' : 'no'}.</span></div></a>
+`;
+
+// ---------- round 1 cards ----------
+const T1 = R1.totals;
+$('r1lead').textContent = `Pass marks written down ${R1.prereg.written.split(',')[0].replace('T', ' at ').replace('Z', ' UTC')}, before the runs. Each card shows what was already known from real flies, the pass mark, and what the simulated brain did.`;
+$('score').innerHTML = `<span class="n">${T1.matched} of ${T1.total}</span><span class="lead" style="font-size:15px">real-fly results matched by the untouched brain wiring</span>`;
+$('cards').innerHTML = R1.experiments.map(e => {
+  const cls = e.matched === e.total ? 'b-ok' : e.matched === 0 ? 'b-miss' : 'b-mix';
+  const word = e.matched === e.total ? 'Matches real flies' : e.matched === 0 ? 'Miss' : `Partly matches (${e.matched}/${e.total})`;
+  return `<article class="card"><div class="top"><div><div class="id">${e.id}</div><h3>${e.title}</h3></div><span class="badge ${cls}">${word}</span></div>
+    <div class="row"><span class="t">Already known from real flies</span>${e.real} <span style="color:var(--muted)">(${e.ref})</span></div>
+    <div class="row"><span class="t">Pass mark (written before the run)</span>${e.rule}</div>
+    <div class="row"><span class="t">What the simulated brain did</span><ul class="parts">${e.parts.map(p => `<li class="${p.ok ? 'y' : 'x'}"><b>${p.ok ? '✓' : '✗'}</b>${p.label}</li>`).join('')}</ul></div>
+    ${e.note ? `<div class="row" style="font-size:13.5px;color:var(--muted)">${e.note}</div>` : ''}
+    <div class="fp" title="${R1.fingerprint_note}">fingerprint ${R1.fingerprint}</div></article>`;
+}).join('');
+$('r1note').innerHTML = R1.note_html || '';
+
+// ---------- taste bench ----------
+const LV = { s: [0, 50, 100, 200], b: [0, 100, 200], w: [0, 200] };
+const sel = { s: 100, b: 0, w: 0 };
+document.querySelectorAll('.seg').forEach(seg => {
+  const k = seg.dataset.k;
+  seg.innerHTML = LV[k].map(v => `<button data-v="${v}" aria-pressed="${v === sel[k]}">${v === 0 ? 'none' : v}</button>`).join('');
+  seg.addEventListener('click', ev => { const b = ev.target.closest('button'); if (!b) return; sel[k] = +b.dataset.v;
+    seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); });
+});
+const PRE = [['Sugar', { s: 100, b: 0, w: 0 }], ['Sugar + caffeine', { s: 100, b: 200, w: 0 }], ['Weak sugar', { s: 50, b: 0, w: 0 }],
+             ['Water', { s: 0, b: 0, w: 200 }], ['Caffeine alone', { s: 0, b: 200, w: 0 }], ['Strong sugar + caffeine', { s: 200, b: 200, w: 0 }]];
+$('presets').innerHTML = PRE.map(([l], i) => `<button data-i="${i}">${l}</button>`).join('');
+$('presets').addEventListener('click', ev => { const b = ev.target.closest('button'); if (!b) return; Object.assign(sel, PRE[+b.dataset.i][1]);
+  document.querySelectorAll('.seg').forEach(seg => seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(+x.dataset.v === sel[seg.dataset.k])))); go(); });
+
+// 3D
+const pos = new Float32Array(await (await fetch('../anatomy/celltypes/positions.bin')).arrayBuffer());
+const N = pos.length / 3;
+const wrap = $('gl');
+const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(2, devicePixelRatio));
+wrap.appendChild(renderer.domElement);
+const scene = new T.Scene();
+const cam = new T.PerspectiveCamera(32, 1, 1, 5000); cam.position.set(0, 60, 1400);
+const ctl = new OrbitControls(cam, renderer.domElement); ctl.enableDamping = true; ctl.autoRotate = true; ctl.autoRotateSpeed = 0.6;
+const dotTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+  const r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.6, 'rgba(255,255,255,.9)'); r.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = r; g.fillRect(0, 0, 64, 64); return new T.CanvasTexture(c); })();
+const P = (i, out, k) => { out[k] = pos[3 * i]; out[k + 1] = -pos[3 * i + 1]; out[k + 2] = pos[3 * i + 2]; };
+{ // faint whole brain, every 3rd neuron
+  const n = Math.floor(N / 3), a = new Float32Array(3 * n);
+  for (let j = 0; j < n; j++) P(3 * j, a, 3 * j);
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(a, 3));
+  const dark = () => document.getElementById('hero').dataset.light === 'dusk';
+  const m = new T.PointsMaterial({ size: 3, map: dotTex, transparent: true, opacity: .22, depthWrite: false, color: 0x8a8576 });
+  scene.add(new T.Points(g, m));
+}
+let lit = null, mn9Mark = null;
+function fit() { const w = wrap.clientWidth, h = wrap.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
+new ResizeObserver(fit).observe(wrap); fit();
+(function loop() { ctl.update(); renderer.render(scene, cam); requestAnimationFrame(loop); })();
+
+const COL = { sugar: new T.Color('#c27c0e'), bitter: new T.Color('#6b4fa3'), water: new T.Color('#2f6fb0'), other: new T.Color('#c2187a') };
+const role = {}; for (const k of ['sugar', 'bitter', 'water']) for (const i of BENCH.inputs[k]) role[i] = k;
+let anim = 0;
+function go() {
+  const key = `s${sel.s}_b${sel.b}_w${sel.w}`, r = BENCH.runs[key];
+  const on = { sugar: sel.s > 0, bitter: sel.b > 0, water: sel.w > 0 };
+  if (lit) { scene.remove(lit); lit.geometry.dispose(); }
+  if (mn9Mark) { scene.remove(mn9Mark); }
+  const n = r.idx.length, a = new Float32Array(3 * n), c = new Float32Array(3 * n), dist = new Float32Array(n);
+  // display order: neurons light up outward from the taste neurons (for display only)
+  let cx = 0, cy = 0, cz = 0, m = 0;
+  r.idx.forEach((i, j) => { P(i, a, 3 * j); if (role[i] && (sel[role[i][0]] || 0) > 0) { cx += a[3 * j]; cy += a[3 * j + 1]; cz += a[3 * j + 2]; m++; } });
+  if (m) { cx /= m; cy /= m; cz /= m; }
+  r.idx.forEach((i, j) => { dist[j] = Math.hypot(a[3 * j] - cx, a[3 * j + 1] - cy, a[3 * j + 2] - cz);
+    const col = COL[role[i] || 'other'].clone(); const k = Math.min(1, 0.35 + r.rate[j] / 80); col.multiplyScalar(k); c.set([col.r, col.g, col.b], 3 * j); });
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(a, 3)); g.setAttribute('color', new T.BufferAttribute(c, 3));
+  const isIn = j => role[r.idx[j]] && on[role[r.idx[j]]];
+  const order = [...Array(n).keys()].sort((x, y) => (isIn(y) - isIn(x)) || (dist[x] - dist[y]));
+  const ia = new Uint32Array(order); g.setIndex(new T.BufferAttribute(ia, 1)); g.setDrawRange(0, 0);
+  lit = new T.Points(g, new T.PointsMaterial({ size: 11, map: dotTex, transparent: true, vertexColors: true, depthWrite: false }));
+  scene.add(lit);
+  const mp = new Float32Array(3 * BENCH.mn9.length); BENCH.mn9.forEach((i, j) => P(i, mp, 3 * j));
+  const mg = new T.BufferGeometry(); mg.setAttribute('position', new T.BufferAttribute(mp, 3));
+  mn9Mark = new T.Points(mg, new T.PointsMaterial({ size: 26, map: dotTex, transparent: true, color: r.mn9 >= 10 ? 0xffd23f : 0x555555, depthWrite: false }));
+  scene.add(mn9Mark);
+  // ---- plain-language story, built from this run's numbers ----
+  const nIn = { sugar: 0, bitter: 0, water: 0 }; let nOther = 0;
+  r.idx.forEach(i => { const k = role[i]; if (k && on[k]) nIn[k]++; else nOther++; });
+  const tastes = ['sugar', 'bitter', 'water'].filter(k => on[k]);
+  const tName = { sugar: 'sugar', bitter: 'bitter (like caffeine)', water: 'water' };
+  const S = [];
+  if (!tastes.length) S.push(['Nothing on the tongue', 'No taste neurons are switched on, so there is nothing for the brain to react to.']);
+  else S.push(['Taste on the tongue', `We switch on the fly's ${tastes.map(k => `<b>${tName[k]}</b>`).join(' and ')} taste neurons: ${tastes.map(k => `${nIn[k]} ${k} neurons`).join(', ')} (coloured dots). This is the only thing we do; everything after this is the brain's own wiring at work.`]);
+  if (tastes.length) S.push(['The message spreads', nOther ? `They pass the signal on through their connections. <b>${nOther.toLocaleString('en-US')}</b> other neurons fire in response (pink dots), out of 139,255 in the brain. Brighter dots fired more.` : 'Almost nothing else fires in response.']);
+  if (tastes.length) S.push(['The tongue neuron decides', r.mn9 >= 10 ? `The signal reaches <b>MN9</b>, the motor neuron that moves the tongue. It fires <b>${f1(r.mn9)}</b> times a second, above the line of 10, so <b>the tongue comes out</b> (yellow ring).`
+    : `<b>MN9</b>, the motor neuron that moves the tongue, fires only <b>${f1(r.mn9)}</b> times a second, below the line of 10, so <b>the tongue stays in</b> (grey ring).`]);
+  let sum = '';
+  const nb = BENCH.runs[`s${sel.s}_b0_w${sel.w}`].mn9;
+  if (on.bitter && (on.sugar || on.water)) sum = (r.mn9 >= 10 ? `Bitter weakened the response (MN9 ${f1(nb)} → ${f1(r.mn9)} per second) but didn't stop it at this strength.`
+    : `Bitter won: it cut MN9 from ${f1(nb)} to ${f1(r.mn9)} per second, so the fly refuses.`) + (on.sugar ? ' Real flies also refuse sugar mixed with bitter.' : '');
+  else if (on.bitter) sum = 'Bitter alone never tells the tongue to come out. Real flies behave the same way.';
+  else if (on.sugar && on.water) sum = 'Sugar and water both push MN9, so the response adds up.';
+  else if (on.sugar) sum = sel.s >= 200 ? 'More sugar, stronger push on MN9.' : sel.s <= 50 ? 'Weak sugar still gets the tongue out, just with a softer push.' : 'Sugar is tasted, the signal travels through the feeding circuit, and the tongue comes out, as in real flies.';
+  else if (on.water) sum = 'Water is tasted by its own neurons, and they also reach MN9, so a thirsty fly drinks.';
+  $('steps').innerHTML = S.map(([h, t], j) => `<li data-j="${j}"><span class="k" style="background:${j === 0 ? '#c27c0e' : j === 1 ? '#c2187a' : '#111'}">${j + 1}</span><div><b>${h}.</b> ${t}</div></li>`).join('');
+  $('ssum').innerHTML = sum; $('ssum').style.opacity = 0;
+  const stepOn = j => { const li = document.querySelector(`#steps li[data-j="${j}"]`); if (li) li.classList.add('on'); };
+  stepOn(0);
+  const nTaste = r.idx.filter(i => role[i] && on[role[i]]).length;
+  const t0 = performance.now(), id = ++anim;
+  $('fill').style.width = '0%'; $('verdict').textContent = 'Running…';
+  // phase 1 (0-0.9 s): taste neurons; phase 2 (0.9-3.4 s): everything else; then MN9
+  mn9Mark.visible = false;
+  (function step() { if (id !== anim) return; const e = (performance.now() - t0) / 1000;
+    const k = e < 0.9 ? Math.round(nTaste * Math.min(1, e / 0.6)) : nTaste + Math.round((n - nTaste) * Math.min(1, (e - 0.9) / 2.5));
+    g.setDrawRange(0, k); if (e >= 0.9) stepOn(1);
+    if (e < 3.6) requestAnimationFrame(step); else done(); })();
+  function done() {
+    mn9Mark.visible = true; stepOn(2); $('ssum').style.opacity = 1; $('ssum').style.transition = 'opacity .5s';
+    $('fill').style.width = Math.min(100, r.mn9 / 1.2) + '%';
+    $('verdict').textContent = r.mn9 >= 10 ? 'Tongue out!' : r.mn9 >= 1 ? 'A flicker, but tongue stays in' : 'Tongue stays in';
+    const line = SPARK && SPARK.lines[key];
+    $('spark').hidden = !line;
+    if (line) $('spark').innerHTML = `<b>Muse Spark:</b> ${line.replace(/</g, '&lt;')}<small>Written by ${SPARK.model} from the recorded numbers only, ${SPARK.made}. It doesn't affect any result.</small>`;
+    $('msub').innerHTML = `MN9 fired <b>${f1(r.mn9)}</b> times per second · <b>${n.toLocaleString('en-US')}</b> of ${N.toLocaleString('en-US')} neurons fired`;
+  }
+}
+$('run').addEventListener('click', go);
+$('bcap').textContent = `Recorded on the calibrated FlyWire brain, ${BENCH.repeats} repeats per combination, published settings. "Tongue out" means MN9 fires 10+ times per second, the same line used in the calibration rules. The dots show which neurons fired over one simulated second; they're shown in the order taste neurons → everyone else → MN9 to make the story easy to follow, not as exact timing. Numbers can differ slightly from the calibration test (for example 65 vs 61.4 for sugar) because these are separate sets of runs and the brain's input has some randomness, like a real fly's.`;
+go();
+</script>
 </body>
 </html>

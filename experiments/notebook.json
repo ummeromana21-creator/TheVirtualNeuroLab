@@ -1,0 +1,716 @@
+{
+ "built": "from the lab's result files by tools/build_notebook.py",
+ "engine": "Leaky integrate-and-fire model of Shiu et al. 2024 (Nature 634:210), published settings: every synapse gives the same small push (0.275 mV), positive or negative depending on the sending neuron's chemical; 1 simulated second per run. Engine: tools/lif_engine.py, checked against the authors' own code.",
+ "fingerprint": "a3066c8958f7",
+ "fingerprint_note": "SHA-256 of the engine code (tools/lif_engine_v1.py), the wiring file and the saved rules (first 12 characters). If any of them changed, this code would change.",
+ "entries": [
+  {
+   "id": "N0",
+   "kind": "Engine check",
+   "title": "Is our simulation engine a faithful copy of the published one?",
+   "date": "2026-11-03",
+   "question": "Does our engine give the same answers as the 2024 study's own code on the same brain and the same input?",
+   "why": "Every later result depends on the engine. If it differed from the published model, a match or a miss would tell us about our code, not about the fly.",
+   "brain": "FlyWire, the wiring released with the 2024 study.",
+   "method": [
+    "Sugar-taste neurons switched on at 100 signals per second.",
+    "Run in our engine and in the published code; compare the tongue neuron (MN9) and the 200 most active neurons."
+   ],
+   "rule": "No pass mark was set in advance; this is a direct side-by-side comparison.",
+   "rule_written": null,
+   "results": [
+    {
+     "label": "MN9 (one copy): 66.6 vs 67.0 firings per second (ours vs published)",
+     "ok": true
+    },
+    {
+     "label": "MN9 (other copy): 49.5 vs 48.6",
+     "ok": true
+    },
+    {
+     "label": "Neurons that fired: 413 vs 404",
+     "ok": true
+    },
+    {
+     "label": "Firing of the 200 most active neurons: correlation 0.999 (1 = identical)",
+     "ok": true
+    }
+   ],
+   "conclusion": "The two engines agree closely. One detail had to be matched exactly: input arriving while a neuron is recovering from a spike is lost, as in the published code.",
+   "confidence": "High: the comparison is direct, on identical inputs.",
+   "discovery": {
+    "status": "none",
+    "text": "None. This is a check of our tools."
+   },
+   "files": [
+    "tools/lif_engine.py",
+    "experiments/calibration.json"
+   ]
+  },
+  {
+   "id": "N1",
+   "kind": "Calibration test",
+   "title": "Does sugar make the simulated fly stick out its tongue?",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Before any experiment: does the FlyWire brain reproduce the best-established taste results in real flies?",
+   "why": "If the brain can't get known results right, its predictions mean nothing. Passing is required before any experiment is reported.",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Switch on the sugar-taste neurons at 8 strengths (10 to 200 signals per second), bitter neurons, water neurons, and combinations.",
+    "Read MN9, the motor neuron that extends the proboscis (tongue).",
+    "30 repeats of 1 simulated second per condition."
+   ],
+   "rule": "All of: C1. Sugar at 100 signals per second makes MN9 fire 10 or more times per second; C2. More sugar, more MN9 firing (from 10 to 200 signals per second); C3. Bitter alone does not make MN9 fire; C4. Bitter cuts the sugar response at least in half; C5. Water also makes MN9 fire; C6. Activity stays contained: fewer than 2,000 neurons fire. C1-C4 and C6 must pass.",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "C1. Sugar at 100 signals per second makes MN9 fire 10 or more times per second",
+     "ok": true
+    },
+    {
+     "label": "C2. More sugar, more MN9 firing (from 10 to 200 signals per second)",
+     "ok": true
+    },
+    {
+     "label": "C3. Bitter alone does not make MN9 fire",
+     "ok": true
+    },
+    {
+     "label": "C4. Bitter cuts the sugar response at least in half",
+     "ok": true
+    },
+    {
+     "label": "C5. Water also makes MN9 fire",
+     "ok": true
+    },
+    {
+     "label": "C6. Activity stays contained: fewer than 2,000 neurons fire",
+     "ok": true
+    },
+    {
+     "label": "MN9 to sugar 100: 61.4/s; bitter alone: 0.0/s; sugar + bitter: 0.1/s; water: 31.2/s",
+     "ok": true
+    },
+    {
+     "label": "Sugar-response curve rises steadily (rank correlation 0.994)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Passed all six rules. Every experiment in the lab runs on this brain.",
+   "confidence": "High for these basic taste results: they are large, clear effects.",
+   "discovery": {
+    "status": "known",
+    "text": "Reproduces known results (by design). No new claim."
+   },
+   "files": [
+    "experiments/calibration.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "E1",
+   "kind": "Check against a known result (round 1)",
+   "title": "Does bitter beat even strong sugar?",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Does bitter beat even strong sugar?",
+   "why": "This result was found in living flies. Checking whether the untouched simulated brain reproduces it measures how far to trust its new predictions.",
+   "real": "Activating bitter neurons stopped proboscis extension to weak sugar (50 mM sucrose) and stopped drinking even of strong sugar (1 M). (Shiu et al. 2024, optogenetics)",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code)."
+   ],
+   "rule": "Bitter cuts MN9 firing by at least half for weak sugar AND for strong sugar.",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "Weak sugar (60/s): MN9 28.9 → 0.0 with bitter",
+     "ok": true
+    },
+    {
+     "label": "Strong sugar (200/s): MN9 89.0 → 12.4 with bitter",
+     "ok": true
+    }
+   ],
+   "conclusion": "Matched 2 of 2. Matches real flies.",
+   "confidence": "Clear.",
+   "discovery": {
+    "status": "known",
+    "text": "Reproduces a known real-fly result. No new claim."
+   },
+   "files": [
+    "experiments/round1.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "E2",
+   "kind": "Check against a known result (round 1)",
+   "title": "Ir94e: a brake that only works on weak sugar",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Ir94e: a brake that only works on weak sugar",
+   "why": "This result was found in living flies. Checking whether the untouched simulated brain reproduces it measures how far to trust its new predictions.",
+   "real": "Activating Ir94e taste neurons reduced proboscis extension to weak sugar (50 mM) but failed to stop it for strong sugar (1 M). (Shiu et al. 2024, optogenetics)",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code)."
+   ],
+   "rule": "Ir94e cuts MN9 by at least half for weak sugar, AND MN9 keeps at least a quarter of its sugar-only firing for strong sugar.",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "Weak sugar: MN9 28.9 → 0.1 with Ir94e (needs a cut of half or more)",
+     "ok": true
+    },
+    {
+     "label": "Strong sugar: MN9 89.0 → 53.4 with Ir94e (needs to keep a quarter or more)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Matched 2 of 2. Caution: switching on Ir94e at this strength set off a chain reaction (8,844 and 8,839 neurons fired, against 377 for weak sugar alone). The answer matches real flies, but it comes from a brain-wide surge, so we don't treat it as strong evidence.",
+   "confidence": "Low: the match comes from a brain-wide surge, so it is weak evidence.",
+   "discovery": {
+    "status": "known",
+    "text": "Reproduces a known real-fly result. No new claim."
+   },
+   "files": [
+    "experiments/round1.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "E3",
+   "kind": "Check against a known result (round 1)",
+   "title": "Usnea: water neuron or sugar neuron?",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Usnea: water neuron or sugar neuron?",
+   "why": "This result was found in living flies. Checking whether the untouched simulated brain reproduces it measures how far to trust its new predictions.",
+   "real": "Usnea responds to water but not to sugar (calcium imaging). The 2024 study reports its own model got this wrong. (Shiu et al. 2024 (citing earlier imaging))",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code)."
+   ],
+   "rule": "Usnea fires 5+ per second for water AND under 1 per second for sugar (100 per second).",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "Usnea to water: 110.5/s (needs 5+)",
+     "ok": true
+    },
+    {
+     "label": "Usnea to sugar: 72.6/s (needs under 1)",
+     "ok": false
+    }
+   ],
+   "conclusion": "Matched 1 of 2. The original 2024 model made the same mistake, so this is a limit of the model, not of our copy of it. Something that stops Usnea responding to sugar in real flies isn't in the wiring-only model.",
+   "confidence": "The miss is clear and matches a miss the 2024 study reported for its own model.",
+   "discovery": {
+    "status": "partial",
+    "text": "Partly reproduces a known result; the miss points to something the wiring alone doesn't explain."
+   },
+   "files": [
+    "experiments/round1.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "E4",
+   "kind": "Check against a known result (round 1)",
+   "title": "Can Usnea or Phantom alone make the fly extend its proboscis?",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Can Usnea or Phantom alone make the fly extend its proboscis?",
+   "why": "This result was found in living flies. Checking whether the untouched simulated brain reproduces it measures how far to trust its new predictions.",
+   "real": "Activating either Usnea or Phantom drives proboscis extension. The 2024 study's model did not predict this. (Shiu et al. 2024)",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code)."
+   ],
+   "rule": "Activating Usnea (both cells) makes MN9 fire 10+ per second; same for Phantom. Scored separately.",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "Usnea switched on → MN9 0.0/s (needs 10+)",
+     "ok": false
+    },
+    {
+     "label": "Phantom switched on → MN9 0.0/s (needs 10+)",
+     "ok": false
+    }
+   ],
+   "conclusion": "Matched 0 of 2. The 2024 study also reports its model did not predict this. In real flies these two neurons drive the tongue by a route the wiring-only model doesn't capture.",
+   "confidence": "The miss is clear and matches a miss the 2024 study reported for its own model.",
+   "discovery": {
+    "status": "miss",
+    "text": "Model miss: real flies do something the wiring-only model can't explain. Useful as a limit, not a discovery."
+   },
+   "files": [
+    "experiments/round1.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "E5",
+   "kind": "Check against a known result (round 1)",
+   "title": "Fudog responds to water",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Fudog responds to water",
+   "why": "This result was found in living flies. Checking whether the untouched simulated brain reproduces it measures how far to trust its new predictions.",
+   "real": "Fudog responds to water (calcium imaging). (Shiu et al. 2024)",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code)."
+   ],
+   "rule": "Fudog fires 5+ per second for water.",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "Fudog to water: 100.5/s (needs 5+)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Matched 1 of 1. Matches real flies.",
+   "confidence": "Clear.",
+   "discovery": {
+    "status": "known",
+    "text": "Reproduces a known real-fly result. No new claim."
+   },
+   "files": [
+    "experiments/round1.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "E6",
+   "kind": "Check against a known result (round 1)",
+   "title": "Which neurons does water drinking need?",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Which neurons does water drinking need?",
+   "why": "This result was found in living flies. Checking whether the untouched simulated brain reproduces it measures how far to trust its new predictions.",
+   "real": "Silencing Usnea, Bract or Roundup reduced proboscis extension to water; silencing G2N-1 did not. (Shiu et al. 2024, optogenetic silencing (GtACR1))",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code)."
+   ],
+   "rule": "Using the study's own threshold: a neuron is 'needed' if silencing it lowers MN9's response to water by more than 20%. Pass for each neuron if the model's answer matches the real one (Usnea, Bract, Roundup: needed; G2N-1: not needed). Scored separately.",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "Usnea silenced: MN9 to water 31.7 → 45.3 (43% higher). Real fly: needed; model: not needed",
+     "ok": false
+    },
+    {
+     "label": "Bract silenced: MN9 to water 31.7 → 19.2 (39% lower). Real fly: needed; model: needed",
+     "ok": true
+    },
+    {
+     "label": "Roundup silenced: MN9 to water 31.7 → 0.3 (99% lower). Real fly: needed; model: needed",
+     "ok": true
+    },
+    {
+     "label": "G2N-1 silenced: MN9 to water 31.7 → 23.7 (25% lower). Real fly: not needed; model: needed",
+     "ok": false
+    }
+   ],
+   "conclusion": "Matched 2 of 4. Bract and Roundup match. Usnea and G2N-1 go the wrong way, the same two the 2024 study reported as surprises for its model.",
+   "confidence": "The miss is clear and matches a miss the 2024 study reported for its own model.",
+   "discovery": {
+    "status": "partial",
+    "text": "Partly reproduces a known result; the miss points to something the wiring alone doesn't explain."
+   },
+   "files": [
+    "experiments/round1.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "E7",
+   "kind": "Check against a known result (round 1)",
+   "title": "Antenna touch: which sensors trigger grooming?",
+   "date": "2026-11-03 14:26 UTC",
+   "question": "Antenna touch: which sensors trigger grooming?",
+   "why": "This result was found in living flies. Checking whether the untouched simulated brain reproduces it measures how far to trust its new predictions.",
+   "real": "Activating Johnston's organ neurons of type JO-CE strongly activated the grooming neuron aBN1; JO-F neurons did not, despite having almost as many synapses onto it. (Shiu et al. 2024, optogenetics + calcium imaging)",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "Weak sugar = the lowest calibration rate at which MN9 fires 10+ per second on this brain (decided by rule, read from the calibration run). Strong sugar = 200 per second. Bitter, Ir94e and water = 200 per second. Activated single cell types = 100 per second. Silencing = all connections to and from the neuron set to zero (as in the published code)."
+   ],
+   "rule": "JO-CE (100 per second) makes aBN1 fire 5+ per second, AND JO-F (100 per second) leaves aBN1 under 1 per second. Scored separately.",
+   "rule_written": "2026-11-03 14:26 UTC",
+   "results": [
+    {
+     "label": "JO-CE switched on → aBN1 26.0/s (needs 5+)",
+     "ok": true
+    },
+    {
+     "label": "JO-F switched on → aBN1 0.9/s (needs under 1)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Matched 2 of 2. JO-F gave aBN1 0.9 firings per second: just under the line of 1. It counts as a match by the saved rule, but it's a close call.",
+   "confidence": "Close call: just inside the pass mark.",
+   "discovery": {
+    "status": "known",
+    "text": "Reproduces a known real-fly result. No new claim."
+   },
+   "files": [
+    "experiments/round1.json",
+    "experiments/round1_preregistration.json"
+   ]
+  },
+  {
+   "id": "N2",
+   "kind": "Demonstration",
+   "title": "The Taste Bench: every combination of sugar, bitter and water",
+   "date": "2026-11-03",
+   "question": "What does the calibrated brain do for each mix of tastes?",
+   "why": "So anyone can see the brain respond, with real recorded runs rather than animations.",
+   "brain": "FlyWire v783 (female brain), wiring as published with the 2024 study's code (Connectivity_783: all synapses), published settings unchanged (w_syn 0.275 mV, 30 repeats x 1 s). This is the same brain the Fly Atlas shows in 3D.",
+   "method": [
+    "24 combinations: sugar none/50/100/200, bitter none/100/200, water none/200 signals per second.",
+    "10 repeats each; MN9 firing and every neuron that fired are recorded."
+   ],
+   "rule": "No pass mark: this is a demonstration of the calibrated brain, not a test.",
+   "rule_written": null,
+   "results": [
+    {
+     "label": "Sugar 100: MN9 65.0/s (tongue out)",
+     "ok": true
+    },
+    {
+     "label": "Sugar 100 + bitter 200: MN9 0.1/s (tongue stays in)",
+     "ok": true
+    },
+    {
+     "label": "Sugar 100 + water 200: MN9 83.4/s (signals add up)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Bitter overrules sugar, and sugar and water add up, consistent with the calibration test.",
+   "confidence": "Same as the calibration test.",
+   "discovery": {
+    "status": "none",
+    "text": "None. A way to explore the calibrated brain."
+   },
+   "files": [
+    "experiments/bench.json"
+   ]
+  },
+  {
+   "id": "DS1",
+   "kind": "Discovery screen",
+   "title": "Discovery Screen 1: which neurons does the fly need to eat and to drink?",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "If one neuron is switched off, can the fly still eat (sugar) or drink (water)?",
+   "why": "Most of these neurons have never been switched off in a living fly. The simulation can point a real lab to the few worth testing.",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "The 200 most active neurons when sugar neurons fire at 100/s plus the 200 most active when water neurons fire at 200/s (from the round 1 records), leaving out the sugar and water sensors themselves and MN9: 286 neurons.",
+    "Silence each candidate on its own (all its outgoing connections set to zero, as in the published code) and run sugar 100/s, then water 200/s. 10 repeats each for the screen. Every neuron scored 'needed' is then re-run with 30 repeats, and only the 30-repeat result is reported."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold). Each predicted neuron is marked 'tested in the 2024 study' if it appears in that study's named neuron lists, otherwise 'no living-fly test known to us'. We do not claim no one has ever tested it.",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "286 neurons switched off one at a time; 8 predicted needed (confirmed with 30 repeats).",
+     "ok": true
+    },
+    {
+     "label": "\"Roundup\" #1: eating 35% lower · Moderate lead",
+     "ok": true
+    },
+    {
+     "label": "\"Roundup\" #2: eating 27% lower, drinking 98% lower · Strong lead",
+     "ok": true
+    },
+    {
+     "label": "CB0192 #2: drinking 41% lower · Moderate lead",
+     "ok": true
+    },
+    {
+     "label": "CB0051: drinking 55% lower · Strong lead",
+     "ok": true
+    },
+    {
+     "label": "\"Rattle\": drinking 30% lower · Moderate lead",
+     "ok": true
+    },
+    {
+     "label": "\"Bract\": drinking 34% lower · Moderate lead",
+     "ok": true
+    },
+    {
+     "label": "CB0501: drinking 43% lower · Moderate lead",
+     "ok": true
+    },
+    {
+     "label": "\"Clavicle\": drinking 84% lower · Strong lead",
+     "ok": true
+    }
+   ],
+   "conclusion": "8 neurons predicted needed: 7 for drinking, 2 for eating (Roundup #2 for both). For most neurons the signal finds another route, so the feeding circuit has backups.",
+   "confidence": "On known single-neuron silencing results, the model matched 2 of 4 when whole cell types were silenced (round 1, E6) and 3 of 4 one cell at a time in this screen (G2N-1 only just). Even a strong lead is a hypothesis.",
+   "confidence_rule": {
+    "written": "2026-11-03, after the screen; it labels results and changes none of them",
+    "sim": "Clear in the simulation if the 95% range of the drop (from 30 paired runs) stays above the 20% \"needed\" line.",
+    "size": "Large effect if the drop is 50% or more; moderate if 20-50%.",
+    "levels": {
+     "3": "Strong lead: clear and large",
+     "2": "Moderate lead: clear, moderate size",
+     "1": "Weak lead: the 95% range dips below the 20% line"
+    },
+    "track": "On known single-neuron silencing results, the model matched 2 of 4 when whole cell types were silenced (round 1, E6) and 3 of 4 one cell at a time in this screen (G2N-1 only just). Even a strong lead is a hypothesis."
+   },
+   "discovery": {
+    "status": "potential",
+    "text": "Potential discovery: 3 predictions (CB0192 #2, CB0051, CB0501) about neurons with no real-fly test known to us. They need a living-fly experiment to become a discovery."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/screen_preregistration.json"
+   ]
+  },
+  {
+   "id": "DS1-2649",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "\"Roundup\" #1 (CB0553)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need \"Roundup\" #1 to eat?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Eating: tongue signal 61.6 → 40.2 per second (35% lower; 95% range 31-38%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Roundup is known to be needed for drinking in real flies (Shiu et al. 2024); a real-fly test of its role in eating is not known to us.",
+   "confidence": "Moderate lead. Eating: tongue signal 35% lower; across 30 runs the drop stays between 31% and 38% (95% range).",
+   "discovery": {
+    "status": "open",
+    "text": "A new prediction about a neuron already named in the literature."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  },
+  {
+   "id": "DS1-1725",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "\"Roundup\" #2 (CB0553)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need \"Roundup\" #2 to eat and drink?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Eating: tongue signal 61.6 → 44.8 per second (27% lower; 95% range 25-30%)",
+     "ok": true
+    },
+    {
+     "label": "Drinking: tongue signal 30.7 → 0.6 per second (98% lower; 95% range 97-99%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Real flies: silencing Roundup reduced drinking (Shiu et al. 2024). The simulation agrees. Its role in eating has no real-fly test that we know of.",
+   "confidence": "Strong lead. Eating: tongue signal 27% lower; across 30 runs the drop stays between 25% and 30% (95% range). Drinking: tongue signal 98% lower; across 30 runs the drop stays between 97% and 99% (95% range).",
+   "discovery": {
+    "status": "known",
+    "text": "Agrees with a known real-fly result."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  },
+  {
+   "id": "DS1-8530",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "CB0192 #2 (CB0192)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need CB0192 #2 to drink?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Drinking: tongue signal 30.7 → 18.1 per second (41% lower; 95% range 36-45%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "No real-fly test of this neuron known to us: a new, testable prediction.",
+   "confidence": "Moderate lead. Drinking: tongue signal 41% lower; across 30 runs the drop stays between 36% and 45% (95% range).",
+   "discovery": {
+    "status": "new",
+    "text": "Potential discovery: no real-fly test known to us."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  },
+  {
+   "id": "DS1-5905",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "CB0051 (CB0051)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need CB0051 to drink?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Drinking: tongue signal 30.7 → 13.7 per second (55% lower; 95% range 51-60%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "No real-fly test of this neuron known to us: a new, testable prediction.",
+   "confidence": "Strong lead. Drinking: tongue signal 55% lower; across 30 runs the drop stays between 51% and 60% (95% range).",
+   "discovery": {
+    "status": "new",
+    "text": "Potential discovery: no real-fly test known to us."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  },
+  {
+   "id": "DS1-3349",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "\"Rattle\" (CB0499)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need \"Rattle\" to drink?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Drinking: tongue signal 30.7 → 21.6 per second (30% lower; 95% range 25-34%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Named in the 2024 study; we found no real-fly test of its role in drinking.",
+   "confidence": "Moderate lead. Drinking: tongue signal 30% lower; across 30 runs the drop stays between 25% and 34% (95% range).",
+   "discovery": {
+    "status": "open",
+    "text": "A new prediction about a neuron already named in the literature."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  },
+  {
+   "id": "DS1-1220",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "\"Bract\" (DNge173)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need \"Bract\" to drink?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Drinking: tongue signal 30.7 → 20.1 per second (34% lower; 95% range 29-40%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Real flies: silencing Bract reduced drinking (Shiu et al. 2024). The simulation agrees.",
+   "confidence": "Moderate lead. Drinking: tongue signal 34% lower; across 30 runs the drop stays between 29% and 40% (95% range).",
+   "discovery": {
+    "status": "known",
+    "text": "Agrees with a known real-fly result."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  },
+  {
+   "id": "DS1-3233",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "CB0501 (CB0501)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need CB0501 to drink?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Drinking: tongue signal 30.7 → 17.5 per second (43% lower; 95% range 40-47%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "No real-fly test of this neuron known to us: a new, testable prediction.",
+   "confidence": "Moderate lead. Drinking: tongue signal 43% lower; across 30 runs the drop stays between 40% and 47% (95% range).",
+   "discovery": {
+    "status": "new",
+    "text": "Potential discovery: no real-fly test known to us."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  },
+  {
+   "id": "DS1-4049",
+   "kind": "Discovery screen prediction",
+   "parent": "DS1",
+   "title": "\"Clavicle\" (AN_GNG_30)",
+   "date": "2026-11-03 15:27 UTC",
+   "question": "Does the fly need \"Clavicle\" to drink?",
+   "brain": "FlyWire v783, published wiring and settings (same as round 1; engine v2 only adds a record of spike times, the maths is unchanged).",
+   "method": [
+    "Neuron switched off (all its outgoing connections set to zero); 30 repeats with the same random inputs as the normal brain."
+   ],
+   "rule": "A neuron is 'needed' for eating (or drinking) if silencing it lowers MN9's firing by more than 20% compared with the unsilenced run with the same repeats (the 2024 study's threshold).",
+   "rule_written": "2026-11-03 15:27 UTC",
+   "results": [
+    {
+     "label": "Drinking: tongue signal 30.7 → 5.1 per second (84% lower; 95% range 82-85%)",
+     "ok": true
+    }
+   ],
+   "conclusion": "Named in the 2024 study; we found no real-fly test of its role in drinking.",
+   "confidence": "Strong lead. Drinking: tongue signal 84% lower; across 30 runs the drop stays between 82% and 85% (95% range).",
+   "discovery": {
+    "status": "open",
+    "text": "A new prediction about a neuron already named in the literature."
+   },
+   "files": [
+    "discover/screen.json",
+    "discover/runs/"
+   ]
+  }
+ ]
+}
