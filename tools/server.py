@@ -1,4 +1,4 @@
-"""Fly Lab local server: serves the lab pages AND answers the "Ask Muse" panel.
+"""The Virtual Neuro Lab local server: serves the lab pages AND answers the "Ask Muse" panel.
 
     python3 tools/server.py            (start_skeleton.command does this for you)
 
@@ -92,14 +92,14 @@ def search_wikipedia(query, k=3):
     return out
 
 TOOLS = [
-    {'type': 'function', 'function': {'name': 'search_lab', 'description': "Search the Fly Lab's own records: experiments and their results, rules, calibration, the Discovery Screen predictions, brain regions, cell types, chemicals, the flies. Always try this first.",
+    {'type': 'function', 'function': {'name': 'search_lab', 'description': "Search The Virtual Neuro Lab's own records: experiments and their results, rules, calibration, the Discovery Screen predictions, brain regions, cell types, chemicals, the flies. Always try this first.",
                                       'parameters': {'type': 'object', 'properties': {'query': {'type': 'string'}}, 'required': ['query']}}},
     {'type': 'function', 'function': {'name': 'search_pubmed', 'description': 'Search published biology papers (PubMed) when the lab has no answer. Returns titles, links and abstracts.',
                                       'parameters': {'type': 'object', 'properties': {'query': {'type': 'string'}}, 'required': ['query']}}},
     {'type': 'function', 'function': {'name': 'search_wikipedia', 'description': 'Search Wikipedia for general background when the lab has no answer.',
                                       'parameters': {'type': 'object', 'properties': {'query': {'type': 'string'}}, 'required': ['query']}}},
 ]
-SYSTEM = """You are Muse, the guide inside the Fly Lab, a virtual neuroscience lab that runs experiments on simulated fruit fly brains wired from real connectome scans.
+SYSTEM = """You are Muse, the guide inside The Virtual Neuro Lab, a virtual neuroscience lab that runs experiments on simulated fruit fly brains wired from real connectome scans.
 Rules:
 1. Always call search_lab first. If the lab's records answer the question, answer from them and cite each fact as [L<number>] using the ids you were given.
 2. Only if the lab has no answer (or the visitor asks about the wider world), call search_pubmed and/or search_wikipedia, and cite each fact as [W<number>]. Say plainly that this part comes from the web, not from the lab.
@@ -184,5 +184,5 @@ class Handler(SimpleHTTPRequestHandler):
         if a and '/api/' in str(a[0]): sys.stderr.write('%s\n' % (fmt % a))
 
 if __name__ == '__main__':
-    print(f'Fly Lab on http://localhost:{PORT}  ·  Muse: ' + (f'online ({MODEL})' if CLIENT else f'offline ({OFFLINE})'))
+    print(f'The Virtual Neuro Lab on http://localhost:{PORT}  ·  Muse: ' + (f'online ({MODEL})' if CLIENT else f'offline ({OFFLINE})'))
     ThreadingHTTPServer(('127.0.0.1', PORT), partial(Handler, directory=ROOT)).serve_forever()

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Double-click me: serves the Fly Lab on http://localhost:8200 and opens it in your browser.
+# Double-click me: serves The Virtual Neuro Lab on http://localhost:8200 and opens it in your browser.
 # It also runs the "Ask Muse" panel (tools/server.py). Muse needs your Meta API key in .env
 # (META_API_KEY=...) in this folder or in "Fly Brain/.env"; without it the lab still works and Muse says it is offline.
 # Close this Terminal window (or press Ctrl+C) to stop the server.

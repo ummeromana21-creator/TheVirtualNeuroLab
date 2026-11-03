@@ -1,7 +1,7 @@
 /* Feather Atlas shared shell: icons, day/dusk, hub top bar. Load before page scripts. */
 window.Feather = (() => {
   const HUBS = [
-    { id: 'home', name: 'Home', sub: 'the skeleton', icon: 'i-house', href: 'index.html' },
+    { id: 'home', name: 'Home', sub: 'start here', icon: 'i-house', href: 'index.html' },
     { id: 'discover', name: 'Knockout Lab', sub: 'switch off a neuron', icon: 'i-fly', href: 'discover/' },
     { id: 'flies', name: 'Vivarium', sub: 'Maxime · Hagrid', icon: 'i-fly', href: 'flies/' },
     { id: 'atlas', name: 'Fly Atlas', sub: 'regions · cell types', icon: 'i-layers', href: 'library/' },
@@ -303,7 +303,7 @@ window.Feather = (() => {
     el.innerHTML = `<div class="shell-brand"><span class="shell-name">${brand}</span>`
       + (sub ? `<span class="shell-sub">${sub}</span>` : '') + `</div>`
       + `<button class="shell-menubtn iconbtn" aria-expanded="false" aria-label="Open menu"><svg class="ic"><use href="#i-menu"/></svg></button>`
-      + `<nav class="shell-nav" aria-label="Fly Lab">${items}</nav><div class="shell-extra"></div>`;
+      + `<nav class="shell-nav" aria-label="The Virtual Neuro Lab">${items}</nav><div class="shell-extra"></div>`;
     const nav = el.querySelector('.shell-nav');
     const menuBtn = el.querySelector('.shell-menubtn');
     menuBtn.addEventListener('click', e => {

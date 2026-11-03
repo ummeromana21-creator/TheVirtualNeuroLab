@@ -9,7 +9,7 @@ E = []
 def add(title, page, text): E.append(dict(id=f'L{len(E)+1}', title=title, page=page, text=' '.join(re.sub(r'<[^>]+>', ' ', str(text)).split())))
 
 add('What this lab is', 'index.html',
-    'The Virtual Neuro Lab (Fly Lab) runs experiments on simulated fruit fly (Drosophila) nervous systems wired from real connectome '
+    'The Virtual Neuro Lab runs experiments on simulated fruit fly (Drosophila) nervous systems wired from real connectome '
     'scans. Pages: Vivarium (the flies Maxime and Hagrid in 3D), Fly Atlas (brain regions and cell types), Chemicals (what substances do in '
     'real flies), Prediction check (how well the lab predicted anatomy), Experiments (Taste Bench, calibration, round 1 results, Discovery '
     'Screen). Experiments run on the FlyWire brain (female, 139,255 neurons, v783) using the published leaky integrate-and-fire model of '

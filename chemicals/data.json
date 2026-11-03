@@ -1,5 +1,5 @@
 {
- "about": "Chemical Library for the Fly Lab skeleton. Each entry says what the substance is and what it does in a REAL fruit fly (Drosophila melanogaster), in plain words, with the fly molecules it acts on and the papers behind it. No simulation results or verdicts live here - those belong to the experiments part of the lab.",
+ "about": "Chemical Library for The Virtual Neuro Lab. Each entry says what the substance is and what it does in a REAL fruit fly (Drosophila melanogaster), in plain words, with the fly molecules it acts on and the papers behind it. No simulation results or verdicts live here - those belong to the experiments part of the lab.",
  "confidence": {
   "fly": {
    "label": "Shown in fruit flies",

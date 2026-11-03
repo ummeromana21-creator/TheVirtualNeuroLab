@@ -1,4 +1,4 @@
-"""Per-fly counts for the Fly Lab skeleton: each fly from its OWN connectome export only.
+"""Per-fly counts for The Virtual Neuro Lab: each fly from its OWN connectome export only.
 
     Maxime  = BANC (female brain + nerve cord), Codex export in ~/Desktop/Databases/BANC
     Hagrid  = male CNS (brain + nerve cord),    Codex export in ~/Desktop/Databases/Male CNS
