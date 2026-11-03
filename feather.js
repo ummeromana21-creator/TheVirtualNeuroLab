@@ -9,6 +9,7 @@ window.Feather = (() => {
     { id: 'prediction', name: 'Prediction check', sub: 'predicted vs real', icon: 'i-cards', href: 'prediction/' },
     { id: 'experiments', name: 'Experiments', sub: 'taste experiments', icon: 'i-flask', href: 'experiments/' },
     { id: 'worm', name: 'The worm', sub: 'C. elegans · 302 neurons', icon: 'i-worm', href: 'worm/' },
+    { id: 'disease', name: 'Parkinson\u2019s', sub: 'brain disease', icon: 'i-pulse2', href: 'disease/' },
     { id: 'next', name: 'What\u2019s next', sub: 'predictions to test', icon: 'i-next', href: 'next/' },
   ];
   const DEFS = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>`
@@ -22,6 +23,7 @@ window.Feather = (() => {
     + `<symbol id="i-fly" viewBox="0 0 24 24"><ellipse cx="12" cy="13" rx="3" ry="5"/><path d="M9 11C5 8 3 5 3 5s4-1 7 3M15 11c4-3 6-6 6-6s-4-1-7 3"/></symbol>`
     + `<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>`
     + `<symbol id="i-worm" viewBox="0 0 24 24"><path d="M4 16c2-5 5-5 7-2s5 3 7-2"/><circle cx="18.5" cy="9.5" r="1.2"/></symbol>`
+    + `<symbol id="i-pulse2" viewBox="0 0 24 24"><path d="M3 12h4l2-5 4 10 2-5h6"/></symbol>`
     + `<symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h12M13 7l5 5-5 5"/></symbol>`
     + `<symbol id="i-cards" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="13" rx="2"/><path d="M4 11h16M8 15h5"/></symbol>`
     + `</defs></svg>`;
@@ -31,7 +33,7 @@ window.Feather = (() => {
   function icons() {
     // Pages ship their own symbol sets; add only the ones the bar needs.
     const have = id => !!document.getElementById(id);
-    if (['i-house', 'i-fly', 'i-menu', 'i-user', 'i-worm', 'i-next'].every(have)) return;
+    if (['i-house', 'i-fly', 'i-menu', 'i-user', 'i-worm', 'i-next', 'i-pulse2'].every(have)) return;
     const wrap = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     wrap.setAttribute('width', '0'); wrap.setAttribute('height', '0');
     wrap.setAttribute('style', 'position:absolute'); wrap.setAttribute('aria-hidden', 'true');
@@ -162,6 +164,12 @@ window.Feather = (() => {
       { el: '#legend', t: 'Three kinds of neuron', b: 'Blue neurons sense the world, amber ones decide, pink ones move the body. Tap a group to hide or show it.' },
       { el: '#presets', t: 'Famous circuits', b: 'Light up a well-known circuit, like the one that makes the worm back away when its head is touched.' },
       { el: '#q', t: 'Find a neuron', b: 'Every worm neuron has a name, the same in every worm. Type one, like AVAL.' },
+    ],
+    disease: [
+      { t: 'Parkinson\u2019s: the mechanism', b: 'In Parkinson\u2019s, dopamine-making neurons die. This page traces, in a real fly brain\u2019s wiring, where their signal goes and what is cut off as they die.' },
+      { el: '#scen', t: 'Choose how they die', b: 'Fly models report losses in different clusters. Pick a pattern.' },
+      { el: '.slider', t: 'Let them die', b: 'Drag the slider or press Play. Dead dopamine neurons turn grey; neurons that lose their dopamine input turn from blue to red.' },
+      { el: '#find', t: 'What the wiring shows', b: 'The main findings, calculated from the data, followed by what dopamine is known to do there.' },
     ],
     next: [
       { t: 'What\u2019s next', b: 'Where the lab goes from here: predictions waiting for a real-fly test, work in progress, and plans.' },

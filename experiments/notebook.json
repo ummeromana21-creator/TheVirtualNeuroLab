@@ -711,6 +711,77 @@
     "discover/screen.json",
     "discover/runs/"
    ]
+  },
+  {
+   "id": "PD1",
+   "kind": "Exploratory analysis (brain disease)",
+   "title": "Parkinson's mechanisms 1: what losing dopamine neurons does to the fly brain's wiring",
+   "date": "2026-11-03 20:26 UTC",
+   "question": "When dopamine neurons are lost, as in fruit-fly models of Parkinson's disease, which neurons and brain regions lose their dopamine input, how quickly, and where are the single points of failure?",
+   "why": "In Parkinson's disease dopamine neurons die. Fly models of the disease lose them too. Mapping where their signal goes shows which parts of the brain depend on them and how well backed up they are.",
+   "brain": "FlyWire v783 (female brain). Dopamine neurons and their connections from the FlyWire release (connections of 5+ synapses, with brain region per connection). FlyWire class 'DAN': 331 neurons (PAM 307, PPL1 16, PPL2 8). Dopamine neurons outside this class (e.g. PPM and PAL clusters) are not labelled DAN in FlyWire and are not included; this is a stated limitation.",
+   "method": [
+    "PPL1 first: the 16 PPL1 neurons lost one at a time (a cluster often reported vulnerable in fly Parkinson's models), then the rest at random.",
+    "PAM only: PAM neurons lost at random, 0 to 100%.",
+    "All dopamine neurons at random, 0 to 100% in 10% steps. Random orders use fixed seeds (10 orders); results report the average and range.",
+    "For every neuron that receives dopamine-neuron connections: the share of its dopamine input synapses that remain.",
+    "Grouped by FlyWire cell class and by brain region (neuropil).",
+    "Neurons that lose half or more of their dopamine input, at each stage.",
+    "Single points of failure: neurons whose dopamine input comes from 2 or fewer dopamine neurons.",
+    "Fast-signal check with the published brain model (Shiu et al. 2024 settings): all 331 dopamine neurons removed, sugar 100/s and water 200/s, 30 repeats; change in MN9 firing."
+   ],
+   "rule": "No pass mark: there is no real-fly measurement of this kind to check against. The analysis plan was written before it was run.",
+   "rule_written": "2026-11-03 20:26 UTC",
+   "results": [
+    {
+     "label": "331 dopamine neurons (PAM 307, PPL1 16, PPL2 8) send 61,099 synapses to 3,522 other neurons.",
+     "ok": true
+    },
+    {
+     "label": "Single points of failure: 3,112 of 3,522 receiving neurons get dopamine from 2 or fewer dopamine neurons.",
+     "ok": true
+    },
+    {
+     "label": "PPL1 first, then the rest, 166 dopamine neurons lost: 2,964 neurons lose half or more of their dopamine input (range over 10 orders 2,693-3,269); average input left 17%.",
+     "ok": true
+    },
+    {
+     "label": "PPL1 first, then the rest, 331 dopamine neurons lost: 3,522 neurons lose half or more of their dopamine input (range over 10 orders 3,522-3,522); average input left 0%.",
+     "ok": true
+    },
+    {
+     "label": "PAM only, 154 dopamine neurons lost: 215 neurons lose half or more of their dopamine input (range over 10 orders 151-290); average input left 93%.",
+     "ok": true
+    },
+    {
+     "label": "PAM only, 307 dopamine neurons lost: 493 neurons lose half or more of their dopamine input (range over 10 orders 493-493); average input left 86%.",
+     "ok": true
+    },
+    {
+     "label": "All at random, 166 dopamine neurons lost: 1,411 neurons lose half or more of their dopamine input (range over 10 orders 840-2,648); average input left 60%.",
+     "ok": true
+    },
+    {
+     "label": "All at random, 331 dopamine neurons lost: 3,522 neurons lose half or more of their dopamine input (range over 10 orders 3,522-3,522); average input left 0%.",
+     "ok": true
+    },
+    {
+     "label": "Fast-signal check: all dopamine neurons removed; MN9 to sugar 61.57 -> 61.57, to water 30.7 -> 30.7 per second. Dopamine neurons firing to taste in this model: 0.",
+     "ok": true
+    }
+   ],
+   "conclusion": "A few dopamine neurons reach very many targets (the 16 PPL1 neurons reach most of the receiving neurons), most targets have almost no backup, and most dopamine synapses land in the mushroom body, the learning centre. The fast taste reflex does not depend on dopamine neurons in this model.",
+   "confidence": "High for the wiring counts (read directly from the FlyWire data); exploratory for what they mean for the disease. Dopamine in real brains mostly changes how strongly other neurons are connected (for example, it drives learning in the mushroom body) and acts slowly; the simulation treats it as a fast signal. This analysis maps WHERE the dopamine signal would be lost and how robust each target is; it does not simulate the disease chemistry (such as alpha-synuclein), cell death itself, or behaviour. Exploratory: there is no real-fly measurement of this kind to check it against.",
+   "discovery": {
+    "status": "explore",
+    "text": "Exploratory mechanism map; no discovery claimed. It points to where dopamine loss would be felt first and where to look in future simulations that include dopamine's slow effects."
+   },
+   "files": [
+    "disease/pd.json",
+    "disease/pd_fast.json",
+    "disease/pd_preregistration.json",
+    "tools/build_pd.py"
+   ]
   }
  ]
 }

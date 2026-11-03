@@ -98,6 +98,28 @@ for n in needed:
       discovery=dict(status=n.get('status', 'open'), text={'new': 'Potential discovery: no real-fly test known to us.', 'known': 'Agrees with a known real-fly result.', 'open': 'A new prediction about a neuron already named in the literature.'}.get(n.get('status'), '')),
       files=['discover/screen.json', 'discover/runs/']))
 
+# ---- 5. Parkinson's mechanisms 1 (exploratory) ----
+pdp = os.path.join(SK, 'disease/pd.json')
+if os.path.exists(pdp):
+    PD = J('disease/pd.json'); PP = PD['prereg']; C = PD['counts']; FAST = J('disease/pd_fast.json') if os.path.exists(os.path.join(SK, 'disease/pd_fast.json')) else None
+    sc = PD['scenarios']
+    res = [dict(label=f"{C['dan']} dopamine neurons (PAM {C['pam']}, PPL1 {C['ppl1']}, PPL2 {C['ppl2']}) send {C['syn']:,} synapses to {C['targets']:,} other neurons.", ok=True),
+           dict(label=f"Single points of failure: {PD['spof']['n']:,} of {PD['spof']['total']:,} receiving neurons get dopamine from 2 or fewer dopamine neurons.", ok=True)]
+    for k, name, tot in (('ppl1', 'PPL1 first, then the rest', C['dan']), ('pam', 'PAM only', C['pam']), ('all', 'All at random', C['dan'])):
+        for row in sc[k]:
+            if row['lost'] in (0.5, 1.0):
+                res.append(dict(label=f"{name}, {round(row['lost']*tot)} dopamine neurons lost: {row['half_lost'][0]:,} neurons lose half or more of their dopamine input (range over 10 orders {row['half_lost'][1]:,}-{row['half_lost'][2]:,}); average input left {round(100*row['mean_remaining'])}%.", ok=True))
+    if FAST:
+        res.append(dict(label=f"Fast-signal check: all dopamine neurons removed; MN9 to sugar {FAST['sugar']['normal']} -> {FAST['sugar']['dopamine_removed']}, to water {FAST['water']['normal']} -> {FAST['water']['dopamine_removed']} per second. Dopamine neurons firing to taste in this model: {FAST['sugar']['dan_firing_normal']}.", ok=True))
+    E.append(dict(id='PD1', kind='Exploratory analysis (brain disease)', title=PP['title'], date=when(PP['written']),
+      question=PP['question'], why="In Parkinson's disease dopamine neurons die. Fly models of the disease lose them too. Mapping where their signal goes shows which parts of the brain depend on them and how well backed up they are.",
+      brain=PP['brain'] + ' ' + PP['dopamine_neurons'], method=PP['scenarios'] + PP['measures'],
+      rule='No pass mark: there is no real-fly measurement of this kind to check against. The analysis plan was written before it was run.', rule_written=when(PP['written']),
+      results=res, conclusion="A few dopamine neurons reach very many targets (the 16 PPL1 neurons reach most of the receiving neurons), most targets have almost no backup, and most dopamine synapses land in the mushroom body, the learning centre. The fast taste reflex does not depend on dopamine neurons in this model.",
+      confidence='High for the wiring counts (read directly from the FlyWire data); exploratory for what they mean for the disease. ' + PP['not_claimed'],
+      discovery=dict(status='explore', text='Exploratory mechanism map; no discovery claimed. It points to where dopamine loss would be felt first and where to look in future simulations that include dopamine\'s slow effects.'),
+      files=['disease/pd.json', 'disease/pd_fast.json', 'disease/pd_preregistration.json', 'tools/build_pd.py']))
+
 out = dict(built='from the lab\'s result files by tools/build_notebook.py', engine=ENGINE, fingerprint=R1['fingerprint'], fingerprint_note=R1['fingerprint_note'], entries=E)
 json.dump(out, open(os.path.join(SK, 'experiments/notebook.json'), 'w'), ensure_ascii=False, indent=1)
 print(len(E), 'entries')

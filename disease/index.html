@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parkinson's · The Virtual Neuro Lab</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="../feather.css?v=10">
+<style>
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); }
+.wrap { max-width:1240px; margin:0 auto; padding:34px 22px 60px; }
+h1 { font-size:clamp(30px,4.4vw,46px); line-height:1.06; margin:8px 0 12px; }
+h2 { font-size:26px; margin:44px 0 8px; }
+.lead { font-size:16px; line-height:1.6; color:var(--muted); max-width:820px; margin:0; }
+p, li { font-size:15px; line-height:1.6; }
+.tagx { display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:100px; background:var(--warn-bg); color:var(--warn-ink); margin-left:6px; vertical-align:middle; }
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-top:18px; }
+.stat { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px 14px; }
+.stat b { display:block; font-size:28px; letter-spacing:-.02em; } .stat span { font-size:13px; color:var(--muted); }
+.lab { display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:16px; margin-top:20px; }
+.stage { position:relative; height:540px; background:var(--panel); border:1px solid var(--line); border-radius:20px; overflow:hidden; }
+#gl { position:absolute; inset:0; } #gl canvas { display:block; width:100%; height:100%; }
+.legend { position:absolute; left:12px; bottom:12px; display:flex; flex-wrap:wrap; gap:10px; font-size:12.5px; color:var(--muted); background:color-mix(in srgb,var(--panel) 88%,transparent); padding:6px 10px; border-radius:12px; }
+.legend i { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:5px; vertical-align:-1px; }
+.legend .grad { width:60px; height:8px; border-radius:4px; display:inline-block; vertical-align:0; margin:0 5px; }
+.hint { position:absolute; right:14px; top:12px; font-size:12px; color:var(--muted); pointer-events:none; }
+.side { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:16px; display:flex; flex-direction:column; gap:14px; }
+.seg { display:flex; flex-direction:column; gap:6px; }
+.seg button { text-align:left; border:1px solid var(--line); background:var(--bg); color:var(--ink); border-radius:14px; padding:9px 12px; font:inherit; font-size:14px; cursor:pointer; }
+.seg button small { display:block; color:var(--muted); font-size:12.5px; margin-top:2px; }
+.seg button[aria-pressed="true"] { border-color:var(--sage); background:var(--sage-tint); }
+.k { font-size:11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+.slider { display:flex; align-items:center; gap:10px; }
+.slider input { flex:1; accent-color:var(--sage); }
+.slider button { border:none; background:var(--sage); color:var(--sage-ink); border-radius:100px; padding:8px 14px; font-weight:700; cursor:pointer; }
+.big { font-size:34px; font-weight:700; letter-spacing:-.02em; line-height:1; }
+.bars { display:flex; flex-direction:column; gap:7px; }
+.bar { display:grid; grid-template-columns:118px 1fr 44px; gap:8px; align-items:center; font-size:13px; }
+.bar .t { height:10px; border-radius:5px; background:var(--chip); overflow:hidden; }
+.bar .f { height:100%; background:var(--sage); transition:width .25s; }
+.bar span:last-child { text-align:right; font-variant-numeric:tabular-nums; }
+.story { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:16px 18px; margin-top:14px; font-size:15px; line-height:1.6; }
+.find { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; margin-top:12px; }
+.find > div { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:16px 18px; }
+.find h3 { font-size:18px; margin:0 0 6px; } .find p { margin:0; font-size:14.5px; }
+.src { font-size:12.5px; color:var(--muted); margin-top:6px; }
+.note { background:var(--note-bg); color:var(--note-ink); border-left:4px solid var(--note-edge); border-radius:12px; padding:12px 14px; font-size:14.5px; line-height:1.6; margin-top:16px; }
+.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:34px; border-top:1px solid var(--line); padding-top:14px; }
+a { color:inherit; }
+@media (max-width:900px) { .lab { grid-template-columns:1fr; } .stage { height:420px; } }
+@media (max-width:640px) { .wrap { padding:24px 16px 50px; } .stage { height:360px; } .hint { display:none; } }
+</style>
+</head>
+<body>
+<div class="hero" id="hero" data-light="day">
+  <header id="navMount"></header>
+  <main class="wrap" id="main">
+    <span class="eyebrow">Brain disease · Parkinson's mechanisms 1</span>
+    <h1>Parkinson's: what losing dopamine neurons does to the brain's wiring <span class="tagx">Exploratory</span></h1>
+    <p class="lead">In Parkinson's disease, the neurons that make <b>dopamine</b> slowly die. Fruit flies have dopamine neurons too, and in fly
+      models of Parkinson's they are lost as well. Here we trace, in a real fly brain's wiring, <b>where the dopamine signal goes</b> and
+      <b>what is cut off</b> as these neurons die, one at a time.</p>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="lab">
+      <div class="stage" id="stage" role="region" aria-label="3D fly brain showing dopamine neurons and the neurons that receive their signal">
+        <div id="gl"></div>
+        <div class="hint">drag to turn · scroll to zoom</div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <aside class="side" aria-label="Controls">
+        <div><div class="k" style="margin-bottom:6px">Which neurons die</div>
+          <div class="seg" id="scen" role="group" aria-label="Loss pattern"></div></div>
+        <div><div class="k" style="margin-bottom:6px">Dopamine neurons lost: <span id="nlost">0</span> of <span id="ntot"></span></div>
+          <div class="slider"><button id="play" aria-label="Play the loss">▶ Play</button><input type="range" id="sl" min="0" max="100" value="0" aria-label="Share of dopamine neurons lost"></div></div>
+        <div><div class="k">Neurons cut off from at least half their dopamine</div><div class="big" id="half">0</div><div style="font-size:13px;color:var(--muted)" id="halfof"></div></div>
+        <div><div class="k" style="margin-bottom:8px">Dopamine input left, by kind of neuron</div><div class="bars" id="bars"></div></div>
+      </aside>
+    </div>
+    <div class="story" id="story" aria-live="polite"></div>
+
+    <h2>What the wiring shows</h2>
+    <div class="find" id="find"></div>
+
+    <h2>What dopamine does there</h2>
+    <p class="lead" style="font-size:15px">Known biology, from experiments on real flies, which helps read the map above.</p>
+    <div class="find">
+      <div><h3>Dopamine teaches the learning centre</h3><p>Most fly dopamine neurons send their signal to the <b>mushroom body</b>, the fly's centre for learning and memory.
+        Each dopamine neuron covers one small compartment of it. There, dopamine changes how strongly Kenyon cells (which carry smells) talk to
+        the output neurons (MBONs), which is how a fly learns that a smell means food or danger.</p>
+        <p class="src">Aso et al. 2014, <i>eLife</i>; review: Cognigni et al. 2018, <i>Curr Opin Neurobiol</i>.</p></div>
+      <div><h3>Reward and punishment clusters</h3><p>The large <b>PAM</b> cluster mostly signals reward (such as sugar); the small <b>PPL1</b> cluster
+        mostly signals punishment. <b>PPL2</b> reaches the lateral horn, which handles inborn smell responses.</p>
+        <p class="src">Liu et al. 2012, <i>Nature</i>; Burke et al. 2012, <i>Nature</i>.</p></div>
+      <div><h3>Fly models of Parkinson's lose these cells</h3><p>Flies carrying human Parkinson's genes lose dopamine neurons as they age. Different
+        models report losses in different clusters, including PPL1 and PAM.</p>
+        <p class="src">Feany &amp; Bender 2000, <i>Nature</i>; Whitworth et al. 2005, <i>PNAS</i>; Riemensperger et al. 2013, <i>Cell Rep</i>.</p></div>
+    </div>
+
+    <div class="note"><b>Read with care.</b> This maps <i>where</i> the dopamine signal would be lost and how well each neuron is backed up. It does not
+      simulate the disease itself (for example the alpha-synuclein protein), why the cells die, or what the fly then does. Dopamine mostly acts
+      slowly, by changing connection strengths, which the lab's fast simulation does not capture yet. There is no real-fly measurement of this
+      kind to check it against, so it is labelled exploratory. Details and the analysis plan, written before it was run, are in the
+      <a href="../experiments/notebook.html#PD1">lab notebook</a>.</div>
+
+    <p class="fine" id="fine"></p>
+  </main>
+</div>
+<script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
+<script src="../feather.js?v=10"></script>
+<script>
+Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro Lab', sub: "Parkinson's", base: '../', current: 'disease', profile: false });
+</script>
+<script type="module">
+import * as T from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString('en-US');
+const D = await (await fetch('pd.json?v=1')).json();
+const FAST = await fetch('pd_fast.json?v=1').then(r => r.ok ? r.json() : null).catch(() => null);
+const nD = D.dan.length, nT = D.targets.length;
+const CLN = { Kenyon_Cell: 'Kenyon cells', MBON: 'Mushroom body outputs', unlabelled: 'Other brain neurons', ALPN: 'Smell relay neurons', CX: 'Central complex', LHLN: 'Lateral horn', LHCENT: 'Lateral horn centrifugal' };
+const nm = c => CLN[c] || c.replace(/_/g, ' ');
+
+// ---------- totals ----------
+const syn = new Float64Array(nT), nd = new Int32Array(nT);
+D.targets.forEach((t, i) => { syn[i] = t.syn; nd[i] = t.n_dan; });
+const OUT = Array.from({ length: nD }, () => []);
+for (const [a, b, s] of D.edges) OUT[a].push([b, s]);
+const C = D.counts, spof = D.spof;
+const mbShare = D.targets.reduce((s, t) => s + (t.region.startsWith('MB_') ? t.syn : 0), 0) / C.syn;
+$('stats').innerHTML = [[C.dan, 'dopamine neurons (PAM ' + C.pam + ', PPL1 ' + C.ppl1 + ', PPL2 ' + C.ppl2 + ')'], [fmt(C.targets), 'neurons that receive their signal'],
+  [fmt(C.syn), 'dopamine synapses onto them'], [Math.round(100 * mbShare) + '%', 'of those synapses land in the mushroom body (learning centre)']]
+  .map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+
+// ---------- scenarios ----------
+const SC = [
+  { id: 'ppl1', t: 'PPL1 first, then the rest', d: 'The small PPL1 cluster dies first, as several fly models report' },
+  { id: 'pam', t: 'PAM cluster only', d: 'The large reward cluster dies; the others survive' },
+  { id: 'all', t: 'All, at random', d: 'Any dopamine neuron can die next' },
+];
+let sc = 'ppl1';
+$('scen').innerHTML = SC.map(s => `<button data-s="${s.id}" aria-pressed="${s.id === sc}">${s.t}<small>${s.d}</small></button>`).join('');
+const maxLost = s => D.orders[s].length;
+function remainingAt(s, k) {
+  const lostSyn = new Float64Array(nT);
+  for (const d of D.orders[s].slice(0, k)) for (const [b, w] of OUT[d]) lostSyn[b] += w;
+  const rem = new Float64Array(nT); for (let i = 0; i < nT; i++) rem[i] = 1 - lostSyn[i] / syn[i];
+  return rem;
+}
+
+// ---------- 3D ----------
+const pos = new Float32Array(await (await fetch('../anatomy/celltypes/positions.bin')).arrayBuffer());
+const NP = pos.length / 3, P = (i, a, k) => { a[k] = pos[3 * i]; a[k + 1] = -pos[3 * i + 1]; a[k + 2] = pos[3 * i + 2]; };
+const stage = $('stage'), wrap = $('gl');
+const renderer = new T.WebGLRenderer({ antialias: true, alpha: true }); renderer.setPixelRatio(Math.min(2, devicePixelRatio)); wrap.appendChild(renderer.domElement);
+const scene = new T.Scene(), cam = new T.PerspectiveCamera(32, 1, 1, 6000); cam.position.set(0, 60, 1050);
+const ctl = new OrbitControls(cam, renderer.domElement); ctl.enableDamping = true; ctl.autoRotate = true; ctl.autoRotateSpeed = 0.5;
+const tex = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'); const r = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  r.addColorStop(0, '#fff'); r.addColorStop(.6, 'rgba(255,255,255,.9)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 64, 64); return new T.CanvasTexture(c); })();
+{ const n = Math.floor(NP / 4), a = new Float32Array(3 * n); for (let j = 0; j < n; j++) P(4 * j, a, 3 * j);
+  const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(a, 3));
+  scene.add(new T.Points(g, new T.PointsMaterial({ size: 3, map: tex, transparent: true, opacity: .16, depthWrite: false, color: 0x8595a4 }))); }
+const tg = new T.BufferGeometry(), tp = new Float32Array(3 * nT), tcol = new Float32Array(3 * nT);
+D.targets.forEach((t, i) => P(t.idx, tp, 3 * i)); tg.setAttribute('position', new T.BufferAttribute(tp, 3)); tg.setAttribute('color', new T.BufferAttribute(tcol, 3));
+scene.add(new T.Points(tg, new T.PointsMaterial({ size: 7, map: tex, transparent: true, vertexColors: true, depthWrite: false })));
+const dg = new T.BufferGeometry(), dp = new Float32Array(3 * nD), dcol = new Float32Array(3 * nD), dsz = [];
+D.dan.forEach((d, i) => P(d.idx, dp, 3 * i)); dg.setAttribute('position', new T.BufferAttribute(dp, 3)); dg.setAttribute('color', new T.BufferAttribute(dcol, 3));
+const danPts = new T.Points(dg, new T.PointsMaterial({ size: 15, map: tex, transparent: true, vertexColors: true, depthWrite: false })); danPts.renderOrder = 3; scene.add(danPts);
+const theme = () => document.documentElement.dataset.light === 'dusk' ? 'dusk' : 'day';
+const PAL = { day: { PAM: '#0064e0', PPL1: '#6441d2', PPL2: '#0b8a77', full: '#0064e0', gone: '#c80a28', dead: '#b8c0c9' },
+              dusk: { PAM: '#47a5fa', PPL1: '#b9a6ff', PPL2: '#2ee6c8', full: '#47a5fa', gone: '#ff6b7f', dead: '#4a4d52' } };
+function fit() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
+new ResizeObserver(fit).observe(stage); fit();
+(function loop() { ctl.update(); renderer.render(scene, cam); requestAnimationFrame(loop); })();
+
+// ---------- paint ----------
+const cA = new T.Color(), cB = new T.Color(), cX = new T.Color();
+function paint() {
+  const k = Math.round(+$('sl').value / 100 * maxLost(sc));
+  const rem = remainingAt(sc, k), p = PAL[theme()];
+  const dead = new Set(D.orders[sc].slice(0, k));
+  cA.set(p.full); cB.set(p.gone);
+  for (let i = 0; i < nT; i++) { cX.copy(cB).lerp(cA, Math.max(0, rem[i])); tcol.set([cX.r, cX.g, cX.b], 3 * i); }
+  tg.attributes.color.needsUpdate = true;
+  D.dan.forEach((d, i) => { cX.set(dead.has(i) ? p.dead : p[d.cluster] || p.PAM); dcol.set([cX.r, cX.g, cX.b], 3 * i); }); dg.attributes.color.needsUpdate = true;
+  let half = 0; for (let i = 0; i < nT; i++) if (rem[i] <= 0.5) half++;
+  $('nlost').textContent = k; $('ntot').textContent = maxLost(sc);
+  $('half').textContent = fmt(half); $('halfof').textContent = `of ${fmt(nT)} neurons that receive dopamine (${Math.round(100 * half / nT)}%)`;
+  $('bars').innerHTML = D.classes.slice(0, 6).map(c => { let s = 0, n = 0; D.targets.forEach((t, i) => { if (t.cls === c) { s += Math.max(0, rem[i]); n++; } });
+    const v = n ? s / n : 0; return `<div class="bar"><span>${nm(c)}</span><span class="t"><span class="f" style="width:${(100 * v).toFixed(1)}%;display:block"></span></span><span>${Math.round(100 * v)}%</span></div>`; }).join('');
+  // plain-language story for this stage
+  const lostBy = { PAM: 0, PPL1: 0, PPL2: 0 }; for (const i of dead) lostBy[D.dan[i].cluster]++;
+  const avg = rem.reduce((a, b) => a + Math.max(0, b), 0) / nT;
+  const zero = rem.reduce((a, b) => a + (b <= 1e-9 ? 1 : 0), 0);
+  let s;
+  if (!k) s = `<b>A healthy brain.</b> All ${nD} dopamine neurons are alive (coloured dots, by cluster). The ${fmt(nT)} neurons that receive their signal are shown in blue. Drag the slider or press Play to let dopamine neurons die.`;
+  else s = `<b>${k} dopamine neuron${k > 1 ? 's' : ''} lost</b> (PAM ${lostBy.PAM}, PPL1 ${lostBy.PPL1}, PPL2 ${lostBy.PPL2}; grey dots). `
+    + `On average, the receiving neurons have <b>${Math.round(100 * avg)}%</b> of their dopamine input left. <b>${fmt(half)}</b> have lost at least half of it, and <b>${fmt(zero)}</b> have lost all of it (red). `
+    + (sc === 'ppl1' && k <= C.ppl1 ? `PPL1 is only ${C.ppl1} cells, yet each one reaches hundreds of neurons, so the damage spreads fast.` :
+       sc === 'pam' ? `PAM is the biggest cluster, but it reaches far fewer neurons than PPL1, so most dopamine-receiving neurons keep their input.` :
+       `Because most receiving neurons depend on just one or two dopamine neurons, each loss cuts some of them off completely rather than weakening many a little.`);
+  $('story').innerHTML = s;
+}
+$('legend').innerHTML = `<span><i style="background:${PAL.day.PAM}"></i>PAM</span><span><i style="background:${PAL.day.PPL1}"></i>PPL1</span><span><i style="background:${PAL.day.PPL2}"></i>PPL2</span><span><i style="background:${PAL.day.dead}"></i>lost</span>
+  <span>receiving neurons: lost all<span class="grad" style="background:linear-gradient(90deg,${PAL.day.gone},${PAL.day.full})"></span>full input</span>`;
+$('scen').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; sc = b.dataset.s;
+  document.querySelectorAll('#scen button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); paint(); });
+$('sl').addEventListener('input', paint);
+let timer = null;
+$('play').addEventListener('click', () => {
+  if (timer) { clearInterval(timer); timer = null; $('play').textContent = '▶ Play'; return; }
+  if (+$('sl').value >= 100) $('sl').value = 0;
+  $('play').textContent = '❚❚ Pause';
+  timer = setInterval(() => { const v = +$('sl').value + 1; $('sl').value = Math.min(100, v); paint(); if (v >= 100) { clearInterval(timer); timer = null; $('play').textContent = '▶ Play'; } }, 90);
+});
+
+// ---------- findings, from the data ----------
+const ppl1Rem = remainingAt('ppl1', C.ppl1), pamRem = remainingAt('pam', C.pam);
+const avgOf = r => r.reduce((a, b) => a + Math.max(0, b), 0) / nT, halfOf = r => r.reduce((a, b) => a + (b <= .5 ? 1 : 0), 0);
+const pc = D.per_cluster;
+$('find').innerHTML = [
+  ['A few cells, a huge reach', `The ${C.ppl1} PPL1 neurons are only ${Math.round(100 * C.ppl1 / C.dan)}% of the dopamine neurons, but they reach ${fmt(pc.PPL1.targets)} neurons. Losing all ${C.ppl1} leaves ${fmt(halfOf(ppl1Rem))} neurons with less than half their dopamine input. Losing all ${C.pam} PAM neurons does that to ${fmt(halfOf(pamRem))}.`],
+  ['Almost no backup', `${fmt(spof.n)} of the ${fmt(spof.total)} receiving neurons (${Math.round(100 * spof.n / spof.total)}%) get their dopamine from just one or two dopamine neurons. For them, a single cell's death removes their dopamine input entirely. Most are Kenyon cells of the mushroom body.`],
+  ['The learning centre takes the hit', `${Math.round(100 * mbShare)}% of dopamine synapses land in the mushroom body: on Kenyon cells (${fmt(D.by_class.find(x => x.class === 'Kenyon_Cell')?.n || 0)} of them) and its output neurons (${fmt(D.by_class.find(x => x.class === 'MBON')?.n || 0)}). That is where the fly's memory of good and bad smells is written.`],
+  ['PPL2 serves inborn smell', `The ${C.ppl2} PPL2 neurons go somewhere else: mainly the lateral horn, which handles smell responses a fly is born with rather than learns.`],
+  ['The fast taste reflex is untouched', FAST ? `In the brain simulation, removing all ${FAST.sugar.n_dan} dopamine neurons left the tongue reflex unchanged (sugar ${FAST.sugar.normal} → ${FAST.sugar.dopamine_removed} firings per second; water ${FAST.water.normal} → ${FAST.water.dopamine_removed}). None of the dopamine neurons fire to taste in this model, so the effect of losing them has to be looked for in learning, not in this reflex.` : 'Simulation check pending.'],
+].map(([h, t]) => `<div><h3>${h}</h3><p>${t}</p></div>`).join('');
+$('fine').innerHTML = `Brain: FlyWire v783 (Dorkenwald et al. 2024; Schlegel et al. 2024). Dopamine neurons: FlyWire class "DAN" (${C.dan} neurons); dopamine neurons outside that class (such as the PPM and PAL clusters) are not included. Connections: FlyWire's table of connections with 5 or more synapses, ${fmt(C.edges)} links. Loss order: one fixed random order per pattern (the summary in the lab notebook averages 10 orders). Analysis plan written ${D.prereg.written.split(',')[0].replace('T', ' ').replace('Z', ' UTC')}, before the analysis was run: <a href="pd_preregistration.json">pd_preregistration.json</a>. Data: <a href="pd.json">pd.json</a>. Script: <span style="font-family:ui-monospace,Menlo,monospace">tools/build_pd.py</span>.`;
+Feather.init({ onLight: () => paint() });
+paint();
+</script>
+</body>
+</html>

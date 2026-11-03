@@ -1,0 +1,20 @@
+{
+ "title": "Parkinson's mechanisms 1: what losing dopamine neurons does to the fly brain's wiring",
+ "written": "2026-11-03T20:26Z, before any of this analysis was run.",
+ "question": "When dopamine neurons are lost, as in fruit-fly models of Parkinson's disease, which neurons and brain regions lose their dopamine input, how quickly, and where are the single points of failure?",
+ "brain": "FlyWire v783 (female brain). Dopamine neurons and their connections from the FlyWire release (connections of 5+ synapses, with brain region per connection).",
+ "dopamine_neurons": "FlyWire class 'DAN': 331 neurons (PAM 307, PPL1 16, PPL2 8). Dopamine neurons outside this class (e.g. PPM and PAL clusters) are not labelled DAN in FlyWire and are not included; this is a stated limitation.",
+ "scenarios": [
+  "PPL1 first: the 16 PPL1 neurons lost one at a time (a cluster often reported vulnerable in fly Parkinson's models), then the rest at random.",
+  "PAM only: PAM neurons lost at random, 0 to 100%.",
+  "All dopamine neurons at random, 0 to 100% in 10% steps. Random orders use fixed seeds (10 orders); results report the average and range."
+ ],
+ "measures": [
+  "For every neuron that receives dopamine-neuron connections: the share of its dopamine input synapses that remain.",
+  "Grouped by FlyWire cell class and by brain region (neuropil).",
+  "Neurons that lose half or more of their dopamine input, at each stage.",
+  "Single points of failure: neurons whose dopamine input comes from 2 or fewer dopamine neurons.",
+  "Fast-signal check with the published brain model (Shiu et al. 2024 settings): all 331 dopamine neurons removed, sugar 100/s and water 200/s, 30 repeats; change in MN9 firing."
+ ],
+ "not_claimed": "Dopamine in real brains mostly changes how strongly other neurons are connected (for example, it drives learning in the mushroom body) and acts slowly; the simulation treats it as a fast signal. This analysis maps WHERE the dopamine signal would be lost and how robust each target is; it does not simulate the disease chemistry (such as alpha-synuclein), cell death itself, or behaviour. Exploratory: there is no real-fly measurement of this kind to check it against."
+}

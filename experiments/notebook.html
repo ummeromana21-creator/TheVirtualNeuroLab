@@ -6,7 +6,7 @@
 <title>Lab Notebook · The Virtual Neuro Lab</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%230064e0'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
-<link rel="stylesheet" href="../feather.css?v=9">
+<link rel="stylesheet" href="../feather.css?v=10">
 <style>
 .hero { min-height:100dvh; background:var(--bg); color:var(--ink); }
 .wrap { max-width:1000px; margin:0 auto; padding:34px 22px 60px; }
@@ -34,7 +34,7 @@ p, li { font-size:15px; line-height:1.6; }
 .entry[open] summary .chev { transform:rotate(90deg); }
 .tag { flex:none; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:100px; white-space:nowrap; }
 .d-potential, .d-new { background:var(--disc-bg); color:var(--disc-ink); } .d-known { background:var(--ok-bg); color:var(--ok-ink); } .d-miss { background:var(--err-bg); color:var(--err-ink); }
-.d-partial { background:var(--warn-bg); color:var(--warn-ink); } .d-none { background:var(--chip); color:var(--muted); } .d-open { background:var(--info-bg); color:var(--info-ink); }
+.d-explore { background:var(--warn-bg); color:var(--warn-ink); } .d-partial { background:var(--warn-bg); color:var(--warn-ink); } .d-none { background:var(--chip); color:var(--muted); } .d-open { background:var(--info-bg); color:var(--info-ink); }
 .body { padding:0 18px 16px 102px; }
 .body dl { display:grid; grid-template-columns:170px 1fr; gap:8px 14px; margin:0; font-size:14.5px; line-height:1.55; }
 .body dt { color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding-top:3px; }
@@ -96,7 +96,7 @@ a { color:inherit; }
     <p class="fine" style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:34px;border-top:1px solid var(--line);padding-top:14px" id="fine"></p>
   </main>
 </div>
-<script src="../feather.js?v=9"></script>
+<script src="../feather.js?v=10"></script>
 <script>
 Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro Lab', sub: 'Lab notebook', base: '../', current: 'experiments', profile: false });
 Feather.init();
@@ -106,7 +106,7 @@ Feather.init();
   const ds = NB.entries.find(e => e.id === 'DS1');
   document.getElementById('track').textContent = ds && ds.confidence_rule ? ds.confidence_rule.track : '';
   document.getElementById('rulewhen').textContent = ds && ds.confidence_rule ? ds.confidence_rule.written : '';
-  const WORD = { potential: 'Potential discovery', new: 'Potential discovery', known: 'Matches real flies', open: 'New prediction', miss: 'Model miss', partial: 'Partial match', none: 'No claim' };
+  const WORD = { potential: 'Potential discovery', new: 'Potential discovery', known: 'Matches real flies', open: 'New prediction', miss: 'Model miss', partial: 'Partial match', none: 'No claim', explore: 'Exploratory' };
   const group = s => (s === 'potential' || s === 'new') ? 'disc' : s === 'known' ? 'known' : (s === 'miss' || s === 'partial') ? 'miss' : 'other';
   const row = (k, v) => v ? `<dt>${k}</dt><dd>${v}</dd>` : '';
   function card(e) {
