@@ -152,10 +152,11 @@ function run(key) {
   const nb = key !== 'touch' && (sel.b > 0) ? B.stimuli.find(s => s.key === `s${sel.s}_b0_w${sel.w}`) : null;
   cur.why = key === 'touch' ? 'Moving her antennae switches on aBN1, the brain neuron that starts antennal grooming in real flies too.'
     : nb && (sel.s > 0 || sel.w > 0) ? (st.tongue ? `Bitter weakened the push on her tongue neuron (${f1(nb.mn9)} → ${f1(st.mn9)} per second) but didn't stop it.`
-      : `Bitter overruled the sweet signal: her tongue neuron dropped from ${f1(nb.mn9)} to ${f1(st.mn9)} firings a second. Real flies refuse bitter food too.`)
+      : `Bitter overruled the ${sel.s > 0 ? 'sweet' : 'water'} signal: her tongue neuron dropped from ${f1(nb.mn9)} to ${f1(st.mn9)} times a second.${sel.s > 0 ? ' Real flies also refuse sugar mixed with bitter.' : ''}`)
     : sel.b > 0 ? 'Bitter on its own never tells the tongue to come out. Real flies behave the same way.'
     : st.tongue ? `Her tongue neuron, MN9, fired ${f1(st.mn9)} times a second; 10 or more brings the tongue out.` : !st.active ? '' : `Her tongue neuron fired ${f1(st.mn9)} times a second, below the line of 10.`;
   cur.sent = sentence(st, key);
+  const me = cur; setTimeout(() => { if (cur === me) { $('verdict').textContent = me.sent; $('why').innerHTML = me.why; } }, reduce ? 0 : 2400);   // the verdict appears with the decision, even if the page is in the background
   $('rinfo').textContent = 'Hover over the brain to name a part; click to keep its details here.';
 }
 function pick(code) {
@@ -188,7 +189,6 @@ function fit(r, el, cam) { const w = el.clientWidth, h = el.clientHeight; if (r.
   const e = reduce ? 99 : t - beatT0, beat = e < .8 ? 0 : e < 2.4 ? 1 : 2;
   inPts.material.opacity = Math.min(1, e / .4); regPts.material.opacity = Math.max(0, Math.min(1, (e - .8) / 1.2)); decPts.material.opacity = e >= 2.4 ? 1 : 0;
   document.querySelectorAll('#beats li').forEach(li => li.classList.toggle('on', +li.dataset.j <= beat));
-  if (cur && e >= 2.4 && !$('verdict').textContent) { $('verdict').textContent = cur.sent; $('why').innerHTML = cur.why; }
   bodyPose(t); bctl.update(); rctl.update(); br.render(bs, bcam); rr.render(rs, rcam);
   const w = rv.clientWidth, h = rv.clientHeight;
   hovered = hoverPick(w, h);
