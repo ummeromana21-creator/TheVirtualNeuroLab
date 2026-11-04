@@ -2,7 +2,7 @@
 window.Feather = (() => {
   const HUBS = [
     { id: 'home', name: 'Home', sub: 'start here', icon: 'i-house', href: 'index.html' },
-    { id: 'discover', name: 'Knockout Lab', sub: 'switch off a neuron', icon: 'i-fly', href: 'discover/' },
+    { id: 'discover', name: 'Neuron Silencing Screen', sub: 'switch off a neuron', icon: 'i-fly', href: 'discover/' },
     { id: 'disease', name: 'Parkinson\u2019s', sub: 'brain disease', icon: 'i-pulse2', href: 'disease/' },
     { id: 'experiments', name: 'Experiments', sub: 'tests and notebook', icon: 'i-flask', href: 'experiments/' },
     { id: 'flies', name: 'Vivarium', sub: 'Maxime · Hagrid', icon: 'i-fly', href: 'flies/' },
@@ -108,13 +108,13 @@ window.Feather = (() => {
     home: [
       { t: 'Welcome to the Virtual Neuro Lab', b: 'This lab runs experiments on a simulation of the complete fruit-fly brain, reconstructed synapse by synapse from electron microscopy. This short tour shows you around. You can replay it any time with the Tour button at the top.' },
       { el: '.shell-nav, .shell-menubtn', t: 'Getting around', b: 'Every part of the lab is here. Each page has its own short tour the first time you open it.' },
-      { el: '.cta', t: 'Start here: the Knockout Lab', b: 'Switch off one neuron and see whether the fly can still eat or drink. This is where the lab makes new predictions that no one has tested yet.' },
+      { el: '.cta', t: 'Start here: the Neuron Silencing Screen', b: 'Switch off one neuron and see whether the fly can still eat or drink. This is where the lab makes new predictions that no one has tested yet.' },
       { el: '.tiles', t: 'The rest of the lab', b: 'Parkinson\u2019s, the experiments and their full records, the flies in 3D, a map of every brain region, and the worm.' },
       { el: '#muse-btn', t: 'Ask Muse', b: 'Got a question? Muse, Meta’s AI, answers from the lab’s own records first and then the web, and shows its sources.' },
       { el: '[data-light-toggle]', t: 'Light or dark', b: 'Switch between a light and a dark look whenever you like.' },
     ],
     discover: [
-      { t: 'The Knockout Lab', b: 'Here you switch off one neuron at a time in a simulated fly brain and watch whether the signal still reaches the tongue.' },
+      { t: 'The Neuron Silencing Screen', b: 'Here you switch off one neuron at a time in a simulated fly brain and watch whether the signal still reaches the tongue.' },
       { el: '.taste', t: '1. Pick a taste', b: 'Sugar (eating) or water (drinking). This is what we put on the fly’s tongue.' },
       { el: '#filt', t: '2. Choose which neurons to see', b: '“Needed” shows neurons the fly can’t eat or drink without. “New discoveries” are ones no living fly has been tested on, as far as we know.' },
       { el: '#list', t: '3. Switch one off', b: 'Click a neuron to switch it off. The number shows how hard the tongue neuron fires before and after.' },
@@ -377,7 +377,7 @@ window.Feather = (() => {
     const btn = document.createElement('button'); btn.id = 'muse-btn'; btn.textContent = 'Ask Muse';
     const pane = document.createElement('section'); pane.id = 'muse-pane'; pane.hidden = true; pane.setAttribute('aria-label', 'Ask Muse');
     pane.innerHTML = `<header><div><b>Ask Muse</b><small>Answers from the lab's records first, then the web. Written by AI; check the sources.</small></div><button class="x" aria-label="Close">×</button></header>
-      <div id="muse-log" aria-live="polite"><div class="mchips">${['What is MN9?', 'Why did experiment E4 miss?', 'What does the Knockout Lab predict?', 'What happens when dopamine neurons die?'].map(q => `<button>${q}</button>`).join('')}</div></div>
+      <div id="muse-log" aria-live="polite"><div class="mchips">${['What is MN9?', 'Why did experiment E4 miss?', 'What does the Neuron Silencing Screen predict?', 'What happens when dopamine neurons die?'].map(q => `<button>${q}</button>`).join('')}</div></div>
       <form id="muse-form"><input placeholder="Ask anything about the lab…" aria-label="Your question" maxlength="1000"><button>Ask</button></form>`;
     document.body.append(btn, pane);
     const log = pane.querySelector('#muse-log'), input = pane.querySelector('input');

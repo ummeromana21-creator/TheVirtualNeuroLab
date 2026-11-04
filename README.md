@@ -4,7 +4,7 @@ Experiments on a simulated fruit-fly brain, wired neuron by neuron from a real e
 running the published brain model of Shiu et al. 2024 (*Nature* 634:210) with its published settings. Every pass mark is
 written down before the run, nothing is tuned, and misses stay on the page. Built for the Meta (Muse) hackathon, November 2026.
 
-**Pages:** Home · Knockout Lab (switch off one neuron, watch the signal; Discovery Screen predictions with confidence levels) ·
+**Pages:** Home · Neuron Silencing Screen (switch off one neuron, watch the signal; Discovery Screen predictions with confidence levels) ·
 Vivarium (Maxime and Hagrid in 3D) · Fly Atlas · Prediction check · Experiments (calibration test, Taste Bench,
 Round 1) and the **Lab notebook** (a full record of every experiment) · The worm (*C. elegans*, all 302 neurons) · Parkinson's (where the dopamine signal is lost as dopamine neurons die; exploratory) · What's next.
 Ask Muse (Meta's AI) answers questions about the lab, with sources. Each page has a guided tour.
@@ -32,7 +32,7 @@ the .html files.
 | Folder | Page | Built from |
 |---|---|---|
 | `index.html` | Home | — |
-| `discover/` | Knockout Lab — switch off a neuron, watch the signal; Discovery Screen predictions | `tools/run_screen.py`, `run_confirm.py`, `run_streaks.py`, `build_screen_json.py` |
+| `discover/` | Neuron Silencing Screen — switch off a neuron, watch the signal; Discovery Screen predictions | `tools/run_screen.py`, `run_confirm.py`, `run_streaks.py`, `build_screen_json.py` |
 | `experiments/` | Taste Bench, Round 1, calibration test | `tools/run_flywire_round1.py`, `run_bench.py`, `run_calibration.py` |
 | `lab_index.json` | what Ask Muse can search | `tools/build_lab_index.py` |
 | `flies/` | Vivarium — Maxime and Hagrid in 3D, each drawn from its own measured cell bodies | BANC v888 (Maxime), male CNS v1.0 (Hagrid), via `library/points/` |

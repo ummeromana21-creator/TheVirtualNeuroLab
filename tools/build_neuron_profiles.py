@@ -1,4 +1,4 @@
-"""Per-neuron facts for the Knockout Lab explanation panel. Everything comes from data files, nothing typed by hand:
+"""Per-neuron facts for the Neuron Silencing Screen explanation panel. Everything comes from data files, nothing typed by hand:
 FlyWire v783 annotations (classification, predicted neurotransmitter), FlyWire synapse table (>= 5 synapses per connection),
 the Shiu et al. 2024 taste-neuron lists, the 30/10-run screen results (screen.json) and the 20-run maps (runs/).
 Usage: python3 build_profiles.py <discover dir>"""

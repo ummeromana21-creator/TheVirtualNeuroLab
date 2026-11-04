@@ -1,4 +1,4 @@
-"""Knockout maps built from many simulation runs (replaces the one-run maps).
+"""Neuron Silencing Screen maps built from many simulation runs (replaces the one-run maps).
 For every map (normal brain, and each of the 286 neurons switched off; sugar and water), run the simulation 20 times
 with different random input (seeds 1-20), 100 ms each. A line A->B is kept only if the signal crossed that real,
 excitatory connection (B fired 1.8-7 ms after A) in at least 10 of the 20 runs. Times are medians over the runs in which

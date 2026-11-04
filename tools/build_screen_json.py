@@ -1,4 +1,4 @@
-"""Assemble discover/screen.json and discover/runs/*.json for the Knockout Lab page.
+"""Assemble discover/screen.json and discover/runs/*.json for the Neuron Silencing Screen page.
 Usage: python3 build_screen_json.py <skeleton dir> <flywire consolidated_cell_types.csv.gz> <streaks dir>"""
 import json, sys, os, glob, pickle
 import numpy as np, pandas as pd

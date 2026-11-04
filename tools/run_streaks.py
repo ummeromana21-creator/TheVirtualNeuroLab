@@ -1,4 +1,4 @@
-"""Timed runs for the knockout viewer: one recorded trial per run, first 200 ms, with the real connections the
+"""Timed runs for the Neuron Silencing Screen viewer: one recorded trial per run, first 200 ms, with the real connections the
 signal travelled along ("streaks"). A streak A->B is drawn when B fires and A, which is wired to B with an
 excitatory connection, fired 1.8-7 ms earlier (the model's synaptic delay plus rise time). Paths and timings are
 from the simulation; colours and glow are styling.
