@@ -69,6 +69,12 @@ h2 { font-size:28px; margin:44px 0 8px; }
 .story li { font-size:14.5px; line-height:1.55; color:var(--muted); transition:color .3s; }
 .story li.on { color:var(--ink); }
 .story li b { color:inherit; }
+.ex { display:grid; grid-template-columns:200px 1fr; gap:10px 18px; margin:0; }
+.ex dt { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding-top:3px; }
+.ex dd { margin:0; font-size:14.5px; line-height:1.6; }
+.ex dd + dt, .ex dd + dt + dd { border-top:1px solid var(--line); padding-top:10px; }
+.ex .vd { font-weight:700; }
+@media (max-width:700px) { .ex { grid-template-columns:1fr; gap:2px 0; } .ex dd { margin-bottom:10px; } .ex dd + dt + dd { border-top:0; padding-top:0; } }
 .story .sum { margin-top:10px; padding-top:10px; border-top:1px solid var(--line); font-size:14.5px; line-height:1.6; }
 .howto { margin-top:12px; padding:12px 16px; font-size:13.5px; line-height:1.6; color:var(--muted); }
 .tablewrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--panel); margin-top:12px; }
@@ -130,7 +136,7 @@ td.n { text-align:right; white-space:nowrap; }
           <span><i style="background:#ffd23f;box-shadow:0 0 0 2px #b8860b"></i>MN9: the tongue</span>
           <span><i style="background:#c0392b"></i>switched off</span>
         </div>
-        <div class="panel story" aria-live="polite"><h2 class="sth">What's happening</h2><ol id="steps"></ol><div class="sum" id="sum"></div></div>
+        <div class="panel story" aria-live="polite"><h2 class="sth" id="exT">What switching off a neuron means</h2><div id="explain"></div></div>
         <details class="three" id="three"><summary>See it inside the real brain (3D)</summary>
           <div class="duo">
             <div class="view" id="vA"><div class="vt">Normal brain</div><div class="inset" id="mapA"><span>where we are in the brain</span></div></div>
@@ -191,8 +197,9 @@ td.n { text-align:right; white-space:nowrap; }
       B fires 1.8–7 ms after A, which is wired to B with an exciting connection. The route to MN9 is traced inside each run (back from MN9's first spike, along connections crossed before the neuron they fed fired); a line is drawn only for a connection that was on the route in at least 10 of the 20 runs.
       The map shows the neurons on these routes, for the normal brain and the switched-off brain (up to six per step; the rest are grouped as "+ more");
       links between neurons in the same step are left out for clarity. In the 3D view, "route lost" = connections on the normal brain's route to MN9 that the signal no longer used after the switch-off.
-      Maps cover the first 100 ms; times are the median over the runs in which each event happened. Paths and timing are from the simulation, the colours and glow are styling, and the step-by-step text is
-      written from those same numbers. Tongue-signal numbers are averages over many runs (30 for every "needed" neuron).
+      Maps cover the first 100 ms; times are the median over the runs in which each event happened. Paths and timing are from the simulation, the colours and glow are styling. Tongue-signal numbers are averages over many runs (30 for every "needed" neuron).
+      Neuron descriptions are written from data, not by hand: cell class, side and wiring from FlyWire v783 (connections of 5 or more synapses),
+      predicted transmitter from Eckstein et al. 2024, taste neurons from Shiu et al. 2024 (<a href="profiles.json">profiles.json</a>).
       Rules: <a href="screen_preregistration.json">screen_preregistration.json</a>. Data: <a href="screen.json">screen.json</a>.
       Names: FlyWire cell types; names in quotes are from Shiu et al. 2024.</p>
   </main>
@@ -210,6 +217,7 @@ const $ = id => document.getElementById(id);
 const f1 = x => x == null ? '—' : (Math.round(x * 10) / 10).toLocaleString('en-US');
 const D = await (await fetch('screen.json?v=3')).json();
 const NAMES = await (await fetch('names.json?v=1')).json();
+const PROF = (await (await fetch('profiles.json?v=1')).json()).neurons;
 const pos = new Float32Array(await (await fetch('../anatomy/celltypes/positions.bin')).arrayBuffer());
 const N = pos.length / 3;
 const P = (i, out, k) => { out[k] = pos[3 * i]; out[k + 1] = -pos[3 * i + 1]; out[k + 2] = pos[3 * i + 2]; };
@@ -311,41 +319,82 @@ function paintView(v, tNow) {
 let DA = null, DB = null;
 let cond = 'sugar', sel = null, filt = 'needed', runA = null, runB = null, tNow = 0, playing = false, last = performance.now(), framed = false;
 const getRun = async key => { try { const r = await fetch(`runs/${key}.json?v=4`); return r.ok ? r.json() : null; } catch { return null; } };
-function events(run) {
-  const inputs = new Set(D.inputs[cond]);
-  const tIn = Math.min(...run.f.filter(([i]) => inputs.has(i)).map(([, t]) => t / 10));
-  const rest = run.f.filter(([i]) => !inputs.has(i)).map(([, t]) => t / 10).sort((a, b) => a - b);
-  const mn9 = run.mn9.filter(t => t != null).map(t => t / 10).sort((a, b) => a - b)[0];
-  const by = t => rest.filter(x => x <= t).length;
-  return { tIn, tFirst: rest[0], mn9, n10: by(10), nM: mn9 != null ? by(mn9) : null, n100: rest.length };
-}
+// ---------- the explanation: who the neuron is, what the wiring says, what switching it off did, how a real fly lab would do it ----------
+const esc = x => String(x == null ? '' : x).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const pct = x => Math.round(100 * Math.abs(x)) + '%';
+const KIND = {
+  central: 'a central neuron: it stays inside the brain and passes signals between other brain cells',
+  descending: 'a descending neuron: it carries signals from the brain down into the body\'s nerve cord',
+  ascending: 'an ascending neuron: it carries signals up from the body\'s nerve cord into the brain',
+  sensory: 'a sensory neuron: it brings information in from the body',
+  motor: 'a motor neuron: it drives a muscle',
+  visual_projection: 'a visual projection neuron: it carries signals from the eye\'s processing layers into the brain',
+  endocrine: 'a neurosecretory cell: it releases hormones' };
+const NTX = { acetylcholine: 'acetylcholine, the main exciting messenger in the fly brain', GABA: 'GABA, a calming (inhibitory) messenger',
+  glutamate: 'glutamate, which in the fly brain usually calms its targets',
+  dopamine: 'dopamine, a slower messenger that tunes how other neurons respond', serotonin: 'serotonin, a slower messenger that tunes how other neurons respond' };
+function reached(run) { return run && run.mn9_reached ? Math.max(...run.mn9_reached) : null; }
 function story() {
   const taste = cond === 'sugar' ? 'sugar' : 'water', act = cond === 'sugar' ? 'eat' : 'drink';
-  const eA = runA && events(runA), eB = runB && events(runB);
-  const s = [];
-  if (eA) {
-    s.push([eA.tIn, `<b>${f1(eA.tIn)} ms</b> · ${taste[0].toUpperCase() + taste.slice(1)} touches the tongue. The ${D.inputs[cond].length} ${taste}-sensing neurons start firing (orange).`]);
-    if (eA.tFirst != null) s.push([eA.tFirst, `<b>${f1(eA.tFirst)} ms</b> · The first neuron in the brain answers: the signal has crossed its first connection.`]);
-    s.push([Math.min(10, eA.mn9 || 10), `<b>10 ms</b> · ${eA.n10} neurons in the feeding centre are firing. Each line on the map is a real connection the signal has crossed.`]);
-    if (eA.mn9 != null) s.push([eA.mn9, `<b>${f1(eA.mn9)} ms</b> · Normal brain: the signal reaches <b>MN9</b> (gold). The tongue command goes out. By now ${eA.nM} neurons have fired; ${fillA.routeNeurons} of them carry the signal to MN9 in most runs (the gold lines in 3D).`]);
+  const rows = [];
+  const row = (k, v) => rows.push(`<dt>${k}</dt><dd>${v}</dd>`);
+  if (!sel) {
+    $('exT').textContent = 'What switching off a neuron means';
+    row('What you see', `The normal brain with ${taste} on the tongue. On average it fires MN9, the motor neuron that pushes the tongue out,
+      <b>${f1(D.baseline[cond])}</b> times a second: the fly would stick out its tongue to ${act}. The map shows the neurons that carried the signal
+      to MN9 in at least half of 20 simulation runs.`);
+    row('Switching off', `When you pick a neuron, the simulation silences that one cell: it can no longer fire, so it passes nothing on. Every
+      other neuron and connection stays exactly as it is. We then compare how often MN9 fires with and without it, averaged over many runs.
+      A drop of 20% or more means the lab predicts a real fly needs that neuron.`);
+    row('Next', 'Pick a neuron on the left to see who it is, what its wiring suggests it does, and what happened when we switched it off.');
+    $('explain').innerHTML = `<dl class="ex">${rows.join('')}</dl>`; return;
   }
-  if (eB && sel) {
-    const n = BY[sel];
-    if (eB.mn9 != null) s.push([eB.mn9, `<b>${f1(eB.mn9)} ms</b> · With <b>${n.label}</b> switched off, the signal still reaches MN9${eA && eA.mn9 != null ? (eB.mn9 > eA.mn9 + 0.5 ? `, ${f1(eB.mn9 - eA.mn9)} ms later than normal` : '') : ''}. Compare the two maps: connections missing from the lower one went silent.`]);
-    else s.push([Math.max(30, (eA && eA.mn9 != null ? eA.mn9 : 0) + 0.2), `<b>by 100 ms</b> · With <b>${n.label}</b> switched off, the signal no longer reaches MN9 in most runs: the tongue stays in.`]);
-  }
-  s.sort((a, b) => a[0] - b[0]);
-  $('steps').innerHTML = s.map(([t, h]) => `<li data-t="${t}">${h}</li>`).join('');
-  // the summary sentence: from the averages, not the single replay
-  const base = sel ? BY[sel][cond + '_base'] : D.baseline[cond];
-  let sum = `On average the normal brain fires MN9 <b>${f1(base)}</b> times a second for ${taste}: the fly would stick out its tongue to ${act}.`;
-  if (sel) { const n = BY[sel], v = n[cond], drop = n[cond + '_drop'], need = n[cond + '_needed'];
-    const other = cond === 'sugar' ? 'water' : 'sugar', oNeed = n[other + '_needed'];
-    sum += ` Without <b>${n.label}</b> it fires <b>${f1(v)}</b> (${drop >= 0 ? Math.round(100 * drop) + '% weaker' : Math.round(-100 * drop) + '% stronger'}). `
-      + (need ? `That's a big enough drop for the lab to predict a real fly <b>needs this neuron to ${act}</b>${n.tested ? ' (the 2024 study names it)' : ', a prediction no living-fly test has checked yet as far as we know'}.`
-              : `That's too small to matter, so the lab predicts this neuron is <b>not needed to ${act}</b>${oNeed ? `, but it is predicted to be needed to ${other === 'sugar' ? 'eat' : 'drink'}: switch to ${other[0].toUpperCase() + other.slice(1)} to see it` : ''}.`);
-  } else sum += ' Pick a neuron on the left to switch it off and compare.';
-  $('sum').innerHTML = sum;
+  const n = BY[sel], p = PROF[sel] || {};
+  $('exT').textContent = `What switching off ${n.label} means`;
+  // 1. who it is
+  const kind = KIND[p.super_class] || (p.super_class ? `a neuron of the "${esc(p.super_class)}" class` : 'a neuron');
+  const sib = p.same_type_in_screen > 1 ? ` The brain has more than one cell of this type; the "#" number tells them apart, and the simulation switched off only this one.` : '';
+  row('The neuron', `<b>${esc(n.label)}</b>, FlyWire cell type <b>${esc(n.type)}</b>${p.side ? `, on the ${esc(p.side)} side of the brain` : ''}. It is ${kind}.${sib}
+    ${n.tested ? ` It is one of the neurons named in the 2024 study by Shiu and colleagues.` : ' As far as we know, no study has described what it does.'}`);
+  // 2. what the wiring says
+  const w = [];
+  w.push(`It works mainly in ${esc(p.out_region || 'the brain')}. It receives about ${(p.in_syn || 0).toLocaleString('en-US')} synapses from ${p.in_partners} other neurons
+    and makes about ${(p.out_syn || 0).toLocaleString('en-US')} onto ${p.out_partners}.`);
+  const tasteIn = [];
+  if (p.from_sugar) tasteIn.push(`${p.from_sugar} synapses straight from ${p.from_sugar_n} of the ${D.inputs.sugar.length} sugar-sensing neurons`);
+  if (p.from_water) tasteIn.push(`${p.from_water} straight from ${p.from_water_n} of the ${D.inputs.water.length} water-sensing neurons`);
+  w.push(tasteIn.length ? `It gets ${tasteIn.join(' and ')}, so it hears about taste first-hand.` : 'It gets no input directly from the taste neurons, so it hears about taste second-hand, through other neurons.');
+  w.push(p.to_mn9 ? `It connects straight to MN9 with ${p.to_mn9} synapses: it is one step from the tongue command.` : 'It has no direct connection to MN9: its signal reaches the tongue command through other neurons.');
+  if (p.nt) w.push(`Its synapses are predicted to release ${NTX[p.nt] || esc(p.nt)} (prediction from electron-microscope images${p.nt_score != null ? `, confidence ${p.nt_score}` : ''}).`);
+  row('What the wiring says', w.join(' ') + ` <span style="color:var(--muted)">This is what the map of its connections shows; what the cell actually does in a living fly has to be measured.</span>`);
+  // 3. what happened when we switched it off
+  const one = c => { const base = n[c + '_base'], v = n[c], d = n[c + '_drop'], need = n[c + '_needed'], a2 = c === 'sugar' ? 'eating' : 'drinking';
+    return `<b>${c === 'sugar' ? 'Sugar' : 'Water'}:</b> MN9 fires ${f1(base)} → <b>${f1(v)}</b> times a second (${d >= 0 ? pct(d) + ' weaker' : pct(d) + ' stronger'}).
+      <span class="vd">${need ? `Predicted to be needed for ${a2}.` : `Not needed for ${a2}.`}</span>`; };
+  const rB = reached(runB), why = n[cond + '_needed']
+    ? `the remaining routes to MN9 can't make up for losing it, so MN9 fires clearly less.`
+    : `the signal still finds its way to MN9 through other neurons: the circuit has backups around this cell.`;
+  row('When we switched it off', `${one('sugar')}<br>${one('water')}<br>With ${taste}, ${why}${rB != null ? ` In the 20 map runs with it off, MN9 fired at least once in ${rB}.` : ''}
+    ${n.conf ? `<br>How sure: <b>${esc(n.conf.level)}</b>. ${esc(n.conf.why)}` : ''}`);
+  // 4. how a real fly lab would do it
+  row('In a real fly', `In the simulation we simply stop the cell from firing. In a living fly, researchers use a genetic tool: a "driver line" that
+    switches on a gene only in this cell type, paired with a silencer such as Kir2.1 (keeps the cell from firing) or a light-controlled channel such as
+    GtACR1 (silences it only while a light is on). They then touch the fly's tongue with sugar or water and count how often it extends its proboscis,
+    compared with flies whose cell still works. Two differences from the simulation: genetic tools usually silence every cell of a type, on both sides
+    of the brain, not one cell; and whether a driver line reaches only this cell type would need to be checked.`);
+  // 5. what it tells us
+  const st = n.status, needAny = n.sugar_needed || n.water_needed;
+  let tell;
+  if (needAny && st === 'new') tell = `A <b>new, testable lead</b>. No living-fly test of this cell is known to us. If one confirms it, this cell is a control point for
+    ${n.water_needed ? 'drinking' : 'eating'} that hadn't been described before.`;
+  else if (needAny && st === 'known') tell = `<b>Agrees with real flies.</b> ${esc(n.status_text || '')} A match like this is a check that the model gets this kind of question right.`;
+  else if (needAny) tell = `<b>A known cell with a new prediction.</b> ${esc(n.status_text || '')}`;
+  else tell = `<b>Not needed, in the model.</b> Ruling a cell out is useful too: it tells a fly lab where not to spend time, and it shows how much
+    backup the feeding circuit has.`;
+  row('What it tells us', `${tell} Screens like this narrow 286 candidates down to a handful worth testing, which saves animals and years of lab work,
+    and they help explain how a brain controls basic needs like ${n.water_needed && !n.sugar_needed ? 'thirst' : 'eating and drinking'}.
+    <span style="color:var(--muted)">It is a prediction from wiring and a simple neuron model, not proof: on known results this brain matched 10 of 15 checks.</span>`);
+  $('explain').innerHTML = `<dl class="ex">${rows.join('')}</dl>`;
 }
 let fillA = {};
 function meters() {
@@ -378,7 +427,6 @@ async function load() {
     A.r.render(A.scene, cam); B.r.render(B.scene, cam); map.r.render(map.s, map.c); }
   paintRoutes(tNow);
   $('clock').textContent = tNow.toFixed(1) + ' ms'; $('scrub').value = tNow;
-  document.querySelectorAll('#steps li').forEach(li => li.classList.toggle('on', +li.dataset.t <= tNow));
   requestAnimationFrame(loop);
 })(performance.now());
 $('play').onclick = () => { if (tNow >= MAXT) tNow = 0; playing = !playing; $('play').textContent = playing ? '❚❚ Pause' : '▶ Play'; last = performance.now(); };
