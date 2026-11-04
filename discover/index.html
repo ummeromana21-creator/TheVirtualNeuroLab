@@ -196,7 +196,7 @@ td.n { text-align:right; white-space:nowrap; }
     <p class="fine">Brain: FlyWire v783 (Dorkenwald et al. 2024; Schlegel et al. 2024), published wiring and settings of Shiu et al. 2024.
       Lines: in each of 20 simulation runs (different random input each time), the signal crosses a connection from A to B when
       B fires 1.8–7 ms after A, which is wired to B with an exciting connection. The route to MN9 is traced inside each run (back from MN9's first spike, along connections crossed before the neuron they fed fired); a line is drawn only for a connection that was on the route in at least 10 of the 20 runs.
-      The map shows the neurons on these routes, for the normal brain and the switched-off brain (up to six per step; the rest are grouped as "+ more");
+      The map shows the neurons on these routes, for the normal brain and the switched-off brain, every one of them shown;
       links between neurons in the same step are left out for clarity. In the 3D view, "route lost" = connections on the normal brain's route to MN9 that the signal no longer used after the switch-off.
       Maps cover the first 100 ms; times are the median over the runs in which each event happened. Paths and timing are from the simulation, the colours and glow are styling. Tongue-signal numbers are averages over many runs (30 for every "needed" neuron).
       Neuron descriptions are written from data, not by hand: cell class, side and wiring from FlyWire v783 (connections of 5 or more synapses),
@@ -435,7 +435,7 @@ $('scrub').oninput = e => { tNow = +e.target.value; playing = false; $('play').t
 
 
 // ---------- the route diagram: a left-to-right map of the signal's path ----------
-const SVGNS = 'http://www.w3.org/2000/svg', KEEP = 6, W = 1100;
+const SVGNS = 'http://www.w3.org/2000/svg', KEEP = Infinity, W = 1100;
 let RT = null;
 function routeSegs(run) { if (!run) return []; const on = routeOf(run); return run.s.filter((_, j) => on[j]); }
 function layoutRoutes() {
@@ -465,7 +465,7 @@ function layoutRoutes() {
   // place
   const nc = maxH + 2, X = c => 70 + c * (W - 140) / Math.max(1, nc - 1);
   const byCol = {}; nodes.forEach(n => { (byCol[n.col] = byCol[n.col] || []).push(n); });
-  let H = 70 + 50 * Math.max(...Object.values(byCol).map(a => a.length)); H = Math.max(H, 220);
+  let H = 70 + 44 * Math.max(...Object.values(byCol).map(a => a.length)); H = Math.max(H, 220);
   for (const [c, arr] of Object.entries(byCol)) arr.forEach((n, j) => { n.x = +c < 0 ? W - 90 : X(+c); n.y = +c < 0 ? H - 30 : 52 + (j + .5) * (H - 70) / arr.length; });
   const N = Object.fromEntries(nodes.map(n => [n.id, n]));
   const colOf = {}; nodes.forEach(n => { colOf[n.id] = n.col; });
