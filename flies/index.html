@@ -8,20 +8,96 @@
 <link rel="stylesheet" href="../vendor/fonts/fonts.css?v=2">
 <link rel="stylesheet" href="../feather.css?v=12">
 <style>
-.hero { min-height:100dvh; background:var(--bg); color:var(--ink); }
-.wrap { margin:0 auto; padding:28px 22px 60px; }
-h1 { font-size:clamp(30px,4.4vw,46px); line-height:1.06; margin:8px 0 10px; }
-h2 { font-size:22px; margin:0 0 10px; }
-.lead { font-size:16px; line-height:1.6; color:var(--muted); margin:0; }
-.panel { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:16px 18px; }
+.hero { min-height:100dvh; background:var(--bg); color:var(--ink); transition:background .6s, color .6s; }
+.wrap { max-width:none; margin:0 auto; padding:34px 22px 60px; }
+h1 { font-size:clamp(30px,4.4vw,46px); line-height:1.06; margin:8px 0 12px; letter-spacing:-.01em; }
+h2 { font-size:28px; margin:46px 0 8px; }
+.lead { font-size:16px; line-height:1.6; color:var(--muted); max-width:none; margin:0; }
+p, li { font-size:15px; line-height:1.6; }
+.status { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:24px; }
+.st { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; text-decoration:none; color:inherit; }
+.st .dot { width:12px; height:12px; border-radius:50%; margin-top:6px; flex:none; }
+.st b { display:block; font-size:15px; }
+.st span { font-size:13px; color:var(--muted); line-height:1.45; }
+.ok .dot { background:#2f8a4e; } .no .dot { background:#c08a1e; }
+/* bench */
+.bench { display:grid; grid-template-columns:340px 1fr; gap:16px; margin-top:16px; }
+.ctrl, .stage { background:var(--panel); border:1px solid var(--line); border-radius:16px; }
+.ctrl { padding:18px; display:flex; flex-direction:column; gap:16px; }
+.knob .lab { display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:6px; }
+.knob .lab small { font-weight:400; color:var(--muted); }
+.seg { display:flex; gap:6px; flex-wrap:wrap; }
+.seg button { flex:1; min-width:52px; background:var(--chip); border:1px solid var(--line); border-radius:10px; padding:8px 0; cursor:pointer; font-size:13.5px; }
+.seg button[aria-pressed="true"] { border-color:transparent; color:#fff; font-weight:700; }
+.k-sugar .seg button[aria-pressed="true"] { background:#a35d00; }
+.k-bitter .seg button[aria-pressed="true"] { background:#6b4fa3; }
+.k-water .seg button[aria-pressed="true"] { background:#2f6fb0; }
+.presets { display:flex; flex-wrap:wrap; gap:6px; }
+.presets button { background:none; border:1px dashed var(--line); border-radius:999px; padding:5px 11px; font-size:12.5px; cursor:pointer; color:var(--muted); }
+.run { background:var(--sage); color:var(--sage-ink); border:none; border-radius:12px; padding:12px; font-size:16px; font-weight:700; cursor:pointer; }
+.meter { border-top:1px solid var(--line); padding-top:14px; }
+.meter .big { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:28px; line-height:1.1; margin:2px 0 8px; }
+.meter .track { height:14px; border-radius:99px; background:var(--chip); overflow:hidden; }
+.meter .fill { height:100%; width:0; background:linear-gradient(90deg,#e8b04a,#c2187a); transition:width .9s var(--ease); }
+.meter .sub { font-size:12.5px; color:var(--muted); margin-top:6px; line-height:1.5; }
+.spark { margin-top:10px; font-size:13.5px; line-height:1.55; background:var(--info-bg); color:var(--info-ink); border-radius:10px; padding:9px 11px; }
+.spark small { display:block; font-size:11px; opacity:.8; margin-top:4px; }
+.stage { position:relative; min-height:520px; overflow:hidden; }
+#gl { position:absolute; inset:0; }
+#gl canvas { display:block; width:100%; height:100%; }
+.legend { position:absolute; left:12px; bottom:10px; display:flex; flex-wrap:wrap; gap:10px; font-size:12px; color:var(--muted); background:color-mix(in srgb,var(--panel) 85%,transparent); padding:6px 10px; border-radius:10px; }
+.legend i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; vertical-align:-1px; }
+.hint { position:absolute; right:12px; top:10px; font-size:12px; color:var(--muted); }
+.story { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:14px; }
+.story h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:21px; margin:0 0 10px; }
+.story ol { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+.story li { display:grid; grid-template-columns:28px 1fr; gap:10px; align-items:start; font-size:14.5px; line-height:1.55; opacity:.35; transition:opacity .5s; }
+.story li.on { opacity:1; }
+.story li .k { width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:12.5px; font-weight:700; color:#fff; background:var(--muted); }
+.story .sum { margin-top:12px; font-size:14.5px; line-height:1.55; border-top:1px solid var(--line); padding-top:10px; }
+.why { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:14px; font-size:14.5px; line-height:1.6; }
+.why b { font-weight:700; }
+.why a { color:inherit; text-decoration:underline; }
+.why ul { margin:8px 0 0; padding-left:20px; display:flex; flex-direction:column; gap:6px; }
+.cap { font-size:12.5px; color:var(--muted); margin-top:8px; line-height:1.55; }
+/* cards */
+.score { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-top:8px; }
+.score .n { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:52px; line-height:1; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px; margin-top:18px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:18px; display:flex; flex-direction:column; gap:10px; }
+.card .top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+.card h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:21px; margin:0; line-height:1.2; }
+.card .id { font-size:11.5px; letter-spacing:.12em; color:var(--muted); font-weight:700; }
+.badge { font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap; }
+.b-ok { background:var(--ok-bg); color:var(--ok-ink); } .b-miss { background:var(--err-bg); color:var(--err-ink); } .b-mix { background:var(--warn-bg); color:var(--warn-ink); }
+.row { font-size:14px; line-height:1.55; }
+.row .t { display:block; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:2px; }
+.parts { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+.parts li { font-size:13.5px; line-height:1.5; padding:7px 10px; border-radius:10px; background:var(--bg); }
+.parts li b { margin-right:6px; }
+.parts .y b { color:#2f8a4e; } .parts .x b { color:#b03a3a; }
+.fp { font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:var(--muted); }
+.note2 { background:var(--note-bg); color:var(--note-ink); border-left:4px solid var(--note-edge); border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.55; margin-top:16px; }
+.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:34px; border-top:1px solid var(--line); padding-top:14px; }
+.mono { font-family:ui-monospace,Menlo,monospace; font-size:12px; }
+@media (max-width:820px) { .bench { grid-template-columns:1fr; } .stage { min-height:380px; } }
+@media (max-width:640px) { .wrap { padding:24px 16px 50px; } .cards { grid-template-columns:1fr; } }
+.infer { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+.infer > div { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
+.infer h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:20px; margin:0 0 8px; }
+.infer ol, .infer ul { margin:0; padding-left:20px; display:flex; flex-direction:column; gap:9px; font-size:14.5px; line-height:1.55; }
+.infer .limits { grid-column:1 / -1; background:var(--bg); }
+.infer a { color:inherit; text-decoration:underline; }
+@media (max-width:820px) { .infer { grid-template-columns:1fr; } }
+
 .facts { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 0; }
-.facts span { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:7px 12px; font-size:13.5px; }
-.facts b { font-weight:600; }
-.stims { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 14px; align-items:center; }
-.stims .k { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-right:4px; }
-.stims button { border:1px solid var(--line); background:var(--panel); color:var(--ink); border-radius:100px; padding:9px 16px; font-size:14.5px; cursor:pointer; font-family:inherit; }
-.stims button[aria-pressed="true"] { background:var(--sage); color:var(--sage-ink); border-color:var(--sage); }
-.duo { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:14px; }
+.facts span { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:7px 12px; font-size:13.5px; } .facts b { font-weight:600; }
+.controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.3fr); gap:16px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:18px; align-items:start; }
+@media (max-width:1000px) { .controls { grid-template-columns:1fr 1fr; } }
+@media (max-width:560px) { .controls { grid-template-columns:1fr; } }
+.touch { margin-top:8px; width:100%; background:var(--chip); border:1px solid var(--line); border-radius:10px; padding:8px 10px; cursor:pointer; font-size:13.5px; font-family:inherit; color:var(--ink); }
+.touch[aria-pressed="true"] { background:#0f9d8a; color:#fff; border-color:transparent; font-weight:700; }
+.duo { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:14px; margin-top:14px; }
 @media (max-width:1000px) { .duo { grid-template-columns:1fr; } }
 .view { position:relative; height:520px; border-radius:20px; overflow:hidden; border:1px solid var(--line); background:linear-gradient(#f4f6f8, #e3e7ec); }
 .view canvas { display:block; width:100%; height:100%; }
@@ -29,9 +105,8 @@ h2 { font-size:22px; margin:0 0 10px; }
 .vt { position:absolute; left:16px; top:12px; font-weight:700; font-size:15px; z-index:2; }
 .view.brain .vt { color:#e9edf2; }
 .vs { position:absolute; left:16px; top:34px; font-size:12.5px; color:var(--muted); z-index:2; }
-.view.brain .vs { color:#9aa6b4; }
-.hint { position:absolute; right:14px; top:12px; font-size:12px; color:var(--muted); z-index:2; }
-.view.brain .hint { color:#9aa6b4; }
+.view.brain .vs, .view.brain .hint { color:#9aa6b4; }
+.view .hint { position:absolute; right:14px; top:12px; font-size:12px; color:var(--muted); z-index:2; }
 .act { position:absolute; left:16px; bottom:14px; right:16px; z-index:2; display:flex; gap:8px; flex-wrap:wrap; }
 .act span { background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:100px; padding:6px 12px; font-size:13.5px; color:#1c2b33; }
 .act span.on { background:#0064e0; color:#fff; border-color:#0064e0; }
@@ -39,21 +114,20 @@ h2 { font-size:22px; margin:0 0 10px; }
 .scale i { flex:1; height:8px; border-radius:6px; background:linear-gradient(90deg, #2a3442, #3d6fb6, #ffb547, #fff3c4); }
 .readout { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
 @media (max-width:760px) { .readout { grid-template-columns:1fr; } }
+.panel { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
 .beh { display:flex; flex-direction:column; gap:6px; }
 .beh .lbl { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
-.beh .big { font-size:26px; font-weight:600; letter-spacing:-.01em; }
-.beh .bar { height:8px; border-radius:6px; background:var(--chip); overflow:hidden; } .beh .bar i { display:block; height:100%; background:var(--sage); border-radius:6px; }
+.beh .bigv { font-size:26px; font-weight:600; letter-spacing:-.01em; }
+.beh .bar { height:8px; border-radius:6px; background:var(--chip); overflow:hidden; } .beh .bar i { display:block; height:100%; background:var(--sage); border-radius:6px; transition:width .6s; }
 .beh p { margin:0; font-size:14px; line-height:1.55; color:var(--muted); }
-table { width:100%; border-collapse:collapse; font-size:14px; }
-th { text-align:left; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:6px 8px; border-bottom:1px solid var(--line); }
-td { padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:middle; }
-td .rb { height:8px; border-radius:6px; background:var(--chip); min-width:120px; } td .rb i { display:block; height:100%; border-radius:6px; background:#ffb547; }
+.story li { opacity:1; }
+table.reg { width:100%; border-collapse:collapse; font-size:14px; }
+table.reg th { text-align:left; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:6px 8px; border-bottom:1px solid var(--line); }
+table.reg td { padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:middle; }
+table.reg .rb { height:8px; border-radius:6px; background:var(--chip); min-width:120px; } table.reg .rb i { display:block; height:100%; border-radius:6px; background:#ffb547; }
 .role { color:var(--muted); font-size:13px; }
 .sec { margin-top:14px; }
-.not { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:10px; margin-top:8px; }
-.not div { border:1px solid var(--line); border-radius:14px; padding:10px 12px; font-size:14px; line-height:1.5; }
-.not b { display:block; }
-.fine { font-size:12.5px; color:var(--muted); line-height:1.6; margin-top:28px; border-top:1px solid var(--line); padding-top:14px; }
+.sec h3 { font-size:20px; font-weight:500; margin:0 0 8px; }
 a { color:inherit; }
 </style>
 </head>
@@ -62,15 +136,22 @@ a { color:inherit; }
   <header id="navMount"></header>
   <main class="wrap" id="main">
     <span class="eyebrow">Vivarium</span>
-    <h1>Fly</h1>
-    <p class="lead">The lab's fly: a body reconstructed from a micro-CT scan of a real fruit fly, run by the FlyWire brain. Put something on her tongue or touch
-      her antennae, and see which brain regions respond and what she does.</p>
+    <h1 class="serif">Fly</h1>
+    <p class="lead">The lab's fly: a body reconstructed from a micro-CT scan of a real fruit fly, run by the FlyWire brain. Put tastes on her tongue or touch
+      her antennae, and see which brain regions respond and what she does. Every run is written up in the <a href="../experiments/notebook.html">lab notebook</a>.</p>
     <div class="facts">
       <span><b>Species</b> <i>Drosophila melanogaster</i></span><span><b>Sex</b> female</span>
       <span><b>Brain</b> FlyWire, 139,255 neurons, mapped by electron microscopy</span><span><b>Body</b> NeuroMechFly, from a micro-CT scan</span>
     </div>
+    <div class="status" id="status"></div>
 
-    <div class="stims" id="stims" role="group" aria-label="Stimulus"><span class="k">Stimulus</span></div>
+    <div class="controls" id="controls">
+      <div class="knob k-sugar"><div class="lab">Sugar <small>signal per second</small></div><div class="seg" data-k="s"></div></div>
+      <div class="knob k-bitter"><div class="lab">Bitter <small>e.g. caffeine</small></div><div class="seg" data-k="b"></div></div>
+      <div class="knob k-water"><div class="lab">Water <small>signal per second</small></div><div class="seg" data-k="w"></div></div>
+      <div><div class="knob"><div class="lab">Quick picks</div></div><div class="presets" id="presets"></div>
+        <button class="touch" id="touch" aria-pressed="false">Touch the antennae</button></div>
+    </div>
 
     <div class="duo">
       <div class="view" id="bodyView"><div class="vt">What she does</div><div class="vs" id="bodySub"></div>
@@ -80,142 +161,105 @@ a { color:inherit; }
     </div>
 
     <div class="readout">
-      <div class="panel beh"><span class="lbl">Feeding: tongue (proboscis)</span><span class="big" id="tBig">—</span>
+      <div class="panel beh"><span class="lbl">Feeding: tongue (proboscis)</span><span class="bigv" id="tBig">—</span>
         <div class="bar"><i id="tBar"></i></div><p id="tTxt"></p></div>
-      <div class="panel beh"><span class="lbl">Grooming: cleaning the antennae</span><span class="big" id="gBig">—</span>
+      <div class="panel beh"><span class="lbl">Grooming: cleaning the antennae</span><span class="bigv" id="gBig">—</span>
         <div class="bar"><i id="gBar"></i></div><p id="gTxt"></p></div>
     </div>
 
-    <div class="panel sec"><h2>Brain regions that responded</h2>
+    <div class="story" aria-live="polite"><h3>What's happening in the brain</h3><ol id="steps"></ol><div class="sum" id="ssum"></div>
+      <div class="spark" id="spark" hidden></div></div>
+
+    <div class="panel sec"><h3>Brain regions that responded</h3>
       <p class="lead" style="font-size:14.5px;margin-bottom:10px" id="regLead"></p>
-      <table id="regTab"></table></div>
+      <table class="reg" id="regTab"></table></div>
 
-    <div class="panel sec" id="notyet"><h2>Behaviours not yet modelled</h2>
-      <p class="lead" style="font-size:14.5px">The fly shows only behaviours whose control neurons the brain model reads out, each checked against real flies.
-        These need more than the brain we have today, so they are not shown rather than faked.</p>
-      <div class="not">
-        <div><b>Walking</b>Leg movement is coordinated in the nerve cord, which is not in the FlyWire brain. The brain's walking commands could be read next, after their own calibration test.</div>
-        <div><b>Escape</b>Triggered by something looming in view. It needs input to the visual system, which has not been tested in this model.</div>
-        <div><b>Flight</b>Wing control lives almost entirely in the nerve cord.</div>
-        <div><b>Courtship song</b>Only males sing; FlyWire is a female brain.</div>
+    <h2 class="serif" id="r1">Round 1: an exam on things already known</h2>
+    <div class="why">
+      <b>Why test results that are already known?</b> These are not discoveries. Each one was found in living flies years ago.
+      We use them as an exam for the simulated brain, the way you'd test a new thermometer in water you already know is 100&nbsp;°C.
+      <ul>
+        <li><b>The brain was not adjusted to pass.</b> The wiring comes straight from the electron-microscopy reconstruction and the settings are
+          exactly the ones published in 2024. We didn't change a single number to make it match.</li>
+        <li><b>The pass mark was written down before the run</b>, with a timestamp, so we couldn't move the goalposts once we saw the answer.
+          The fingerprint on each card would change if anything were edited later.</li>
+        <li><b>Why it matters:</b> the score tells you how far to trust the brain when it predicts things nobody has tested yet,
+          which is what the <a href="../discover/">Neuron Silencing Screen</a> does. The misses matter too: they show where it's weaker.</li>
+      </ul>
+    </div>
+    <p class="lead" style="font-size:15px" id="r1lead"></p>
+    <div class="score" id="score"></div>
+    <div class="cards" id="cards"></div>
+    <div class="note2" id="r1note"></div>
+
+
+
+    <h2 class="serif" id="infer">What we infer, and why it matters</h2>
+    <div class="infer">
+      <div>
+        <h3>What these results tell us</h3>
+        <ol>
+          <li><b>Much of taste behaviour is written in the wiring.</b> With nothing but the scanned connections and one simple
+            rule for how neurons fire, the brain gets the basics right: sugar brings the tongue out, more sugar pushes harder,
+            bitter alone does nothing, and water works through its own neurons.</li>
+          <li><b>Bitter is built to win.</b> Here, bitter cuts the sugar response from 65 to 0.1 firings a second, and
+            with strong bitter, even double-strength sugar barely gets through (11 a second). A "safety first" design, which makes sense: tasting
+            poison should overrule wanting food.</li>
+          <li><b>Signals add up.</b> Sugar and water together push the tongue neuron harder than either alone (83 vs 65 for sugar).</li>
+          <li><b>Wiring isn't the whole story.</b> The brain passed 10 of 15 checks. Results driven by whole groups of sensory
+            neurons came out right; the misses all involve single named neurons. Something beyond the wiring, such as chemical
+            signals for hunger or thirst, seems to shape those.</li>
+        </ol>
       </div>
-      <p style="margin:10px 0 0;font-size:14px;color:var(--muted)">Where this is going: <a href="../next/">What's next</a>.</p></div>
+      <div>
+        <h3>How this can help in the real world</h3>
+        <ul>
+          <li><b>Fewer animal experiments.</b> A brain that passes known checks can be used to try ideas first, so real labs
+            only test the most promising ones. The <a href="../discover/">Neuron Silencing Screen</a> does exactly this.</li>
+          <li><b>Trust, measured.</b> Brain simulations are becoming a common research tool. Scoring one honestly against
+            known results, misses included, shows when its predictions are worth acting on.</li>
+          <li><b>How brains weigh reward against danger.</b> The bitter-beats-sugar rule is a simple, fully mapped example of
+            a decision every animal makes. Flies are widely used to study how brains work because so much of
+            their biology is shared with ours: most genes linked to human disease have a counterpart in the fly (Reiter et al. 2001, <i>Genome Research</i>).</li>
+          <li><b>Insect feeding.</b> Knowing which taste signals stop an insect from eating is the basis of feeding deterrents.
+            Whether this fly's wiring carries over to pest species would need testing in those species.</li>
+        </ul>
+      </div>
+      <div class="limits"><b>What it doesn't tell us.</b> This is a model of one female fly's brain, with no body, no hunger or
+        thirst state and no chemical messengers. It shows what the wiring <i>can</i> do, not everything a living fly does.</div>
+    </div>
 
-    <p class="fine" id="fine">Body: NeuroMechFly (Lobato-Rios et al. 2022, <i>Nature Methods</i>; flygym, Apache-2.0), reconstructed from a micro-CT scan of an adult
-      fruit fly; shape and joints from the scan, colours added here, shown in NeuroMechFly's neutral standing pose. Brain: FlyWire v783 (Dorkenwald et al. 2024;
-      Schlegel et al. 2024) running the published model of Shiu et al. 2024, unchanged. Taste stimuli are the Taste Bench runs (10 repeats each); antenna touch is
-      Round 1 experiment E7 (Johnston's organ CE neurons, 30 repeats). Behaviour rules were written before the runs: tongue out when MN9 fires at least 10 times a
-      second; antennal grooming command when aBN1 fires at least 5 times a second (aBN1 starts antennal grooming in real flies, Hampel et al. 2015).
-      Each neuron is placed in the region where it has most of its synapses; a region's brightness is the share of its neurons that fired. The movements are
-      animations of the behaviour the brain's output calls for; the body itself is not simulated.
-      Data: <a href="behaviour.json">behaviour.json</a>.</p>
+    <h2 class="serif">How to read this</h2>
+    <ul>
+      <li><b>Who chose the Round 1 tests?</b> A rule written before any run: every result in the 2024 brain-model study
+        (Shiu et al., <i>Nature</i>) that was tested in living flies, names its neurons, and uses neurons listed in the authors'
+        public code. That rule includes results the original model got wrong, so we can't pick only the easy ones.</li>
+      <li><b>Can the lab bend itself to match?</b> No. The brain uses the published settings and never sees the real-fly answer.
+        The fingerprint on each card would change if the engine, the wiring or the saved rules were edited.</li>
+      <li><b>What a miss means:</b> wiring plus this simple neuron model isn't enough to explain that behaviour. That's useful:
+        it points to what the model is missing (for example, chemical signals that aren't in the wiring diagram).</li>
+      <li><b>Which brain?</b> Everything here runs on the FlyWire brain, which passed the <a href="../experiments/calibration.html">calibration test</a> first. Every run is written up in the <a href="../experiments/notebook.html">lab notebook</a>.</li>
+    </ul>
+
+
+    <p class="fine">Body: NeuroMechFly (Lobato-Rios et al. 2022, <i>Nature Methods</i>; flygym, Apache-2.0), reconstructed from a micro-CT scan of an adult
+      fruit fly; shape and joints from the scan, colours added here, shown in NeuroMechFly's neutral standing pose. The movements are animations of the behaviour
+      the brain's output calls for. Brain: FlyWire v783 (Dorkenwald et al. 2024; Schlegel et al. 2024), wiring as released with Shiu et al. 2024, published model
+      settings unchanged. Engine: <span class="mono">tools/lif_engine.py</span>, checked against the authors' own code. Taste mixes: <span class="mono">tools/run_bench.py</span>,
+      10 repeats each; antenna touch: Round 1 experiment E7 (Johnston's organ CE neurons, 30 repeats). Rules written before the runs: tongue out when MN9 fires at least
+      10 times a second; antennal grooming when aBN1 fires at least 5 times a second (aBN1 starts antennal grooming in real flies, Hampel et al. 2015). Each neuron is
+      placed in the region where it has most of its synapses; a region's colour is the share of its neurons that fired. Caffeine is tasted by the fly's bitter neurons
+      (Moon et al. 2006, <i>Curr Biol</i> 16:1812); the model switches those neurons on, it does not simulate the chemical itself. Numbers can differ slightly from the calibration test (for example 65 vs 61.4 for sugar) because these are separate sets of runs and the brain's input has some randomness, like a real fly's.
+      Rules: <a href="../experiments/round1_preregistration.json">round1_preregistration.json</a>. Results: <a href="../experiments/round1.json">round1.json</a>,
+      <a href="behaviour.json">behaviour.json</a>.</p>
   </main>
 </div>
-<script src="../feather.js?v=14"></script>
+<script src="../feather.js?v=15"></script>
 <script>
 Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro Lab', sub: 'Vivarium', base: '../', current: 'flies', profile: false });
 Feather.init();
 </script>
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
-<script type="module">
-import * as T from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { loadFly } from './body/fly_body.js?v=1';
-const $ = id => document.getElementById(id);
-const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const B = await (await fetch('behaviour.json?v=1')).json();
-const REG = new Uint8Array(await (await fetch('regions.bin?v=1')).arrayBuffer());
-const POS = new Float32Array(await (await fetch('../anatomy/celltypes/positions.bin')).arrayBuffer());
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// ---------- the body ----------
-function makeRenderer(el, clear) { const r = new T.WebGLRenderer({ antialias: true, alpha: clear == null }); r.setPixelRatio(Math.min(2, devicePixelRatio));
-  if (clear != null) r.setClearColor(clear); el.prepend(r.domElement); return r; }
-const bv = $('bodyView'), br = makeRenderer(bv); br.toneMapping = T.ACESFilmicToneMapping; br.toneMappingExposure = .9; br.shadowMap.enabled = true; br.shadowMap.type = T.PCFSoftShadowMap;
-const bs = new T.Scene();
-bs.add(new T.HemisphereLight(0xffffff, 0x6a5a46, .9));
-const sun = new T.DirectionalLight(0xfff4e6, 1.7); sun.position.set(3, 7, 4); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024);
-Object.assign(sun.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: .5, far: 20 }); bs.add(sun);
-const fill = new T.DirectionalLight(0xc8dbff, .7); fill.position.set(-4, 2, -3); bs.add(fill);
-const ground = new T.Mesh(new T.CircleGeometry(6, 64), new T.ShadowMaterial({ opacity: .18 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; bs.add(ground);
-const F = await loadFly(T, './body/');
-const fly = new T.Group(); fly.add(F.root); fly.rotation.x = -Math.PI / 2; bs.add(fly);
-const bb = new T.Box3().setFromObject(fly); fly.position.y = -bb.min.y; ground.position.y = 0;
-const bc = new T.Box3().setFromObject(fly).getCenter(new T.Vector3());
-const head = F.parts['c_head'].getWorldPosition(new T.Vector3()); bc.lerp(head, .35);
-const bcam = new T.PerspectiveCamera(30, 1, .05, 100); bcam.position.set(bc.x + 3.0, bc.y + 0.55, bc.z + 4.6);
-const bctl = new OrbitControls(bcam, br.domElement); bctl.target.copy(bc); bctl.enableDamping = true; bctl.minDistance = 2; bctl.maxDistance = 14; bctl.enablePan = false;
-
-// behaviours: angles from NeuroMechFly's joints. Tongue out: the proboscis segments unfold. Grooming: both front legs reach the antennae and sweep.
-const TONGUE = { 'c_head-c_rostrum-pitch': -0.9, 'c_rostrum-c_haustellum-pitch': -0.7 };
-const GROOM = { 'c_thorax-lf_coxa-pitch': -0.4, 'c_thorax-lf_coxa-roll': -0.8, 'lf_coxa-lf_trochanterfemur-pitch': -0.8, 'lf_trochanterfemur-lf_tibia-pitch': 0.5,
-  'c_thorax-rf_coxa-pitch': -0.4, 'c_thorax-rf_coxa-roll': -0.8, 'rf_coxa-rf_trochanterfemur-pitch': -0.8, 'rf_trochanterfemur-rf_tibia-pitch': 0.5, 'c_thorax-c_head-pitch': 0.15 };
-let mode = { tongue: false, groom: false }, tMode = 0;
-function bodyPose(t) {
-  const a = {};
-  if (mode.tongue) { const k = reduce ? 1 : Math.min(1, Math.max(0, Math.sin(Math.PI * ((t * .55) % 1)) * 1.6)); for (const j in TONGUE) a[j] = TONGUE[j] * k; }
-  if (mode.groom) { const k = Math.min(1, (t - tMode) * 1.5);
-    for (const j in GROOM) a[j] = GROOM[j] * k;
-    if (!reduce && k >= 1) { const w = Math.sin(t * 2 * Math.PI * 2.2), w2 = Math.sin(t * 2 * Math.PI * 2.2 + Math.PI);
-      a['lf_trochanterfemur-lf_tibia-pitch'] += .28 * w; a['rf_trochanterfemur-rf_tibia-pitch'] += .28 * w2;
-      a['lf_coxa-lf_trochanterfemur-pitch'] += .12 * w2; a['rf_coxa-rf_trochanterfemur-pitch'] += .12 * w; } }
-  F.pose(a);
-}
-
-// ---------- the brain: every neuron a point, coloured by how active its region is ----------
-const rv = $('brainView'), rr = makeRenderer(rv, 0x101318); const rs = new T.Scene();
-const N = POS.length / 3, pa = new Float32Array(3 * N), pc = new Float32Array(3 * N);
-const c0 = new T.Vector3(); for (let i = 0; i < N; i++) { pa[3 * i] = POS[3 * i]; pa[3 * i + 1] = -POS[3 * i + 1]; pa[3 * i + 2] = POS[3 * i + 2]; c0.x += pa[3 * i]; c0.y += pa[3 * i + 1]; c0.z += pa[3 * i + 2]; }
-c0.multiplyScalar(1 / N);
-const pg = new T.BufferGeometry(); pg.setAttribute('position', new T.BufferAttribute(pa, 3)); pg.setAttribute('color', new T.BufferAttribute(pc, 3));
-const dot = (() => { const c = document.createElement('canvas'); c.width = c.height = 32; const g = c.getContext('2d'); const r = g.createRadialGradient(16, 16, 0, 16, 16, 16);
-  r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.5, 'rgba(255,255,255,.6)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 32, 32); return new T.CanvasTexture(c); })();
-rs.add(new T.Points(pg, new T.PointsMaterial({ size: 2.2, map: dot, color: 0x5d6b7c, transparent: true, opacity: .16, depthWrite: false })));   // the whole brain, quiet
-const ag = new T.BufferGeometry(); ag.setAttribute('position', new T.BufferAttribute(new Float32Array(0), 3)); ag.setAttribute('color', new T.BufferAttribute(new Float32Array(0), 3));
-const actPts = new T.Points(ag, new T.PointsMaterial({ size: 6, map: dot, vertexColors: true, transparent: true, opacity: 1, depthWrite: false, depthTest: false })); actPts.renderOrder = 2; rs.add(actPts);      // regions that responded
-const rcam = new T.PerspectiveCamera(32, 1, 1, 8000); rcam.position.set(c0.x, c0.y, c0.z + 1500);
-const rctl = new OrbitControls(rcam, rr.domElement); rctl.target.copy(c0); rctl.enableDamping = true; rctl.enablePan = false;
-const ramp = f => { const s = [[.16, .2, .26], [.24, .44, .71], [1, .71, .28], [1, .95, .77]], x = Math.min(1, Math.max(0, f)) * 3, k = Math.min(2, Math.floor(x)), u = x - k;
-  return s[k].map((v, j) => v + (s[k + 1][j] - v) * u); };
-function paintBrain(st) {
-  const frac = new Float32Array(B.regions.length + 1); const mx = Math.max(1e-9, ...st.regions.map(r => r.frac));
-  for (const r of st.regions) frac[B.regions.findIndex(x => x.code === r.code) + 1] = r.frac / mx;
-  const ap = [], ac = [];
-  for (let i = 0; i < N; i++) { const f = REG[i] ? frac[REG[i]] : 0; if (!(f >= .04)) continue;   // regions under 4% of the top one stay quiet on the picture (they are still in the table)
-    ap.push(pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]); ac.push(...ramp(.2 + .8 * f)); }
-  ag.setAttribute('position', new T.BufferAttribute(new Float32Array(ap), 3)); ag.setAttribute('color', new T.BufferAttribute(new Float32Array(ac), 3));
-}
-
-// ---------- the readouts ----------
-function show(key) {
-  const st = B.stimuli.find(s => s.key === key);
-  document.querySelectorAll('#stims button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === key)));
-  mode = { tongue: st.tongue, groom: st.groom }; tMode = performance.now() / 1000;
-  $('bodySub').textContent = st.desc; $('brainSub').textContent = st.active ? `${st.active.toLocaleString('en-US')} of 139,255 neurons fired` : 'no neurons fired';
-  $('act').innerHTML = `<span class="${st.tongue ? 'on' : ''}">${st.tongue ? 'Tongue out: feeding' : 'Tongue in'}</span><span class="${st.groom ? 'on' : ''}">${st.groom ? 'Grooming her antennae' : 'Not grooming'}</span>`;
-  $('tBig').textContent = st.tongue ? 'Tongue out' : 'Tongue stays in'; $('tBar').style.width = Math.min(100, st.mn9 / 0.9) + '%';
-  $('tTxt').innerHTML = `MN9, the motor neuron that pushes the tongue out, fired <b>${st.mn9}</b> times a second. The rule: tongue out at 10 or more.`;
-  $('gBig').textContent = st.groom ? 'Grooming' : 'Not grooming'; $('gBar').style.width = Math.min(100, st.abn1 / 0.3) + '%';
-  $('gTxt').innerHTML = `aBN1, a brain neuron that starts antennal grooming in real flies, fired <b>${st.abn1}</b> times a second. The rule: grooming at 5 or more.`;
-  const R = Object.fromEntries(B.regions.map(r => [r.code, r]));
-  $('regLead').textContent = st.regions.length ? `${st.regions.length} regions had at least one neuron fire. Colour on the brain is each region's share of neurons that fired, compared with the most active region; regions below 4% of the top one stay grey.` : 'With no stimulus, no neurons fire in the model.';
-  $('regTab').innerHTML = st.regions.length ? '<thead><tr><th>Region</th><th>What it does</th><th>Neurons that fired</th><th>Share of the region</th></tr></thead><tbody>' +
-    st.regions.slice(0, 12).map(r => `<tr><td>${esc(R[r.code].name)} <span class="role">(${esc(r.code)})</span></td><td class="role">${esc(R[r.code].role || '')}</td>
-      <td>${r.active} of ${R[r.code].total.toLocaleString('en-US')}</td><td><div class="rb"><i style="width:${Math.max(2, 100 * r.frac / st.regions[0].frac)}%"></i></div></td></tr>`).join('') +
-    (st.regions.length > 12 ? `<tr><td colspan="4" class="role">and ${st.regions.length - 12} more regions with a few neurons each</td></tr>` : '') + '</tbody>' : '';
-  paintBrain(st);
-}
-$('stims').insertAdjacentHTML('beforeend', B.stimuli.map(s => `<button data-k="${s.key}" aria-pressed="false">${esc(s.label)}</button>`).join(''));
-$('stims').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.k); });
-show('sugar');
-
-// ---------- render loop ----------
-function fit(r, el, cam) { const w = el.clientWidth, h = el.clientHeight; if (r.domElement.width !== Math.round(w * r.getPixelRatio())) { r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); } }
-(function loop(now) {
-  const t = now / 1000; fit(br, bv, bcam); fit(rr, rv, rcam);
-  bodyPose(t); bctl.update(); rctl.update(); br.render(bs, bcam); rr.render(rs, rcam);
-  requestAnimationFrame(loop);
-})(performance.now());
-</script>
+<script type="module" src="vivarium.js?v=1"></script>
 </body>
 </html>

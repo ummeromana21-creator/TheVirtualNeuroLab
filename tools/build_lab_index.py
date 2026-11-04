@@ -11,14 +11,14 @@ def add(title, page, text): E.append(dict(id=f'L{len(E)+1}', title=title, page=p
 add('What this lab is', 'index.html',
     'The Virtual Neuro Lab runs experiments on simulated fruit fly (Drosophila) nervous systems wired from real connectome '
     'scans. Pages: Neuron Silencing Screen (switch off one neuron; Discovery Screen predictions with confidence levels), Parkinson\'s (where the dopamine '
-    'signal is lost as dopamine neurons die), Experiments (calibration test, Taste Bench, round 1, and the lab notebook), Vivarium (Fly: a body from a micro-CT scan, NeuroMechFly, run by the FlyWire brain; shows feeding and antennal grooming and which brain regions respond), '
+    'signal is lost as dopamine neurons die), Vivarium (Fly: a body from a micro-CT scan, NeuroMechFly, run by the FlyWire brain; mix tastes or touch her antennae to see feeding and antennal grooming and which brain regions respond; plus Round 1, the calibration test and the lab notebook), '
     'Fly Atlas (brain regions and cell types; the Prediction check is linked from it), The worm (C. elegans, 302 neurons), What\'s next (the plan: docking is the next step). '
     'The lab is a hypothesis generator on the road to drug discovery. Experiments run on the FlyWire brain (female, 139,255 neurons, v783) using the published leaky integrate-and-fire model of '
     'Shiu et al. 2024 (Nature 634:210) with its published settings; rules for passing are saved before every run.')
-add('MN9 (tongue motor neuron)', 'experiments/', 'MN9 is the motor neuron that extends the fly\'s proboscis (its tongue) to feed or drink. The lab reads MN9 firing as "tongue out" when it fires 10 or more times per second. There are two MN9s, one per side. Gordon & Scott 2009 (Neuron 61:373) showed it drives proboscis extension.')
-add('Usnea, Phantom, Fudog, Bract, Roundup, G2N-1 (named feeding neurons)', 'experiments/#r1', "Named neurons in the fly's gnathal ganglion (the feeding centre under the brain) studied by Shiu et al. 2024 and earlier work. Usnea responds to water; Fudog responds to water; Bract and Roundup are needed for drinking; G2N-1 is not; Usnea and Phantom can drive proboscis extension when switched on.")
+add('MN9 (tongue motor neuron)', 'flies/', 'MN9 is the motor neuron that extends the fly\'s proboscis (its tongue) to feed or drink. The lab reads MN9 firing as "tongue out" when it fires 10 or more times per second. There are two MN9s, one per side. Gordon & Scott 2009 (Neuron 61:373) showed it drives proboscis extension.')
+add('Usnea, Phantom, Fudog, Bract, Roundup, G2N-1 (named feeding neurons)', 'flies/#r1', "Named neurons in the fly's gnathal ganglion (the feeding centre under the brain) studied by Shiu et al. 2024 and earlier work. Usnea responds to water; Fudog responds to water; Bract and Roundup are needed for drinking; G2N-1 is not; Usnea and Phantom can drive proboscis extension when switched on.")
 add('Calibration test', 'experiments/calibration.html', 'Before any experiment, the simulated brain must reproduce a known result: sugar taste makes MN9 fire, more sugar more firing, bitter alone does not, bitter cancels sugar, water works, and activity stays contained. The FlyWire brain passed all six rules, so every experiment runs on it. Experiments on Maxime and Hagrid are in progress.')
-add('Pre-registration (rules saved before the run)', 'experiments/', 'For every test the lab saves the question, the real-fly result, and the pass/fail rule with a timestamp before running. Nothing is changed after the run, and misses stay on the page. A fingerprint code on each card changes if the engine, wiring or rules are edited.')
+add('Pre-registration (rules saved before the run)', 'flies/', 'For every test the lab saves the question, the real-fly result, and the pass/fail rule with a timestamp before running. Nothing is changed after the run, and misses stay on the page. A fingerprint code on each card changes if the engine, wiring or rules are edited.')
 add('The simulation model (leaky integrate-and-fire)', 'experiments/calibration.html', "Each neuron adds up pushes from the neurons wired to it; when its voltage crosses a threshold it fires and resets. Every synapse gives the same small push (0.275 mV), positive or negative depending on the sending neuron's chemical (GABA and glutamate inhibit). Published by Shiu et al. 2024 (Nature 634:210); in that study 91% of 164 predictions tested in living flies held up. Limits: no graded (non-spiking) neurons, no neuromodulators, no body.")
 add('Connectome, FlyWire, BANC, male CNS', 'flies/', "A connectome is a map of every neuron and synapse, traced from electron-microscope scans. FlyWire (female brain, 139,255 neurons) is the brain the experiments run on. BANC (Maxime, female brain and nerve cord) and the male CNS (Hagrid, male brain and nerve cord) are the lab's two flies.")
 fi = J('library/points/flies_index.json')
@@ -43,12 +43,12 @@ cal = J('experiments/calibration.json')
 add('Engine check', 'experiments/calibration.html', cal.get('engine_check_html', ''))
 r1 = J('experiments/round1.json')
 c1 = r1['calibration']
-add('FlyWire calibration', 'experiments/', f"FlyWire v783 passed calibration: rules {c1['criteria']}; MN9 to sugar 100/s {c1['mn9']['sugar_100']}/s; "
+add('FlyWire calibration', 'flies/', f"FlyWire v783 passed calibration: rules {c1['criteria']}; MN9 to sugar 100/s {c1['mn9']['sugar_100']}/s; "
     f"neurons fired {c1['active']}. Weak sugar level {c1['weak_sugar']}/s.")
-add('Round 1 summary', 'experiments/#r1', "Round 1 is an exam on results already known from living flies, not a set of discoveries. The brain was not adjusted to pass: wiring from the scan, settings exactly as published in 2024, and each pass mark written down before the run. The score shows how far to trust the Neuron Silencing Screen's new predictions. " + f"Round 1 matched {r1['totals']['matched']} of {r1['totals']['total']} real-fly results. " + r1.get('note_html', '')
+add('Round 1 summary', 'flies/#r1', "Round 1 is an exam on results already known from living flies, not a set of discoveries. The brain was not adjusted to pass: wiring from the scan, settings exactly as published in 2024, and each pass mark written down before the run. The score shows how far to trust the Neuron Silencing Screen's new predictions. " + f"Round 1 matched {r1['totals']['matched']} of {r1['totals']['total']} real-fly results. " + r1.get('note_html', '')
     + ' Selection rule: ' + r1['prereg']['selection_rule'] + ' Rules saved ' + r1['prereg']['written'])
 for e in r1['experiments']:
-    add(f"Experiment {e['id']}: {e['title']}", 'experiments/#r1',
+    add(f"Experiment {e['id']}: {e['title']}", 'flies/#r1',
         f"Real flies: {e['real']} ({e['ref']}). Already known from real flies; pass mark written before the run: {e['rule']}. Result {e['matched']}/{e['total']}: "
         + ' | '.join(('MATCH ' if p['ok'] else 'MISS ') + p['label'] for p in e['parts']) + '. ' + e.get('note', ''))
 for p in ('experiments/screen.json',):
@@ -58,11 +58,11 @@ for p in ('experiments/screen.json',):
         for n in s.get('predictions', []):
             add(f"Prediction: {n.get('name')}", 'experiments/discovery.html', json.dumps(n)[:800])
 import html as _h
-for page, path in (('experiments/#infer', 'experiments/index.html'), ('discover/#infer', 'discover/index.html')):
+for page, path in (('flies/#infer', 'flies/index.html'), ('discover/#infer', 'discover/index.html')):
     t = open(os.path.join(SK, path)).read()
     i = t.find('id="infer"'); j = t.find('</div>\n    </div>', i)
     if i > 0 and j > 0:
-        add('What we infer and why it matters (' + ('Taste experiments' if 'exp' in page else 'Neuron Silencing Screen') + ')', page, _h.unescape(t[i:j]))
+        add('What we infer and why it matters (' + ('Vivarium' if 'flies' in page else 'Neuron Silencing Screen') + ')', page, _h.unescape(t[i:j]))
 if os.path.exists(os.path.join(SK, 'worm/worm.json')):
     add('The worm (C. elegans), second organism', 'worm/', "The lab's second organism is the roundworm Caenorhabditis elegans, about 1 mm long, the first animal whose complete wiring diagram was mapped. Every adult hermaphrodite has the same 302 named neurons. The Worm page shows all 302 in 3D with every neuron-to-neuron connection: 2,973 chemical links and 849 pairs joined by electrical links (gap junctions). Neurons are sensory (blue), interneurons (amber), motor (pink) or role unknown. Click a neuron to see who it sends to and receives from. Famous circuits: gentle touch (Chalfie et al. 1985: front touch neurons ALM and AVM feed AVD and AVA, which drive backing up; back touch neurons PLM feed PVC and AVB, which drive forward movement) and the nerve ring hubs (AIB, AIY, AIZ, RIA, RIM, AVA, AVB). Data: neuron shapes from the Virtual Worm 3D model by Grove and Sternberg (WormBase, Caltech, public domain), converted to NeuroML by OpenWorm (c302, MIT licence); the shapes are a hand-built model matched to known anatomy, not traced from one scan. Wiring: Cook et al. 2019, Nature 571:63, as packaged by OpenWorm c302. Experiments on the worm are in progress; they need their own calibration test against real-worm results first.")
 if os.path.exists(os.path.join(SK, 'experiments/notebook.json')):

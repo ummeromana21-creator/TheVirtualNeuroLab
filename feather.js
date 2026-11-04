@@ -4,7 +4,6 @@ window.Feather = (() => {
     { id: 'home', name: 'Home', sub: 'start here', icon: 'i-house', href: 'index.html' },
     { id: 'discover', name: 'Neuron Silencing Screen', sub: 'switch off a neuron', icon: 'i-fly', href: 'discover/' },
     { id: 'disease', name: 'Parkinson\u2019s', sub: 'brain disease', icon: 'i-pulse2', href: 'disease/' },
-    { id: 'experiments', name: 'Experiments', sub: 'tests and notebook', icon: 'i-flask', href: 'experiments/' },
     { id: 'flies', name: 'Vivarium', sub: 'Fly and her behaviours', icon: 'i-fly', href: 'flies/' },
     { id: 'atlas', name: 'Fly Atlas', sub: 'regions · cell types', icon: 'i-layers', href: 'library/' },
     { id: 'worm', name: 'The worm', sub: 'C. elegans', icon: 'i-worm', href: 'worm/' },
@@ -125,11 +124,11 @@ window.Feather = (() => {
     ],
     flies: [
       { t: 'The Vivarium', b: 'Meet Fly: a body reconstructed from a micro-CT scan of a real fruit fly, run by the FlyWire brain.' },
-      { el: '#stims', t: '1. Choose a stimulus', b: 'Put sugar, water or something bitter on her tongue, or touch her antennae.' },
+      { el: '#controls', t: '1. Choose what she senses', b: 'Mix sugar, bitter and water on her tongue, or touch her antennae.' },
       { el: '#bodyView', t: '2. Watch what she does', b: 'She sticks out her tongue to feed, or cleans her antennae with her front legs, when her brain sends that command.' },
       { el: '#brainView', t: '3. See which brain regions respond', b: 'Regions light up by the share of their neurons that fired.' },
       { el: '.readout', t: '4. Why she does it', b: 'The neuron that decides each behaviour, how fast it fired, and the rule written before the run.' },
-      { el: '#notyet', t: 'Not yet modelled', b: 'Walking, escape, flight and courtship need more than this brain model. They are listed, not faked.' },
+      { el: '#r1', t: 'How far to trust her', b: 'Round 1 tests the brain against results already known from real flies. Nothing was adjusted to pass; misses stay on the page.' },
     ],
     atlas: [
       { t: 'The Fly Atlas', b: 'Every brain and nerve-cord region, what it does, and how much wiring it holds.' },

@@ -27,11 +27,15 @@ reg.tofile(f'{OUT}/regions.bin')
 total = {c: int((reg == cidx[c]).sum()) for c in codes}
 bench = json.load(open('bench_runs.json')); r1 = json.load(open('round1_B.json'))['conditions']
 ABN1 = '720575940630907434'
-STIM = [('nothing', 'Nothing', 'No stimulus', bench['s0_b0_w0']), ('sugar', 'Sugar', 'Sugar on the tongue (taste neurons at 100/s)', bench['s100_b0_w0']),
-        ('water', 'Water', 'Water on the tongue (water-taste neurons at 200/s)', bench['s0_b0_w200']),
-        ('bitter', 'Bitter', 'Bitter on the tongue, like caffeine (bitter-taste neurons at 200/s)', bench['s0_b200_w0']),
-        ('sugar_bitter', 'Sugar + bitter', 'Sugar mixed with something bitter (100/s and 200/s)', bench['s100_b200_w0']),
-        ('touch', 'Touch the antennae', "Antennae moved (Johnston's organ CE neurons at 100/s)", dict(mn9=None, rates=r1['jo_ce_100']['rates']))]
+NM = {0: 'none'}
+STIM = []
+for sv in (0, 50, 100, 200):
+    for bv in (0, 100, 200):
+        for wv in (0, 200):
+            k = f's{sv}_b{bv}_w{wv}'
+            parts = [f'sugar {sv}/s' if sv else '', f'bitter {bv}/s' if bv else '', f'water {wv}/s' if wv else '']
+            STIM.append((k, k, ('Taste neurons switched on: ' + ', '.join(p for p in parts if p)) if any(parts) else 'Nothing on the tongue', bench[k]))
+STIM.append(('touch', 'Touch the antennae', "Antennae moved (Johnston's organ CE neurons at 100/s)", dict(mn9=None, rates=r1['jo_ce_100']['rates'])))
 out = dict(regions=[dict(code=c, name=NAME[c], role=ROLE.get(c), total=total[c]) for c in codes], stimuli=[],
            source=__doc__.strip(), rules=dict(tongue='MN9 >= 10 firings/s', groom='aBN1 >= 5 firings/s'))
 rk = {int(r): i for i, r in enumerate(roots)}
