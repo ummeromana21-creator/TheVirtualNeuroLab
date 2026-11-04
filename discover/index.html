@@ -69,7 +69,7 @@ h2 { font-size:28px; margin:44px 0 8px; }
 .story li { font-size:14.5px; line-height:1.55; color:var(--muted); transition:color .3s; }
 .story li.on { color:var(--ink); }
 .story li b { color:inherit; }
-.story.wide { margin-top:14px; padding:20px 24px; }
+.story.wide, .howto.wide { margin-top:14px; padding:20px 24px; }
 .ex { display:grid; grid-template-columns:220px 1fr; gap:10px 18px; margin:0; }
 .ex dt { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding-top:3px; }
 .ex dd { margin:0; font-size:14.5px; line-height:1.6; }
@@ -145,15 +145,15 @@ td.n { text-align:right; white-space:nowrap; }
           <div class="legend"><span><i style="background:#ffb547"></i>taste neurons</span><span><i class="ln" style="background:#ffd166"></i>route that reached MN9</span>
             <span><i class="ln" style="background:#ff5b5b"></i>route lost</span><span><i class="ln" style="background:#7fd3ff"></i>other spread</span><span><i style="background:#ffd23f"></i>MN9</span></div>
         </details>
-        <div class="panel howto"><b>How to read the map.</b> The signal travels left to right: from the taste neurons on the tongue,
+      </div>
+    </div>
+    <div class="panel howto wide"><b>How to read the map.</b> The signal travels left to right: from the taste neurons on the tongue,
           through relay neurons in the feeding centre, to MN9, the motor neuron that sticks the tongue out. Each dot is a neuron and turns
           blue when it fires. The neurons shown are the ones the signal passed through on its way to MN9 in <b>at least half of 20 simulation runs</b>, and each line is a real connection that was part of that route in at least half the runs, so the map
           shows the routes the signal reliably takes, not one-off coincidences. A bright pulse rides each line at its typical timing. Thicker lines
           carry more of the signal. The top map is the normal brain; the bottom one has your neuron switched off. Pick <b>Sugar</b> (eating)
           or <b>Water</b> (drinking), pick a neuron on the left, and press <b>Play</b>. Hover a dot to see its name and when it fires. The filters show the neurons the lab predicts are <b>needed</b>, the <b>new discoveries</b>
           (needed, and no living-fly test that we know of: a real lab could test these next), or <b>all 286</b>.</div>
-      </div>
-    </div>
     <div class="panel story wide" aria-live="polite"><h2 class="sth" id="exT">What switching off a neuron means</h2><div id="explain"></div></div>
 
     <h2 class="serif" id="pred">The predictions</h2>
