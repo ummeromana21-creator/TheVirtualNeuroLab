@@ -174,8 +174,7 @@ $('cards').innerHTML = R1.experiments.map(e => {
     <div class="row"><span class="t">Already known from real flies</span>${e.real} <span style="color:var(--muted)">(${e.ref})</span></div>
     <div class="row"><span class="t">Pass mark (written before the run)</span>${e.rule}</div>
     <div class="row"><span class="t">What the simulated brain did</span><ul class="parts">${e.parts.map(p => `<li class="${p.ok ? 'y' : 'x'}"><b>${p.ok ? '✓' : '✗'}</b>${p.label}</li>`).join('')}</ul></div>
-    ${e.note ? `<div class="row wide" style="font-size:13.5px;color:var(--muted)">${e.note}</div>` : ''}
-    <div class="fp wide" title="${R1.fingerprint_note}">fingerprint ${R1.fingerprint}</div></article>`;
+    ${e.note ? `<div class="row wide" style="font-size:13.5px;color:var(--muted)">${e.note}</div>` : ''}</article>`;
 }).join('');
 $('r1note').innerHTML = R1.note_html || '';
 if (location.hash === '#r1' || location.hash === '#infer') { $('evidence').open = true; setTimeout(() => document.querySelector(location.hash).scrollIntoView(), 300); }

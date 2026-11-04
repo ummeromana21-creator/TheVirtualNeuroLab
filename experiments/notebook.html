@@ -130,7 +130,7 @@ Feather.init();
   }
   const list = document.getElementById('list');
   list.innerHTML = NB.entries.map(card).join('');
-  document.getElementById('fine').innerHTML = `Engine: ${esc(NB.engine)} Fingerprint of round 1 (engine code, wiring and saved rules): <span class="mono">${esc(NB.fingerprint)}</span>. Built ${esc(NB.built)}. Data: <a href="notebook.json">notebook.json</a>.`;
+  document.getElementById('fine').innerHTML = `Engine: ${esc(NB.engine)} Built ${esc(NB.built)}. Data: <a href="notebook.json">notebook.json</a>.`;
   document.getElementById('filters').addEventListener('click', ev => {
     const b = ev.target.closest('button'); if (!b) return;
     document.querySelectorAll('#filters button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
