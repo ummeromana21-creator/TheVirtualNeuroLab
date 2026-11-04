@@ -55,4 +55,20 @@ for key, label, desc, run in STIM:
         tongue=mn9 >= 10, groom=abn1 >= 5,
         regions=sorted([dict(code=c, active=n, frac=round(n / total[c], 4)) for c, n in act.items()], key=lambda x: -x['active'])))
     print(key, 'MN9', round(mn9, 1), 'aBN1', round(abn1, 1), 'active', len(rates), out['stimuli'][-1]['regions'][:4])
+# where things are in the brain: label anchors for each region (centroid of its larger side), the stimulated input neurons, and the two decision neurons
+pos = np.fromfile('../check2/anatomy/celltypes/positions.bin', '<f4').reshape(-1, 3)
+mid = pos[:, 0].mean()
+anch = {}
+for c in codes:
+    m = reg == cidx[c]
+    if not m.any(): continue
+    P = pos[m]; L, R = P[P[:, 0] < mid], P[P[:, 0] >= mid]
+    side = P if min(len(L), len(R)) < .25 * len(P) else (L if len(L) >= len(R) else R)
+    anch[c] = [round(float(x), 1) for x in np.median(side, axis=0)]
+for r in out['regions']: r['anchor'] = anch.get(r['code'])
+L = json.load(open('shiu_lists.json'))
+pidx = lambda ids: [rk[int(i)] for i in ids if int(i) in rk]
+out['inputs'] = dict(sugar=pidx(L['neu_sugar']), bitter=pidx(L['neu_bitter']), water=pidx(L['neu_water']), touch=pidx(L['neu_JON_CE']))
+out['deciders'] = dict(mn9=pidx([720575940660219265, 720575940618238523]), abn1=pidx([int(ABN1)]))
 json.dump(out, open(f'{OUT}/behaviour.json', 'w'), separators=(',', ':'))
+print({k: len(v) for k, v in out['inputs'].items()}, out['deciders'])

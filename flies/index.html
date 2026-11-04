@@ -90,44 +90,47 @@ p, li { font-size:15px; line-height:1.6; }
 .infer a { color:inherit; text-decoration:underline; }
 @media (max-width:820px) { .infer { grid-template-columns:1fr; } }
 
-.facts { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 0; }
-.facts span { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:7px 12px; font-size:13.5px; } .facts b { font-weight:600; }
-.controls { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.3fr); gap:16px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-top:18px; align-items:start; }
-@media (max-width:1000px) { .controls { grid-template-columns:1fr 1fr; } }
-@media (max-width:560px) { .controls { grid-template-columns:1fr; } }
-.touch { margin-top:8px; width:100%; background:var(--chip); border:1px solid var(--line); border-radius:10px; padding:8px 10px; cursor:pointer; font-size:13.5px; font-family:inherit; color:var(--ink); }
-.touch[aria-pressed="true"] { background:#0f9d8a; color:#fff; border-color:transparent; font-weight:700; }
-.duo { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:14px; margin-top:14px; }
-@media (max-width:1000px) { .duo { grid-template-columns:1fr; } }
-.view { position:relative; height:520px; border-radius:20px; overflow:hidden; border:1px solid var(--line); background:linear-gradient(#f4f6f8, #e3e7ec); }
+.lead { font-size:17px; line-height:1.6; color:var(--muted); margin:0; }
+.choose { display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 6px; align-items:center; }
+.choose .q { font-weight:600; font-size:16px; margin-right:6px; }
+.choose button.c { border:1px solid var(--line); background:var(--panel); color:var(--ink); border-radius:100px; padding:11px 20px; font-size:15.5px; cursor:pointer; font-family:inherit; }
+.choose button.c[aria-pressed="true"] { background:var(--sage); color:var(--sage-ink); border-color:var(--sage); font-weight:600; }
+.adj { background:none; border:none; color:var(--sage); font-size:14px; cursor:pointer; text-decoration:underline; font-family:inherit; padding:6px; }
+.knobs[hidden] { display:none; }
+.knobs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 16px; margin:8px 0 0; }
+@media (max-width:760px) { .knobs { grid-template-columns:1fr; } }
+.stage2 { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; margin-top:16px; }
+@media (max-width:1000px) { .stage2 { grid-template-columns:1fr; } }
+.col { display:flex; flex-direction:column; gap:10px; }
+.view { position:relative; height:540px; border-radius:20px; overflow:hidden; border:1px solid var(--line); background:linear-gradient(#f4f6f8, #e3e7ec); }
 .view canvas { display:block; width:100%; height:100%; }
 .view.brain { background:#101318; }
-.vt { position:absolute; left:16px; top:12px; font-weight:700; font-size:15px; z-index:2; }
+.vt { position:absolute; left:16px; top:12px; font-weight:700; font-size:15px; z-index:3; }
 .view.brain .vt { color:#e9edf2; }
-.vs { position:absolute; left:16px; top:34px; font-size:12.5px; color:var(--muted); z-index:2; }
-.view.brain .vs, .view.brain .hint { color:#9aa6b4; }
-.view .hint { position:absolute; right:14px; top:12px; font-size:12px; color:var(--muted); z-index:2; }
-.act { position:absolute; left:16px; bottom:14px; right:16px; z-index:2; display:flex; gap:8px; flex-wrap:wrap; }
-.act span { background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:100px; padding:6px 12px; font-size:13.5px; color:#1c2b33; }
-.act span.on { background:#0064e0; color:#fff; border-color:#0064e0; }
-.scale { position:absolute; left:16px; bottom:14px; right:16px; z-index:2; display:flex; align-items:center; gap:8px; font-size:12px; color:#9aa6b4; }
-.scale i { flex:1; height:8px; border-radius:6px; background:linear-gradient(90deg, #2a3442, #3d6fb6, #ffb547, #fff3c4); }
-.readout { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
-@media (max-width:760px) { .readout { grid-template-columns:1fr; } }
-.panel { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
-.beh { display:flex; flex-direction:column; gap:6px; }
-.beh .lbl { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
-.beh .bigv { font-size:26px; font-weight:600; letter-spacing:-.01em; }
-.beh .bar { height:8px; border-radius:6px; background:var(--chip); overflow:hidden; } .beh .bar i { display:block; height:100%; background:var(--sage); border-radius:6px; transition:width .6s; }
-.beh p { margin:0; font-size:14px; line-height:1.55; color:var(--muted); }
-.story li { opacity:1; }
-table.reg { width:100%; border-collapse:collapse; font-size:14px; }
-table.reg th { text-align:left; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding:6px 8px; border-bottom:1px solid var(--line); }
-table.reg td { padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:middle; }
-table.reg .rb { height:8px; border-radius:6px; background:var(--chip); min-width:120px; } table.reg .rb i { display:block; height:100%; border-radius:6px; background:#ffb547; }
-.role { color:var(--muted); font-size:13px; }
-.sec { margin-top:14px; }
-.sec h3 { font-size:20px; font-weight:500; margin:0 0 8px; }
+.view .hint { position:absolute; right:14px; top:12px; font-size:12px; color:var(--muted); z-index:3; }
+.view.brain .hint { color:#9aa6b4; }
+.tags { position:absolute; inset:0; pointer-events:none; z-index:2; }
+.tag2 { position:absolute; transform:translate(-50%,-100%); white-space:nowrap; font-size:12px; padding:3px 8px; border-radius:100px; pointer-events:auto; cursor:pointer; border:none; font-family:inherit; }
+.tag2.land { background:rgba(255,255,255,.08); color:#aab4c0; }
+.tag2.act { background:#ffb547; color:#1c1404; font-weight:600; }
+.tag2.sel { outline:2px solid #fff; }
+.tag2.key { background:#fff; color:#101318; font-weight:700; cursor:default; }
+.tag2.key.in { background:#0f9d8a; color:#fff; } .tag2.key.no { background:#5d6b7c; color:#fff; }
+.tag2.hid { display:none; }
+.verdict2 { font-size:24px; font-weight:600; letter-spacing:-.01em; line-height:1.25; }
+.why2 { font-size:15px; color:var(--muted); line-height:1.55; }
+.beats { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+.beats li { display:grid; grid-template-columns:26px 1fr; gap:10px; font-size:14.5px; line-height:1.5; opacity:.3; transition:opacity .4s; }
+.beats li.on { opacity:1; }
+.beats .k { width:24px; height:24px; border-radius:50%; display:grid; place-items:center; font-size:12px; font-weight:700; color:#fff; }
+.rinfo { font-size:14px; line-height:1.55; color:var(--muted); min-height:1.5em; }
+.rinfo b { color:var(--ink); }
+.trust { display:flex; gap:14px; align-items:center; flex-wrap:wrap; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 18px; margin-top:22px; }
+.trust .dot { width:12px; height:12px; border-radius:50%; background:#2f8a4e; flex:none; }
+.trust p { margin:0; flex:1; font-size:15px; line-height:1.5; }
+details.ev { margin-top:12px; }
+details.ev > summary { cursor:pointer; font-weight:600; font-size:16px; padding:8px 0; }
+.eh { font-size:20px; font-weight:500; margin:22px 0 8px; }
 a { color:inherit; }
 </style>
 </head>
@@ -137,44 +140,32 @@ a { color:inherit; }
   <main class="wrap" id="main">
     <span class="eyebrow">Vivarium</span>
     <h1 class="serif">Fly</h1>
-    <p class="lead">The lab's fly: a body reconstructed from a micro-CT scan of a real fruit fly, run by the FlyWire brain. Put tastes on her tongue or touch
-      her antennae, and see which brain regions respond and what she does. Every run is written up in the <a href="../experiments/notebook.html">lab notebook</a>.</p>
-    <div class="facts">
-      <span><b>Species</b> <i>Drosophila melanogaster</i></span><span><b>Sex</b> female</span>
-      <span><b>Brain</b> FlyWire, 139,255 neurons, mapped by electron microscopy</span><span><b>Body</b> NeuroMechFly, from a micro-CT scan</span>
-    </div>
-    <div class="status" id="status"></div>
+    <p class="lead">A fruit fly with a body from a micro-CT scan and a brain wired from the FlyWire map. Choose what she senses, watch what she does, and see the brain activity that made her do it.</p>
 
-    <div class="controls" id="controls">
+    <div class="choose" id="choose" role="group" aria-label="What she senses"><span class="q">What does she sense?</span></div>
+    <button class="adj" id="adj" aria-expanded="false">Adjust strengths</button>
+    <div class="knobs" id="knobs" hidden>
       <div class="knob k-sugar"><div class="lab">Sugar <small>signal per second</small></div><div class="seg" data-k="s"></div></div>
       <div class="knob k-bitter"><div class="lab">Bitter <small>e.g. caffeine</small></div><div class="seg" data-k="b"></div></div>
       <div class="knob k-water"><div class="lab">Water <small>signal per second</small></div><div class="seg" data-k="w"></div></div>
-      <div><div class="knob"><div class="lab">Quick picks</div></div><div class="presets" id="presets"></div>
-        <button class="touch" id="touch" aria-pressed="false">Touch the antennae</button></div>
     </div>
 
-    <div class="duo">
-      <div class="view" id="bodyView"><div class="vt">What she does</div><div class="vs" id="bodySub"></div>
-        <div class="hint">drag to turn · scroll to zoom</div><div class="act" id="act"></div></div>
-      <div class="view brain" id="brainView"><div class="vt">Which brain regions respond</div><div class="vs" id="brainSub"></div>
-        <div class="hint">drag to turn</div><div class="scale"><span>quiet</span><i></i><span>most active region</span></div></div>
+    <div class="stage2">
+      <div class="col">
+        <div class="view" id="bodyView"><div class="vt">What she does</div><div class="hint">drag to turn · scroll to zoom</div></div>
+        <div class="verdict2" id="verdict" aria-live="polite"></div>
+        <div class="why2" id="why"></div>
+      </div>
+      <div class="col">
+        <div class="view brain" id="brainView"><div class="vt">Inside her brain</div><div class="hint">drag to turn · click a label</div><div class="tags" id="tags"></div></div>
+        <ol class="beats" id="beats"></ol>
+        <div class="rinfo" id="rinfo"></div>
+      </div>
     </div>
 
-    <div class="readout">
-      <div class="panel beh"><span class="lbl">Feeding: tongue (proboscis)</span><span class="bigv" id="tBig">—</span>
-        <div class="bar"><i id="tBar"></i></div><p id="tTxt"></p></div>
-      <div class="panel beh"><span class="lbl">Grooming: cleaning the antennae</span><span class="bigv" id="gBig">—</span>
-        <div class="bar"><i id="gBar"></i></div><p id="gTxt"></p></div>
-    </div>
-
-    <div class="story" aria-live="polite"><h3>What's happening in the brain</h3><ol id="steps"></ol><div class="sum" id="ssum"></div>
-      <div class="spark" id="spark" hidden></div></div>
-
-    <div class="panel sec"><h3>Brain regions that responded</h3>
-      <p class="lead" style="font-size:14.5px;margin-bottom:10px" id="regLead"></p>
-      <table class="reg" id="regTab"></table></div>
-
-    <h2 class="serif" id="r1">Round 1: an exam on things already known</h2>
+    <div class="trust" id="trust"><span class="dot"></span><p id="trustTxt"></p></div>
+    <details class="ev" id="evidence"><summary>See the evidence</summary>
+      <h3 class="eh" id="r1">Round 1: a test on results already known from real flies</h3>
     <div class="why">
       <b>Why test results that are already known?</b> These are not discoveries. Each one was found in living flies years ago.
       We use them as an exam for the simulated brain, the way you'd test a new thermometer in water you already know is 100&nbsp;°C.
@@ -194,7 +185,7 @@ a { color:inherit; }
 
 
 
-    <h2 class="serif" id="infer">What we infer, and why it matters</h2>
+      <h3 class="eh" id="infer">What we infer, and why it matters</h3>
     <div class="infer">
       <div>
         <h3>What these results tell us</h3>
@@ -229,7 +220,7 @@ a { color:inherit; }
         thirst state and no chemical messengers. It shows what the wiring <i>can</i> do, not everything a living fly does.</div>
     </div>
 
-    <h2 class="serif">How to read this</h2>
+    <h3 class="eh">How to read this</h3>
     <ul>
       <li><b>Who chose the Round 1 tests?</b> A rule written before any run: every result in the 2024 brain-model study
         (Shiu et al., <i>Nature</i>) that was tested in living flies, names its neurons, and uses neurons listed in the authors'
@@ -242,24 +233,25 @@ a { color:inherit; }
     </ul>
 
 
+    </details>
+
     <p class="fine">Body: NeuroMechFly (Lobato-Rios et al. 2022, <i>Nature Methods</i>; flygym, Apache-2.0), reconstructed from a micro-CT scan of an adult
-      fruit fly; shape and joints from the scan, colours added here, shown in NeuroMechFly's neutral standing pose. The movements are animations of the behaviour
-      the brain's output calls for. Brain: FlyWire v783 (Dorkenwald et al. 2024; Schlegel et al. 2024), wiring as released with Shiu et al. 2024, published model
-      settings unchanged. Engine: <span class="mono">tools/lif_engine.py</span>, checked against the authors' own code. Taste mixes: <span class="mono">tools/run_bench.py</span>,
-      10 repeats each; antenna touch: Round 1 experiment E7 (Johnston's organ CE neurons, 30 repeats). Rules written before the runs: tongue out when MN9 fires at least
-      10 times a second; antennal grooming when aBN1 fires at least 5 times a second (aBN1 starts antennal grooming in real flies, Hampel et al. 2015). Each neuron is
-      placed in the region where it has most of its synapses; a region's colour is the share of its neurons that fired. Caffeine is tasted by the fly's bitter neurons
-      (Moon et al. 2006, <i>Curr Biol</i> 16:1812); the model switches those neurons on, it does not simulate the chemical itself. Numbers can differ slightly from the calibration test (for example 65 vs 61.4 for sugar) because these are separate sets of runs and the brain's input has some randomness, like a real fly's.
-      Rules: <a href="../experiments/round1_preregistration.json">round1_preregistration.json</a>. Results: <a href="../experiments/round1.json">round1.json</a>,
-      <a href="behaviour.json">behaviour.json</a>.</p>
+      fruit fly; colours added here. Her movements are animations of the behaviour the brain's output calls for. Brain: FlyWire v783 (Dorkenwald et al. 2024;
+      Schlegel et al. 2024), wiring as released with Shiu et al. 2024, published model settings unchanged. Tastes: the Taste Bench runs, 10 repeats each; antenna touch:
+      Round 1 experiment E7, 30 repeats. Rules written before the runs: tongue out when MN9 fires at least 10 times a second; antennal grooming when aBN1 fires at
+      least 5 times a second (aBN1 starts antennal grooming in real flies, Hampel et al. 2015). Each neuron belongs to the region where it has most of its synapses;
+      a region glows by the share of its neurons that fired. The brain plays the run in three steps (signal in, processing, decision) to make it easy to follow; the
+      steps are not exact timing. Caffeine is tasted by the fly's bitter neurons (Moon et al. 2006); the model switches those neurons on, it does not simulate the
+      chemical. Numbers can differ slightly from the calibration test (65 vs 61.4 for sugar) because these are separate sets of runs with random input.
+      Data: <a href="behaviour.json">behaviour.json</a>, <a href="../experiments/round1.json">round1.json</a>.</p>
   </main>
 </div>
-<script src="../feather.js?v=15"></script>
+<script src="../feather.js?v=16"></script>
 <script>
 Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro Lab', sub: 'Vivarium', base: '../', current: 'flies', profile: false });
 Feather.init();
 </script>
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
-<script type="module" src="vivarium.js?v=1"></script>
+<script type="module" src="vivarium.js?v=2"></script>
 </body>
 </html>

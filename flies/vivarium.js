@@ -1,22 +1,22 @@
-// Vivarium: Fly. Body (NeuroMechFly), brain-region activity (FlyWire), behaviours read from the brain, and Round 1.
+// Vivarium: Fly. Choose what she senses, watch what she does, see the brain activity behind it.
 import * as T from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { loadFly } from './body/fly_body.js?v=1';
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const f1 = x => (Math.round(x * 10) / 10).toLocaleString('en-US');
-const [B, R1, BENCH, SPARK] = await Promise.all([fetch('behaviour.json?v=2').then(r => r.json()), fetch('../experiments/round1.json?v=1').then(r => r.json()),
-  fetch('../experiments/bench.json?v=1').then(r => r.json()), fetch('../experiments/bench_narration.json?v=1').then(r => r.ok ? r.json() : null).catch(() => null)]);
+const [B, R1, SPARK] = await Promise.all([fetch('behaviour.json?v=3').then(r => r.json()), fetch('../experiments/round1.json?v=1').then(r => r.json()),
+  fetch('../experiments/bench_narration.json?v=1').then(r => r.ok ? r.json() : null).catch(() => null)]);
 const REG = new Uint8Array(await (await fetch('regions.bin?v=1')).arrayBuffer());
 const POS = new Float32Array(await (await fetch('../anatomy/celltypes/positions.bin')).arrayBuffer());
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const RN = Object.fromEntries(B.regions.map(r => [r.code, r]));
+const RIDX = Object.fromEntries(B.regions.map((r, i) => [r.code, i + 1]));
 
-// ---------- calibration status ----------
+// ---------- trust strip ----------
 const cal = R1.calibration;
-$('status').innerHTML = `<a class="st ${cal.passed ? 'ok' : 'no'}" href="#r1"><span class="dot"></span><div><b>FlyWire brain · ${cal.passed ? 'calibrated ✓' : 'did not pass calibration'}</b>
-  <span>Sugar → MN9 ${f1(cal.mn9.sugar_100)}/s, bitter alone ${f1(cal.mn9.bitter_200)}/s, bitter + sugar ${f1(cal.mn9.sugar_100_bitter_200)}/s;
-  ${cal.active.sugar_100} neurons fired. All calibration rules met: ${Object.values(cal.criteria).every(Boolean) ? 'yes' : 'no'}.</span></div></a>`;
+$('trustTxt').innerHTML = `The FlyWire brain ${cal.passed ? '<b>passed its calibration test</b>' : 'did not pass its calibration test'} and matched
+  <b>${R1.totals.matched} of ${R1.totals.total}</b> results already known from real flies, with nothing adjusted to pass.`;
 
 // ---------- the body ----------
 function makeRenderer(el, clear) { const r = new T.WebGLRenderer({ antialias: true, alpha: clear == null }); r.setPixelRatio(Math.min(2, devicePixelRatio));
@@ -35,118 +35,130 @@ const bc = new T.Box3().setFromObject(fly).getCenter(new T.Vector3());
 fly.updateMatrixWorld(true); const head = F.parts['c_head'].getWorldPosition(new T.Vector3()); bc.lerp(head, .35);
 const bcam = new T.PerspectiveCamera(30, 1, .05, 100); bcam.position.set(bc.x + 3.0, bc.y + 0.55, bc.z + 4.6);
 const bctl = new OrbitControls(bcam, br.domElement); bctl.target.copy(bc); bctl.enableDamping = true; bctl.minDistance = 2; bctl.maxDistance = 14; bctl.enablePan = false;
-// behaviours, as angles on NeuroMechFly's own joints. Tongue out: the proboscis segments unfold. Grooming: both front legs reach the antennae and sweep.
 const TONGUE = { 'c_head-c_rostrum-pitch': -0.9, 'c_rostrum-c_haustellum-pitch': -0.7 };
 const GROOM = { 'c_thorax-lf_coxa-pitch': -0.4, 'c_thorax-lf_coxa-roll': -0.8, 'lf_coxa-lf_trochanterfemur-pitch': -0.8, 'lf_trochanterfemur-lf_tibia-pitch': 0.5,
   'c_thorax-rf_coxa-pitch': -0.4, 'c_thorax-rf_coxa-roll': -0.8, 'rf_coxa-rf_trochanterfemur-pitch': -0.8, 'rf_trochanterfemur-rf_tibia-pitch': 0.5, 'c_thorax-c_head-pitch': 0.15 };
-let mode = { tongue: false, groom: false }, tMode = 0;
+let mode = { tongue: false, groom: false }, tMove = Infinity;
 function bodyPose(t) {
-  const a = {};
-  if (mode.tongue) { const k = reduce ? 1 : Math.min(1, Math.max(0, Math.sin(Math.PI * ((t * .55) % 1)) * 1.6)); for (const j in TONGUE) a[j] = TONGUE[j] * k; }
-  if (mode.groom) { const k = Math.min(1, (t - tMode) * 1.5);
-    for (const j in GROOM) a[j] = GROOM[j] * k;
-    if (!reduce && k >= 1) { const w = Math.sin(t * 2 * Math.PI * 2.2), w2 = Math.sin(t * 2 * Math.PI * 2.2 + Math.PI);
+  const a = {}; if (t < tMove) { F.pose(a); return; }
+  const e = t - tMove;
+  if (mode.tongue) { const k = reduce ? 1 : Math.min(1, Math.max(0, Math.sin(Math.PI * ((e * .55) % 1)) * 1.6)); for (const j in TONGUE) a[j] = TONGUE[j] * k; }
+  if (mode.groom) { const k = Math.min(1, e * 1.5); for (const j in GROOM) a[j] = GROOM[j] * k;
+    if (!reduce && k >= 1) { const w = Math.sin(e * 2 * Math.PI * 2.2), w2 = -w;
       a['lf_trochanterfemur-lf_tibia-pitch'] += .28 * w; a['rf_trochanterfemur-rf_tibia-pitch'] += .28 * w2;
       a['lf_coxa-lf_trochanterfemur-pitch'] += .12 * w2; a['rf_coxa-rf_trochanterfemur-pitch'] += .12 * w; } }
   F.pose(a);
 }
 
-// ---------- the brain: the whole brain in grey, the regions that responded in colour ----------
+// ---------- the brain ----------
 const rv = $('brainView'), rr = makeRenderer(rv, 0x101318); const rs = new T.Scene();
 const N = POS.length / 3, pa = new Float32Array(3 * N);
+const V = (x, y, z) => new T.Vector3(x, -y, z);
 const c0 = new T.Vector3(); for (let i = 0; i < N; i++) { pa[3 * i] = POS[3 * i]; pa[3 * i + 1] = -POS[3 * i + 1]; pa[3 * i + 2] = POS[3 * i + 2]; c0.x += pa[3 * i]; c0.y += pa[3 * i + 1]; c0.z += pa[3 * i + 2]; }
 c0.multiplyScalar(1 / N);
-const pg = new T.BufferGeometry(); pg.setAttribute('position', new T.BufferAttribute(pa, 3));
 const dot = (() => { const c = document.createElement('canvas'); c.width = c.height = 32; const g = c.getContext('2d'); const r = g.createRadialGradient(16, 16, 0, 16, 16, 16);
   r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.5, 'rgba(255,255,255,.6)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 32, 32); return new T.CanvasTexture(c); })();
-rs.add(new T.Points(pg, new T.PointsMaterial({ size: 2.2, map: dot, color: 0x5d6b7c, transparent: true, opacity: .16, depthWrite: false })));
-const ag = new T.BufferGeometry();
-const actPts = new T.Points(ag, new T.PointsMaterial({ size: 6, map: dot, vertexColors: true, transparent: true, opacity: 1, depthWrite: false, depthTest: false })); actPts.renderOrder = 2; rs.add(actPts);
-const rcam = new T.PerspectiveCamera(32, 1, 1, 8000); rcam.position.set(c0.x, c0.y, c0.z + 1500);
+{ const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(pa, 3));
+  rs.add(new T.Points(g, new T.PointsMaterial({ size: 2.2, map: dot, color: 0x6d7c8e, transparent: true, opacity: .22, depthWrite: false }))); }
+const layer = (size, order) => { const g = new T.BufferGeometry(); const p = new T.Points(g, new T.PointsMaterial({ size, map: dot, vertexColors: true, transparent: true, opacity: 0, depthWrite: false, depthTest: false }));
+  p.renderOrder = order; rs.add(p); return p; };
+const regPts = layer(5.5, 2), inPts = layer(9, 3), decPts = layer(26, 4);
+const setPts = (p, idx, col) => { const a = new Float32Array(3 * idx.length), c = new Float32Array(3 * idx.length);
+  idx.forEach((i, j) => { a.set([pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]], 3 * j); c.set(typeof col === 'function' ? col(i, j) : col, 3 * j); });
+  p.geometry.setAttribute('position', new T.BufferAttribute(a, 3)); p.geometry.setAttribute('color', new T.BufferAttribute(c, 3)); p.geometry.computeBoundingSphere(); };
+const rcam = new T.PerspectiveCamera(32, 1, 1, 8000); rcam.position.set(c0.x, c0.y, c0.z + 950);
 const rctl = new OrbitControls(rcam, rr.domElement); rctl.target.copy(c0); rctl.enableDamping = true; rctl.enablePan = false;
 const ramp = f => { const s = [[.16, .2, .26], [.24, .44, .71], [1, .71, .28], [1, .95, .77]], x = Math.min(1, Math.max(0, f)) * 3, k = Math.min(2, Math.floor(x)), u = x - k;
   return s[k].map((v, j) => v + (s[k + 1][j] - v) * u); };
-function paintBrain(st) {
-  const frac = new Float32Array(B.regions.length + 1); const mx = Math.max(1e-9, ...st.regions.map(r => r.frac));
-  for (const r of st.regions) frac[B.regions.findIndex(x => x.code === r.code) + 1] = r.frac / mx;
-  const ap = [], ac = [];
-  for (let i = 0; i < N; i++) { const f = REG[i] ? frac[REG[i]] : 0; if (!(f >= .04)) continue;   // regions under 4% of the top one stay grey (they are still in the table)
-    ap.push(pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]); ac.push(...ramp(.2 + .8 * f)); }
-  ag.setAttribute('position', new T.BufferAttribute(new Float32Array(ap), 3)); ag.setAttribute('color', new T.BufferAttribute(new Float32Array(ac), 3));
-}
+// labels: landmarks for orientation, the regions that responded, where the signal enters, where the decision is made
+const LAND = [['ME', 'Optic lobe'], ['MB_CA', 'Mushroom body'], ['AL', 'Antennal lobe'], ['FB', 'Central complex'], ['LH', 'Lateral horn']];
+const tags = []; const tagBox = $('tags');
+function addTag(text, pos, cls, code) { const el = document.createElement(code ? 'button' : 'span'); el.className = 'tag2 ' + cls; el.textContent = text;
+  if (code) { el.type = 'button'; el.addEventListener('click', () => pick(code)); }
+  tagBox.appendChild(el); const t = { el, pos, code }; tags.push(t); return t; }
+const centroid = idx => { const v = new T.Vector3(); idx.forEach(i => v.add(new T.Vector3(pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]))); return v.multiplyScalar(1 / Math.max(1, idx.length)); };
+const landTags = LAND.filter(([c]) => RN[c] && RN[c].anchor).map(([c, n]) => addTag(n, V(...RN[c].anchor), 'land', c));
+let dyn = [];
+function clearDyn() { dyn.forEach(t => { t.el.remove(); tags.splice(tags.indexOf(t), 1); }); dyn = []; }
 
-// ---------- controls: the Taste Bench's 24 mixes, plus touching the antennae ----------
-const LV = { s: [0, 50, 100, 200], b: [0, 100, 200], w: [0, 200] };
-const sel = { s: 100, b: 0, w: 0 }; let touch = false;
-document.querySelectorAll('.seg').forEach(seg => {
-  const k = seg.dataset.k;
+// ---------- choices ----------
+const CH = [['Sugar', 's100_b0_w0'], ['Water', 's0_b0_w200'], ['Bitter', 's0_b200_w0'], ['Sugar + bitter', 's100_b200_w0'], ['Touch her antennae', 'touch'], ['Nothing', 's0_b0_w0']];
+$('choose').insertAdjacentHTML('beforeend', CH.map(([l, k]) => `<button class="c" data-k="${k}" aria-pressed="false">${l}</button>`).join(''));
+const LV = { s: [0, 50, 100, 200], b: [0, 100, 200], w: [0, 200] }; const sel = { s: 100, b: 0, w: 0 };
+document.querySelectorAll('.seg').forEach(seg => { const k = seg.dataset.k;
   seg.innerHTML = LV[k].map(v => `<button data-v="${v}" aria-pressed="false">${v === 0 ? 'none' : v}</button>`).join('');
-  seg.addEventListener('click', ev => { const b = ev.target.closest('button'); if (!b) return; sel[k] = +b.dataset.v; touch = false; show(); });
-});
-const PRE = [['Sugar', { s: 100, b: 0, w: 0 }], ['Sugar + caffeine', { s: 100, b: 200, w: 0 }], ['Weak sugar', { s: 50, b: 0, w: 0 }],
-  ['Water', { s: 0, b: 0, w: 200 }], ['Caffeine alone', { s: 0, b: 200, w: 0 }], ['Strong sugar + caffeine', { s: 200, b: 200, w: 0 }]];
-$('presets').innerHTML = PRE.map(([l], i) => `<button data-i="${i}">${l}</button>`).join('');
-$('presets').addEventListener('click', ev => { const b = ev.target.closest('button'); if (!b) return; Object.assign(sel, PRE[+b.dataset.i][1]); touch = false; show(); });
-$('touch').addEventListener('click', () => { touch = !touch; show(); });
+  seg.addEventListener('click', ev => { const b = ev.target.closest('button'); if (!b) return; sel[k] = +b.dataset.v; run(`s${sel.s}_b${sel.b}_w${sel.w}`); }); });
+$('choose').addEventListener('click', e => { const b = e.target.closest('button.c'); if (!b) return; const k = b.dataset.k;
+  if (k !== 'touch') { const m = k.match(/s(\d+)_b(\d+)_w(\d+)/); Object.assign(sel, { s: +m[1], b: +m[2], w: +m[3] }); } run(k); });
+$('adj').addEventListener('click', () => { const k = $('knobs'); k.hidden = !k.hidden; $('adj').setAttribute('aria-expanded', String(!k.hidden)); $('adj').textContent = k.hidden ? 'Adjust strengths' : 'Hide strengths'; });
 
-// ---------- one stimulus: behaviour, regions, story ----------
-function show() {
-  const key = touch ? 'touch' : `s${sel.s}_b${sel.b}_w${sel.w}`, st = B.stimuli.find(s => s.key === key);
-  document.querySelectorAll('.seg').forEach(seg => seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(!touch && +x.dataset.v === sel[seg.dataset.k]))));
-  $('touch').setAttribute('aria-pressed', String(touch));
-  mode = { tongue: st.tongue, groom: st.groom }; tMode = performance.now() / 1000;
-  $('bodySub').textContent = st.desc; $('brainSub').textContent = st.active ? `${st.active.toLocaleString('en-US')} of 139,255 neurons fired` : 'no neurons fired';
-  $('act').innerHTML = `<span class="${st.tongue ? 'on' : ''}">${st.tongue ? 'Tongue out: feeding' : 'Tongue in'}</span><span class="${st.groom ? 'on' : ''}">${st.groom ? 'Grooming her antennae' : 'Not grooming'}</span>`;
-  $('tBig').textContent = st.tongue ? 'Tongue out' : st.mn9 >= 1 ? 'A flicker, but the tongue stays in' : 'Tongue stays in'; $('tBar').style.width = Math.min(100, st.mn9 / 1.1) + '%';
-  $('tTxt').innerHTML = `MN9, the motor neuron that pushes the tongue out, fired <b>${f1(st.mn9)}</b> times a second. The rule: tongue out at 10 or more.`;
-  $('gBig').textContent = st.groom ? 'Grooming' : 'Not grooming'; $('gBar').style.width = Math.min(100, st.abn1 / 0.3) + '%';
-  $('gTxt').innerHTML = `aBN1, a brain neuron that starts antennal grooming in real flies, fired <b>${f1(st.abn1)}</b> times a second. The rule: grooming at 5 or more.`;
-  // regions
-  $('regLead').textContent = st.regions.length ? `${st.regions.length} regions had at least one neuron fire. On the brain, colour shows each region's share of neurons that fired, compared with the most active region; regions below 4% of the top one stay grey.` : 'With nothing on the tongue, no neurons fire in the model.';
-  $('regTab').innerHTML = st.regions.length ? '<thead><tr><th>Region</th><th>What it does</th><th>Neurons that fired</th><th>Share of the region</th></tr></thead><tbody>' +
-    st.regions.slice(0, 12).map(r => `<tr><td>${esc(RN[r.code].name)} <span class="role">(${esc(r.code)})</span></td><td class="role">${esc(RN[r.code].role || '')}</td>
-      <td>${r.active} of ${RN[r.code].total.toLocaleString('en-US')}</td><td><div class="rb"><i style="width:${Math.max(2, 100 * r.frac / st.regions[0].frac)}%"></i></div></td></tr>`).join('') +
-    (st.regions.length > 12 ? `<tr><td colspan="4" class="role">and ${st.regions.length - 12} more regions with a few neurons each</td></tr>` : '') + '</tbody>' : '';
-  paintBrain(st);
-  // the story, from this run's numbers
-  const top = st.regions[0], topTxt = top ? `, most of them in the ${esc(RN[top.code].name.toLowerCase())}${RN[top.code].role ? ` (${esc(RN[top.code].role)})` : ''}` : '';
-  const S = [];
-  let sum = '';
-  if (touch) {
-    S.push(['Antennae moved', `We switch on the 69 Johnston's organ CE neurons, which sense the antennae being moved. This is the only thing we do; everything after this is the brain's own wiring at work.`]);
-    S.push(['The message spreads', `<b>${st.active.toLocaleString('en-US')}</b> neurons fire in response${topTxt}.`]);
-    S.push(['The grooming neuron decides', `<b>aBN1</b> fires <b>${f1(st.abn1)}</b> times a second, above the line of 5, so <b>she grooms her antennae</b>. The tongue neuron stays silent (${f1(st.mn9)}).`]);
-    sum = 'Real flies groom their antennae when this neuron is active (Hampel et al. 2015), and the untouched brain wiring reproduces it.';
-  } else {
-    const on = { sugar: sel.s > 0, bitter: sel.b > 0, water: sel.w > 0 }, tastes = ['sugar', 'bitter', 'water'].filter(k => on[k]);
-    const tName = { sugar: 'sugar', bitter: 'bitter (like caffeine)', water: 'water' };
-    if (!tastes.length) S.push(['Nothing on the tongue', 'No taste neurons are switched on, so there is nothing for the brain to react to.']);
-    else {
-      S.push(['Taste on the tongue', `We switch on the fly's ${tastes.map(k => `<b>${tName[k]}</b>`).join(' and ')} taste neurons: ${tastes.map(k => `${BENCH.inputs[k].length} ${k} neurons`).join(', ')}. This is the only thing we do; everything after this is the brain's own wiring at work.`]);
-      S.push(['The message spreads', `<b>${st.active.toLocaleString('en-US')}</b> neurons fire in response, out of 139,255 in the brain${topTxt}.`]);
-      S.push(['The tongue neuron decides', st.mn9 >= 10 ? `The signal reaches <b>MN9</b>, the motor neuron that moves the tongue. It fires <b>${f1(st.mn9)}</b> times a second, above the line of 10, so <b>the tongue comes out</b>.`
-        : `<b>MN9</b>, the motor neuron that moves the tongue, fires only <b>${f1(st.mn9)}</b> times a second, below the line of 10, so <b>the tongue stays in</b>.`]);
-      const nb = B.stimuli.find(s => s.key === `s${sel.s}_b0_w${sel.w}`).mn9;
-      if (on.bitter && (on.sugar || on.water)) sum = (st.mn9 >= 10 ? `Bitter weakened the response (MN9 ${f1(nb)} → ${f1(st.mn9)} per second) but didn't stop it at this strength.`
-        : `Bitter won: it cut MN9 from ${f1(nb)} to ${f1(st.mn9)} per second, so the fly refuses.`) + (on.sugar ? ' Real flies also refuse sugar mixed with bitter.' : '');
-      else if (on.bitter) sum = 'Bitter alone never tells the tongue to come out. Real flies behave the same way.';
-      else if (on.sugar && on.water) sum = 'Sugar and water both push MN9, so the response adds up.';
-      else if (on.sugar) sum = sel.s >= 200 ? 'More sugar, stronger push on MN9.' : sel.s <= 50 ? 'Weak sugar still gets the tongue out, just with a softer push.' : 'Sugar is tasted, the signal travels through the feeding centre, and the tongue comes out, as in real flies.';
-      else if (on.water) sum = 'Water is tasted by its own neurons, and they also reach MN9, so a thirsty fly drinks.';
-    }
-  }
-  $('steps').innerHTML = S.map(([h, t], j) => `<li><span class="k" style="background:${j === 0 ? (touch ? '#0f9d8a' : '#c27c0e') : j === 1 ? '#c2187a' : '#111'}">${j + 1}</span><div><b>${h}.</b> ${t}</div></li>`).join('');
-  $('ssum').innerHTML = sum; $('ssum').hidden = !sum;
-  const line = !touch && SPARK && SPARK.lines[key];
-  $('spark').hidden = !line;
-  if (line) $('spark').innerHTML = `<b>Muse Spark:</b> ${esc(line)}<small>Written by ${esc(SPARK.model)} from the recorded numbers only, ${esc(SPARK.made)}. It doesn't affect any result.</small>`;
+// ---------- one run, in three beats: signal in → processing → decision (and then she moves) ----------
+let cur = null, beatT0 = 0, picked = null;
+function sentence(st, key) {
+  const tastes = key === 'touch' ? [] : ['s', 'b', 'w'].filter(k => sel[k] > 0);
+  if (st.groom) return 'She cleans her antennae with her front legs.';
+  if (st.tongue) return sel.s > 0 ? 'She sticks out her tongue to feed.' : 'She sticks out her tongue to drink.';
+  if (!tastes.length && key !== 'touch') return 'She does nothing: there is nothing to sense.';
+  if (sel.b > 0 && (sel.s > 0 || sel.w > 0)) return 'She keeps her tongue in: she refuses.';
+  return 'She keeps her tongue in.';
 }
-show();
+function run(key) {
+  const st = B.stimuli.find(s => s.key === key); cur = { st, key };
+  document.querySelectorAll('#choose button.c').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === key)));
+  document.querySelectorAll('.seg').forEach(seg => seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(key !== 'touch' && +x.dataset.v === sel[seg.dataset.k]))));
+  // inputs
+  const inIdx = key === 'touch' ? B.inputs.touch : ['sugar', 'bitter', 'water'].filter(k => sel[k[0]] > 0).flatMap(k => B.inputs[k]);
+  const inCol = { sugar: [.85, .55, .1], bitter: [.55, .4, .85], water: [.25, .55, .95], touch: [.06, .75, .62] };
+  const roleOf = {}; for (const k of ['sugar', 'bitter', 'water', 'touch']) for (const i of B.inputs[k]) roleOf[i] = k;
+  setPts(inPts, inIdx, i => inCol[key === 'touch' ? 'touch' : roleOf[i]]);
+  // regions
+  const mx = Math.max(1e-9, ...st.regions.map(r => r.frac)); const fr = new Float32Array(B.regions.length + 1);
+  for (const r of st.regions) fr[RIDX[r.code]] = r.frac / mx;
+  const ri = []; for (let i = 0; i < N; i++) if (REG[i] && fr[REG[i]] >= .04) ri.push(i);
+  setPts(regPts, ri, i => ramp(.2 + .8 * fr[REG[i]]));
+  // decision neuron
+  const decIs = key === 'touch' ? 'abn1' : 'mn9', fires = key === 'touch' ? st.groom : st.tongue;
+  setPts(decPts, B.deciders[decIs], fires ? [1, .82, .25] : [.45, .5, .58]);
+  // labels
+  clearDyn(); picked = null;
+  const top = st.regions.filter(r => RN[r.code].anchor).slice(0, 3);
+  top.forEach(r => dyn.push(addTag(RN[r.code].name, V(...RN[r.code].anchor), 'act', r.code)));
+  if (inIdx.length) dyn.push(addTag(key === 'touch' ? 'Signal enters: antenna neurons' : 'Signal enters: taste neurons', centroid(inIdx), 'key in'));
+  dyn.push(addTag(decIs === 'mn9' ? `Decision: MN9 (tongue) · ${f1(st.mn9)}/s` : `Decision: aBN1 (grooming) · ${f1(st.abn1)}/s`, centroid(B.deciders[decIs]), fires ? 'key' : 'key no'));
+  landTags.forEach(t => t.el.classList.toggle('hid', top.some(r => r.code === t.code)));
+  // beats text
+  const regName = r => `${RN[r.code].name.toLowerCase()}${RN[r.code].role ? ` (${RN[r.code].role})` : ''}`;
+  const parts = key === 'touch' ? '69 antenna neurons that sense the antennae being moved' :
+    ['sugar', 'bitter', 'water'].filter(k => sel[k[0]] > 0).map(k => `${B.inputs[k].length} ${k}-taste neurons`).join(' and ');
+  const beats = [
+    ['#0f9d8a', inIdx.length ? `<b>Signal in.</b> We switch on ${parts}. That is all we do; the rest is the brain's own wiring.` : '<b>Signal in.</b> Nothing is switched on.'],
+    ['#ffb547', st.active ? `<b>Processing.</b> ${st.active.toLocaleString('en-US')} of 139,255 neurons fire, mostly in the ${regName(st.regions[0])}.` : '<b>Processing.</b> No neurons fire.'],
+    ['#1c2b33', decIs === 'mn9' ? `<b>Decision.</b> MN9, the neuron that pushes the tongue out, fires ${f1(st.mn9)} times a second: ${st.tongue ? 'above' : 'below'} the line of 10, so the tongue ${st.tongue ? 'comes out' : 'stays in'}.`
+      : `<b>Decision.</b> aBN1, the neuron that starts antennal grooming, fires ${f1(st.abn1)} times a second: above the line of 5, so she grooms.`]];
+  $('beats').innerHTML = beats.map(([c, t], j) => `<li data-j="${j}"><span class="k" style="background:${c}">${j + 1}</span><div>${t}</div></li>`).join('');
+  // the verdict and why, under the fly
+  $('verdict').textContent = ''; $('why').innerHTML = '';
+  mode = { tongue: st.tongue, groom: st.groom };
+  beatT0 = performance.now() / 1000; tMove = beatT0 + (reduce ? 0 : 2.4);
+  const nb = key !== 'touch' && (sel.b > 0) ? B.stimuli.find(s => s.key === `s${sel.s}_b0_w${sel.w}`) : null;
+  cur.why = key === 'touch' ? 'Moving her antennae switches on aBN1, the brain neuron that starts antennal grooming in real flies too.'
+    : nb && (sel.s > 0 || sel.w > 0) ? (st.tongue ? `Bitter weakened the push on her tongue neuron (${f1(nb.mn9)} → ${f1(st.mn9)} per second) but didn't stop it.`
+      : `Bitter overruled the sweet signal: her tongue neuron dropped from ${f1(nb.mn9)} to ${f1(st.mn9)} firings a second. Real flies refuse bitter food too.`)
+    : sel.b > 0 ? 'Bitter on its own never tells the tongue to come out. Real flies behave the same way.'
+    : st.tongue ? `Her tongue neuron, MN9, fired ${f1(st.mn9)} times a second; 10 or more brings the tongue out.` : !st.active ? '' : `Her tongue neuron fired ${f1(st.mn9)} times a second, below the line of 10.`;
+  cur.sent = sentence(st, key);
+  $('rinfo').textContent = 'Click a highlighted region label to see what it is.';
+}
+function pick(code) {
+  picked = picked === code ? null : code; const r = RN[code], a = cur && cur.st.regions.find(x => x.code === code);
+  tags.forEach(t => t.el.classList.toggle('sel', t.code === picked));
+  $('rinfo').innerHTML = picked ? `<b>${esc(r.name)}</b>${r.role ? `: ${esc(r.role)}` : ''}. ${a ? `${a.active} of its ${r.total.toLocaleString('en-US')} neurons fired.` : `None of its ${r.total.toLocaleString('en-US')} neurons fired.`}` : 'Click a highlighted region label to see what it is.';
+}
+run('s100_b0_w0');
 
-// ---------- Round 1 ----------
-const T1 = R1.totals;
+// ---------- Round 1 (inside "See the evidence") ----------
 $('r1lead').textContent = `Pass marks written down ${R1.prereg.written.split(',')[0].replace('T', ' at ').replace('Z', ' UTC')}, before the runs. Each card shows what was already known from real flies, the pass mark, and what the simulated brain did.`;
-$('score').innerHTML = `<span class="n">${T1.matched} of ${T1.total}</span><span class="lead" style="font-size:15px">real-fly results matched by the untouched brain wiring</span>`;
+$('score').innerHTML = `<span class="n">${R1.totals.matched} of ${R1.totals.total}</span><span class="lead" style="font-size:15px">real-fly results matched by the untouched brain wiring</span>`;
 $('cards').innerHTML = R1.experiments.map(e => {
   const cls = e.matched === e.total ? 'b-ok' : e.matched === 0 ? 'b-miss' : 'b-mix';
   const word = e.matched === e.total ? 'Matches real flies' : e.matched === 0 ? 'Miss' : `Partly matches (${e.matched}/${e.total})`;
@@ -158,11 +170,28 @@ $('cards').innerHTML = R1.experiments.map(e => {
     <div class="fp" title="${R1.fingerprint_note}">fingerprint ${R1.fingerprint}</div></article>`;
 }).join('');
 $('r1note').innerHTML = R1.note_html || '';
+if (location.hash === '#r1' || location.hash === '#infer') { $('evidence').open = true; setTimeout(() => document.querySelector(location.hash).scrollIntoView(), 300); }
 
 // ---------- render loop ----------
+const tmp = new T.Vector3();
 function fit(r, el, cam) { const w = el.clientWidth, h = el.clientHeight; if (r.domElement.width !== Math.round(w * r.getPixelRatio())) { r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); } }
 (function loop(now) {
   const t = now / 1000; fit(br, bv, bcam); fit(rr, rv, rcam);
+  // beats: 0-0.8 s signal in, 0.8-2.4 s processing, 2.4 s decision, then she moves
+  const e = reduce ? 99 : t - beatT0, beat = e < .8 ? 0 : e < 2.4 ? 1 : 2;
+  inPts.material.opacity = Math.min(1, e / .4); regPts.material.opacity = Math.max(0, Math.min(1, (e - .8) / 1.2)); decPts.material.opacity = e >= 2.4 ? 1 : 0;
+  document.querySelectorAll('#beats li').forEach(li => li.classList.toggle('on', +li.dataset.j <= beat));
+  if (cur && e >= 2.4 && !$('verdict').textContent) { $('verdict').textContent = cur.sent; $('why').innerHTML = cur.why; }
+  dyn.forEach(tg => { const k = tg.el.classList.contains('in') ? 0 : tg.el.classList.contains('act') ? 1 : 2; tg.el.style.visibility = beat >= k ? 'visible' : 'hidden'; });
   bodyPose(t); bctl.update(); rctl.update(); br.render(bs, bcam); rr.render(rs, rcam);
+  const w = rv.clientWidth, h = rv.clientHeight;
+  // place labels, then push apart any that overlap (key labels first, then regions, then landmarks)
+  const rank = tg => tg.el.classList.contains('key') ? 0 : tg.el.classList.contains('act') ? 1 : 2, placed = [];
+  for (const tg of [...tags].sort((a, b) => rank(a) - rank(b))) {
+    tmp.copy(tg.pos).project(rcam); if (tmp.z > 1) { tg.el.style.display = 'none'; continue; } tg.el.style.display = '';
+    if (tg.el.classList.contains('hid') || tg.el.style.visibility === 'hidden') continue;
+    let x = (tmp.x + 1) / 2 * w, y = (1 - tmp.y) / 2 * h - 6; const bw = tg.el.offsetWidth + 6, bh = tg.el.offsetHeight + 4;
+    for (let tries = 0; tries < 12; tries++) { const hit = placed.find(p => Math.abs(p.x - x) < (p.w + bw) / 2 && Math.abs(p.y - y) < (p.h + bh) / 2); if (!hit) break; y = hit.y + (hit.h + bh) / 2 + 1; }
+    placed.push({ x, y, w: bw, h: bh }); tg.el.style.left = x + 'px'; tg.el.style.top = y + 'px'; }
   requestAnimationFrame(loop);
 })(performance.now());

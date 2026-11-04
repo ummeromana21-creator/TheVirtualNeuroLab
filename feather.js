@@ -123,12 +123,11 @@ window.Feather = (() => {
       { el: '#infer', t: 'What it all means', b: 'What we can conclude from the results, how it could help in the real world, and what it doesn’t tell us.' },
     ],
     flies: [
-      { t: 'The Vivarium', b: 'Meet Fly: a body reconstructed from a micro-CT scan of a real fruit fly, run by the FlyWire brain.' },
-      { el: '#controls', t: '1. Choose what she senses', b: 'Mix sugar, bitter and water on her tongue, or touch her antennae.' },
-      { el: '#bodyView', t: '2. Watch what she does', b: 'She sticks out her tongue to feed, or cleans her antennae with her front legs, when her brain sends that command.' },
-      { el: '#brainView', t: '3. See which brain regions respond', b: 'Regions light up by the share of their neurons that fired.' },
-      { el: '.readout', t: '4. Why she does it', b: 'The neuron that decides each behaviour, how fast it fired, and the rule written before the run.' },
-      { el: '#r1', t: 'How far to trust her', b: 'Round 1 tests the brain against results already known from real flies. Nothing was adjusted to pass; misses stay on the page.' },
+      { t: 'The Vivarium', b: 'Meet Fly: a body from a micro-CT scan of a real fruit fly, with a brain wired from the FlyWire map.' },
+      { el: '#choose', t: '1. Choose what she senses', b: 'A taste on her tongue, or a touch on her antennae. "Adjust strengths" offers 24 taste mixes.' },
+      { el: '#brainView', t: '2. Watch her brain', b: 'The signal comes in, the regions that process it light up, and the neuron that decides fires (or stays dark). Click a label to see what a region does.' },
+      { el: '#bodyView', t: '3. See what she does', b: 'Once the deciding neuron fires, she acts: tongue out to feed, or front legs cleaning her antennae.' },
+      { el: '#trust', t: 'How far to trust it', b: 'The brain passed its calibration test and was checked against results known from real flies. "See the evidence" has every check, misses included.' },
     ],
     atlas: [
       { t: 'The Fly Atlas', b: 'Every brain and nerve-cord region, what it does, and how much wiring it holds.' },
