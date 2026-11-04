@@ -69,7 +69,8 @@ h2 { font-size:28px; margin:44px 0 8px; }
 .story li { font-size:14.5px; line-height:1.55; color:var(--muted); transition:color .3s; }
 .story li.on { color:var(--ink); }
 .story li b { color:inherit; }
-.ex { display:grid; grid-template-columns:200px 1fr; gap:10px 18px; margin:0; }
+.story.wide { margin-top:14px; padding:20px 24px; }
+.ex { display:grid; grid-template-columns:220px 1fr; gap:10px 18px; margin:0; }
 .ex dt { font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); padding-top:3px; }
 .ex dd { margin:0; font-size:14.5px; line-height:1.6; }
 .ex dd + dt, .ex dd + dt + dd { border-top:1px solid var(--line); padding-top:10px; }
@@ -136,7 +137,6 @@ td.n { text-align:right; white-space:nowrap; }
           <span><i style="background:#ffd23f;box-shadow:0 0 0 2px #b8860b"></i>MN9: the tongue</span>
           <span><i style="background:#c0392b"></i>switched off</span>
         </div>
-        <div class="panel story" aria-live="polite"><h2 class="sth" id="exT">What switching off a neuron means</h2><div id="explain"></div></div>
         <details class="three" id="three"><summary>See it inside the real brain (3D)</summary>
           <div class="duo">
             <div class="view" id="vA"><div class="vt">Normal brain</div><div class="inset" id="mapA"><span>where we are in the brain</span></div></div>
@@ -154,6 +154,7 @@ td.n { text-align:right; white-space:nowrap; }
           (needed, and no living-fly test that we know of: a real lab could test these next), or <b>all 286</b>.</div>
       </div>
     </div>
+    <div class="panel story wide" aria-live="polite"><h2 class="sth" id="exT">What switching off a neuron means</h2><div id="explain"></div></div>
 
     <h2 class="serif" id="pred">The predictions</h2>
     <p class="lead" style="font-size:15px" id="predlead"></p>
