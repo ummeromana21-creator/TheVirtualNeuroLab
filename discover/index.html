@@ -141,7 +141,8 @@ td.n { text-align:right; white-space:nowrap; }
         </details>
         <div class="panel howto"><b>How to read the map.</b> The signal travels left to right: from the taste neurons on the tongue,
           through relay neurons in the feeding centre, to MN9, the motor neuron that sticks the tongue out. Each dot is a neuron and turns
-          green when it fires; each line is a real connection, drawn when the signal crosses it, with a bright pulse riding along. Thicker lines
+          blue when it fires. The neurons shown are the ones the signal passed through on its way to MN9 in <b>at least half of 20 simulation runs</b>, and each line is a real connection that was part of that route in at least half the runs, so the map
+          shows the routes the signal reliably takes, not one-off coincidences. A bright pulse rides each line at its typical timing. Thicker lines
           carry more of the signal. The top map is the normal brain; the bottom one has your neuron switched off. Pick <b>Sugar</b> (eating)
           or <b>Water</b> (drinking), pick a neuron on the left, and press <b>Play</b>. Hover a dot to see its name and when it fires. The filters show the neurons the lab predicts are <b>needed</b>, the <b>new discoveries</b>
           (needed, and no living-fly test that we know of: a real lab could test these next), or <b>all 286</b>.</div>
@@ -186,10 +187,11 @@ td.n { text-align:right; white-space:nowrap; }
     </div>
 
     <p class="fine">Brain: FlyWire v783 (Dorkenwald et al. 2024; Schlegel et al. 2024), published wiring and settings of Shiu et al. 2024.
-      Lines: a line from neuron A to neuron B appears when B fires and A, which is wired to B with an exciting connection, fired 1.8–7 ms
-      before. The map shows the neurons on the normal brain's route to MN9 (up to six per step; the rest are grouped as "+ more");
-      links between neurons in the same step are left out for clarity. "Route lost" = connections on the normal brain's route to MN9 that carried no signal after the switch-off. One recorded run per
-      picture, first 100 ms; the paths and timing are from the simulation, the colours and glow are styling, and the step-by-step text is
+      Lines: in each of 20 simulation runs (different random input each time), the signal crosses a connection from A to B when
+      B fires 1.8–7 ms after A, which is wired to B with an exciting connection. The route to MN9 is traced inside each run (back from MN9's first spike, along connections crossed before the neuron they fed fired); a line is drawn only for a connection that was on the route in at least 10 of the 20 runs.
+      The map shows the neurons on these routes, for the normal brain and the switched-off brain (up to six per step; the rest are grouped as "+ more");
+      links between neurons in the same step are left out for clarity. In the 3D view, "route lost" = connections on the normal brain's route to MN9 that the signal no longer used after the switch-off.
+      Maps cover the first 100 ms; times are the median over the runs in which each event happened. Paths and timing are from the simulation, the colours and glow are styling, and the step-by-step text is
       written from those same numbers. Tongue-signal numbers are averages over many runs (30 for every "needed" neuron).
       Rules: <a href="screen_preregistration.json">screen_preregistration.json</a>. Data: <a href="screen.json">screen.json</a>.
       Names: FlyWire cell types; names in quotes are from Shiu et al. 2024.</p>
@@ -248,7 +250,9 @@ new ResizeObserver(fit).observe(A.el); fit();
 document.getElementById('three').addEventListener('toggle', fit);
 
 // ---------- one replay in one view ----------
-function routeOf(run) {         // connections on the way to MN9: walk back from MN9 along links that fired in time
+function routeOf(run) {         // connections on the way to MN9
+  // multi-run maps: the route was traced inside each run; a connection is on it if it was on the route in at least half the runs
+  if (run.s.length && run.s[0].length >= 5) { const need = Math.ceil((run.runs || 20) / 2); return Uint8Array.from(run.s, e => e[4] >= need ? 1 : 0); }
   const into = new Map(); run.s.forEach(([x, y, t], j) => { if (!into.has(y)) into.set(y, []); into.get(y).push(j); });
   const first = new Map(run.f.map(([i, t]) => [i, t])), on = new Uint8Array(run.s.length), seen = new Set();
   const stack = D.mn9.filter(i => first.has(i)).map(i => [i, first.get(i)]);
@@ -277,7 +281,7 @@ function fill(v, run, ko, lost) {
   const mp = new Float32Array(3 * D.mn9.length); D.mn9.forEach((i, j) => P(i, mp, 3 * j));
   const mg = new T.BufferGeometry(); mg.setAttribute('position', new T.BufferAttribute(mp, 3));
   const mn = new T.Points(mg, new T.PointsMaterial({ size: 30, map: dot, transparent: true, depthWrite: false, blending: T.AdditiveBlending, color: 0x5a5230 }));
-  v.layer.add(mn); v.layer.userData = { pts, mn, run, routeCount: route.length };
+  v.layer.add(mn); v.layer.userData = { pts, mn, run, routeCount: route.length, routeNeurons: new Set(route.flatMap(([a, b]) => [a, b]).filter(i => !D.mn9.includes(i) && !D.inputs[cond].includes(i))).size };
   // labels: where taste enters, MN9, the switched-off neuron
   const cen = ids => { const c = new T.Vector3(); ids.forEach(i => { const q = [0, 0, 0]; P(i, q, 0); c.add(new T.Vector3(...q)); }); return c.multiplyScalar(1 / ids.length); };
   const L = (txt, cls, p) => { const d = document.createElement('div'); d.className = 'lbl ' + cls; d.textContent = txt; v.el.appendChild(d); v.labels.push(Object.assign(d, { p })); };
@@ -306,7 +310,7 @@ function paintView(v, tNow) {
 // ---------- state, loading, the story ----------
 let DA = null, DB = null;
 let cond = 'sugar', sel = null, filt = 'needed', runA = null, runB = null, tNow = 0, playing = false, last = performance.now(), framed = false;
-const getRun = async key => { try { const r = await fetch(`runs/${key}.json?v=2`); return r.ok ? r.json() : null; } catch { return null; } };
+const getRun = async key => { try { const r = await fetch(`runs/${key}.json?v=4`); return r.ok ? r.json() : null; } catch { return null; } };
 function events(run) {
   const inputs = new Set(D.inputs[cond]);
   const tIn = Math.min(...run.f.filter(([i]) => inputs.has(i)).map(([, t]) => t / 10));
@@ -323,12 +327,12 @@ function story() {
     s.push([eA.tIn, `<b>${f1(eA.tIn)} ms</b> · ${taste[0].toUpperCase() + taste.slice(1)} touches the tongue. The ${D.inputs[cond].length} ${taste}-sensing neurons start firing (orange).`]);
     if (eA.tFirst != null) s.push([eA.tFirst, `<b>${f1(eA.tFirst)} ms</b> · The first neuron in the brain answers: the signal has crossed its first connection.`]);
     s.push([Math.min(10, eA.mn9 || 10), `<b>10 ms</b> · ${eA.n10} neurons in the feeding centre are firing. Each line on the map is a real connection the signal has crossed.`]);
-    if (eA.mn9 != null) s.push([eA.mn9, `<b>${f1(eA.mn9)} ms</b> · Normal brain: the signal reaches <b>MN9</b> (gold). The tongue command goes out, after passing through ${eA.nM} neurons along ${runA && fillA.routeCount} connections.`]);
+    if (eA.mn9 != null) s.push([eA.mn9, `<b>${f1(eA.mn9)} ms</b> · Normal brain: the signal reaches <b>MN9</b> (gold). The tongue command goes out. By now ${eA.nM} neurons have fired; ${fillA.routeNeurons} of them carry the signal to MN9 in most runs (the gold lines in 3D).`]);
   }
   if (eB && sel) {
     const n = BY[sel];
     if (eB.mn9 != null) s.push([eB.mn9, `<b>${f1(eB.mn9)} ms</b> · With <b>${n.label}</b> switched off, the signal still reaches MN9${eA && eA.mn9 != null ? (eB.mn9 > eA.mn9 + 0.5 ? `, ${f1(eB.mn9 - eA.mn9)} ms later than normal` : '') : ''}. Compare the two maps: connections missing from the lower one went silent.`]);
-    else s.push([Math.max(30, (eA && eA.mn9 != null ? eA.mn9 : 0) + 0.2), `<b>by 100 ms</b> · With <b>${n.label}</b> switched off, the signal never reaches MN9 in this run: the tongue stays in.`]);
+    else s.push([Math.max(30, (eA && eA.mn9 != null ? eA.mn9 : 0) + 0.2), `<b>by 100 ms</b> · With <b>${n.label}</b> switched off, the signal no longer reaches MN9 in most runs: the tongue stays in.`]);
   }
   s.sort((a, b) => a[0] - b[0]);
   $('steps').innerHTML = s.map(([t, h]) => `<li data-t="${t}">${h}</li>`).join('');
@@ -416,10 +420,10 @@ function layoutRoutes() {
   for (const [c, arr] of Object.entries(byCol)) arr.forEach((n, j) => { n.x = +c < 0 ? W - 90 : X(+c); n.y = +c < 0 ? H - 30 : 52 + (j + .5) * (H - 70) / arr.length; });
   const N = Object.fromEntries(nodes.map(n => [n.id, n]));
   const colOf = {}; nodes.forEach(n => { colOf[n.id] = n.col; });
-  // lines = every connection that carried the signal between the neurons on the map (same-column links left out for clarity)
+  // lines = connections on the route to MN9 in at least half the runs (same-column links left out for clarity)
   const edges = (segs) => { const m = new Map(); segs.forEach(([a, b, t]) => { const u = shown.get(a), v = shown.get(b); if (!u || !v || u === v || colOf[u] === colOf[v]) return;
       const k = u + '>' + v, e = m.get(k); if (!e) m.set(k, { u, v, t: t / 10, n: 1 }); else { e.n++; e.t = Math.min(e.t, t / 10); } }); return m; };
-  RT = { nodes, N, H, nc, X, eA: edges(runA ? runA.s : []), eB: edges(runB ? runB.s : []), shown, ko };
+  RT = { nodes, N, H, nc, X, eA: edges(segA), eB: edges(segB), shown, ko };
 }
 function el(tag, attrs, parent) { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 function drawOne(svg, run, mine, other, isB) {
@@ -443,7 +447,7 @@ function drawOne(svg, run, mine, other, isB) {
     if (n.sub) { const s2 = el('text', { x: n.x, y: n.y + 44, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--muted)' }, g); s2.textContent = n.sub; }
     if (n.off) { const s3 = el('text', { x: n.x, y: n.y + 38, 'text-anchor': 'middle', 'font-size': 11, fill: '#c0392b' }, g); s3.textContent = 'not on this route'; }
     const tt = Math.min(...n.members.map(i => first.has(i) ? first.get(i) : Infinity));
-    const ti = el('title', {}, g); ti.textContent = `${n.label}${isFinite(tt) ? ` · first fires at ${tt.toFixed(1)} ms` : ' · does not fire in this run'}`;
+    const ti = el('title', {}, g); ti.textContent = `${n.label}${isFinite(tt) ? ` · first fires at ${tt.toFixed(1)} ms` : ' · does not fire in most runs'}`;
     return { n, c, t: tt }; });
   live.forEach(l => { if (l.dotc) l.len = l.p.getTotalLength(); });
   return { live, nodeEls };
