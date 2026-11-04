@@ -125,7 +125,7 @@ window.Feather = (() => {
     flies: [
       { t: 'The Vivarium', b: 'Meet Fly: a body from a micro-CT scan of a real fruit fly, with a brain wired from the FlyWire map.' },
       { el: '#choose', t: '1. Choose what she senses', b: 'A taste on her tongue, or a touch on her antennae. "Adjust strengths" offers 24 taste mixes.' },
-      { el: '#brainView', t: '2. Watch her brain', b: 'The signal comes in, the regions that process it light up, and the neuron that decides fires (or stays dark). Click a label to see what a region does.' },
+      { el: '#brainView', t: '2. Watch her brain', b: 'The signal comes in, the regions that process it light up, and the neuron that decides fires (or stays grey). Hover over any part to see its name.' },
       { el: '#bodyView', t: '3. See what she does', b: 'Once the deciding neuron fires, she acts: tongue out to feed, or front legs cleaning her antennae.' },
       { el: '#trust', t: 'How far to trust it', b: 'The brain passed its calibration test and was checked against results known from real flies. "See the evidence" has every check, misses included.' },
     ],

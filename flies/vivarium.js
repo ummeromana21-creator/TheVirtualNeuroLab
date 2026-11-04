@@ -51,7 +51,7 @@ function bodyPose(t) {
 }
 
 // ---------- the brain ----------
-const rv = $('brainView'), rr = makeRenderer(rv, 0x101318); const rs = new T.Scene();
+const rv = $('brainView'), rr = makeRenderer(rv); const rs = new T.Scene();
 const N = POS.length / 3, pa = new Float32Array(3 * N);
 const V = (x, y, z) => new T.Vector3(x, -y, z);
 const c0 = new T.Vector3(); for (let i = 0; i < N; i++) { pa[3 * i] = POS[3 * i]; pa[3 * i + 1] = -POS[3 * i + 1]; pa[3 * i + 2] = POS[3 * i + 2]; c0.x += pa[3 * i]; c0.y += pa[3 * i + 1]; c0.z += pa[3 * i + 2]; }
@@ -59,27 +59,37 @@ c0.multiplyScalar(1 / N);
 const dot = (() => { const c = document.createElement('canvas'); c.width = c.height = 32; const g = c.getContext('2d'); const r = g.createRadialGradient(16, 16, 0, 16, 16, 16);
   r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.5, 'rgba(255,255,255,.6)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 32, 32); return new T.CanvasTexture(c); })();
 { const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(pa, 3));
-  rs.add(new T.Points(g, new T.PointsMaterial({ size: 2.2, map: dot, color: 0x6d7c8e, transparent: true, opacity: .22, depthWrite: false }))); }
+  rs.add(new T.Points(g, new T.PointsMaterial({ size: 2.2, map: dot, color: 0x7d8a9b, transparent: true, opacity: .38, depthWrite: false }))); }
 const layer = (size, order) => { const g = new T.BufferGeometry(); const p = new T.Points(g, new T.PointsMaterial({ size, map: dot, vertexColors: true, transparent: true, opacity: 0, depthWrite: false, depthTest: false }));
   p.renderOrder = order; rs.add(p); return p; };
-const regPts = layer(5.5, 2), inPts = layer(9, 3), decPts = layer(26, 4);
+const regPts = layer(6.5, 2), inPts = layer(10, 3), decPts = layer(44, 4);
 const setPts = (p, idx, col) => { const a = new Float32Array(3 * idx.length), c = new Float32Array(3 * idx.length);
   idx.forEach((i, j) => { a.set([pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]], 3 * j); c.set(typeof col === 'function' ? col(i, j) : col, 3 * j); });
   p.geometry.setAttribute('position', new T.BufferAttribute(a, 3)); p.geometry.setAttribute('color', new T.BufferAttribute(c, 3)); p.geometry.computeBoundingSphere(); };
 const rcam = new T.PerspectiveCamera(32, 1, 1, 8000); rcam.position.set(c0.x, c0.y, c0.z + 950);
 const rctl = new OrbitControls(rcam, rr.domElement); rctl.target.copy(c0); rctl.enableDamping = true; rctl.enablePan = false;
-const ramp = f => { const s = [[.16, .2, .26], [.24, .44, .71], [1, .71, .28], [1, .95, .77]], x = Math.min(1, Math.max(0, f)) * 3, k = Math.min(2, Math.floor(x)), u = x - k;
+const ramp = f => { const s = [[.55, .7, .95], [0, .39, .88], [1, .6, .1], [.85, .2, .1]], x = Math.min(1, Math.max(0, f)) * 3, k = Math.min(2, Math.floor(x)), u = x - k;
   return s[k].map((v, j) => v + (s[k + 1][j] - v) * u); };
-// labels: landmarks for orientation, the regions that responded, where the signal enters, where the decision is made
-const LAND = [['ME', 'Optic lobe'], ['MB_CA', 'Mushroom body'], ['AL', 'Antennal lobe'], ['FB', 'Central complex'], ['LH', 'Lateral horn']];
-const tags = []; const tagBox = $('tags');
-function addTag(text, pos, cls, code) { const el = document.createElement(code ? 'button' : 'span'); el.className = 'tag2 ' + cls; el.textContent = text;
-  if (code) { el.type = 'button'; el.addEventListener('click', () => pick(code)); }
-  tagBox.appendChild(el); const t = { el, pos, code }; tags.push(t); return t; }
+// hover: name the part of the brain under the pointer (a region, where the signal enters, or the deciding neuron)
+const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; $('tags').appendChild(tip);
 const centroid = idx => { const v = new T.Vector3(); idx.forEach(i => v.add(new T.Vector3(pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]))); return v.multiplyScalar(1 / Math.max(1, idx.length)); };
-const landTags = LAND.filter(([c]) => RN[c] && RN[c].anchor).map(([c, n]) => addTag(n, V(...RN[c].anchor), 'land', c));
-let dyn = [];
-function clearDyn() { dyn.forEach(t => { t.el.remove(); tags.splice(tags.indexOf(t), 1); }); dyn = []; }
+const SAMPLE = []; for (let i = 0; i < N; i += 7) if (REG[i]) SAMPLE.push(i);
+let hoverAt = null, keys = [];
+rv.addEventListener('pointermove', e => { const r = rv.getBoundingClientRect(); hoverAt = [e.clientX - r.left, e.clientY - r.top]; });
+rv.addEventListener('pointerleave', () => { hoverAt = null; tip.hidden = true; });
+rv.addEventListener('click', () => { if (hovered && hovered.code) pick(hovered.code); });
+let hovered = null;
+const pv = new T.Vector3();
+function hoverPick(w, h) {
+  if (!hoverAt) return null; const [mx, my] = hoverAt;
+  for (const k of keys) { if (!k.show()) continue; for (const i of k.idx) { pv.set(pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]).project(rcam);
+    if (Math.hypot((pv.x + 1) / 2 * w - mx, (1 - pv.y) / 2 * h - my) < k.r) return { html: k.html(), x: mx, y: my }; } }
+  let best = 1e9, bi = -1;
+  for (const i of SAMPLE) { pv.set(pa[3 * i], pa[3 * i + 1], pa[3 * i + 2]).project(rcam); const d = Math.hypot((pv.x + 1) / 2 * w - mx, (1 - pv.y) / 2 * h - my); if (d < best) { best = d; bi = i; } }
+  if (best > 14) return null;
+  const code = B.regions[REG[bi] - 1].code, r = RN[code], a = cur && cur.st.regions.find(x => x.code === code);
+  return { code, x: mx, y: my, html: `<b>${esc(r.name)}</b>${r.role ? `<small>${esc(r.role)}</small>` : ''}<small>${a ? `${a.active} of ${r.total.toLocaleString('en-US')} neurons fired` : 'quiet in this run'}</small>` };
+}
 
 // ---------- choices ----------
 const CH = [['Sugar', 's100_b0_w0'], ['Water', 's0_b0_w200'], ['Bitter', 's0_b200_w0'], ['Sugar + bitter', 's100_b200_w0'], ['Touch her antennae', 'touch'], ['Nothing', 's0_b0_w0']];
@@ -118,14 +128,13 @@ function run(key) {
   setPts(regPts, ri, i => ramp(.2 + .8 * fr[REG[i]]));
   // decision neuron
   const decIs = key === 'touch' ? 'abn1' : 'mn9', fires = key === 'touch' ? st.groom : st.tongue;
-  setPts(decPts, B.deciders[decIs], fires ? [1, .82, .25] : [.45, .5, .58]);
+  setPts(decPts, B.deciders[decIs], fires ? [.96, .66, 0] : [.45, .5, .58]);
   // labels
-  clearDyn(); picked = null;
-  const top = st.regions.filter(r => RN[r.code].anchor).slice(0, 3);
-  top.forEach(r => dyn.push(addTag(RN[r.code].name, V(...RN[r.code].anchor), 'act', r.code)));
-  if (inIdx.length) dyn.push(addTag(key === 'touch' ? 'Signal enters: antenna neurons' : 'Signal enters: taste neurons', centroid(inIdx), 'key in'));
-  dyn.push(addTag(decIs === 'mn9' ? `Decision: MN9 (tongue) · ${f1(st.mn9)}/s` : `Decision: aBN1 (grooming) · ${f1(st.abn1)}/s`, centroid(B.deciders[decIs]), fires ? 'key' : 'key no'));
-  landTags.forEach(t => t.el.classList.toggle('hid', top.some(r => r.code === t.code)));
+  picked = null;
+  keys = [
+    { idx: B.deciders[decIs], r: 22, show: () => decPts.material.opacity > .5, html: () => decIs === 'mn9' ? `<b>Decision: MN9</b><small>the neuron that pushes the tongue out · ${f1(st.mn9)} firings/s (line: 10)</small>`
+      : `<b>Decision: aBN1</b><small>the neuron that starts antennal grooming · ${f1(st.abn1)} firings/s (line: 5)</small>` },
+    { idx: inIdx, r: 10, show: () => inIdx.length > 0, html: () => key === 'touch' ? '<b>Signal enters here</b><small>69 neurons that sense the antennae moving</small>' : '<b>Signal enters here</b><small>the taste neurons we switched on</small>' }];
   // beats text
   const regName = r => `${RN[r.code].name.toLowerCase()}${RN[r.code].role ? ` (${RN[r.code].role})` : ''}`;
   const parts = key === 'touch' ? '69 antenna neurons that sense the antennae being moved' :
@@ -147,12 +156,11 @@ function run(key) {
     : sel.b > 0 ? 'Bitter on its own never tells the tongue to come out. Real flies behave the same way.'
     : st.tongue ? `Her tongue neuron, MN9, fired ${f1(st.mn9)} times a second; 10 or more brings the tongue out.` : !st.active ? '' : `Her tongue neuron fired ${f1(st.mn9)} times a second, below the line of 10.`;
   cur.sent = sentence(st, key);
-  $('rinfo').textContent = 'Click a highlighted region label to see what it is.';
+  $('rinfo').textContent = 'Hover over the brain to name a part; click to keep its details here.';
 }
 function pick(code) {
   picked = picked === code ? null : code; const r = RN[code], a = cur && cur.st.regions.find(x => x.code === code);
-  tags.forEach(t => t.el.classList.toggle('sel', t.code === picked));
-  $('rinfo').innerHTML = picked ? `<b>${esc(r.name)}</b>${r.role ? `: ${esc(r.role)}` : ''}. ${a ? `${a.active} of its ${r.total.toLocaleString('en-US')} neurons fired.` : `None of its ${r.total.toLocaleString('en-US')} neurons fired.`}` : 'Click a highlighted region label to see what it is.';
+  $('rinfo').innerHTML = picked ? `<b>${esc(r.name)}</b>${r.role ? `: ${esc(r.role)}` : ''}. ${a ? `${a.active} of its ${r.total.toLocaleString('en-US')} neurons fired.` : `None of its ${r.total.toLocaleString('en-US')} neurons fired.`}` : 'Hover over the brain to name a part; click to keep its details here.';
 }
 run('s100_b0_w0');
 
@@ -182,16 +190,10 @@ function fit(r, el, cam) { const w = el.clientWidth, h = el.clientHeight; if (r.
   inPts.material.opacity = Math.min(1, e / .4); regPts.material.opacity = Math.max(0, Math.min(1, (e - .8) / 1.2)); decPts.material.opacity = e >= 2.4 ? 1 : 0;
   document.querySelectorAll('#beats li').forEach(li => li.classList.toggle('on', +li.dataset.j <= beat));
   if (cur && e >= 2.4 && !$('verdict').textContent) { $('verdict').textContent = cur.sent; $('why').innerHTML = cur.why; }
-  dyn.forEach(tg => { const k = tg.el.classList.contains('in') ? 0 : tg.el.classList.contains('act') ? 1 : 2; tg.el.style.visibility = beat >= k ? 'visible' : 'hidden'; });
   bodyPose(t); bctl.update(); rctl.update(); br.render(bs, bcam); rr.render(rs, rcam);
   const w = rv.clientWidth, h = rv.clientHeight;
-  // place labels, then push apart any that overlap (key labels first, then regions, then landmarks)
-  const rank = tg => tg.el.classList.contains('key') ? 0 : tg.el.classList.contains('act') ? 1 : 2, placed = [];
-  for (const tg of [...tags].sort((a, b) => rank(a) - rank(b))) {
-    tmp.copy(tg.pos).project(rcam); if (tmp.z > 1) { tg.el.style.display = 'none'; continue; } tg.el.style.display = '';
-    if (tg.el.classList.contains('hid') || tg.el.style.visibility === 'hidden') continue;
-    let x = (tmp.x + 1) / 2 * w, y = (1 - tmp.y) / 2 * h - 6; const bw = tg.el.offsetWidth + 6, bh = tg.el.offsetHeight + 4;
-    for (let tries = 0; tries < 12; tries++) { const hit = placed.find(p => Math.abs(p.x - x) < (p.w + bw) / 2 && Math.abs(p.y - y) < (p.h + bh) / 2); if (!hit) break; y = hit.y + (hit.h + bh) / 2 + 1; }
-    placed.push({ x, y, w: bw, h: bh }); tg.el.style.left = x + 'px'; tg.el.style.top = y + 'px'; }
+  hovered = hoverPick(w, h);
+  if (hovered) { tip.innerHTML = hovered.html; tip.style.left = hovered.x + 'px'; tip.style.top = hovered.y + 'px'; tip.hidden = false; rv.style.cursor = hovered.code ? 'pointer' : 'default'; }
+  else { tip.hidden = true; rv.style.cursor = ''; }
   requestAnimationFrame(loop);
 })(performance.now());

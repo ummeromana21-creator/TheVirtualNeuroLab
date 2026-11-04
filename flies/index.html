@@ -104,19 +104,16 @@ p, li { font-size:15px; line-height:1.6; }
 .col { display:flex; flex-direction:column; gap:10px; }
 .view { position:relative; height:540px; border-radius:20px; overflow:hidden; border:1px solid var(--line); background:linear-gradient(#f4f6f8, #e3e7ec); }
 .view canvas { display:block; width:100%; height:100%; }
-.view.brain { background:#101318; }
+.view.brain { background:linear-gradient(#fbfcfd, #eef1f5); }
 .vt { position:absolute; left:16px; top:12px; font-weight:700; font-size:15px; z-index:3; }
-.view.brain .vt { color:#e9edf2; }
+
 .view .hint { position:absolute; right:14px; top:12px; font-size:12px; color:var(--muted); z-index:3; }
-.view.brain .hint { color:#9aa6b4; }
+
 .tags { position:absolute; inset:0; pointer-events:none; z-index:2; }
-.tag2 { position:absolute; transform:translate(-50%,-100%); white-space:nowrap; font-size:12px; padding:3px 8px; border-radius:100px; pointer-events:auto; cursor:pointer; border:none; font-family:inherit; }
-.tag2.land { background:rgba(255,255,255,.08); color:#aab4c0; }
-.tag2.act { background:#ffb547; color:#1c1404; font-weight:600; }
-.tag2.sel { outline:2px solid #fff; }
-.tag2.key { background:#fff; color:#101318; font-weight:700; cursor:default; }
-.tag2.key.in { background:#0f9d8a; color:#fff; } .tag2.key.no { background:#5d6b7c; color:#fff; }
-.tag2.hid { display:none; }
+.tip { position:absolute; z-index:4; pointer-events:none; transform:translate(-50%, calc(-100% - 12px)); background:#1c2b33; color:#fff; border-radius:10px; padding:6px 10px;
+  font-size:12.5px; line-height:1.4; white-space:nowrap; box-shadow:0 4px 14px rgba(0,0,0,.18); }
+.tip b { font-weight:700; } .tip small { display:block; color:#c7d0da; }
+.tip[hidden] { display:none; }
 .verdict2 { font-size:24px; font-weight:600; letter-spacing:-.01em; line-height:1.25; }
 .why2 { font-size:15px; color:var(--muted); line-height:1.55; }
 .beats { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
@@ -157,7 +154,7 @@ a { color:inherit; }
         <div class="why2" id="why"></div>
       </div>
       <div class="col">
-        <div class="view brain" id="brainView"><div class="vt">Inside her brain</div><div class="hint">drag to turn · click a label</div><div class="tags" id="tags"></div></div>
+        <div class="view brain" id="brainView"><div class="vt">Inside her brain</div><div class="hint">drag to turn · hover to name a part</div><div class="tags" id="tags"></div></div>
         <ol class="beats" id="beats"></ol>
         <div class="rinfo" id="rinfo"></div>
       </div>
@@ -252,6 +249,6 @@ Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro 
 Feather.init();
 </script>
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
-<script type="module" src="vivarium.js?v=2"></script>
+<script type="module" src="vivarium.js?v=3"></script>
 </body>
 </html>
