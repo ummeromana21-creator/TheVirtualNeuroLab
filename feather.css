@@ -133,3 +133,8 @@ a { color:inherit; }
 .shell-name { font-size:19px; font-weight:600; letter-spacing:-.02em; }
 .shell-top { gap:14px; }
 @media (max-width:1240px) { .shell-top .shell-menubtn { display:grid; } }
+
+/* Page text uses the full width of the window, with a comfortable side margin */
+@media (min-width:1000px) {
+  html body .wrap, html body .intro, html body .tiles, html body .foot { padding-left:clamp(32px, 3vw, 56px); padding-right:clamp(32px, 3vw, 56px); }
+}
