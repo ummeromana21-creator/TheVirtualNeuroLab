@@ -64,6 +64,13 @@ p, li { font-size:15px; line-height:1.6; }
 .score { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-top:8px; }
 .score .n { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-size:52px; line-height:1; }
 .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px; margin-top:18px; }
+/* Round 1: each card is one wide row: question | known | pass mark | result */
+.cards.rows { grid-template-columns:1fr; }
+.cards.rows .card { display:grid; grid-template-columns:minmax(200px,1fr) minmax(0,1.3fr) minmax(0,1.1fr) minmax(0,1.4fr); gap:10px 22px; align-items:start; }
+.cards.rows .card .top { flex-direction:column; align-items:flex-start; gap:8px; }
+.cards.rows .card .wide { grid-column:2 / -1; }
+@media (max-width:1000px) { .cards.rows .card { grid-template-columns:1fr 1fr; } .cards.rows .card .wide { grid-column:1 / -1; } }
+@media (max-width:640px) { .cards.rows .card { grid-template-columns:1fr; } }
 .card { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:18px; display:flex; flex-direction:column; gap:10px; }
 .card .top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
 .card h3 { font-family:Inter,"Segoe UI",system-ui,sans-serif; font-weight:500; font-size:21px; margin:0; line-height:1.2; }
@@ -186,7 +193,7 @@ a { color:inherit; }
     </div>
     <p class="lead" style="font-size:15px" id="r1lead"></p>
     <div class="score" id="score"></div>
-    <div class="cards" id="cards"></div>
+    <div class="cards rows" id="cards"></div>
     <div class="note2" id="r1note"></div>
 
 
@@ -258,6 +265,6 @@ Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro 
 Feather.init();
 </script>
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
-<script type="module" src="vivarium.js?v=4"></script>
+<script type="module" src="vivarium.js?v=5"></script>
 </body>
 </html>
