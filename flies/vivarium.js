@@ -93,7 +93,7 @@ function hoverPick(w, h) {
 
 // ---------- choices ----------
 const CH = [['Sugar', 's100_b0_w0'], ['Water', 's0_b0_w200'], ['Bitter', 's0_b200_w0'], ['Sugar + bitter', 's100_b200_w0'], ['Touch her antennae', 'touch'], ['Nothing', 's0_b0_w0']];
-$('choose').insertAdjacentHTML('beforeend', CH.map(([l, k]) => `<button class="c" data-k="${k}" aria-pressed="false">${l}</button>`).join(''));
+$('choose').insertAdjacentHTML('afterbegin', CH.map(([l, k]) => `<button class="c" data-k="${k}" aria-pressed="false">${l}</button>`).join(''));
 const LV = { s: [0, 50, 100, 200], b: [0, 100, 200], w: [0, 200] }; const sel = { s: 100, b: 0, w: 0 };
 document.querySelectorAll('.seg').forEach(seg => { const k = seg.dataset.k;
   seg.innerHTML = LV[k].map(v => `<button data-v="${v}" aria-pressed="false">${v === 0 ? 'none' : v}</button>`).join('');

@@ -91,13 +91,16 @@ p, li { font-size:15px; line-height:1.6; }
 @media (max-width:820px) { .infer { grid-template-columns:1fr; } }
 
 .lead { font-size:17px; line-height:1.6; color:var(--muted); margin:0; }
-.choose { display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 6px; align-items:center; }
-.choose .q { font-weight:600; font-size:16px; margin-right:6px; }
-.choose button.c { border:1px solid var(--line); background:var(--panel); color:var(--ink); border-radius:100px; padding:11px 20px; font-size:15.5px; cursor:pointer; font-family:inherit; }
+.pick { margin:26px 0 0; }
+.pick .q { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
+.choose { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.choose button.c { border:1px solid var(--line); background:var(--panel); color:var(--ink); border-radius:100px; padding:10px 20px; font-size:15px; cursor:pointer; font-family:inherit; line-height:1.2; }
 .choose button.c[aria-pressed="true"] { background:var(--sage); color:var(--sage-ink); border-color:var(--sage); font-weight:600; }
-.adj { background:none; border:none; color:var(--sage); font-size:14px; cursor:pointer; text-decoration:underline; font-family:inherit; padding:6px; }
+.adj { margin-left:auto; background:none; border:1px dashed var(--line); color:var(--muted); border-radius:100px; padding:10px 16px; font-size:14px; cursor:pointer; font-family:inherit; line-height:1.2; }
+.adj[aria-expanded="true"] { border-style:solid; color:var(--ink); }
+@media (max-width:760px) { .adj { margin-left:0; } }
 .knobs[hidden] { display:none; }
-.knobs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 16px; margin:8px 0 0; }
+.knobs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:14px 16px; margin:12px 0 0; }
 @media (max-width:760px) { .knobs { grid-template-columns:1fr; } }
 .stage2 { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; margin-top:16px; }
 @media (max-width:1000px) { .stage2 { grid-template-columns:1fr; } }
@@ -137,10 +140,12 @@ a { color:inherit; }
   <main class="wrap" id="main">
     <span class="eyebrow">Vivarium</span>
     <h1 class="serif">Fly</h1>
-    <p class="lead">A fruit fly with a body from a micro-CT scan and a brain wired from the FlyWire map. Choose what she senses, watch what she does, and see the brain activity that made her do it.</p>
+    <p class="lead">A fruit fly with a body from a micro-CT scan and a brain wired from the FlyWire map. Choose what she senses, then watch what she does and why.</p>
 
-    <div class="choose" id="choose" role="group" aria-label="What she senses"><span class="q">What does she sense?</span></div>
-    <button class="adj" id="adj" aria-expanded="false">Adjust strengths</button>
+    <div class="pick">
+      <div class="q" id="qlab">What does she sense?</div>
+      <div class="choose" id="choose" role="group" aria-labelledby="qlab"><button class="adj" id="adj" aria-expanded="false" type="button">Adjust strengths</button></div>
+    </div>
     <div class="knobs" id="knobs" hidden>
       <div class="knob k-sugar"><div class="lab">Sugar <small>signal per second</small></div><div class="seg" data-k="s"></div></div>
       <div class="knob k-bitter"><div class="lab">Bitter <small>e.g. caffeine</small></div><div class="seg" data-k="b"></div></div>
@@ -249,6 +254,6 @@ Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro 
 Feather.init();
 </script>
 <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js", "three/addons/": "../vendor/three/addons/" } }</script>
-<script type="module" src="vivarium.js?v=3"></script>
+<script type="module" src="vivarium.js?v=4"></script>
 </body>
 </html>
