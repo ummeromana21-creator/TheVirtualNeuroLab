@@ -104,10 +104,6 @@ td.n { text-align:right; white-space:nowrap; }
   <main class="wrap">
     <span class="eyebrow">Knockout Lab · Discovery Screen 1</span>
     <h1 class="serif">Switch off a neuron. Watch the signal find its way, or not.</h1>
-    <p class="lead">A real fly brain, wired neuron by neuron. Put sugar or water on its tongue and watch the electrical signal travel
-      along real connections to <b>MN9</b>, the neuron that makes the fly stick out its tongue. Then switch off one neuron and compare
-      side by side: can the fly still eat or drink? As far as we know, most of these neurons have never been tested in a living fly:
-      these are the lab's predictions.</p>
 
     <div class="lab">
       <div class="side">
@@ -134,6 +130,8 @@ td.n { text-align:right; white-space:nowrap; }
           <span><i style="background:#c27c0e"></i>taste neurons on the tongue</span>
           <span><i style="background:#0064e0"></i>a neuron fires</span>
           <span><i class="ln" style="background:#d4a017"></i>signal passed along this connection</span>
+          <span><i class="ln" style="background:#0f9d8a"></i>signal passed between two neurons in the same step</span>
+          <span><i style="background:#0064e0;opacity:.3"></i>faded: not on this brain's route</span>
           <span><i style="background:#ffd23f;box-shadow:0 0 0 2px #b8860b"></i>MN9: the tongue</span>
           <span><i style="background:#c0392b"></i>switched off</span>
         </div>
@@ -197,7 +195,7 @@ td.n { text-align:right; white-space:nowrap; }
       Lines: in each of 20 simulation runs (different random input each time), the signal crosses a connection from A to B when
       B fires 1.8–7 ms after A, which is wired to B with an exciting connection. The route to MN9 is traced inside each run (back from MN9's first spike, along connections crossed before the neuron they fed fired); a line is drawn only for a connection that was on the route in at least 10 of the 20 runs.
       The map shows the neurons on these routes, for the normal brain and the switched-off brain, every one of them shown;
-      links between neurons in the same step are left out for clarity. In the 3D view, "route lost" = connections on the normal brain's route to MN9 that the signal no longer used after the switch-off.
+      links between two neurons in the same step are drawn as teal arcs; faded dots are on the other brain's route but not on this one's. In the 3D view, "route lost" = connections on the normal brain's route to MN9 that the signal no longer used after the switch-off.
       Maps cover the first 100 ms; times are the median over the runs in which each event happened. Paths and timing are from the simulation, the colours and glow are styling. Tongue-signal numbers are averages over many runs (30 for every "needed" neuron).
       Neuron descriptions are written from data, not by hand: cell class, side and wiring from FlyWire v783 (connections of 5 or more synapses),
       predicted transmitter from Eckstein et al. 2024, taste neurons from Shiu et al. 2024 (<a href="profiles.json">profiles.json</a>).
@@ -469,10 +467,11 @@ function layoutRoutes() {
   for (const [c, arr] of Object.entries(byCol)) arr.forEach((n, j) => { n.x = +c < 0 ? W - 90 : X(+c); n.y = +c < 0 ? H - 30 : 52 + (j + .5) * (H - 70) / arr.length; });
   const N = Object.fromEntries(nodes.map(n => [n.id, n]));
   const colOf = {}; nodes.forEach(n => { colOf[n.id] = n.col; });
-  // lines = connections on the route to MN9 in at least half the runs (same-column links left out for clarity)
-  const edges = (segs) => { const m = new Map(); segs.forEach(([a, b, t]) => { const u = shown.get(a), v = shown.get(b); if (!u || !v || u === v || colOf[u] === colOf[v]) return;
-      const k = u + '>' + v, e = m.get(k); if (!e) m.set(k, { u, v, t: t / 10, n: 1 }); else { e.n++; e.t = Math.min(e.t, t / 10); } }); return m; };
-  RT = { nodes, N, H, nc, X, eA: edges(segA), eB: edges(segB), shown, ko };
+  // lines = connections on the route to MN9 in at least half the runs; links between two neurons in the same step are kept separately (drawn as arcs)
+  const edges = (segs, same) => { const m = new Map(); segs.forEach(([a, b, t]) => { const u = shown.get(a), v = shown.get(b); if (!u || !v || u === v || (colOf[u] === colOf[v]) !== same) return;
+      const k = u + '>' + v, e = m.get(k); if (!e) m.set(k, { u, v, t: t / 10, n: 1, same }); else { e.n++; e.t = Math.min(e.t, t / 10); } }); return m; };
+  const route = segs => ({ on: new Set(segs.flatMap(([a, b]) => [a, b])), out: new Set(segs.map(([a]) => a)) });
+  RT = { nodes, N, H, nc, X, eA: edges(segA, false), eB: edges(segB, false), sA: edges(segA, true), sB: edges(segB, true), rA: route(segA), rB: route(segB), shown, ko };
 }
 function el(tag, attrs, parent) { const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 function drawOne(svg, run, mine, other, isB) {
@@ -484,6 +483,10 @@ function drawOne(svg, run, mine, other, isB) {
   const gE = el('g', {}, svg), gP = el('g', {}, svg), gN = el('g', {}, svg);
   const path = (a, b) => { const mx = (a.x + b.x) / 2; return `M${a.x + 14} ${a.y} C${mx} ${a.y}, ${mx} ${b.y}, ${b.x - 14} ${b.y}`; };
   const live = [];
+  const arc = (a, b) => { const k = 34 + Math.min(60, Math.abs(b.y - a.y) * .18); return `M${a.x + 11} ${a.y} C${a.x + k} ${a.y}, ${b.x + k} ${b.y}, ${b.x + 11} ${b.y}`; };
+  for (const e of (isB ? RT.sB : RT.sA).values()) { const a = N[e.u], b = N[e.v];
+    const p = el('path', { d: arc(a, b), fill: 'none', stroke: '#0f9d8a', 'stroke-width': Math.min(4, 1.2 + Math.log2(1 + e.n)), 'stroke-linecap': 'round', opacity: 0 }, gE);
+    const dotc = el('circle', { r: 4, fill: '#5fd4c4', opacity: 0 }, gP); live.push({ e, p, dotc, len: 0 }); }
   for (const e of mine.values()) { const a = N[e.u], b = N[e.v]; const p = el('path', { d: path(a, b), fill: 'none', stroke: '#d4a017', 'stroke-width': Math.min(6, 1.2 + Math.log2(1 + e.n)), 'stroke-linecap': 'round', opacity: 0 }, gE);
     const dotc = el('circle', { r: 4.5, fill: '#ffcf33', opacity: 0 }, gP); live.push({ e, p, dotc, len: 0 }); }
   // the switched-off neuron is marked only on the switched-off map; on the normal map it is an ordinary neuron
@@ -496,7 +499,11 @@ function drawOne(svg, run, mine, other, isB) {
     if (n.sub) { const s2 = el('text', { x: n.x, y: n.y + 44, 'text-anchor': 'middle', 'font-size': 11, fill: 'var(--muted)' }, g); s2.textContent = n.sub; }
     if (n.off) { const s3 = el('text', { x: n.x, y: n.y + 38, 'text-anchor': 'middle', 'font-size': 11, fill: '#c0392b' }, g); s3.textContent = 'not on this route'; }
     const tt = Math.min(...n.members.map(i => first.has(i) ? first.get(i) : Infinity));
-    const ti = el('title', {}, g); ti.textContent = `${n.label}${isFinite(tt) ? ` · first fires at ${tt.toFixed(1)} ms` : ' · does not fire in most runs'}`;
+    const R = isB ? RT.rB : RT.rA, endpoint = n.id === 'IN' || n.id === 'MN9';
+    const onRoute = endpoint || n.members.some(i => R.on.has(i)), varies = !endpoint && onRoute && !n.members.some(i => R.out.has(i));
+    if (!onRoute && !n.ko) g.setAttribute('opacity', .25);
+    const ti = el('title', {}, g); ti.textContent = `${n.label}${isFinite(tt) ? ` · first fires at ${tt.toFixed(1)} ms` : ' · does not fire in most runs'}`
+      + (!onRoute ? ' · not on the signal\'s route in this brain' : varies ? ' · passes the signal on through different partners in different runs' : '');
     return { n, c, t: tt }; });
   live.forEach(l => { if (l.dotc) l.len = l.p.getTotalLength(); });
   return { live, nodeEls };
