@@ -118,9 +118,9 @@ window.Feather = (() => {
       { el: '.taste', t: '1. Pick a taste', b: 'Sugar (eating) or water (drinking). This is what we put on the fly’s tongue.' },
       { el: '#filt', t: '2. Choose which neurons to see', b: '“Needed” shows neurons the fly can’t eat or drink without. “New discoveries” are ones no living fly has been tested on, as far as we know.' },
       { el: '#list', t: '3. Switch one off', b: 'Click a neuron to switch it off. The number shows how hard the tongue neuron fires before and after.' },
-      { el: '.routes', t: '4. Compare the two brains', b: 'Top: the normal brain. Bottom: the same brain with your neuron switched off. Gold lines are signals getting through; red dashed lines are connections that went silent.' },
+      { el: '.routes', t: '4. Compare the two brains', b: 'Top: the normal brain. Bottom: the same brain with your neuron switched off. Each map shows the route the signal took to the tongue in most of 20 runs; connections missing from the bottom map went silent.' },
       { el: '.ctrl', t: '5. Play it', b: 'Press Play to watch the signal travel, or drag the slider to step through time.' },
-      { el: '.story', t: '6. Read what happened', b: 'A plain-language account of each step, written from the simulation’s own numbers.' },
+      { el: '.story', t: '6. What it means', b: 'Who the neuron is, what its wiring shows, what switching it off did, how a real fly lab would test it, and what that tells us.' },
       { el: '#infer', t: 'What it all means', b: 'What we can conclude from the results, how it could help in the real world, and what it doesn’t tell us.' },
     ],
     flies: [
