@@ -91,6 +91,10 @@ p, li { font-size:15px; line-height:1.6; }
 @media (max-width:820px) { .infer { grid-template-columns:1fr; } }
 
 .lead { font-size:17px; line-height:1.6; color:var(--muted); margin:0; }
+.titlerow { display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-top:6px; }
+.titlerow h1 { margin:0; padding-right:22px; border-right:1px solid var(--line); }
+.titlerow .lead { flex:1; min-width:260px; }
+@media (max-width:640px) { .titlerow h1 { border-right:0; padding-right:0; } }
 .pick { margin:26px 0 0; }
 .pick .q { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; }
 .choose { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
@@ -139,8 +143,8 @@ a { color:inherit; }
   <header id="navMount"></header>
   <main class="wrap" id="main">
     <span class="eyebrow">Vivarium</span>
-    <h1 class="serif">Fly</h1>
-    <p class="lead">A fruit fly with a body from a micro-CT scan and a brain wired from the FlyWire map. Choose what she senses, then watch what she does and why.</p>
+    <div class="titlerow"><h1 class="serif">Fly</h1>
+      <p class="lead">A fruit fly with a body from a micro-CT scan and a brain wired from the FlyWire map. Choose what she senses, then watch what she does and why.</p></div>
 
     <div class="pick">
       <div class="q" id="qlab">What does she sense?</div>
