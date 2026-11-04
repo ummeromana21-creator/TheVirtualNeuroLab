@@ -11,13 +11,10 @@ def add(title, page, text): E.append(dict(id=f'L{len(E)+1}', title=title, page=p
 add('What this lab is', 'index.html',
     'The Virtual Neuro Lab runs experiments on simulated fruit fly (Drosophila) nervous systems wired from real connectome '
     'scans. Pages: Neuron Silencing Screen (switch off one neuron; Discovery Screen predictions with confidence levels), Parkinson\'s (where the dopamine '
-    'signal is lost as dopamine neurons die), Experiments (calibration test, Taste Bench, round 1, and the lab notebook), Vivarium (the flies Maxime and Hagrid in 3D), '
+    'signal is lost as dopamine neurons die), Experiments (calibration test, Taste Bench, round 1, and the lab notebook), Vivarium (Fly: a body from a micro-CT scan, NeuroMechFly, run by the FlyWire brain; shows feeding and antennal grooming and which brain regions respond), '
     'Fly Atlas (brain regions and cell types; the Prediction check is linked from it), The worm (C. elegans, 302 neurons), What\'s next (the plan: docking is the next step). '
     'The lab is a hypothesis generator on the road to drug discovery. Experiments run on the FlyWire brain (female, 139,255 neurons, v783) using the published leaky integrate-and-fire model of '
     'Shiu et al. 2024 (Nature 634:210) with its published settings; rules for passing are saved before every run.')
-for k, f in J('library/flies.json').items():
-    if isinstance(f, dict):
-        add(f'Fly: {k.capitalize()}', 'flies/', f'{k}: ' + json.dumps(f)[:1200])
 add('MN9 (tongue motor neuron)', 'experiments/', 'MN9 is the motor neuron that extends the fly\'s proboscis (its tongue) to feed or drink. The lab reads MN9 firing as "tongue out" when it fires 10 or more times per second. There are two MN9s, one per side. Gordon & Scott 2009 (Neuron 61:373) showed it drives proboscis extension.')
 add('Usnea, Phantom, Fudog, Bract, Roundup, G2N-1 (named feeding neurons)', 'experiments/#r1', "Named neurons in the fly's gnathal ganglion (the feeding centre under the brain) studied by Shiu et al. 2024 and earlier work. Usnea responds to water; Fudog responds to water; Bract and Roundup are needed for drinking; G2N-1 is not; Usnea and Phantom can drive proboscis extension when switched on.")
 add('Calibration test', 'experiments/calibration.html', 'Before any experiment, the simulated brain must reproduce a known result: sugar taste makes MN9 fire, more sugar more firing, bitter alone does not, bitter cancels sugar, water works, and activity stays contained. The FlyWire brain passed all six rules, so every experiment runs on it. Experiments on Maxime and Hagrid are in progress.')
@@ -25,7 +22,13 @@ add('Pre-registration (rules saved before the run)', 'experiments/', 'For every 
 add('The simulation model (leaky integrate-and-fire)', 'experiments/calibration.html', "Each neuron adds up pushes from the neurons wired to it; when its voltage crosses a threshold it fires and resets. Every synapse gives the same small push (0.275 mV), positive or negative depending on the sending neuron's chemical (GABA and glutamate inhibit). Published by Shiu et al. 2024 (Nature 634:210); in that study 91% of 164 predictions tested in living flies held up. Limits: no graded (non-spiking) neurons, no neuromodulators, no body.")
 add('Connectome, FlyWire, BANC, male CNS', 'flies/', "A connectome is a map of every neuron and synapse, traced from electron-microscope scans. FlyWire (female brain, 139,255 neurons) is the brain the experiments run on. BANC (Maxime, female brain and nerve cord) and the male CNS (Hagrid, male brain and nerve cord) are the lab's two flies.")
 fi = J('library/points/flies_index.json')
-add('How the flies are drawn', 'flies/', 'Maxime (BANC v888 scan) and Hagrid (male CNS v1.0 scan) are drawn from their own measured cell-body positions. ' + json.dumps(fi.get('flies', {}))[:1500])
+bh = J('flies/behaviour.json')
+add('Vivarium: Fly and her behaviours', 'flies/', "The Vivarium shows Fly, the lab's fly: a 3D body from NeuroMechFly (Lobato-Rios et al. 2022, Nature Methods), reconstructed from a micro-CT scan of a real fruit fly, "
+    "run by the FlyWire brain. Choose a stimulus and see which brain regions respond and what she does. Only two behaviours are shown, because only their control neurons are read out and checked against real flies: "
+    "feeding (tongue out when MN9 fires 10+ times per second) and antennal grooming (when aBN1 fires 5+ times per second; aBN1 starts antennal grooming in real flies, Hampel et al. 2015). "
+    "Walking, escape, flight and courtship song are not modelled yet: walking and flight are coordinated in the nerve cord, which FlyWire does not include; escape needs visual input not yet tested; only males sing and FlyWire is female. "
+    "The movements are animations of the behaviour the brain's output calls for; the body is not simulated. Results per stimulus: " +
+    '; '.join(f"{s['label']}: MN9 {s['mn9']}/s, aBN1 {s['abn1']}/s, {s['active']} neurons fired, top regions " + ', '.join(f"{r['code']} {r['active']}" for r in s['regions'][:4]) for s in bh['stimuli']))
 for r in J('library/data.json'):
     t = f"{r['name']} {r.get('full','')}: {r.get('func','')}. {r.get('desc','')} Counts: Maxime {r.get('maxime')}, Hagrid {r.get('hagrid')}."
     add(f"Region {r['name']} ({r.get('full','')})", f"library/#/{r['name']}", t)

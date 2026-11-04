@@ -5,7 +5,7 @@ running the published brain model of Shiu et al. 2024 (*Nature* 634:210) with it
 written down before the run, nothing is tuned, and misses stay on the page. Built for the Meta (Muse) hackathon, November 2026.
 
 **Pages:** Home · Neuron Silencing Screen (switch off one neuron, watch the signal; Discovery Screen predictions with confidence levels) ·
-Vivarium (Maxime and Hagrid in 3D) · Fly Atlas · Prediction check · Experiments (calibration test, Taste Bench,
+Vivarium (Fly: a micro-CT-scanned body run by the FlyWire brain, feeding and grooming) · Fly Atlas · Prediction check · Experiments (calibration test, Taste Bench,
 Round 1) and the **Lab notebook** (a full record of every experiment) · The worm (*C. elegans*, all 302 neurons) · Parkinson's (where the dopamine signal is lost as dopamine neurons die; exploratory) · What's next.
 Ask Muse (Meta's AI) answers questions about the lab, with sources. Each page has a guided tour.
 
@@ -35,7 +35,7 @@ the .html files.
 | `discover/` | Neuron Silencing Screen — switch off a neuron, watch the signal; Discovery Screen predictions | `tools/run_screen.py`, `run_confirm.py`, `run_streaks.py`, `build_screen_json.py` |
 | `experiments/` | Taste Bench, Round 1, calibration test | `tools/run_flywire_round1.py`, `run_bench.py`, `run_calibration.py` |
 | `lab_index.json` | what Ask Muse can search | `tools/build_lab_index.py` |
-| `flies/` | Vivarium — Maxime and Hagrid in 3D, each drawn from its own measured cell bodies | BANC v888 (Maxime), male CNS v1.0 (Hagrid), via `library/points/` |
+| `flies/` | Vivarium — Fly: body from NeuroMechFly (micro-CT scan of a real fly), brain-region activity and two behaviours read from the brain (feeding: MN9; antennal grooming: aBN1) | NeuroMechFly (Lobato-Rios et al. 2022, flygym, Apache-2.0; licence in `flies/body/`), Taste Bench and Round 1 runs; `tools/export_fly_body.py`, `tools/build_behaviour.py` |
 | `library/` | Fly Atlas — 54 brain and nerve-cord regions in 13 families, 236 cell types, per-fly counts | FlyWire v783 (pictures, cell types), BANC and male CNS (counts) |
 | `experiments/notebook.html` | Lab notebook: every experiment's question, method, pass mark, results, confidence and discovery status | `tools/build_notebook.py` |
 | `worm/` | The worm — *C. elegans*, 302 neurons in 3D with the Cook et al. 2019 wiring | OpenWorm c302 (Virtual Worm shapes; MIT licence) |
@@ -48,8 +48,9 @@ the .html files.
 | `tools/` | the Python scripts that rebuild every data file above (each explains its inputs at the top) | — |
 
 Copied from `metaverse-lab/` on 2026-11-02, with the experiment, study, ask and account parts
-removed. The Vivarium's live link to the simulation is switched off here. Since then the flies
-have been rebuilt from their own measured scans, and the Prediction check page was added.
+removed. Since then the Prediction check page was added, and on 2026-11-03 the Vivarium's two flies
+(Maxime and Hagrid, not ready for experiments) were replaced by one fly whose brain is FlyWire; the old
+Vivarium is kept in `old-version/flies-maxime-hagrid/`. The Fly Atlas and Prediction check still use their scans.
 
 ## Next step
 

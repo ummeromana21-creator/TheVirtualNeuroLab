@@ -58,8 +58,6 @@ a { color:inherit; }
 
     <h2>In progress</h2>
     <div class="grid">
-      <div class="card"><span class="tag t-prog">In progress</span><h3>Experiments on Maxime and Hagrid</h3>
-        <p>Running the same tests on the lab's own two flies, a female (Maxime) and a male (Hagrid), each wired from its own scan. Both must pass the calibration test first, as the FlyWire brain did.</p></div>
       <div class="card"><span class="tag t-prog">In progress</span><h3>Experiments on the worm</h3>
         <p>The <a href="../worm/">worm</a> is in the lab with all 302 neurons and every known connection. Before any experiment, its simulated nervous system needs its own calibration test, for example the gentle-touch reflex mapped in living worms in 1985.</p></div>
     </div>
@@ -91,6 +89,12 @@ a { color:inherit; }
 
     <h2>Next experiments on the fly</h2>
     <div class="grid">
+      <div class="card"><span class="tag t-plan">Planned</span><h3>Walking and escape commands</h3>
+        <p>The brain sends walking and escape decisions down a few known neurons, such as the "moonwalker" neurons for walking backwards and the giant fibre for escape.
+          The <a href="../flies/">Vivarium</a> fly could show these once each one passes its own calibration test against real flies. Escape also needs visual input, not yet tested in this model.</p></div>
+      <div class="card"><span class="tag t-plan">Long-term</span><h3>A body moved by its own nervous system</h3>
+        <p>Today the fly's movements are animations of what the brain commands. Moving the body from the neurons themselves needs the nerve cord too, simulated together with
+          the NeuroMechFly physics body. Nerve-cord wiring maps now exist; joining them is research still in progress in the field.</p></div>
       <div class="card"><span class="tag t-plan">Planned</span><h3>More behaviours</h3>
         <p>The same switch-off approach works for any behaviour with a known motor or command neuron: grooming the antennae (round 1 already checks its trigger), escaping, walking, and the male's courtship song.</p></div>
       <div class="card"><span class="tag t-plan">Planned</span><h3>Switching neurons on, not just off</h3>
@@ -111,7 +115,7 @@ a { color:inherit; }
       means we didn't find one; it doesn't mean no one has ever tested it.</p>
   </main>
 </div>
-<script src="../feather.js?v=13"></script>
+<script src="../feather.js?v=14"></script>
 <script>
 Feather.topbar(document.getElementById('navMount'), { brand: 'The Virtual Neuro Lab', sub: "What's next", base: '../', current: 'next', profile: false });
 Feather.init();
